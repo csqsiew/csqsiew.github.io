@@ -1,0 +1,12 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 10: Behaviors in the network {#ch10}
+
+Under construction. 
+
+Planned topics:
+- spreadr
+- random walks 

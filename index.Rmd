@@ -1,0 +1,69 @@
+--- 
+title: "Introduction to Network Analysis in `igraph`"
+author: "Cynthia S. Q. Siew"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This is an instructional manual for PL4246 students. The output format is bookdown::gitbook."
+---
+
+\setcounter{section}{-1}
+
+# Introduction to Network Analysis in `igraph` {-}
+
+## What is this book about? 
+
+Network Science is a branch of complexity science that uses methods from graph theory to study the structure and dynamics of complex systems from a wide range of topics, such as the Internet, social networks, and ecological systems. In recent years, network science approaches have achieved some level of interest from the social sciences. In my own discipline of psychology, network science has been used to study the structure of a variety of psychological networks, ranging from the human brain, cognitive and language networks, social systems, and psychometric data. The aim of this book is to introduce the basics of network analysis using the `igraph` package in R, since R is a programming language that most psychologists are already familiar with. Hence, this book is positioned more as a "how-to" book, and gets into the specifics of the code and programming rather than explaining how network measures can be used to explore research topics in the social sciences (for this, I strongly recommend Thomas Hills' [Behavioral Network Science](https://www.amazon.co.uk/Behavioral-Network-Science-Language-Society/dp/1108793339/)). 
+
+## Why write this book? 
+
+Although many researchers find networks interesting and want to adopt some aspects of the network science framework into their own work, I have observed that there is a gap between that desire and the practical knowledge of how to go about doing that. In my teaching, I have also observed that students in my PL4246 Networks in Psychology course frequently struggle with the technical/programming aspects of network analysis in the R environment. As far as I can tell, there is no dedicated textbook or open workshops or freely available online resources dedicated to teaching people about how to use `igraph` for network analysis (if I am wrong, please let me know!). Personally, I have had to learn how to use `igraph` for my own research through trial and error (mostly error), and by reading the wonderful online documentation ([https://r.igraph.org/reference/index.html](https://r.igraph.org/reference/index.html)), over a period of several years since my PhD days (and I still think that there are loads more to learn!). The `igraph` package is rich, dense, and full of useful functions and tricks, but it is difficult to learn them readily as an outsider. By writing this book, I hope that this gap can be narrowed, especially for my students and for anyone who is "network-curious", but struggle to have a concrete sense of what these networks look like and what useful information can be extracted from them. 
+
+## Acknowledgements
+
+This book is dedicated to all my PL4246 students, past and present. I have learned tremendously about the limits of my own knowledge and gaps in my teaching strategy and approach through their fierce commitment to learn about network analysis. I would like to acknowledge their contributions in shaping the structure and contents of this book. 
+
+I would also like to acknowledge the developers of `igraph` for their hard work in developing and maintaining the package over all these years.
+
+If you have any comments about this book or spot any glaring errors (which I am sure exists in troves since this is still an evolving and growing project!), please write to me at [cynthia@nus.edu.sg](mailto:cynthia@nus.edu.sg). Thank you :) 
+
+## About the author 
+
+Dr. Cynthia Siew is an Assistant Professor of Psychology at the National University of Singapore. She is a psycholinguist and cognitive scientist who uses network analysis to study cognitive structures, such as the mental lexicon and semantic memory. To learn more about her research and teaching, please see [http://hello.csqsiew.xyz/](http://hello.csqsiew.xyz/). 
+
+## Table of Contents 
+
+**Section 1: Foundations for Network Analysis**
+
+- Chapter 1: Installation and set up 
+- Chapter 2: Programming and data science basics
+- Chapter 3: Introduction to network objects
+- Chapter 4: From data to networks 
+- Chapter 5: Manipulating network objects
+
+**Section 2: Describing the Network** 
+
+- Chapter 6: Macro-level network measures
+- Chapter 7: Micro-level network measures
+- Chapter 8: Meso-level network measures
+
+**Section 3: Modeling Networks**
+
+- Chapter 9: Network models (under construction)
+- Chapter 10: Behaviors in the network (under construction) - Tutorial 8 
+
+**Section 4: Beyond `igraph`**
+
+- Chapter 11: `keyplayer` package
+- Chapter 12: `influenceR` package
+- Chapter 13: `bootnet` package
+
+**Bonus Chapters**
+
+- Chapter 14: Network visualization in `igraph`
+- Chapter 15: Network visualization with other packages (under construction)

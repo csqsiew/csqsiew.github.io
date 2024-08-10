@@ -1,0 +1,234 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 14: Network visualization in `igraph` {#ch14}
+
+This chapter aims to introduce you the basics of network visualization. Note that for a very large network (> 100 nodes) it becomes very difficult to create good visualizations using basic `igraph` plotting functions. You may need to venture to other R packages (see Chapter 15 - under development). A nice open-source software for creating great network visualizations is [Gephi](https://gephi.org/).
+
+## Set up
+
+We will use the `karate` network from Chapter 5, which contains various node and edge attributes. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+library(igraph)
+library(igraphdata)
+library(tidyverse)
+
+data('karate')
+
+# import your node attributes 
+node_info <- read.csv('data/karate_nodes_added.csv', header = T)
+
+# very important to ensure that node order is identical 
+node_info <- node_info %>% arrange(factor(node, levels = V(karate)$name))
+
+identical(V(karate)$name, node_info$node) # sanity check that the node name order is identical
+
+# add the 'gender' attribute
+karate <- set_vertex_attr(karate, 
+                          name = 'gender',
+                          value = node_info$gender)
+
+# add the 'belt' attribute
+karate <- set_vertex_attr(karate, 
+                          name = 'belt',
+                          value = node_info$belt)
+
+# add the 'age' attribute 
+karate <- set_vertex_attr(karate, 
+                          name = 'age',
+                          value = node_info$age)
+
+# initialize all edges with the same label 
+E(karate)$edge_type <- 'same' 
+
+# re-assign those with mixed edges to a new label 
+E(karate)$edge_type[E(karate)[V(karate)[V(karate)$gender == 'male'] %--% V(karate)[V(karate)$gender == 'female']]] <- 'different'
+
+summary(karate) # there should be a new edge type 
+```
+
+## Visualizing node attributes 
+
+### Color nodes by their categorical attributes 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# color nodes by their attributes (categorical)
+plot(karate, vertex.color = factor( V(karate)$gender )) # notice the use of factor() 
+
+# plot(karate, vertex.color = V(karate)$gender) # this throws an error 
+```
+
+Can you try replacing the `gender` attribute with the `belt` attribute? 
+
+### Color nodes by their continuous attributes
+
+```{r}
+#| echo: true
+#| eval: true
+
+# color nodes by their attributes (continuous) 
+
+# a function to generate color gradients from a pre-specified palette 
+palf <- colorRampPalette(c("red", "green")) # smaller values = white 
+
+plot(x=10:1, y=1:10, pch=19, cex=5, col=palf(10))
+
+plot(karate, vertex.color = palf(10)[cut(V(karate)$age, 10)]) # notice the use of cut() 
+# cut() chops up the age distribution into 10 bins, each bin is assigned to the color gradient based on the order 
+# the number of bins and color bins must be the same 
+```
+
+### Node shapes by their categorical attributes 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# give categorical attributes different shapes 
+plot(karate, 
+     vertex.shape = c('circle', 'square')[factor(V(karate)$gender)], # notice the use of factor() with gender to subset a vector of pre-defined node shapes
+     vertex.color = 'white') 
+
+factor(V(karate)$gender) |> levels() # female/circle, male/square
+```
+
+### Node size by their continuous attributes 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# give continuous attributes different sizes 
+
+plot(karate, vertex.size = V(karate)$age) # notice that the sizes are not very well scaled 
+plot(karate, vertex.size = 0.5*V(karate)$age) # you will have to play around to find a suitable scale 
+```
+
+### Example 1: Color nodes by their community membership 
+
+```{r}
+#| echo: true
+#| eval: true
+
+set.seed(1)
+community_result <- cluster_louvain(karate)
+
+V(karate)$community <- community_result$membership
+
+plot(karate, vertex.color = V(karate)$community)
+```
+
+### Example 2: Size nodes by their degree 
+
+```{r}
+#| echo: true
+#| eval: true
+
+plot(karate, vertex.size = degree(karate), vertex.color = 'black') # the scaling issue may apply here 
+```
+
+## Visualizing edge attributes 
+
+### Color edges by their categorical attributes 
+
+```{r}
+#| echo: true
+#| eval: true
+
+plot(karate, vertex.color = 'white', edge.color = factor(E(karate)$edge_type)) # note the use of factor()
+plot(karate, vertex.color = 'white', edge.color = c('red', 'blue')[factor(E(karate)$edge_type)]) # specifying your own colors 
+
+factor(E(karate)$edge_type) |> levels() # this tells you the ordering of the levels so you can tell that red = different and blue = same 
+```
+
+### Edge thickness based on their continuous attributes 
+
+```{r}
+#| echo: true
+#| eval: true
+
+plot(karate, vertex.color = 'white', edge.width = E(karate)$weight)
+```
+
+### Arrows for directed edges 
+
+```{r}
+#| echo: true
+#| eval: true
+
+plot(as.directed(karate, mode = 'random'), vertex.color = 'white', edge.arrow.width = 0.5, edge.arrow.size = 0.5)
+```
+
+## Other
+
+### Graph layouts
+
+It is good practice to set a seed before executing the graph layout functions, so that you are able to "save" the output and replicate it in the future. Notice that the layout function takes the network as its argument and outputs a 2 column matrix which is the x- and y-coordinates for each of the nodes in the network (explore the `my_layout1` R object). Then you can insert that as the input to the layout parameter when you want to plot the network. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+## saving a fixed layout for future use 
+set.seed(1)
+my_layout1 <- layout_in_circle(karate)
+
+set.seed(2)
+my_layout2 <- layout_with_dh(karate)
+
+plot(karate, layout = my_layout1)
+plot(karate, layout = my_layout2)
+```
+
+See https://kateto.net/network-visualization (Section 4.2 Network layouts) to learn more about the different plotting formats available in `igraph`. 
+
+### Plot title 
+
+```{r}
+#| echo: true
+#| eval: true
+
+## add a plot title ----
+plot(karate, vertex.color = V(karate)$community, main = 'Communities in the karate network')
+```
+
+### Add a subtitle
+
+```{r}
+#| echo: true
+#| eval: true
+
+## add a subtitle ----
+plot(karate, vertex.color = V(karate)$community, main = 'Communities in the karate network',
+     sub = 'The Louvain community detection method was used.')
+```
+
+### Multiple plots 
+
+```{r}
+#| echo: true
+#| eval: true
+
+## multiple plots ----
+
+par(mar=c(0,0,0,0)+1, mfrow = c(1,2)) # adjust margins, 1 row, 2 columns  
+
+plot(karate, layout = my_layout1, main = 'layout 1')
+plot(karate, layout = my_layout2, main = 'layout 2')
+```
+
+### Useful links 
+
+Introduction to network visualization in R: https://kateto.net/network-visualization
+
+Colors in R: https://r-charts.com/colors/
+

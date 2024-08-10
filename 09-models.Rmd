@@ -1,0 +1,14 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 9: Network models {#ch9}
+
+Under construction. 
+
+Planned topics:
+- ER networks
+- WS networks
+- Configuration networks
+- Preferential attachment network model 

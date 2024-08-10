@@ -1,0 +1,350 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 2: Programming and data science basics {#ch2}
+
+## The RStudio Environment 
+
+Recall from the previous chapter that R is a programming language, whereas RStudio is a program that lets you program in R in an efficient way (it is an *integrated development environment*).
+
+Once you have installed R and RStudio into your computer, you only need to open RStudio (not R) to get started. 
+
+### Setting up a Project 
+
+A good practice before starting any kind of programming foray is to create a dedicated folder on your computer for that project, and then create a new R project that is associated with that folder. You can think of a R project as a dedicated workspace for everything that you will do in that context, which makes it easy to save your progress and return to the same state on a different day. 
+
+To create a new Project, simply go to *File -> New Project*. Depending on whether you already have a project folder set up in your computer, you would choose either "New Directory" (so you create both a new folder and project file) or "Existing Directory" (so you navigate to the folder and create a project file for it). 
+
+You should notice in your folder a new file called `your-folder-name.Rproj`. Whenever you are done with your R session, you can choose to save all the objects in your environment (we will discuss the concepts of 'objects' and 'environment' in a bit) by agreeing to 'Save' the prompt window. Then, when you wish to return to the project, all you have to do is to open the `your-folder-name.Rproj` and viola! All of your data objects, scripts should be right where you left it. 
+
+> *Try this for yourself!* Set up a new R project for a folder dedicated to this chapter and work through the contents, creating R scripts and data objects. Then, exit RStudio (remember to save the workspace image). Click on the .Rproj file to see if you are able to return to your previous workspace state.
+
+### Layout of RStudio
+
+The default view of RStudio has 4 quadrants (the more useful and important tabs are mentioned below):
+
+1. Upper left: R scripts 
+2. Lower left: Console 
+3. Upper right: Environment, History
+4. Lower right: File, Plots, Packages, Help
+
+Note that the positions of these quadrants may differ slightly depending on how you have set up your RStudio. You can re-size and re-organize the structure of these quadrants/panes depending on your own preferences (*Tools -> Global Options -> Pane Layout*). It may also be useful for you to adjust minor things like font size and type, color themes, etc. (*Tools -> Global Options -> Appearance*) to your liking, so that you feel happy and relaxed while programming. 
+
+### R scripts vs. Console
+
+You can enter commands (instructions to the computer) directly into the Console (where the '>' is) and hit Enter/Return. 
+
+Try entering the following into your Console:
+
+```{r}
+#| echo: true
+#| eval: true
+10 + 20
+```
+
+Notice that the answer of this math equation has been returned to you in the Console. 
+
+You can also open a blank file (*File -> New File -> R Script*), write the command in it, and then execute it with `Ctrl-Enter` (Win) or `Cmd-Return` (Mac), or clicking on "Run" near the top right corner with the cursor on the same line. The result should also appear in the Console. 
+
+### Working with R scripts is recommended!
+
+Where possible it is highly recommended to write your code in a R script before executing it, rather than to type it directly into the Console. This is especially true when your code becomes longer and more complex. There are also other benefits, such as:
+
+- You can save your code in a .R file and re-open it in any R programming environment. This is important for reproducibility of your research. 
+- You can leave comments in the R script to remind yourself of your work. Comments are not interpreted by R and occur after the `#` symbol. Writing useful comments for your future self is both a skill and an art. 
+- You can break up a complex command into multiple lines for ease of writing and editing, and then run it all by highlighting the lines and pressing Ctrl-Enter.
+
+```{r}
+#| echo: true
+#| eval: true
+10 + 20 # this is a comment
+# 20 * 20 (will not be run)
+```
+
+Advanced R users can consider using [Rmarkdown](https://rmarkdown.rstudio.com/articles_intro.html) or [Quarto](https://quarto.org/) for literate programming and publishing. 
+
+## Variables and Data Types
+
+### What are variables?
+
+A key aspect of programming is the ability to store information into *variables*. In R sometimes these variables are also known as *objects*. Try executing the following: 
+
+```{r}
+#| echo: true
+#| eval: true
+x <- 7
+my_height <- 163
+```
+
+Other than numeric data, you can also store text (character) and logical data too. 
+
+```{r}
+#| echo: true
+#| eval: true
+my_name <- "Cynthia"
+SundayToday <- FALSE
+```
+
+Notice the use of `<-` above: this is an *assignment operator* to "assign" values to a name/label that you provide. 
+
+In addition, variable names should not contain any weird characters and should not begin with a number. I recommend using letters and underscores. 
+
+You should notice that while no output is printed to the console, there are new lines in the Environment tab of RStudio. Have a look and see if the items make sense to you. Basically, by running the above code, the value of `x` and `my_height` (as well as `my_name` and `SundayToday`) has been stored in the "memory" of RStudio. 
+
+Then you can begin to do interesting things with the variables: 
+
+```{r}
+#| echo: true
+#| eval: true
+# what is Cynthia's height in metres?
+my_height/100
+
+my_height * x # a random math equation 
+
+SundayToday # this just prints the value of the variable 
+```
+
+### Removing objects 
+
+If your workspace/environment gets too messy, you can remove variables by using the `rm()` function: 
+
+```{r}
+#| echo: true
+#| eval: false
+rm(x)
+```
+
+Notice that `x` is missing from the Environment tab. 
+
+To remove everything in the Environment, click on the Broom icon in the Environment tab or use the following command `rm(list=ls())`.
+
+### Saving objects
+
+Although it doesn't make sense to save variables that contain only one value, it is useful to save variables that are more complex (e.g., data frames or network objects), and to save the entire workspace so that you can come back to your project later. 
+
+Here is how you do it:
+
+```{r}
+#| echo: true
+#| eval: false
+# single objects 
+save(my_height, file = 'CS_height.RData')
+
+# entire workspace
+save.image(file = 'everything.RData')
+```
+
+Notice that you need to specify a `file` argument which is the name of the file that you want to save the information to, and that the file extension is `.RData`. 
+
+You can also save all of the objects in the workspace by clicking on the Floppy Disk icon in the Environment tab (NOT the Scripts tab). 
+
+Recall from 'Setting up a Project' that you are automatically prompted to save all of the objects in the workspace before exiting the R session - this creates a hidden file called `.RData` where the information is saved to and is automatically loaded when you start a new session for the same project. 
+
+### Loading objects 
+
+First, wipe the Environment with the Broom icon. The Environment should be empty. Then run the following: 
+
+```{r}
+#| echo: true
+#| eval: false
+load('everything.RData')
+```
+
+All your variables have magically returned!
+
+### What are vectors? 
+
+Vectors are a kind of a special variable that can store multiple values or data points, instead of just one. 
+
+```{r}
+#| echo: true
+#| eval: true
+a_vector <- c(1,9,6,8)
+
+a_vector
+```
+
+Notice the use of a special function `c()` to combine single values into the vector. 
+
+### Cool things you can do with vectors
+
+Here are some interesting things you can do with vectors - try running each command and see if you can figure out what it does by examining the output. The comments below give you several hints! 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# extraction
+a_vector[3]
+
+# removal 
+a_vector[-2]
+
+a_vector[-(1:3)] # this removes the first 3 elements
+
+# editing
+a_vector[1] <- 0
+
+a_vector
+
+# naming
+names(a_vector) <- c('a', 'b', 'c', 'd')
+
+a_vector
+```
+
+A key concept is the use of [square brackets] to subset the vector based on the order of the elements in the vector (numbered from left to right starting with 1). 
+
+## Functions and Arguments
+
+### What are functions? 
+
+You can think of functions as special instructions that R knows of that you can use as shortcuts to do something. In fact, you have already been using a number of functions: `load(...)`, `rm(...)`, `save(...)`. The clue is that functions have a name that is typed out and has brackets following it. 
+
+### What are arguments? 
+
+Again, you already have been using arguments in functions. For instance, `load('everything.RData')` has the argument inside the brackets which is the name of the file that you wish to load into your workspace. 
+
+The clue is that arguments are found inside the brackets of functions. You can think of arguments as additional instructions or parameters that will inform the function what it should do in specific ways. 
+
+### Multiple arguments 
+
+Some functions can take on several arguments. When this is the case, it is good practice to explicitly name the argument. 
+
+Consider the following: 
+
+```{r}
+#| echo: true
+#| eval: true
+round(x = 131.485783, digits = 1)
+```
+
+`round()` is a function that takes two arguments, the first argument (*x*) is the number that is being rounded, and the second argument (*digits*) indicating the number of decimal places. 
+
+If you don't specify the argument names, then R assumes that they follow the internal expected order: 
+
+```{r}
+#| echo: true
+#| eval: true
+round(131.485783, 1)
+
+# try the following and think about the output
+round(131.485783, 2)
+round(1, 131.485783)
+round(131.485783)
+```
+
+For the final command, if no argument is specified (in the second location) and there is a default value (here it is 0), then R will use the default. To find out about the internal ordering of arguments and default values for any function, you can search for the function name in the Help tab, or type `?function_name` into the Console. This gives you handy documentation about a specific function that you can quickly review. 
+
+## File Paths and Working Directory
+
+### Navigation in computers 
+
+All of your digital data in computers are stored in folders and sub-folders. When you want open a file in a program, you need to navigate to the location where that specific file is stored. 
+
+Similarly, when programming in R, if you want to load datasets and/or previously saved workspaces into your workspace you need to first "point" RStudio to the correct location where these files are stored. 
+
+### Helping RStudio find your stuff
+
+First you need to know where it is currently looking at (i.e., your current *working directory*): 
+
+```{r}
+#| echo: true
+#| eval: true
+getwd()
+```
+
+Make a new folder called "test_folder" in that location (using Finder or Files in your computer system). For learning purposes you can also move the `everything.RData` file there. Then try out the following: 
+
+```{r}
+#| echo: true
+#| eval: false 
+
+load('everything.RData') # notice that this does not work 
+
+# let's have RStudio look in the correct folder 
+setwd('./test_folder') # note that in Windows you will need backslashes instead
+# the period means "from the current location"
+
+getwd() # this should be updated 
+
+load('everything.RData') # does it work now? 
+```
+
+Now when you place a `.RData` file in `test_folder` you should be able to load it into your workspace. 
+
+An alternate (and possibly more intuitive) solution via the GUI is to do the either of the following: (1) *Session -> Set Working Directory -> Choose Working Directory* or (2) Files tab: navigate to desired location and click on the Gear icon. Then choose "Set Working Directory". 
+
+Note that when you are working in a dedicated R project workspace, the default working directory is basically the project folder where the .Rproj file lives in. If you have set up the workspace as recommended in "Setting up a Project", then the easier approach is to simply move any data files that you need for your project into that folder, rather than to keep changing the working directory to "find" your files. This is good practice in any case; better to consolidate all the files associated with a given project rather than have them scattered across multiple folders. 
+
+## Packages 
+
+### What are packages/libraries?
+
+Packages contain a set of dedicated functions, sometimes they are often called "libraries". While many packages come pre-installed with R, many other packages (especially the ones we need for this class) need to be installed from CRAN before we can start to use them. 
+
+### Installation vs. Loading 
+
+Remember that you only need to install a package once, but you need to load them each time you begin a new RStudio session so that you can use the special functions of that package. 
+
+```{r}
+#| echo: true
+#| eval: false
+# install ONCE
+install.packages('igraph')
+
+# load EACH TIME
+library(igraph)
+```
+
+You can also install and load packages via the Packages tab in RStudio. Click on "Install" and search for the package you need. Then you can search for the packages installed on your system and load the ones you want with the check box. It is also convenient to Update packages here. 
+
+### Detaching packages
+
+If you need to remove an already loaded package in your workspace, you can uncheck the package name in Packages tab. 
+
+Or you can run the following in your console: 
+
+```{r}
+#| echo: true
+#| eval: false
+detach("package:igraph", unload=TRUE)
+```
+
+## Special Datatypes 
+
+So far we know that we can store single values as objects or variables in RStudio, as well as a group of values in a vector. In this module you are also going to run into two special variable types: *dataframes* and *igraph network objects*. We will discuss network objects in the next chapter. 
+
+### Dataframes 
+
+A data frame is a rectangular, 2-dimensional variable with multiple rows and columns. You should be familiar with this type of data from introductory statistics where you would load such data from Excel (or some other spreadsheet program) into SPSS or JASP for analysis. 
+
+### Loading data into RStudio 
+
+First, the data should be saved as a `.csv` file. This is basically a "text" version of the Excel format (look at Save As... in your Excel program). I recommend this because special packages and functions are needed to load data from proprietary file formats. The csv format is much more flexible (it would also work with SPSS/JASP).
+
+To see this in action, first create a .csv file called `numbers.csv` using your preferred spreadsheet program. Make two columns of random numbers and provide column headers. An example is shown below: 
+
+| Column A | Column B | 
+|--|--|
+| 1 | 4 |
+| 2 | 5 |
+| 3 | 6 |
+
+Save this file into your current working directory. 
+
+To load the file via the Console: 
+
+```{r}
+#| eval: false
+#| echo: true
+my_data <- read.csv('numbers.csv', header = TRUE)
+```
+
+Notice that we are using a function called `read.csv` to read in .csv files (there are other functions for other kinds of files but we will mostly work with .csv files in this book). This function contains two arguments: the name of the file in the first position, and a second argument which states that there are column headers in the file. If there are no column headers, then switch this to `FALSE` and R will automatically provide labels. Finally, we assign the contents of the .csv file to a data frame object called `my_data`, which now shows up in the Environment tab. You are of course free to change this to a different label that describes your data better.
+
+There is an alternative approach using the RStudio GUI. To load the file via the GUI: Navigate to the file on Files tab, click on file and select "Import Dataset". A helpful window opens to preview how the data will look like, and gives you options to change the name of the data object, specify if there are column names/headers, etc. 
+
+> Common mistake: Selecting "View File" opens the data as a window in RStudio, but does NOT actually load the information into the workspace, which means that you are unable to manipulate the data in any way. 

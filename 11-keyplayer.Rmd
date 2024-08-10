@@ -1,0 +1,157 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 11: `keyplayer` package {#ch11}
+
+Borgatti (2006) formalized the key player problem based on two different goals that the set of key players to be identified in the social network is expected to fulfil.
+
+The negative version of the key player problem searches for nodes that, when removed from the network, causes the maximum amount of fragmentation of the network. 
+
+The positive version of the key player problem searches for nodes that, when activated, can spread information to the largest proportion of the rest of the network. 
+
+1. Key Player Problem-Negative (maximize fragmentation)
+2. Key Player Problem-Positive (maximize cohesiveness)
+
+The rationale for developing algorithms that maximize fragmentation or cohesiveness is due to the limitations of standard network measures like closeness or betweenness centrality, which Borgatti (2006) argues are not optimized to solve the key player problem. Borgatti (2006) also argues that selecting a set, or ensemble, of nodes that work together to solve the key player problem is more optimal than selecting the "top" nodes based on their individual centrality values.
+
+The general steps of a key player analysis are as follows: 
+
+1. Select the size of your keyplayer set (up to you and depends on your application; a general rule of thumb is no larger than 10% of the total number of nodes in the network).
+2. A random set of nodes is selected at first (hence important to set a seed).
+3. (For the current set) Compute the Fragmentation/Cohesion score.
+4. Choose a different set of nodes (guided by various node centrality measures depending on the specific algorithm used).
+5. Repeat steps 3 and 4 until Fragmentation/Cohesion score cannot be increased further after a certain number of attempts.
+
+## Set up 
+
+First, let's install the `keyplayer` R package:
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages('keyplayer')
+```
+
+We will use the `macaque` network from the `igraphdata` R package for demonstration. This dataset comes from Négyessy et al., where they used network science to study the cortical pathways from the primary somatosensory cortex to the primary visual cortex in the macaque monkey brain. The network consists of 45 nodes representing 45 brain areas (30 visual and 15 sensorimotor), and 463 directed and unweighted edges. An edge indicates the presence of a pathway or axonal tracts *from* brain area *i* *to* brain area *j*, as identified through the use of tracers. 
+
+```{r}
+#| echo: true
+#| eval: true
+library(igraphdata)
+
+data("macaque")
+
+# load the other packages that we need 
+library(igraph)
+library(keyplayer)
+```
+
+## Key Player Problem-Negative 
+
+The goal of the KPP-Neg is to maximize Fragmentation.
+
+Fragmentation, *F*, is the ratio between the number of node pairs that are not connected once the set of key players have been removed, and the total number of node pairs in the original fully connected network.
+
+$F_{min} = 0$ indicates that the network consists of a single component. $F_{max} = 1$ indicates that the network has been completely fractured, solely consisting of isolates, or nodes with no connections (i.e., every node is unreachable). The KPP-Neg aims to find the set of key players that would maximize *F*.
+
+To run the key player analysis, we make use of the `kpset` function from the `keyplayer` library. Notice that there are a number of additional parameters that need to be specified. 
+
+(i) `adj.matrix`: which refers to the network, that needs to be first converted into an adjacency matrix for the function to work. We can use the `igraph` function `as_adjacency_matrix` to do this. 
+(ii) `size`: which refers to the number of key players or size of the key player set
+(iii) `type`: needs to be `"fragment"` for the negative version
+(iv) `method`: grouping criterion; documentation suggests that the `"min"` method should be used for fragment centrality. 
+(v) `binary`: I set this to *TRUE* so that the edges are treated as unweighted (which is the case for the `macaque` network anyway), but change this to *FALSE* if you would like to have the edge weights be included. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+set.seed(1)
+
+results <- kpset(adj.matrix = as_adjacency_matrix(macaque), 
+                 size = 3, 
+                 type = "fragment", 
+                 method = "min", 
+                 binary = T)
+
+results
+```
+
+Notice that the results of the key player algorithm is stored in an object called `results`, which is a list object containing two elements. The `centrality` element (which is accessed via `results$centrality`) provides the fragmentation score of the final set of keyplayers (i.e., the extent to which the network fragments when these nodes are removed). The second element is the optimal set of key players based on the goal of fragmentation which is stored in `results$keyplayers`. Because it records the "position" of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# fragmentation score 
+results$centrality
+
+# to map the keyplayer number to node names 
+V(macaque)$name[results$keyplayers] 
+```
+
+The set of 3 brain areas that leads to the most amount of fragmentation in the macaque brain network when removed is [LIP, VIP, and 46], with a fragmentation score, *F*, of 0.484. 
+
+## Key Player Problem-Positive 
+
+The goal of KPP-Pos is to maximize Cohesion.
+
+Cohesion, *C*, is defined as the amount of connection between the key player set and the rest of the graph. It measures the number of unique nodes that can be reached from the key player set in a given number of steps (usually, steps = 1).
+
+$C_{min} = 0$ indicates that the KP set is infinitely far from all other nodes in the network. $C_{max} = 1$ indicates that the KP set is immediately adjacent (steps = 1) to all other nodes in the network. The KPP-Pos aims to find the set of key playerse that would maximize *C*.
+
+To run the key player analysis, we make use of the `kpset` function from the `keyplayer` library. Notice that there are a number of additional parameters that need to be specified. 
+
+(i) `adj.matrix`: which refers to the network, that needs to be first converted into an adjacency matrix for the function to work. We can use the `igraph` function `as_adjacency_matrix` to do this. 
+(ii) `size`: which refers to the number of key players or size of the key player set
+(iii) `type`: needs to be `"diffusion"` for the positive version
+(iv) `method`: grouping criterion; documentation suggests that the `"union"` method should be used for cohesion centrality. `T = 1` indicates that we allow for the diffusion to spread for 1 step from the set of keyplayer nodes when computing for cohesion centrality.
+(v) `binary`: I set this to *TRUE* so that the edges are treated as unweighted (which is the case for the `macaque` network anyway), but change this to *FALSE* if you would like to have the edge weights be included. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+set.seed(1)
+
+results <- kpset(as_adjacency_matrix(macaque), 
+                 size = 3, 
+                 type = "diffusion", 
+                 method = "union", 
+                 T = 1, 
+                 binary = T)
+
+results 
+```
+
+Notice that the results of the key player algorithm is stored in an object called `results`, which is a list object containing two elements. The `centrality` element (which is accessed via `results$centrality`) provides the cohesion score of the final set of keyplayers (i.e., the number of nodes in the network that is accessible from the key player set by 1 step (i.e., `T = 1`)). It would be important to normalize this value by the total number of nodes in the network so that we get a cohesion score that reflects the proportion of coverage of the network offered by the key players. The second element is the optimal set of key players based on the goal of fragmentation which is stored in `results$keyplayers`. Because it records the "position" of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# cohesion score 
+results$centrality/gorder(macaque) 
+
+# to map the keyplayer number to node names 
+V(macaque)$name[results$keyplayers] 
+```
+
+## References 
+
+Borgatti, S. P. (2006). Identifying sets of key players in a social network. Computational and Mathematical Organization Theory, 12(1), 21-34.
+
+Négyessy, L., Nepusz, T., Kocsis, L., & Bazsó, F. (2006). Prediction of the main cortical areas and connections involved in the tactile function of the visual cortex by network analysis. European Journal of Neuroscience, 23(7), 1919-1930.
+
+## Exercise 
+
+Repeat the key player analysis (both versions) on the macaque brain network, but with the following changes: 
+
+- change the size of the keyplayer set to a number other than 3 
+- repeat the analysis a few times but change the seed each time
+
+1. Compare your results across these attempts and between the positive and negative version of the key player problem. How consistent are your results? Which nodes are commonly chosen as key players? 
+2. How do the fragmentation and cohesion scores change as the size of the key player set increases?
+3. What are the implications of the key players for the macaque brain network? 

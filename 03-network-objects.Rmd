@@ -1,0 +1,224 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Chapter 3: Introduction to network objects {#ch3}
+
+## What is a network? 
+
+A network consists of two sets of entities: A list of *nodes* and a list of *edges*. Nodes correspond to the individual elements whose pairwise relational structure is specified by edges or links. So, if node A and node B are related to each other based on some criteria set by the modeler (you!) then you would specify an edge between nodes A and B. 
+
+When networks are small (on the order of a handful of nodes), it would not too be difficult to manually specify the list of nodes and their connections. However, this quickly gets too onerous once the number of nodes increases because the number of possible edges increases exponentially. For instance, a network of 5 nodes could have a maximum of 10 edges, whereas a network of 50 nodes could have a maximum of 1,225 edges. 
+
+In practice, the networks that a social scientist are likely to be working with are going to be quite large, and the networks are derived from large datasets that are external to the R programming environment. In the next chapter we will explore how to get these datasets into RStudio and how to convert them into network. In this chapter, we focus on understanding the structure of the network object, a special datatype that `igraph` uses for network analysis. 
+
+## Your first network 
+
+Network objects are a special variable that can only be analyzed with functions from the `igraph` library (that you previously installed). 
+Let's check out a simple example.
+
+```{r}
+#| echo: true
+#| eval: true
+library(igraph) # remember that we need to load this
+
+# create a network of 2 nodes that are connected
+g <- graph_from_literal('cat'-'bat')
+```
+
+`graph_from_literal` is a special function that allows the user to quickly build small networks by explicitly stating the nodes and edges of the network. Here we are creating a network of 2 nodes, labeled 'cat' and 'bat', and these 2 nodes are connected to each other. 
+
+You should find a new object `g` in Environment. But the description of the object does not seem like a network. That is OK! R knows what it is.
+
+When we print `g` in the Console, we find that it has a number of special properties. If you don't want to see all the edges being printed, you can type `summary(g)` instead.
+
+```{r}
+#| echo: true
+#| eval: true
+g
+
+summary(g)
+```
+
+Let's try to make sense of the output in Console when we "print" the network object `g`. 
+
+This first line already packs a ton of information: 
+
+`IGRAPH f977daf UN-- 2 1 --`
+
+1. The IGRAPH label is a good sign, it means that this object is need a network object that `igraph` understands. This is followed by a UUID generated to uniquely identify the graph. 
+2. The first letter in caps can either be **D** or **U**, which corresponds to *Directed* or *Undirected* edges, respectively. In this example we have a **U**, which means that the edges in this network are undirected. 
+3. The second letter in caps can either be **N** or **-**, which corresponds to nodes either having *Names* or are left unlabeled, respectively. In this example we have a **N**, which means that the nodes are labeled. 
+4. The third letter in caps: **W** or **-**, which corresponds to edges either having *Weights* or are unweighted, respectively. In this example we have a **-**, which means that the nodes are unweighted.
+5. It is worth noting that it is possible to have a fourth letter, **B** or **-**, which corresponds to the network being a *Bipartite* graph or not, respectively. We do not cover bipartite networks in this book (for now), and so we should expect to see a **-**, as we do in this example. 
+6. The first number refers to the number of nodes.
+7. The second number refers to the number of edges.
+
+> A good tip for network analysis is to always check the summary of the network object to make sure that the network that you are analyzing is indeed what you think it is. For instance, if you wanted to analyze a network with weighted edges, but do not see the **W** in your network summary, this indicates that `igraph` is not interpreting the network as a weighted graph and suggests that something went wrong during the network construction/specification phase.
+
+The second line reads: 
+
+`+ attr: name (v/c)`
+
+This prints a list of the various node, edge, or network-level attributes associated with the network. You can think of "attributes" like "properties" of the nodes and edges. Here we have a single attribute, labeled 'name', and it is a node (**v**ertex) attribute of **c**haracter class. This can be inferred from '(v/c)' following 'name'. 
+
+It is possible for edges to have attributes, and for the network itself to have attributes. These will be labeled with *e* and *g* respectively in the character *before* the forward slash.  
+
+It is possible for the attribute to take on various data classes, such as numeric, character, logical. These will be labeld with *n*, *c*, and *l* respectively in the character *after* the forward slash. 
+
+The final lines read: 
+
+```
++ edge from f977daf (vertex names):
+[1] cat--bat
+```
+
+This simply prints out all of the edges in the network, and this output will be truncated for very large network. 
+
+## Your second network 
+
+To broaden our understanding, let's create a slightly different network and explore its properties. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# let's create a slightly different network
+g_directed <- graph_from_literal('cat'-+'bat')
+
+g_directed
+```
+
+First, are you able to tell what was different from the code used to create the second network? 
+
+It is a subtle change, but an additional **+** symbol is added to the dash. The function interprets **+** as the arrow head of the edge, and creates a *directed* edge pointing from 'cat' to 'bat'. 
+
+Now's examine the summary of `g_directed`. 
+
+`IGRAPH ba5e381 DN-- 2 1 --`
+
+1. Notice that the first character is now **D**; this indicates that the network has directed edges. 
+2. The number of nodes and edges remains the same. 
+
+```
++ edge from ba5e381 (vertex names):
+[1] cat->bat
+```
+
+Notice that the "directedness" of edges is also represented in the output, with arrowheads. 
+
+### Exercise 
+
+Run the following code, and answer the questions below: 
+
+```{r}
+#| echo: true
+#| eval: true
+#| output: false
+
+g_exercise <- graph_from_literal(A-+B, B-+C, C-+A)
+E(g_exercise)$weight <- c(1,2,1)
+
+summary(g_exercise)
+```
+
+1. How many nodes and edges does this network have? 
+2. Are the edges in this network undirected or directed, and unweighted or weighted? Substantiate your answer. 
+3. How many attributes does this network have? Describe what these attributes are. 
+
+## Node and edge attributes 
+
+In the previous exercise you might have noticed that I snuck in some new code: `E(g_exercise)$weight <- c(1,2,1)`. This section explains what this code does and how you can explore and manipulate the node and edge attributes of your network.
+
+Try running the following and see what gets printed in the Console: 
+
+```{r}
+#| echo: true
+#| eval: true
+V(g_exercise)
+
+E(g_exercise)
+```
+
+As you can see, `V()` and `E()` are special functions in `igraph` which you can use to print a list of the nodes and edges associated with a particular network object. 
+
+Now let's see what we get with the following code: 
+
+```{r}
+#| echo: true
+#| eval: true
+V(g_exercise)$name
+
+E(g_exercise)$weight
+```
+
+The `$` is a special operator because it acts like a kind of a "selector" of a specific part of a larger thing. So you could interpret `V(g_exercise)$name` as the names of the nodes in the `g_exercise` network. Likewise, `E(g_exercise)$weight` refers to the weights of the edges in the `g_exercise` network. 
+
+Notice that the output is a *vector* (Chapter 2) of numbers and characters. This means we can also manipulate them using the special functions that we've learned about in Chapter 2. 
+
+```{r}
+#| echo: true
+#| eval: true
+V(g_exercise)$name <- c('Alice', 'Bob', 'Colin')
+
+V(g_exercise)$name
+```
+
+Based on this new knowledge, think back to this line of code `E(g_exercise)$weight <- c(1,2,1)` and see if you can figure out what is happening here. A neat thing that happened here is that `g_exercise` did not initially have an edge attribute called `weight` (you can verify this for yourself by removing `g_exercise` from your Environment and re-running only the line `g_exercise <- graph_from_literal(A-+B, B-+C, C-+A)` and checking the summary.) So you can actually specify your own node/edge attributes and add the corresponding information. Of course, this becomes an error-prone process once networks get even a little bit bigger. You will likely include these attributes at the initial stage of the network construction when importing the data used to create the network, so that these information are already "linked" to the nodes and edges of the network. We will explore this in the next chapter. 
+
+### Exercise 
+
+Run the following in your Console and try to explain the output you observe. 
+
+```{r}
+#| echo: true
+#| eval: false
+V(g_exercise)$weight
+
+E(g_exercise)$name
+```
+
+> *Answer: We get a NULL output because there is no node attribute called `weight` and no edge attribute called `name`.*
+
+## Graph attributes 
+
+Earlier in this chapter I mentioned that it is possible for the network itself to have an attribute. This is not particularly relevant for network analysis, but for completeness the code below demonstrates how you can specify a graph attribute and how it would look like in the summary output. One possible use for this is to label a network object that you have painstakingly build with a reference so that when you share this network with others they can then cite and acknowledge your work. 
+
+```{r}
+#| echo: true
+#| eval: true
+g_exercise$citation <- "Please cite: Siew, C. S. Q. Sample network for Chapter 3."
+
+summary(g_exercise) # pay attention to the attributes section! 
+
+g_exercise$citation
+```
+
+## Useful functions for working with attributes
+
+`igraph` offers some useful helper functions for working with attributes. 
+
+**To get a list of attributes of each type**
+
+- `graph_attr_names(network)`
+- `vertex_attr_names(network)`
+- `edge_attr_names(network)` 
+
+where `network` = name of your network object.
+
+**To set an attribute of each type**
+
+- `set_graph_attr(network, name, value)`
+- `set_vertex_attr(network, name, value)`
+- `set_edge_attr(network, name, value)` 
+
+where `network` = name of your network object, `name` = name of attribute, `value` = the values associated for nodes/edges/graph for that attribute. This is an alternative approach and identical to `V(network)$name <- value` (for node attributes).
+
+**To remove an attribute of each type**
+
+- `delete_graph_attr(network, name)`
+- `delete_vertex_attr(network, name)`
+- `delete_edge_attr(network, name)` 
+
+where `network` = name of your network object, `name` = name of attribute.
