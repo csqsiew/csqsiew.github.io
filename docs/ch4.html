@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Chapter 4: From data to networks | Introduction to Network Analysis in igraph</title>
+  <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Chapter 4: From data to networks | Introduction to Network Analysis in igraph" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Chapter 4: From data to networks | Introduction to Network Analysis in igraph" />
+  
+  <meta name="twitter:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Cynthia S. Q. Siew" />
+
+
+<meta name="date" content="2024-08-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch3.html"/>
+<link rel="next" href="ch5.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Network Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction to Network Analysis in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#what-is-this-book-about"><i class="fa fa-check"></i><b>0.1</b> What is this book about?</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#why-write-this-book"><i class="fa fa-check"></i><b>0.2</b> Why write this book?</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="0.4" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>0.4</b> About the author</a></li>
+<li class="chapter" data-level="0.5" data-path="index.html"><a href="index.html#table-of-contents"><i class="fa fa-check"></i><b>0.5</b> Table of Contents</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="ch1.html"><a href="ch1.html"><i class="fa fa-check"></i><b>1</b> Chapter 1: Installation and set up</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch1.html"><a href="ch1.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="ch1.html"><a href="ch1.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.2</b> RStudio Cloud</a></li>
+<li class="chapter" data-level="1.3" data-path="ch1.html"><a href="ch1.html#installing-r-packages"><i class="fa fa-check"></i><b>1.3</b> Installing R packages</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="ch1.html"><a href="ch1.html#exercise"><i class="fa fa-check"></i><b>1.3.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i><b>2</b> Chapter 2: Programming and data science basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch2.html"><a href="ch2.html#the-rstudio-environment"><i class="fa fa-check"></i><b>2.1</b> The RStudio Environment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="ch2.html"><a href="ch2.html#setting-up-a-project"><i class="fa fa-check"></i><b>2.1.1</b> Setting up a Project</a></li>
+<li class="chapter" data-level="2.1.2" data-path="ch2.html"><a href="ch2.html#layout-of-rstudio"><i class="fa fa-check"></i><b>2.1.2</b> Layout of RStudio</a></li>
+<li class="chapter" data-level="2.1.3" data-path="ch2.html"><a href="ch2.html#r-scripts-vs.-console"><i class="fa fa-check"></i><b>2.1.3</b> R scripts vs. Console</a></li>
+<li class="chapter" data-level="2.1.4" data-path="ch2.html"><a href="ch2.html#working-with-r-scripts-is-recommended"><i class="fa fa-check"></i><b>2.1.4</b> Working with R scripts is recommended!</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="ch2.html"><a href="ch2.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.2</b> Variables and Data Types</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="ch2.html"><a href="ch2.html#what-are-variables"><i class="fa fa-check"></i><b>2.2.1</b> What are variables?</a></li>
+<li class="chapter" data-level="2.2.2" data-path="ch2.html"><a href="ch2.html#removing-objects"><i class="fa fa-check"></i><b>2.2.2</b> Removing objects</a></li>
+<li class="chapter" data-level="2.2.3" data-path="ch2.html"><a href="ch2.html#saving-objects"><i class="fa fa-check"></i><b>2.2.3</b> Saving objects</a></li>
+<li class="chapter" data-level="2.2.4" data-path="ch2.html"><a href="ch2.html#loading-objects"><i class="fa fa-check"></i><b>2.2.4</b> Loading objects</a></li>
+<li class="chapter" data-level="2.2.5" data-path="ch2.html"><a href="ch2.html#what-are-vectors"><i class="fa fa-check"></i><b>2.2.5</b> What are vectors?</a></li>
+<li class="chapter" data-level="2.2.6" data-path="ch2.html"><a href="ch2.html#cool-things-you-can-do-with-vectors"><i class="fa fa-check"></i><b>2.2.6</b> Cool things you can do with vectors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="ch2.html"><a href="ch2.html#functions-and-arguments"><i class="fa fa-check"></i><b>2.3</b> Functions and Arguments</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="ch2.html"><a href="ch2.html#what-are-functions"><i class="fa fa-check"></i><b>2.3.1</b> What are functions?</a></li>
+<li class="chapter" data-level="2.3.2" data-path="ch2.html"><a href="ch2.html#what-are-arguments"><i class="fa fa-check"></i><b>2.3.2</b> What are arguments?</a></li>
+<li class="chapter" data-level="2.3.3" data-path="ch2.html"><a href="ch2.html#multiple-arguments"><i class="fa fa-check"></i><b>2.3.3</b> Multiple arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="ch2.html"><a href="ch2.html#file-paths-and-working-directory"><i class="fa fa-check"></i><b>2.4</b> File Paths and Working Directory</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="ch2.html"><a href="ch2.html#navigation-in-computers"><i class="fa fa-check"></i><b>2.4.1</b> Navigation in computers</a></li>
+<li class="chapter" data-level="2.4.2" data-path="ch2.html"><a href="ch2.html#helping-rstudio-find-your-stuff"><i class="fa fa-check"></i><b>2.4.2</b> Helping RStudio find your stuff</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="ch2.html"><a href="ch2.html#packages"><i class="fa fa-check"></i><b>2.5</b> Packages</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="ch2.html"><a href="ch2.html#what-are-packageslibraries"><i class="fa fa-check"></i><b>2.5.1</b> What are packages/libraries?</a></li>
+<li class="chapter" data-level="2.5.2" data-path="ch2.html"><a href="ch2.html#installation-vs.-loading"><i class="fa fa-check"></i><b>2.5.2</b> Installation vs. Loading</a></li>
+<li class="chapter" data-level="2.5.3" data-path="ch2.html"><a href="ch2.html#detaching-packages"><i class="fa fa-check"></i><b>2.5.3</b> Detaching packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="ch2.html"><a href="ch2.html#special-datatypes"><i class="fa fa-check"></i><b>2.6</b> Special Datatypes</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="ch2.html"><a href="ch2.html#dataframes"><i class="fa fa-check"></i><b>2.6.1</b> Dataframes</a></li>
+<li class="chapter" data-level="2.6.2" data-path="ch2.html"><a href="ch2.html#loading-data-into-rstudio"><i class="fa fa-check"></i><b>2.6.2</b> Loading data into RStudio</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i><b>3</b> Chapter 3: Introduction to network objects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch3.html"><a href="ch3.html#what-is-a-network"><i class="fa fa-check"></i><b>3.1</b> What is a network?</a></li>
+<li class="chapter" data-level="3.2" data-path="ch3.html"><a href="ch3.html#your-first-network"><i class="fa fa-check"></i><b>3.2</b> Your first network</a></li>
+<li class="chapter" data-level="3.3" data-path="ch3.html"><a href="ch3.html#your-second-network"><i class="fa fa-check"></i><b>3.3</b> Your second network</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch3.html"><a href="ch3.html#exercise-1"><i class="fa fa-check"></i><b>3.3.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="ch3.html"><a href="ch3.html#node-and-edge-attributes"><i class="fa fa-check"></i><b>3.4</b> Node and edge attributes</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="ch3.html"><a href="ch3.html#exercise-2"><i class="fa fa-check"></i><b>3.4.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="ch3.html"><a href="ch3.html#graph-attributes"><i class="fa fa-check"></i><b>3.5</b> Graph attributes</a></li>
+<li class="chapter" data-level="3.6" data-path="ch3.html"><a href="ch3.html#useful-functions-for-working-with-attributes"><i class="fa fa-check"></i><b>3.6</b> Useful functions for working with attributes</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i><b>4</b> Chapter 4: From data to networks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch4.html"><a href="ch4.html#how-are-networks-represented"><i class="fa fa-check"></i><b>4.1</b> How are networks represented?</a></li>
+<li class="chapter" data-level="4.2" data-path="ch4.html"><a href="ch4.html#edge-list"><i class="fa fa-check"></i><b>4.2</b> Edge List</a></li>
+<li class="chapter" data-level="4.3" data-path="ch4.html"><a href="ch4.html#adjacency-matrix"><i class="fa fa-check"></i><b>4.3</b> Adjacency Matrix</a></li>
+<li class="chapter" data-level="4.4" data-path="ch4.html"><a href="ch4.html#importing-your-data-and-converting-into-a-network"><i class="fa fa-check"></i><b>4.4</b> Importing your data and converting into a network</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="ch4.html"><a href="ch4.html#importing-edge-lists"><i class="fa fa-check"></i><b>4.4.1</b> Importing edge lists</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ch4.html"><a href="ch4.html#importing-adjacency-matrices"><i class="fa fa-check"></i><b>4.4.2</b> Importing adjacency matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ch4.html"><a href="ch4.html#exercise-3"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i><b>5</b> Chapter 5: Manipulating network objects</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch5.html"><a href="ch5.html#set-up"><i class="fa fa-check"></i><b>5.1</b> Set up</a></li>
+<li class="chapter" data-level="5.2" data-path="ch5.html"><a href="ch5.html#adding-node-attributes"><i class="fa fa-check"></i><b>5.2</b> Adding node attributes</a></li>
+<li class="chapter" data-level="5.3" data-path="ch5.html"><a href="ch5.html#adding-edge-attributes"><i class="fa fa-check"></i><b>5.3</b> Adding edge attributes</a></li>
+<li class="chapter" data-level="5.4" data-path="ch5.html"><a href="ch5.html#subsetting-the-network"><i class="fa fa-check"></i><b>5.4</b> Subsetting the network</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch6.html"><a href="ch6.html"><i class="fa fa-check"></i><b>6</b> Chapter 6: Macro-level network measures</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch6.html"><a href="ch6.html#average-degree"><i class="fa fa-check"></i><b>6.1</b> Average Degree</a></li>
+<li class="chapter" data-level="6.2" data-path="ch6.html"><a href="ch6.html#average-shortest-path-length"><i class="fa fa-check"></i><b>6.2</b> Average Shortest Path Length</a></li>
+<li class="chapter" data-level="6.3" data-path="ch6.html"><a href="ch6.html#global-clustering-coefficient"><i class="fa fa-check"></i><b>6.3</b> Global Clustering Coefficient</a></li>
+<li class="chapter" data-level="6.4" data-path="ch6.html"><a href="ch6.html#small-world-index"><i class="fa fa-check"></i><b>6.4</b> Small World Index</a></li>
+<li class="chapter" data-level="6.5" data-path="ch6.html"><a href="ch6.html#network-density"><i class="fa fa-check"></i><b>6.5</b> Network Density</a></li>
+<li class="chapter" data-level="6.6" data-path="ch6.html"><a href="ch6.html#network-diameter"><i class="fa fa-check"></i><b>6.6</b> Network Diameter</a></li>
+<li class="chapter" data-level="6.7" data-path="ch6.html"><a href="ch6.html#assortative-mixing"><i class="fa fa-check"></i><b>6.7</b> Assortative Mixing</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-degree-continuous-attributes"><i class="fa fa-check"></i><b>6.7.1</b> Assortative Mixing by Degree (continuous attributes)</a></li>
+<li class="chapter" data-level="6.7.2" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-node-attributes-categorical-attributes"><i class="fa fa-check"></i><b>6.7.2</b> Assortative Mixing by Node Attributes (categorical attributes)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="ch6.html"><a href="ch6.html#network-components"><i class="fa fa-check"></i><b>6.8</b> Network Components</a></li>
+<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-4"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch7.html"><a href="ch7.html"><i class="fa fa-check"></i><b>7</b> Chapter 7: Micro-level network measures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch7.html"><a href="ch7.html#degree"><i class="fa fa-check"></i><b>7.1</b> Degree</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="ch7.html"><a href="ch7.html#in--out--all-degree"><i class="fa fa-check"></i><b>7.1.1</b> In-, out-, all-degree</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ch7.html"><a href="ch7.html#strength"><i class="fa fa-check"></i><b>7.2</b> Strength</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch7.html"><a href="ch7.html#in--out--all-strength"><i class="fa fa-check"></i><b>7.2.1</b> In-, out-, all-strength</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch7.html"><a href="ch7.html#local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3</b> Local clustering coefficient</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="ch7.html"><a href="ch7.html#weighted-local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3.1</b> Weighted local clustering coefficient</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ch7.html"><a href="ch7.html#closeness-centrality"><i class="fa fa-check"></i><b>7.4</b> Closeness centrality</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="ch7.html"><a href="ch7.html#weighted-closeness-centrality"><i class="fa fa-check"></i><b>7.4.1</b> Weighted closeness centrality</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ch7.html"><a href="ch7.html#interpretation-of-edge-weights"><i class="fa fa-check"></i><b>7.4.2</b> Interpretation of edge weights</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ch7.html"><a href="ch7.html#directed-closeness-centrality"><i class="fa fa-check"></i><b>7.4.3</b> Directed closeness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ch7.html"><a href="ch7.html#betweenness-centrality"><i class="fa fa-check"></i><b>7.5</b> Betweenness centrality</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ch7.html"><a href="ch7.html#weighted-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.1</b> Weighted betweenness centrality</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ch7.html"><a href="ch7.html#directed-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.2</b> Directed betweenness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ch7.html"><a href="ch7.html#page-rank-centrality"><i class="fa fa-check"></i><b>7.6</b> Page Rank centrality</a></li>
+<li class="chapter" data-level="7.7" data-path="ch7.html"><a href="ch7.html#other-forms-of-node-centrality"><i class="fa fa-check"></i><b>7.7</b> Other forms of node centrality</a></li>
+<li class="chapter" data-level="7.8" data-path="ch7.html"><a href="ch7.html#exporting-node-centrality-measures-for-data-analysis"><i class="fa fa-check"></i><b>7.8</b> Exporting node centrality measures for data analysis</a></li>
+<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-5"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ch8.html"><a href="ch8.html"><i class="fa fa-check"></i><b>8</b> Chapter 8: Meso-level network measures</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ch8.html"><a href="ch8.html#how-do-network-scientists-find-communities-in-networks"><i class="fa fa-check"></i><b>8.1</b> How do network scientists “find” communities in networks?</a></li>
+<li class="chapter" data-level="8.2" data-path="ch8.html"><a href="ch8.html#edge-betweenness-divisive-method"><i class="fa fa-check"></i><b>8.2</b> Edge betweenness (“divisive method”)</a></li>
+<li class="chapter" data-level="8.3" data-path="ch8.html"><a href="ch8.html#louvain-method-greedy-maximization-method"><i class="fa fa-check"></i><b>8.3</b> Louvain method (“greedy, maximization method”)</a></li>
+<li class="chapter" data-level="8.4" data-path="ch8.html"><a href="ch8.html#random-walker-dynamic-method"><i class="fa fa-check"></i><b>8.4</b> Random walker (“dynamic method”)</a></li>
+<li class="chapter" data-level="8.5" data-path="ch8.html"><a href="ch8.html#infomap-information-theoretic-method"><i class="fa fa-check"></i><b>8.5</b> Infomap (“information-theoretic method”)</a></li>
+<li class="chapter" data-level="8.6" data-path="ch8.html"><a href="ch8.html#comparison-of-methods"><i class="fa fa-check"></i><b>8.6</b> Comparison of methods</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ch8.html"><a href="ch8.html#comparing-modularity"><i class="fa fa-check"></i><b>8.6.1</b> Comparing modularity</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ch8.html"><a href="ch8.html#comparing-community-membership"><i class="fa fa-check"></i><b>8.6.2</b> Comparing community membership</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ch8.html"><a href="ch8.html#things-to-note"><i class="fa fa-check"></i><b>8.7</b> Things to note</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="ch8.html"><a href="ch8.html#weighted-and-directed-graphs"><i class="fa fa-check"></i><b>8.7.1</b> Weighted and directed graphs</a></li>
+<li class="chapter" data-level="8.7.2" data-path="ch8.html"><a href="ch8.html#networks-with-multiple-components"><i class="fa fa-check"></i><b>8.7.2</b> Networks with multiple components</a></li>
+<li class="chapter" data-level="8.7.3" data-path="ch8.html"><a href="ch8.html#calculating-modularity-for-self-defined-communities"><i class="fa fa-check"></i><b>8.7.3</b> Calculating modularity for self-defined communities</a></li>
+<li class="chapter" data-level="8.7.4" data-path="ch8.html"><a href="ch8.html#comparing-different-runs"><i class="fa fa-check"></i><b>8.7.4</b> Comparing different runs</a></li>
+<li class="chapter" data-level="8.7.5" data-path="ch8.html"><a href="ch8.html#other-community-detection-methods"><i class="fa fa-check"></i><b>8.7.5</b> Other community detection methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-6"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ch9.html"><a href="ch9.html"><i class="fa fa-check"></i><b>9</b> Chapter 9: Network models</a></li>
+<li class="chapter" data-level="10" data-path="ch10.html"><a href="ch10.html"><i class="fa fa-check"></i><b>10</b> Chapter 10: Behaviors in the network</a></li>
+<li class="chapter" data-level="11" data-path="ch11.html"><a href="ch11.html"><i class="fa fa-check"></i><b>11</b> Chapter 11: <code>keyplayer</code> package</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ch11.html"><a href="ch11.html#set-up-1"><i class="fa fa-check"></i><b>11.1</b> Set up</a></li>
+<li class="chapter" data-level="11.2" data-path="ch11.html"><a href="ch11.html#key-player-problem-negative"><i class="fa fa-check"></i><b>11.2</b> Key Player Problem-Negative</a></li>
+<li class="chapter" data-level="11.3" data-path="ch11.html"><a href="ch11.html#key-player-problem-positive"><i class="fa fa-check"></i><b>11.3</b> Key Player Problem-Positive</a></li>
+<li class="chapter" data-level="11.4" data-path="ch11.html"><a href="ch11.html#references"><i class="fa fa-check"></i><b>11.4</b> References</a></li>
+<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-7"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
+<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ch13.html"><a href="ch13.html"><i class="fa fa-check"></i><b>13</b> Chapter 13: <code>bootnet</code> package</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ch13.html"><a href="ch13.html#chapter-outline"><i class="fa fa-check"></i><b>13.1</b> Chapter outline</a></li>
+<li class="chapter" data-level="13.2" data-path="ch13.html"><a href="ch13.html#installation-of-bootnet"><i class="fa fa-check"></i><b>13.2</b> Installation of <code>bootnet</code></a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="ch13.html"><a href="ch13.html#qgraph-vs.-igraph"><i class="fa fa-check"></i><b>13.2.1</b> <code>qgraph</code> vs. <code>igraph</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="ch13.html"><a href="ch13.html#dataset"><i class="fa fa-check"></i><b>13.3</b> Dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="ch13.html"><a href="ch13.html#estimate-a-partial-correlation-network"><i class="fa fa-check"></i><b>13.4</b> Estimate a partial correlation network</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="ch13.html"><a href="ch13.html#thresholding"><i class="fa fa-check"></i><b>13.4.1</b> Thresholding</a></li>
+<li class="chapter" data-level="13.4.2" data-path="ch13.html"><a href="ch13.html#absolutizing"><i class="fa fa-check"></i><b>13.4.2</b> Absolutizing</a></li>
+<li class="chapter" data-level="13.4.3" data-path="ch13.html"><a href="ch13.html#conversion-to-igraph"><i class="fa fa-check"></i><b>13.4.3</b> Conversion to igraph</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="ch13.html"><a href="ch13.html#sample-sizes"><i class="fa fa-check"></i><b>13.5</b> Sample sizes</a></li>
+<li class="chapter" data-level="13.6" data-path="ch13.html"><a href="ch13.html#additional-resources"><i class="fa fa-check"></i><b>13.6</b> Additional resources</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="ch14.html"><a href="ch14.html"><i class="fa fa-check"></i><b>14</b> Chapter 14: Network visualization in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ch14.html"><a href="ch14.html#set-up-3"><i class="fa fa-check"></i><b>14.1</b> Set up</a></li>
+<li class="chapter" data-level="14.2" data-path="ch14.html"><a href="ch14.html#visualizing-node-attributes"><i class="fa fa-check"></i><b>14.2</b> Visualizing node attributes</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.1</b> Color nodes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.2" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.2</b> Color nodes by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.3" data-path="ch14.html"><a href="ch14.html#node-shapes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.3</b> Node shapes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.4" data-path="ch14.html"><a href="ch14.html#node-size-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.4</b> Node size by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.5" data-path="ch14.html"><a href="ch14.html#example-1-color-nodes-by-their-community-membership"><i class="fa fa-check"></i><b>14.2.5</b> Example 1: Color nodes by their community membership</a></li>
+<li class="chapter" data-level="14.2.6" data-path="ch14.html"><a href="ch14.html#example-2-size-nodes-by-their-degree"><i class="fa fa-check"></i><b>14.2.6</b> Example 2: Size nodes by their degree</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="ch14.html"><a href="ch14.html#visualizing-edge-attributes"><i class="fa fa-check"></i><b>14.3</b> Visualizing edge attributes</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="ch14.html"><a href="ch14.html#color-edges-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.3.1</b> Color edges by their categorical attributes</a></li>
+<li class="chapter" data-level="14.3.2" data-path="ch14.html"><a href="ch14.html#edge-thickness-based-on-their-continuous-attributes"><i class="fa fa-check"></i><b>14.3.2</b> Edge thickness based on their continuous attributes</a></li>
+<li class="chapter" data-level="14.3.3" data-path="ch14.html"><a href="ch14.html#arrows-for-directed-edges"><i class="fa fa-check"></i><b>14.3.3</b> Arrows for directed edges</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="ch14.html"><a href="ch14.html#other"><i class="fa fa-check"></i><b>14.4</b> Other</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ch14.html"><a href="ch14.html#graph-layouts"><i class="fa fa-check"></i><b>14.4.1</b> Graph layouts</a></li>
+<li class="chapter" data-level="14.4.2" data-path="ch14.html"><a href="ch14.html#plot-title"><i class="fa fa-check"></i><b>14.4.2</b> Plot title</a></li>
+<li class="chapter" data-level="14.4.3" data-path="ch14.html"><a href="ch14.html#add-a-subtitle"><i class="fa fa-check"></i><b>14.4.3</b> Add a subtitle</a></li>
+<li class="chapter" data-level="14.4.4" data-path="ch14.html"><a href="ch14.html#multiple-plots"><i class="fa fa-check"></i><b>14.4.4</b> Multiple plots</a></li>
+<li class="chapter" data-level="14.4.5" data-path="ch14.html"><a href="ch14.html#useful-links"><i class="fa fa-check"></i><b>14.4.5</b> Useful links</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch15.html"><a href="ch15.html"><i class="fa fa-check"></i><b>15</b> Chapter 15: Network visualization with other packages</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Network Analysis in <code>igraph</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch4" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Chapter 4: From data to networks<a href="ch4.html#ch4" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="how-are-networks-represented" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> How are networks represented?<a href="ch4.html#how-are-networks-represented" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It helps to have a very concrete idea of how your network is depicted in this programming environment. To illustrate this, let’s create a simple network of 5 people. Each person is represented by a circle, called a node. If they are friends with each other, a connection or an edge is placed between them.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="ch4.html#cb74-1" tabindex="-1"></a><span class="co"># create a simple example </span></span>
+<span id="cb74-2"><a href="ch4.html#cb74-2" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(Alex<span class="sc">-</span>Beth, Chris<span class="sc">-</span>Doug, Eliza<span class="sc">-</span>Alex, Beth<span class="sc">-</span>Doug, </span>
+<span id="cb74-3"><a href="ch4.html#cb74-3" tabindex="-1"></a>                        Alex<span class="sc">-</span>Chris, Doug<span class="sc">-</span>Alex)</span>
+<span id="cb74-4"><a href="ch4.html#cb74-4" tabindex="-1"></a></span>
+<span id="cb74-5"><a href="ch4.html#cb74-5" tabindex="-1"></a><span class="co"># visualize the network</span></span>
+<span id="cb74-6"><a href="ch4.html#cb74-6" tabindex="-1"></a><span class="fu">plot</span>(g, <span class="at">vertex.color =</span> <span class="st">&#39;blue&#39;</span>, <span class="at">vertex.frame.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">vertex.size =</span> <span class="dv">10</span>, </span>
+<span id="cb74-7"><a href="ch4.html#cb74-7" tabindex="-1"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an <em>edge list</em> or an <em>adjacency matrix</em>. The following sections will demonstrate what data in an edge list and adjacency matrix looks like, and how to import the data into RStudio so that it corresponds to the network representation that you want.</p>
+</div>
+<div id="edge-list" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Edge List<a href="ch4.html#edge-list" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the relationship is listed in separate columns.</p>
+<table class="table table-striped table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Alex
+</td>
+<td style="text-align:left;">
+Beth
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alex
+</td>
+<td style="text-align:left;">
+Chris
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alex
+</td>
+<td style="text-align:left;">
+Doug
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alex
+</td>
+<td style="text-align:left;">
+Eliza
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beth
+</td>
+<td style="text-align:left;">
+Doug
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chris
+</td>
+<td style="text-align:left;">
+Doug
+</td>
+</tr>
+</tbody>
+</table>
+<p>Specifically, an edge list refers to a type of network data representation where each row represents a single edge in the network with at least 2 columns where the labels of connected nodes are provided. The number of rows in the edge list corresponds to the number of edges in the network. Additional columns can be specified that provide more information about the edges (e.g., type, weight). These become additional “edge attributes” of the network.</p>
+</div>
+<div id="adjacency-matrix" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Adjacency Matrix<a href="ch4.html#adjacency-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented in the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the [i,j] element of the adjacency matrix indicates the presence of a link between node i and node j.</p>
+<p>So in this case, the matrix has 5 rows and 5 columns (a square 5 x 5 matrix). The rows and columns are labelled with the node names. The cell carries a value of 1 if two people are connected, 0 if not connected. In this example, if we look at the first row, we can easily tell that Alex is the social butterfly of the group; he’s friends with everyone in the network!</p>
+<table class="table table-striped table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Alex
+</th>
+<th style="text-align:right;">
+Beth
+</th>
+<th style="text-align:right;">
+Chris
+</th>
+<th style="text-align:right;">
+Doug
+</th>
+<th style="text-align:right;">
+Eliza
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Alex
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beth
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chris
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Doug
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Eliza
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Eagle-eyed readers will realize that this matrix is symmetrical! This means that if you slice the matrix on its diagonal starting from the top left to the bottom right, the positions of filled cells are mirrored on the other side. This makes sense if we assume that the friendship of Alex and Beth goes both ways (Alex considers Beth a friend and Beth considers Alex a friend). In network science terms, we say that there is an undirected edge between Alex and Beth. We’ll get into the nitty gritty about the different types of edges a network could have later on.</p>
+</blockquote>
+</div>
+<div id="importing-your-data-and-converting-into-a-network" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Importing your data and converting into a network<a href="ch4.html#importing-your-data-and-converting-into-a-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After reading the previous section, you should be able to identify whether your data set takes the form of an edge list or adjacency matrix, and if not, take the necessary steps to convert the data into one of these two formats. Depending whether it is an edge list or adjacency matrix, we will make use of different functions to convert the connectivity information into an <code>igraph</code> network object so that we can start to analyze it further.</p>
+<p>Another point to note is that you as the modeler will have to make decisions about the type of edges your network will have. Should the edges be undirected or directed, and/or unweighted or weighted? While there are no objectively right or wrong decisions, there are probably better or worse decisions that would depend mostly on your own research questions, interpretation of the data set, and the extant network science literature on similar topics.</p>
+<p>A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github, and are stored in a subdirectory called <code>/data</code> from which I am reading from. Based on chapter 2 (finding files) you should be able to make the corresponding modifications to the <code>read.csv()</code> parts of the code.</p>
+<div id="importing-edge-lists" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Importing edge lists<a href="ch4.html#importing-edge-lists" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A. You want a network with <em>undirected, unweighted</em> edges.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="ch4.html#cb75-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb75-2"><a href="ch4.html#cb75-2" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="ch4.html#cb75-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb75-4"><a href="ch4.html#cb75-4" tabindex="-1"></a></span>
+<span id="cb75-5"><a href="ch4.html#cb75-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
+<pre><code>## IGRAPH dcc089d UN-- 34 78 -- 
+## + attr: name (v/c)</code></pre>
+<p>Things to note:</p>
+<ol style="list-style-type: decimal">
+<li><code>header = FALSE</code> in the first line - this is because there are no column headers in the <code>karate_el.csv</code> file! You can inspect and verify this for yourself.</li>
+<li><code>directed = FALSE</code> in the second line - this tells R that the edges are to be interpreted as undirected.</li>
+<li><code>graph_from_data_frame</code> is the function you would use for edge lists, which have been imported into RStudio as a data frame object.</li>
+</ol>
+<p>B. You want a network with <em>directed, unweighted</em> edges.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="ch4.html#cb77-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb77-2"><a href="ch4.html#cb77-2" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="ch4.html#cb77-3" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb77-4"><a href="ch4.html#cb77-4" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="ch4.html#cb77-5" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
+<pre><code>## IGRAPH 73753a0 DN-- 34 78 -- 
+## + attr: name (v/c)</code></pre>
+<p>Things to note:</p>
+<ol style="list-style-type: decimal">
+<li><code>directed = TRUE</code> in the second line - this tells R that the edges are to be interpreted as directed. The direction of the edges runs from the nodes in the first column of the edge list to the nodes in the second column of the edge list.</li>
+</ol>
+<p>C. You want a network with <em>undirected, weighted</em> edges.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="ch4.html#cb79-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el_weights.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-2"><a href="ch4.html#cb79-2" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="ch4.html#cb79-3" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb79-4"><a href="ch4.html#cb79-4" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="ch4.html#cb79-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
+<pre><code>## IGRAPH c51beba UNW- 34 78 -- 
+## + attr: name (v/c), weight (e/n)</code></pre>
+<p>Things to note:</p>
+<ol style="list-style-type: decimal">
+<li>A different file is used: <code>karate_el_weights.csv</code>. Open the file and see for yourself that there is an additional column called <code>weight</code>. We can consider this to be a representation of the strength of relationship between two karate club members. Additional columns in an edge list are interpreted as edge attributes - see if you can spot it in the summary output of <code>karate_uw</code>.</li>
+<li><code>header = TRUE</code> in the first line - this is because there <em>are</em> column headers in the <code>karate_el_weights.csv</code> file!</li>
+</ol>
+<p>D. You want a network with <em>directed, weighted</em> edges.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="ch4.html#cb81-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el_weights.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb81-2"><a href="ch4.html#cb81-2" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="ch4.html#cb81-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb81-4"><a href="ch4.html#cb81-4" tabindex="-1"></a></span>
+<span id="cb81-5"><a href="ch4.html#cb81-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
+<pre><code>## IGRAPH b12be5d DNW- 34 78 -- 
+## + attr: name (v/c), weight (e/n)</code></pre>
+</div>
+<div id="importing-adjacency-matrices" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Importing adjacency matrices<a href="ch4.html#importing-adjacency-matrices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A. You want a network with <em>undirected, unweighted</em> edges.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="ch4.html#cb83-1" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_adj.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb83-2"><a href="ch4.html#cb83-2" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="ch4.html#cb83-3" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(karate_am) <span class="co"># converts dataframe into a matrix object</span></span>
+<span id="cb83-4"><a href="ch4.html#cb83-4" tabindex="-1"></a></span>
+<span id="cb83-5"><a href="ch4.html#cb83-5" tabindex="-1"></a><span class="fu">isSymmetric</span>(karate_am) <span class="co"># sanity check that the matrix is symmetric </span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="ch4.html#cb85-1" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>)</span>
+<span id="cb85-2"><a href="ch4.html#cb85-2" tabindex="-1"></a></span>
+<span id="cb85-3"><a href="ch4.html#cb85-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
+<pre><code>## IGRAPH b749d8c UN-- 34 78 -- 
+## + attr: name (v/c)</code></pre>
+<p>Things to note:</p>
+<ol style="list-style-type: decimal">
+<li>The arguments <code>header = TRUE</code> and <code>row.names = 1</code> in the <code>read.csv</code> function specify that there are column headers and row names in the first column of the dataset. Notice that the column and row labels (which correspond to the node names) are identical across both in <code>karate_adj.csv</code>.</li>
+<li>We need to use the function <code>as.matrix</code> to convert the dataframe object into a matrix object, since the <code>graph_from_adjacency_matrix</code> expects a matrix object.</li>
+<li>I included a sanity check - using <code>isSymmetric</code> to check if the matrix is symmetric down the diagonal. This is good to do because when creating an undirected network from an adjacency matrix, <code>graph_from_adjacency_matrix</code> expects a symmetric matrix, and returns a warning message if this is not true.</li>
+<li>Notice that we need to use a different function, <code>graph_from_adjacency_matrix</code>, for converting the matrix into a network.</li>
+</ol>
+<p>B. You want a network with <em>directed, unweighted</em> edges.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="ch4.html#cb87-1" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_adj.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb87-2"><a href="ch4.html#cb87-2" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="ch4.html#cb87-3" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(karate_am) <span class="co"># converts dataframe into a matrix object</span></span>
+<span id="cb87-4"><a href="ch4.html#cb87-4" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="ch4.html#cb87-5" tabindex="-1"></a><span class="fu">isSymmetric</span>(karate_am) <span class="co"># sanity check that the matrix is symmetric </span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="ch4.html#cb89-1" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>)</span>
+<span id="cb89-2"><a href="ch4.html#cb89-2" tabindex="-1"></a></span>
+<span id="cb89-3"><a href="ch4.html#cb89-3" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
+<pre><code>## IGRAPH 6ed104a DN-- 34 156 -- 
+## + attr: name (v/c)</code></pre>
+<p>Things to note:</p>
+<ol style="list-style-type: decimal">
+<li><code>directed = TRUE</code> in the <code>graph_from_adjacency_matrix</code> function - this tells R that the edges are to be interpreted as directed. For each non-empty cell in the matrix, the direction of that edge would be <strong>from</strong> the node in the <strong>row</strong>, <em>to</em> the node in the <em>column</em>. See figure below for a depiction.</li>
+<li>Because of this directedness interpretation, and given that the matrix is symmetric, this implies that the network’s edges are “double counted”. A directed connection from node A to B is counted separately from the directed connection from node B to A. You can see that the number of edges in the <code>summary</code> output of this network is twice that of the previous network.</li>
+</ol>
+<p>C. You want a network with <em>undirected, weighted</em> edges.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="ch4.html#cb91-1" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_adj_weights.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb91-2"><a href="ch4.html#cb91-2" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="ch4.html#cb91-3" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(karate_am) <span class="co"># converts dataframe into a matrix object</span></span>
+<span id="cb91-4"><a href="ch4.html#cb91-4" tabindex="-1"></a></span>
+<span id="cb91-5"><a href="ch4.html#cb91-5" tabindex="-1"></a><span class="fu">isSymmetric</span>(karate_am) <span class="co"># sanity check that the matrix is symmetric </span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="ch4.html#cb93-1" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
+<span id="cb93-2"><a href="ch4.html#cb93-2" tabindex="-1"></a></span>
+<span id="cb93-3"><a href="ch4.html#cb93-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
+<pre><code>## IGRAPH 6fcd979 UNW- 34 100 -- 
+## + attr: name (v/c), weight (e/n)</code></pre>
+<p>Things to note:</p>
+<ol style="list-style-type: decimal">
+<li>See if you can tell how <code>karate_adj_weights.csv</code> is different from <code>karate_adj.csv</code>. The numbers in the cells for the former file can take on values other than 0s and 1s. This is typically used to depict the weight of the connection between two nodes.</li>
+<li><code>weighted = 'weight'</code> informs <code>igraph</code> that the values in the cell (which range from 1 to 5) are to be assigned as values of an edge attribute called <code>'weight'</code>. This is how you get a network with weighted edges.</li>
+</ol>
+<p>D. You want a network with <em>directed, weighted</em> edges</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="ch4.html#cb95-1" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_adj_weights.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb95-2"><a href="ch4.html#cb95-2" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="ch4.html#cb95-3" tabindex="-1"></a>karate_am <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(karate_am) <span class="co"># converts dataframe into a matrix object</span></span>
+<span id="cb95-4"><a href="ch4.html#cb95-4" tabindex="-1"></a></span>
+<span id="cb95-5"><a href="ch4.html#cb95-5" tabindex="-1"></a><span class="fu">isSymmetric</span>(karate_am) <span class="co"># sanity check that the matrix is symmetric </span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ch4.html#cb97-1" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
+<span id="cb97-2"><a href="ch4.html#cb97-2" tabindex="-1"></a></span>
+<span id="cb97-3"><a href="ch4.html#cb97-3" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
+<pre><code>## IGRAPH 84c4df8 DNW- 34 103 -- 
+## + attr: name (v/c), weight (e/n)</code></pre>
+</div>
+</div>
+<div id="exercise-3" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Exercise<a href="ch4.html#exercise-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Janelle is interested in modeling the social network structure of her cats. In order to construct the network, she observed the interaction patterns of her cats for a week. Here are her observations:</p>
+<ol style="list-style-type: decimal">
+<li>Niko and Russell seem to get on quite well. Niko likes to eat Russell’s food.</li>
+<li>Annabelle and Sammy were adopted at the same time and tend to stick close to each other.</li>
+<li>Janelle noticed that Jo has been napping next to Jack in the study room.</li>
+<li>Sammy, Russell, and Groucho love playing with the ball of twine in the living room.</li>
+<li>Groucho and Russell are elderly cats who seem to have a mutual respect for each other.</li>
+<li>The only cat that Dottie is able to tolerate is Niko.</li>
+</ol>
+<p>Your task is to:</p>
+<ol style="list-style-type: lower-roman">
+<li>create the raw data file for this network (a .csv file)</li>
+<li>convert the data into a network object in igraph</li>
+<li>visualize the network using <code>plot(network_name)</code></li>
+<li>print the output of the network object</li>
+<li>save your network object as a .RData (and see if you are able to reload it into RStudio)</li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/csqsiew/intro-to-igraph04-data-to-networks.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

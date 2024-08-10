@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Chapter 8: Meso-level network measures | Introduction to Network Analysis in igraph</title>
+  <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Chapter 8: Meso-level network measures | Introduction to Network Analysis in igraph" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Chapter 8: Meso-level network measures | Introduction to Network Analysis in igraph" />
+  
+  <meta name="twitter:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Cynthia S. Q. Siew" />
+
+
+<meta name="date" content="2024-08-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch7.html"/>
+<link rel="next" href="ch9.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Network Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction to Network Analysis in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#what-is-this-book-about"><i class="fa fa-check"></i><b>0.1</b> What is this book about?</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#why-write-this-book"><i class="fa fa-check"></i><b>0.2</b> Why write this book?</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="0.4" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>0.4</b> About the author</a></li>
+<li class="chapter" data-level="0.5" data-path="index.html"><a href="index.html#table-of-contents"><i class="fa fa-check"></i><b>0.5</b> Table of Contents</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="ch1.html"><a href="ch1.html"><i class="fa fa-check"></i><b>1</b> Chapter 1: Installation and set up</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch1.html"><a href="ch1.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="ch1.html"><a href="ch1.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.2</b> RStudio Cloud</a></li>
+<li class="chapter" data-level="1.3" data-path="ch1.html"><a href="ch1.html#installing-r-packages"><i class="fa fa-check"></i><b>1.3</b> Installing R packages</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="ch1.html"><a href="ch1.html#exercise"><i class="fa fa-check"></i><b>1.3.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i><b>2</b> Chapter 2: Programming and data science basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch2.html"><a href="ch2.html#the-rstudio-environment"><i class="fa fa-check"></i><b>2.1</b> The RStudio Environment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="ch2.html"><a href="ch2.html#setting-up-a-project"><i class="fa fa-check"></i><b>2.1.1</b> Setting up a Project</a></li>
+<li class="chapter" data-level="2.1.2" data-path="ch2.html"><a href="ch2.html#layout-of-rstudio"><i class="fa fa-check"></i><b>2.1.2</b> Layout of RStudio</a></li>
+<li class="chapter" data-level="2.1.3" data-path="ch2.html"><a href="ch2.html#r-scripts-vs.-console"><i class="fa fa-check"></i><b>2.1.3</b> R scripts vs. Console</a></li>
+<li class="chapter" data-level="2.1.4" data-path="ch2.html"><a href="ch2.html#working-with-r-scripts-is-recommended"><i class="fa fa-check"></i><b>2.1.4</b> Working with R scripts is recommended!</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="ch2.html"><a href="ch2.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.2</b> Variables and Data Types</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="ch2.html"><a href="ch2.html#what-are-variables"><i class="fa fa-check"></i><b>2.2.1</b> What are variables?</a></li>
+<li class="chapter" data-level="2.2.2" data-path="ch2.html"><a href="ch2.html#removing-objects"><i class="fa fa-check"></i><b>2.2.2</b> Removing objects</a></li>
+<li class="chapter" data-level="2.2.3" data-path="ch2.html"><a href="ch2.html#saving-objects"><i class="fa fa-check"></i><b>2.2.3</b> Saving objects</a></li>
+<li class="chapter" data-level="2.2.4" data-path="ch2.html"><a href="ch2.html#loading-objects"><i class="fa fa-check"></i><b>2.2.4</b> Loading objects</a></li>
+<li class="chapter" data-level="2.2.5" data-path="ch2.html"><a href="ch2.html#what-are-vectors"><i class="fa fa-check"></i><b>2.2.5</b> What are vectors?</a></li>
+<li class="chapter" data-level="2.2.6" data-path="ch2.html"><a href="ch2.html#cool-things-you-can-do-with-vectors"><i class="fa fa-check"></i><b>2.2.6</b> Cool things you can do with vectors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="ch2.html"><a href="ch2.html#functions-and-arguments"><i class="fa fa-check"></i><b>2.3</b> Functions and Arguments</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="ch2.html"><a href="ch2.html#what-are-functions"><i class="fa fa-check"></i><b>2.3.1</b> What are functions?</a></li>
+<li class="chapter" data-level="2.3.2" data-path="ch2.html"><a href="ch2.html#what-are-arguments"><i class="fa fa-check"></i><b>2.3.2</b> What are arguments?</a></li>
+<li class="chapter" data-level="2.3.3" data-path="ch2.html"><a href="ch2.html#multiple-arguments"><i class="fa fa-check"></i><b>2.3.3</b> Multiple arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="ch2.html"><a href="ch2.html#file-paths-and-working-directory"><i class="fa fa-check"></i><b>2.4</b> File Paths and Working Directory</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="ch2.html"><a href="ch2.html#navigation-in-computers"><i class="fa fa-check"></i><b>2.4.1</b> Navigation in computers</a></li>
+<li class="chapter" data-level="2.4.2" data-path="ch2.html"><a href="ch2.html#helping-rstudio-find-your-stuff"><i class="fa fa-check"></i><b>2.4.2</b> Helping RStudio find your stuff</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="ch2.html"><a href="ch2.html#packages"><i class="fa fa-check"></i><b>2.5</b> Packages</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="ch2.html"><a href="ch2.html#what-are-packageslibraries"><i class="fa fa-check"></i><b>2.5.1</b> What are packages/libraries?</a></li>
+<li class="chapter" data-level="2.5.2" data-path="ch2.html"><a href="ch2.html#installation-vs.-loading"><i class="fa fa-check"></i><b>2.5.2</b> Installation vs. Loading</a></li>
+<li class="chapter" data-level="2.5.3" data-path="ch2.html"><a href="ch2.html#detaching-packages"><i class="fa fa-check"></i><b>2.5.3</b> Detaching packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="ch2.html"><a href="ch2.html#special-datatypes"><i class="fa fa-check"></i><b>2.6</b> Special Datatypes</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="ch2.html"><a href="ch2.html#dataframes"><i class="fa fa-check"></i><b>2.6.1</b> Dataframes</a></li>
+<li class="chapter" data-level="2.6.2" data-path="ch2.html"><a href="ch2.html#loading-data-into-rstudio"><i class="fa fa-check"></i><b>2.6.2</b> Loading data into RStudio</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i><b>3</b> Chapter 3: Introduction to network objects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch3.html"><a href="ch3.html#what-is-a-network"><i class="fa fa-check"></i><b>3.1</b> What is a network?</a></li>
+<li class="chapter" data-level="3.2" data-path="ch3.html"><a href="ch3.html#your-first-network"><i class="fa fa-check"></i><b>3.2</b> Your first network</a></li>
+<li class="chapter" data-level="3.3" data-path="ch3.html"><a href="ch3.html#your-second-network"><i class="fa fa-check"></i><b>3.3</b> Your second network</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch3.html"><a href="ch3.html#exercise-1"><i class="fa fa-check"></i><b>3.3.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="ch3.html"><a href="ch3.html#node-and-edge-attributes"><i class="fa fa-check"></i><b>3.4</b> Node and edge attributes</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="ch3.html"><a href="ch3.html#exercise-2"><i class="fa fa-check"></i><b>3.4.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="ch3.html"><a href="ch3.html#graph-attributes"><i class="fa fa-check"></i><b>3.5</b> Graph attributes</a></li>
+<li class="chapter" data-level="3.6" data-path="ch3.html"><a href="ch3.html#useful-functions-for-working-with-attributes"><i class="fa fa-check"></i><b>3.6</b> Useful functions for working with attributes</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i><b>4</b> Chapter 4: From data to networks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch4.html"><a href="ch4.html#how-are-networks-represented"><i class="fa fa-check"></i><b>4.1</b> How are networks represented?</a></li>
+<li class="chapter" data-level="4.2" data-path="ch4.html"><a href="ch4.html#edge-list"><i class="fa fa-check"></i><b>4.2</b> Edge List</a></li>
+<li class="chapter" data-level="4.3" data-path="ch4.html"><a href="ch4.html#adjacency-matrix"><i class="fa fa-check"></i><b>4.3</b> Adjacency Matrix</a></li>
+<li class="chapter" data-level="4.4" data-path="ch4.html"><a href="ch4.html#importing-your-data-and-converting-into-a-network"><i class="fa fa-check"></i><b>4.4</b> Importing your data and converting into a network</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="ch4.html"><a href="ch4.html#importing-edge-lists"><i class="fa fa-check"></i><b>4.4.1</b> Importing edge lists</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ch4.html"><a href="ch4.html#importing-adjacency-matrices"><i class="fa fa-check"></i><b>4.4.2</b> Importing adjacency matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ch4.html"><a href="ch4.html#exercise-3"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i><b>5</b> Chapter 5: Manipulating network objects</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch5.html"><a href="ch5.html#set-up"><i class="fa fa-check"></i><b>5.1</b> Set up</a></li>
+<li class="chapter" data-level="5.2" data-path="ch5.html"><a href="ch5.html#adding-node-attributes"><i class="fa fa-check"></i><b>5.2</b> Adding node attributes</a></li>
+<li class="chapter" data-level="5.3" data-path="ch5.html"><a href="ch5.html#adding-edge-attributes"><i class="fa fa-check"></i><b>5.3</b> Adding edge attributes</a></li>
+<li class="chapter" data-level="5.4" data-path="ch5.html"><a href="ch5.html#subsetting-the-network"><i class="fa fa-check"></i><b>5.4</b> Subsetting the network</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch6.html"><a href="ch6.html"><i class="fa fa-check"></i><b>6</b> Chapter 6: Macro-level network measures</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch6.html"><a href="ch6.html#average-degree"><i class="fa fa-check"></i><b>6.1</b> Average Degree</a></li>
+<li class="chapter" data-level="6.2" data-path="ch6.html"><a href="ch6.html#average-shortest-path-length"><i class="fa fa-check"></i><b>6.2</b> Average Shortest Path Length</a></li>
+<li class="chapter" data-level="6.3" data-path="ch6.html"><a href="ch6.html#global-clustering-coefficient"><i class="fa fa-check"></i><b>6.3</b> Global Clustering Coefficient</a></li>
+<li class="chapter" data-level="6.4" data-path="ch6.html"><a href="ch6.html#small-world-index"><i class="fa fa-check"></i><b>6.4</b> Small World Index</a></li>
+<li class="chapter" data-level="6.5" data-path="ch6.html"><a href="ch6.html#network-density"><i class="fa fa-check"></i><b>6.5</b> Network Density</a></li>
+<li class="chapter" data-level="6.6" data-path="ch6.html"><a href="ch6.html#network-diameter"><i class="fa fa-check"></i><b>6.6</b> Network Diameter</a></li>
+<li class="chapter" data-level="6.7" data-path="ch6.html"><a href="ch6.html#assortative-mixing"><i class="fa fa-check"></i><b>6.7</b> Assortative Mixing</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-degree-continuous-attributes"><i class="fa fa-check"></i><b>6.7.1</b> Assortative Mixing by Degree (continuous attributes)</a></li>
+<li class="chapter" data-level="6.7.2" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-node-attributes-categorical-attributes"><i class="fa fa-check"></i><b>6.7.2</b> Assortative Mixing by Node Attributes (categorical attributes)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="ch6.html"><a href="ch6.html#network-components"><i class="fa fa-check"></i><b>6.8</b> Network Components</a></li>
+<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-4"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch7.html"><a href="ch7.html"><i class="fa fa-check"></i><b>7</b> Chapter 7: Micro-level network measures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch7.html"><a href="ch7.html#degree"><i class="fa fa-check"></i><b>7.1</b> Degree</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="ch7.html"><a href="ch7.html#in--out--all-degree"><i class="fa fa-check"></i><b>7.1.1</b> In-, out-, all-degree</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ch7.html"><a href="ch7.html#strength"><i class="fa fa-check"></i><b>7.2</b> Strength</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch7.html"><a href="ch7.html#in--out--all-strength"><i class="fa fa-check"></i><b>7.2.1</b> In-, out-, all-strength</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch7.html"><a href="ch7.html#local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3</b> Local clustering coefficient</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="ch7.html"><a href="ch7.html#weighted-local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3.1</b> Weighted local clustering coefficient</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ch7.html"><a href="ch7.html#closeness-centrality"><i class="fa fa-check"></i><b>7.4</b> Closeness centrality</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="ch7.html"><a href="ch7.html#weighted-closeness-centrality"><i class="fa fa-check"></i><b>7.4.1</b> Weighted closeness centrality</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ch7.html"><a href="ch7.html#interpretation-of-edge-weights"><i class="fa fa-check"></i><b>7.4.2</b> Interpretation of edge weights</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ch7.html"><a href="ch7.html#directed-closeness-centrality"><i class="fa fa-check"></i><b>7.4.3</b> Directed closeness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ch7.html"><a href="ch7.html#betweenness-centrality"><i class="fa fa-check"></i><b>7.5</b> Betweenness centrality</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ch7.html"><a href="ch7.html#weighted-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.1</b> Weighted betweenness centrality</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ch7.html"><a href="ch7.html#directed-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.2</b> Directed betweenness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ch7.html"><a href="ch7.html#page-rank-centrality"><i class="fa fa-check"></i><b>7.6</b> Page Rank centrality</a></li>
+<li class="chapter" data-level="7.7" data-path="ch7.html"><a href="ch7.html#other-forms-of-node-centrality"><i class="fa fa-check"></i><b>7.7</b> Other forms of node centrality</a></li>
+<li class="chapter" data-level="7.8" data-path="ch7.html"><a href="ch7.html#exporting-node-centrality-measures-for-data-analysis"><i class="fa fa-check"></i><b>7.8</b> Exporting node centrality measures for data analysis</a></li>
+<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-5"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ch8.html"><a href="ch8.html"><i class="fa fa-check"></i><b>8</b> Chapter 8: Meso-level network measures</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ch8.html"><a href="ch8.html#how-do-network-scientists-find-communities-in-networks"><i class="fa fa-check"></i><b>8.1</b> How do network scientists “find” communities in networks?</a></li>
+<li class="chapter" data-level="8.2" data-path="ch8.html"><a href="ch8.html#edge-betweenness-divisive-method"><i class="fa fa-check"></i><b>8.2</b> Edge betweenness (“divisive method”)</a></li>
+<li class="chapter" data-level="8.3" data-path="ch8.html"><a href="ch8.html#louvain-method-greedy-maximization-method"><i class="fa fa-check"></i><b>8.3</b> Louvain method (“greedy, maximization method”)</a></li>
+<li class="chapter" data-level="8.4" data-path="ch8.html"><a href="ch8.html#random-walker-dynamic-method"><i class="fa fa-check"></i><b>8.4</b> Random walker (“dynamic method”)</a></li>
+<li class="chapter" data-level="8.5" data-path="ch8.html"><a href="ch8.html#infomap-information-theoretic-method"><i class="fa fa-check"></i><b>8.5</b> Infomap (“information-theoretic method”)</a></li>
+<li class="chapter" data-level="8.6" data-path="ch8.html"><a href="ch8.html#comparison-of-methods"><i class="fa fa-check"></i><b>8.6</b> Comparison of methods</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ch8.html"><a href="ch8.html#comparing-modularity"><i class="fa fa-check"></i><b>8.6.1</b> Comparing modularity</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ch8.html"><a href="ch8.html#comparing-community-membership"><i class="fa fa-check"></i><b>8.6.2</b> Comparing community membership</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ch8.html"><a href="ch8.html#things-to-note"><i class="fa fa-check"></i><b>8.7</b> Things to note</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="ch8.html"><a href="ch8.html#weighted-and-directed-graphs"><i class="fa fa-check"></i><b>8.7.1</b> Weighted and directed graphs</a></li>
+<li class="chapter" data-level="8.7.2" data-path="ch8.html"><a href="ch8.html#networks-with-multiple-components"><i class="fa fa-check"></i><b>8.7.2</b> Networks with multiple components</a></li>
+<li class="chapter" data-level="8.7.3" data-path="ch8.html"><a href="ch8.html#calculating-modularity-for-self-defined-communities"><i class="fa fa-check"></i><b>8.7.3</b> Calculating modularity for self-defined communities</a></li>
+<li class="chapter" data-level="8.7.4" data-path="ch8.html"><a href="ch8.html#comparing-different-runs"><i class="fa fa-check"></i><b>8.7.4</b> Comparing different runs</a></li>
+<li class="chapter" data-level="8.7.5" data-path="ch8.html"><a href="ch8.html#other-community-detection-methods"><i class="fa fa-check"></i><b>8.7.5</b> Other community detection methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-6"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ch9.html"><a href="ch9.html"><i class="fa fa-check"></i><b>9</b> Chapter 9: Network models</a></li>
+<li class="chapter" data-level="10" data-path="ch10.html"><a href="ch10.html"><i class="fa fa-check"></i><b>10</b> Chapter 10: Behaviors in the network</a></li>
+<li class="chapter" data-level="11" data-path="ch11.html"><a href="ch11.html"><i class="fa fa-check"></i><b>11</b> Chapter 11: <code>keyplayer</code> package</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ch11.html"><a href="ch11.html#set-up-1"><i class="fa fa-check"></i><b>11.1</b> Set up</a></li>
+<li class="chapter" data-level="11.2" data-path="ch11.html"><a href="ch11.html#key-player-problem-negative"><i class="fa fa-check"></i><b>11.2</b> Key Player Problem-Negative</a></li>
+<li class="chapter" data-level="11.3" data-path="ch11.html"><a href="ch11.html#key-player-problem-positive"><i class="fa fa-check"></i><b>11.3</b> Key Player Problem-Positive</a></li>
+<li class="chapter" data-level="11.4" data-path="ch11.html"><a href="ch11.html#references"><i class="fa fa-check"></i><b>11.4</b> References</a></li>
+<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-7"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
+<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ch13.html"><a href="ch13.html"><i class="fa fa-check"></i><b>13</b> Chapter 13: <code>bootnet</code> package</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ch13.html"><a href="ch13.html#chapter-outline"><i class="fa fa-check"></i><b>13.1</b> Chapter outline</a></li>
+<li class="chapter" data-level="13.2" data-path="ch13.html"><a href="ch13.html#installation-of-bootnet"><i class="fa fa-check"></i><b>13.2</b> Installation of <code>bootnet</code></a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="ch13.html"><a href="ch13.html#qgraph-vs.-igraph"><i class="fa fa-check"></i><b>13.2.1</b> <code>qgraph</code> vs. <code>igraph</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="ch13.html"><a href="ch13.html#dataset"><i class="fa fa-check"></i><b>13.3</b> Dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="ch13.html"><a href="ch13.html#estimate-a-partial-correlation-network"><i class="fa fa-check"></i><b>13.4</b> Estimate a partial correlation network</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="ch13.html"><a href="ch13.html#thresholding"><i class="fa fa-check"></i><b>13.4.1</b> Thresholding</a></li>
+<li class="chapter" data-level="13.4.2" data-path="ch13.html"><a href="ch13.html#absolutizing"><i class="fa fa-check"></i><b>13.4.2</b> Absolutizing</a></li>
+<li class="chapter" data-level="13.4.3" data-path="ch13.html"><a href="ch13.html#conversion-to-igraph"><i class="fa fa-check"></i><b>13.4.3</b> Conversion to igraph</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="ch13.html"><a href="ch13.html#sample-sizes"><i class="fa fa-check"></i><b>13.5</b> Sample sizes</a></li>
+<li class="chapter" data-level="13.6" data-path="ch13.html"><a href="ch13.html#additional-resources"><i class="fa fa-check"></i><b>13.6</b> Additional resources</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="ch14.html"><a href="ch14.html"><i class="fa fa-check"></i><b>14</b> Chapter 14: Network visualization in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ch14.html"><a href="ch14.html#set-up-3"><i class="fa fa-check"></i><b>14.1</b> Set up</a></li>
+<li class="chapter" data-level="14.2" data-path="ch14.html"><a href="ch14.html#visualizing-node-attributes"><i class="fa fa-check"></i><b>14.2</b> Visualizing node attributes</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.1</b> Color nodes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.2" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.2</b> Color nodes by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.3" data-path="ch14.html"><a href="ch14.html#node-shapes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.3</b> Node shapes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.4" data-path="ch14.html"><a href="ch14.html#node-size-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.4</b> Node size by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.5" data-path="ch14.html"><a href="ch14.html#example-1-color-nodes-by-their-community-membership"><i class="fa fa-check"></i><b>14.2.5</b> Example 1: Color nodes by their community membership</a></li>
+<li class="chapter" data-level="14.2.6" data-path="ch14.html"><a href="ch14.html#example-2-size-nodes-by-their-degree"><i class="fa fa-check"></i><b>14.2.6</b> Example 2: Size nodes by their degree</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="ch14.html"><a href="ch14.html#visualizing-edge-attributes"><i class="fa fa-check"></i><b>14.3</b> Visualizing edge attributes</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="ch14.html"><a href="ch14.html#color-edges-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.3.1</b> Color edges by their categorical attributes</a></li>
+<li class="chapter" data-level="14.3.2" data-path="ch14.html"><a href="ch14.html#edge-thickness-based-on-their-continuous-attributes"><i class="fa fa-check"></i><b>14.3.2</b> Edge thickness based on their continuous attributes</a></li>
+<li class="chapter" data-level="14.3.3" data-path="ch14.html"><a href="ch14.html#arrows-for-directed-edges"><i class="fa fa-check"></i><b>14.3.3</b> Arrows for directed edges</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="ch14.html"><a href="ch14.html#other"><i class="fa fa-check"></i><b>14.4</b> Other</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ch14.html"><a href="ch14.html#graph-layouts"><i class="fa fa-check"></i><b>14.4.1</b> Graph layouts</a></li>
+<li class="chapter" data-level="14.4.2" data-path="ch14.html"><a href="ch14.html#plot-title"><i class="fa fa-check"></i><b>14.4.2</b> Plot title</a></li>
+<li class="chapter" data-level="14.4.3" data-path="ch14.html"><a href="ch14.html#add-a-subtitle"><i class="fa fa-check"></i><b>14.4.3</b> Add a subtitle</a></li>
+<li class="chapter" data-level="14.4.4" data-path="ch14.html"><a href="ch14.html#multiple-plots"><i class="fa fa-check"></i><b>14.4.4</b> Multiple plots</a></li>
+<li class="chapter" data-level="14.4.5" data-path="ch14.html"><a href="ch14.html#useful-links"><i class="fa fa-check"></i><b>14.4.5</b> Useful links</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch15.html"><a href="ch15.html"><i class="fa fa-check"></i><b>15</b> Chapter 15: Network visualization with other packages</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Network Analysis in <code>igraph</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch8" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Chapter 8: Meso-level network measures<a href="ch8.html#ch8" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A common feature of many real-world networks is that they have robust community structure. Nodes are considered to be part of the same community if the density of connections among those nodes is relatively higher than the density of connections between nodes from different communities (Newman, 2006).</p>
+<p><strong>Modularity</strong>, <em>Q</em>, is a measure of the density of links inside communities in relation to the density of links between communities (Fortunato, 2010). Networks with higher <em>Q</em> are said to show strong evidence of community structure.</p>
+<div id="how-do-network-scientists-find-communities-in-networks" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> How do network scientists “find” communities in networks?<a href="ch8.html#how-do-network-scientists-find-communities-in-networks" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Many community detection methods have been developed by network scientists to detect communities in networks. Each differs in their implementation, and reflects the creator’s implicit definition of what is a community. In this section we will explore just 4 of these methods.</p>
+<p>If you are interested to learn more about community detection, check out Fortunato (2010) who provided a comprehensive comparison of various community detection techniques.</p>
+<p>In this section we will use the undirected, unweighted version of the karate network from Chapter 4 for demonstration.</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="ch8.html#cb267-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb267-2"><a href="ch8.html#cb267-2" tabindex="-1"></a></span>
+<span id="cb267-3"><a href="ch8.html#cb267-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb267-4"><a href="ch8.html#cb267-4" tabindex="-1"></a></span>
+<span id="cb267-5"><a href="ch8.html#cb267-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
+<pre><code>## IGRAPH 68176cd UN-- 34 78 -- 
+## + attr: name (v/c)</code></pre>
+<p>As you will see in the rest of this chapter, the template for conducting a community detection analysis is identical across the four methods. <code>igraph</code> contains additional community detection algorithms not covered in this chapter, but you should be able to generalize the application of these algorithms based on the code provided below. Generally, community detection algorithms have in-built default parameters that are used to optimize performance. At the completion of the method, it returns the communities (i.e., how the individual nodes are grouped), and the modularity score based on this final grouping.</p>
+</div>
+<div id="edge-betweenness-divisive-method" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Edge betweenness (“divisive method”)<a href="ch8.html#edge-betweenness-divisive-method" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The core idea behind the edge betweenness community detection method is that edges connecting separate communities tend to have high edge betweenness as all the shortest paths from one community to another must necessarily traverse through these edges.</p>
+<p>The algorithm works by calculating the edge betweenness of all edges of the graph, and then removing the edge with the highest edge betweenness score. It recalculates the edge betweenness of remaining edges and again removes the one with the highest score. This repeats until modularity cannot be improved further.</p>
+<p>Because there may be random components in the community detection algorithm, it is a good idea to use <code>set.seed</code> to ensure that your results are reproducible. Usually the algorithm is repeated several times, and the results are compared across runs. For now we will just run the algorithm once and return to this point at the end of this section.</p>
+<p>For the edge betweenness method, we use the <code>cluster_edge_betweenness</code> function. Functions that begin with <code>cluster_</code> are community detection methods in <code>igraph</code>. The outputs of the community detection are saved into the <code>karate_edge</code> object.</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="ch8.html#cb269-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb269-2"><a href="ch8.html#cb269-2" tabindex="-1"></a></span>
+<span id="cb269-3"><a href="ch8.html#cb269-3" tabindex="-1"></a>karate_edge <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(karate_uu)</span></code></pre></div>
+<p>Normally, we wish to know at least these 3 things from the community detection results, which we can easily retrieve from the <code>karate_edge</code> object:</p>
+<ol style="list-style-type: decimal">
+<li>The community membership of each node in the network (i.e., which nodes belong to the same community?). In the code below, this is merged with the node names and only the first 10 nodes are shown. It would be straightforward to save and export this information for further analyses; see the commented code below.</li>
+<li>We also want to know how nodes are distributed across the communities. By using the <code>table</code> function we get a count of the community labels. Here, we can see that there are a total of 5 communities, the largest one consisting of 12 nodes (community 4) and the smallest one consisting of a single node (community 5).</li>
+<li>The modularity of the final community grouping, which gives us a sense of the quality of partitions retrieved by the algorithm. Here, <em>Q</em> is 0.401.</li>
+</ol>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ch8.html#cb270-1" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb270-2"><a href="ch8.html#cb270-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_edge<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb270-3"><a href="ch8.html#cb270-3" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<pre><code>##        node community
+## 1     Mr Hi         1
+## 2   Actor 2         1
+## 3   Actor 3         2
+## 4   Actor 4         1
+## 5   Actor 5         3
+## 6   Actor 6         3
+## 7   Actor 7         3
+## 8   Actor 9         4
+## 9  Actor 10         5
+## 10 Actor 14         1</code></pre>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ch8.html#cb272-1" tabindex="-1"></a><span class="do">### saving the results </span></span>
+<span id="cb272-2"><a href="ch8.html#cb272-2" tabindex="-1"></a><span class="co"># results &lt;- data.frame(node = V(karate_uu)$name, community = karate_edge$membership)</span></span>
+<span id="cb272-3"><a href="ch8.html#cb272-3" tabindex="-1"></a><span class="co"># write.csv(results, file = &#39;results.csv&#39;)</span></span>
+<span id="cb272-4"><a href="ch8.html#cb272-4" tabindex="-1"></a></span>
+<span id="cb272-5"><a href="ch8.html#cb272-5" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb272-6"><a href="ch8.html#cb272-6" tabindex="-1"></a><span class="fu">table</span>(karate_edge<span class="sc">$</span>membership) </span></code></pre></div>
+<pre><code>## 
+##  1  2  3  4  5 
+## 10  6  5 12  1</code></pre>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ch8.html#cb274-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb274-2"><a href="ch8.html#cb274-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_edge)  </span></code></pre></div>
+<pre><code>## [1] 0.4012985</code></pre>
+<p>In the subsequent sections, you will notice that the structure of the code/output is identical, except for the specific community detection function used.</p>
+</div>
+<div id="louvain-method-greedy-maximization-method" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Louvain method (“greedy, maximization method”)<a href="ch8.html#louvain-method-greedy-maximization-method" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The core idea behind the Louvain community detection method is that communities are essentially “mergers” of small communities (Blondel et al., 2008), reflecting the self-similar nature of complex networks.</p>
+<ol style="list-style-type: decimal">
+<li><p>Each node is assigned to one community such that there are as many communities as there are nodes. Then remove node <em>i</em> from its community and place it in the community of the neighbor which yields the greatest gain in modularity. Repeat for all nodes in the network.</p></li>
+<li><p>A new network is built where nodes are the communities found in the previous phase. Repeat Step 1.</p></li>
+<li><p>Repeat Step 1 and 2 until it is not possible to further increase the value of <em>Q</em>.</p></li>
+</ol>
+<p>For the Louvain method, we use the <code>cluster_louvain</code> function. The outputs of the community detection are saved into the <code>karate_louvain</code> object.</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="ch8.html#cb276-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb276-2"><a href="ch8.html#cb276-2" tabindex="-1"></a></span>
+<span id="cb276-3"><a href="ch8.html#cb276-3" tabindex="-1"></a>karate_louvain <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate_uu)</span>
+<span id="cb276-4"><a href="ch8.html#cb276-4" tabindex="-1"></a></span>
+<span id="cb276-5"><a href="ch8.html#cb276-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb276-6"><a href="ch8.html#cb276-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_louvain<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb276-7"><a href="ch8.html#cb276-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<pre><code>##        node community
+## 1     Mr Hi         1
+## 2   Actor 2         1
+## 3   Actor 3         1
+## 4   Actor 4         1
+## 5   Actor 5         2
+## 6   Actor 6         2
+## 7   Actor 7         2
+## 8   Actor 9         3
+## 9  Actor 10         1
+## 10 Actor 14         1</code></pre>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ch8.html#cb278-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb278-2"><a href="ch8.html#cb278-2" tabindex="-1"></a><span class="fu">table</span>(karate_louvain<span class="sc">$</span>membership) </span></code></pre></div>
+<pre><code>## 
+##  1  2  3  4 
+## 12  5 11  6</code></pre>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="ch8.html#cb280-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb280-2"><a href="ch8.html#cb280-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_louvain)  </span></code></pre></div>
+<pre><code>## [1] 0.4188034</code></pre>
+<p>Notice that the Louvain method returned 4 communities ranging in size from 5 to 12, with a <em>Q</em> of 0.419.</p>
+</div>
+<div id="random-walker-dynamic-method" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Random walker (“dynamic method”)<a href="ch8.html#random-walker-dynamic-method" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The core idea behind the random walker community detection method is that if there are communities in the network, a random walker will tend to spend more time inside the community than outside.</p>
+<p>The Walktrap algorithm groups nodes together based on the similarities of the paths taken by the random walker starting from that node. The idea is to merge sets of vertices that have low “distance” from each other.</p>
+<p>For the random walker method, we use the <code>cluster_walktrap</code> function. The outputs of the community detection are saved into the <code>karate_walktrap</code> object.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="ch8.html#cb282-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb282-2"><a href="ch8.html#cb282-2" tabindex="-1"></a></span>
+<span id="cb282-3"><a href="ch8.html#cb282-3" tabindex="-1"></a>karate_walktrap <span class="ot">&lt;-</span> <span class="fu">cluster_walktrap</span>(karate_uu)</span>
+<span id="cb282-4"><a href="ch8.html#cb282-4" tabindex="-1"></a></span>
+<span id="cb282-5"><a href="ch8.html#cb282-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb282-6"><a href="ch8.html#cb282-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_walktrap<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb282-7"><a href="ch8.html#cb282-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<pre><code>##        node community
+## 1     Mr Hi         1
+## 2   Actor 2         1
+## 3   Actor 3         2
+## 4   Actor 4         1
+## 5   Actor 5         5
+## 6   Actor 6         5
+## 7   Actor 7         5
+## 8   Actor 9         2
+## 9  Actor 10         2
+## 10 Actor 14         2</code></pre>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="ch8.html#cb284-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb284-2"><a href="ch8.html#cb284-2" tabindex="-1"></a><span class="fu">table</span>(karate_walktrap<span class="sc">$</span>membership) </span></code></pre></div>
+<pre><code>## 
+## 1 2 3 4 5 
+## 9 7 9 4 5</code></pre>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="ch8.html#cb286-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb286-2"><a href="ch8.html#cb286-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_walktrap)  </span></code></pre></div>
+<pre><code>## [1] 0.3532216</code></pre>
+<p>Notice that the random walker method returned 5 communities ranging in size from 5 to 9, with a <em>Q</em> of 0.353.</p>
+</div>
+<div id="infomap-information-theoretic-method" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Infomap (“information-theoretic method”)<a href="ch8.html#infomap-information-theoretic-method" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The core idea behind the Infomap community detection method is to leverage on information-theoretic methods to “describe” the information flow of the entire system (based on random walks).</p>
+<p>The Infomap algorithm attempts to describe the random walker’s trajectory using the fewest number of “bits” of information. Communities are groups of nodes that receive new “names” during the compression process.</p>
+<p>For the Infomap method, we use the <code>cluster_infomap</code> function. The outputs of the community detection are saved into the <code>karate_infomap</code> object.</p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="ch8.html#cb288-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb288-2"><a href="ch8.html#cb288-2" tabindex="-1"></a></span>
+<span id="cb288-3"><a href="ch8.html#cb288-3" tabindex="-1"></a>karate_infomap <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(karate_uu)</span>
+<span id="cb288-4"><a href="ch8.html#cb288-4" tabindex="-1"></a></span>
+<span id="cb288-5"><a href="ch8.html#cb288-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb288-6"><a href="ch8.html#cb288-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_infomap<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb288-7"><a href="ch8.html#cb288-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<pre><code>##        node community
+## 1     Mr Hi         1
+## 2   Actor 2         1
+## 3   Actor 3         1
+## 4   Actor 4         1
+## 5   Actor 5         2
+## 6   Actor 6         2
+## 7   Actor 7         2
+## 8   Actor 9         3
+## 9  Actor 10         1
+## 10 Actor 14         1</code></pre>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="ch8.html#cb290-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb290-2"><a href="ch8.html#cb290-2" tabindex="-1"></a><span class="fu">table</span>(karate_infomap<span class="sc">$</span>membership) </span></code></pre></div>
+<pre><code>## 
+##  1  2  3 
+## 12  5 17</code></pre>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="ch8.html#cb292-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb292-2"><a href="ch8.html#cb292-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_infomap)  </span></code></pre></div>
+<pre><code>## [1] 0.4020381</code></pre>
+<p>Notice that the Infomap method returned 3 communities ranging in size from 5 to 17, with a <em>Q</em> of 0.402.</p>
+</div>
+<div id="comparison-of-methods" class="section level2 hasAnchor" number="8.6">
+<h2><span class="header-section-number">8.6</span> Comparison of methods<a href="ch8.html#comparison-of-methods" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Fortunato (2010) conducted a comprehensive comparison of community detection techniques. Generally, Rosvall &amp; Bergstorm’s Infomap and Blondel et al.’s greedy modularity maximization method performed the best. Both also were relatively fast algorithms that were efficient for large networks.</p>
+<p>The code below illustrates the similarities and differences in the results of the various community detection methods.</p>
+<div id="comparing-modularity" class="section level3 hasAnchor" number="8.6.1">
+<h3><span class="header-section-number">8.6.1</span> Comparing modularity<a href="ch8.html#comparing-modularity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this example, the Louvain method yielded community groupings that led to the highest <em>Q</em> score of 0.419, whereas the Walktrap method yielded the lowest <em>Q</em> score of 0.353. Overall, there is moderately strong evidence of community structure in the karate network with modularity scores approximating ~0.40 across the four community detection methods used.</p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="ch8.html#cb294-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_edge)</span></code></pre></div>
+<pre><code>## [1] 0.4012985</code></pre>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="ch8.html#cb296-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_louvain)</span></code></pre></div>
+<pre><code>## [1] 0.4188034</code></pre>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="ch8.html#cb298-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_walktrap)</span></code></pre></div>
+<pre><code>## [1] 0.3532216</code></pre>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="ch8.html#cb300-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_infomap)</span></code></pre></div>
+<pre><code>## [1] 0.4020381</code></pre>
+</div>
+<div id="comparing-community-membership" class="section level3 hasAnchor" number="8.6.2">
+<h3><span class="header-section-number">8.6.2</span> Comparing community membership<a href="ch8.html#comparing-community-membership" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The code below provides the following visualization that compares how different methods are grouping nodes into communities.</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="ch8.html#cb302-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)<span class="sc">+</span>.<span class="dv">6</span>, <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># reduce margins and plot both networks together</span></span>
+<span id="cb302-2"><a href="ch8.html#cb302-2" tabindex="-1"></a></span>
+<span id="cb302-3"><a href="ch8.html#cb302-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb302-4"><a href="ch8.html#cb302-4" tabindex="-1"></a>fixed_l <span class="ot">&lt;-</span> <span class="fu">layout_with_fr</span>(karate_uu) <span class="co"># to fix node layout across plots </span></span>
+<span id="cb302-5"><a href="ch8.html#cb302-5" tabindex="-1"></a></span>
+<span id="cb302-6"><a href="ch8.html#cb302-6" tabindex="-1"></a><span class="fu">plot</span>(karate_edge, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;edge betweenness&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
+<span id="cb302-7"><a href="ch8.html#cb302-7" tabindex="-1"></a><span class="fu">plot</span>(karate_louvain, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Louvain&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
+<span id="cb302-8"><a href="ch8.html#cb302-8" tabindex="-1"></a><span class="fu">plot</span>(karate_walktrap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Walktrap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
+<span id="cb302-9"><a href="ch8.html#cb302-9" tabindex="-1"></a><span class="fu">plot</span>(karate_infomap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Infomap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
+<p>More formally, we can make use of statistical methods such as the Fleiss’ Kappa test to quantify the extent to which the groupings are consistent across the 4 methods.</p>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="ch8.html#cb303-1" tabindex="-1"></a><span class="co"># first, compile the community membership results from all methods </span></span>
+<span id="cb303-2"><a href="ch8.html#cb303-2" tabindex="-1"></a>compare_membership <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb303-3"><a href="ch8.html#cb303-3" tabindex="-1"></a>  <span class="at">edge =</span> karate_edge<span class="sc">$</span>membership,</span>
+<span id="cb303-4"><a href="ch8.html#cb303-4" tabindex="-1"></a>  <span class="at">louvain =</span> karate_louvain<span class="sc">$</span>membership,</span>
+<span id="cb303-5"><a href="ch8.html#cb303-5" tabindex="-1"></a>  <span class="at">walktrap =</span> karate_walktrap<span class="sc">$</span>membership,</span>
+<span id="cb303-6"><a href="ch8.html#cb303-6" tabindex="-1"></a>  <span class="at">infomap =</span> karate_infomap<span class="sc">$</span>membership</span>
+<span id="cb303-7"><a href="ch8.html#cb303-7" tabindex="-1"></a>)</span>
+<span id="cb303-8"><a href="ch8.html#cb303-8" tabindex="-1"></a></span>
+<span id="cb303-9"><a href="ch8.html#cb303-9" tabindex="-1"></a><span class="co"># compute consistency that two nodes tend to be found in the same cluster </span></span>
+<span id="cb303-10"><a href="ch8.html#cb303-10" tabindex="-1"></a><span class="fu">library</span>(irr) <span class="co"># we need this library for the kappa test of interrater agreement </span></span>
+<span id="cb303-11"><a href="ch8.html#cb303-11" tabindex="-1"></a></span>
+<span id="cb303-12"><a href="ch8.html#cb303-12" tabindex="-1"></a><span class="fu">kappam.fleiss</span>(compare_membership)</span></code></pre></div>
+<pre><code>##  Fleiss&#39; Kappa for m Raters
+## 
+##  Subjects = 34 
+##    Raters = 4 
+##     Kappa = 0.332 
+## 
+##         z = 8.46 
+##   p-value = 0</code></pre>
+<p>Although the Kappa test is significant at <em>p</em> &lt; .05, indicating that the groupings are more consistent than expected from chance, the Kappa value of 0.332 is relatively low. This suggests that the community detection methods are returning similar but also somewhat different results in the community membership of individual nodes.</p>
+<p>{Note: You may need to relabel so that ‘1’ corresponds to most popular category, etc.}</p>
+</div>
+</div>
+<div id="things-to-note" class="section level2 hasAnchor" number="8.7">
+<h2><span class="header-section-number">8.7</span> Things to note<a href="ch8.html#things-to-note" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before ending this chapter it is worth highlighting the following.</p>
+<div id="weighted-and-directed-graphs" class="section level3 hasAnchor" number="8.7.1">
+<h3><span class="header-section-number">8.7.1</span> Weighted and directed graphs<a href="ch8.html#weighted-and-directed-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Some of the community detection methods listed above can make use of weighted and directed information in the community detection process; please refer to the documentation for details. Typically, you would need to modify the arguments in the <code>cluster_</code> function to indicate that edge weights and direction should be considered. Please note that the interpretation of edge weights as distances or connection strength (see Chapter 7) can differ depending on the community detection method. Again, refer to the documentation for more information.</p>
+</div>
+<div id="networks-with-multiple-components" class="section level3 hasAnchor" number="8.7.2">
+<h3><span class="header-section-number">8.7.2</span> Networks with multiple components<a href="ch8.html#networks-with-multiple-components" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As discussed in Chapter 6, not all nodes in the network necessarily forms a single connected component. In networks containing multiple network components, it is very likely that nodes in the smaller components are grouped together as a community in any community detection method. This is because doing so naturally optimizes modularity; hence, communities would never contain nodes that come from different components. It may make more sense to focus the community detection on the largest connected component of the network.</p>
+</div>
+<div id="calculating-modularity-for-self-defined-communities" class="section level3 hasAnchor" number="8.7.3">
+<h3><span class="header-section-number">8.7.3</span> Calculating modularity for self-defined communities<a href="ch8.html#calculating-modularity-for-self-defined-communities" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>It is possible to compute modularity based on pre-specified communities. For instance, you may have prior information on the subgroups that each node in the network belongs to (i.e., community labels that are extrinsic to the network structure; e.g., student interest groups or majors) and you want to see how those groupings correspond to the connectivity structure.</p>
+<p>If the modularity of those labels are quite high and comparable to the community detection results, it would suggest that nodes that belong to the same extrinsic group also have relatively higher density of connections internally, relative to the density of connections across different groups.</p>
+<p>In the toy example below, I provided “made-up” groups to the karate network through the node-attribute “suburb”. Because these labels were randomly generated, we would expect modularity computed based on these groups to be very low or close to zero.</p>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="ch8.html#cb305-1" tabindex="-1"></a><span class="co"># let&#39;s assume we have information about the suburb that each karate member lives in </span></span>
+<span id="cb305-2"><a href="ch8.html#cb305-2" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>suburb <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb305-3"><a href="ch8.html#cb305-3" tabindex="-1"></a></span>
+<span id="cb305-4"><a href="ch8.html#cb305-4" tabindex="-1"></a><span class="fu">modularity</span>(karate_uu, <span class="at">membership =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>suburb) <span class="co"># specify your own labels </span></span></code></pre></div>
+<pre><code>## [1] -0.06402038</code></pre>
+</div>
+<div id="comparing-different-runs" class="section level3 hasAnchor" number="8.7.4">
+<h3><span class="header-section-number">8.7.4</span> Comparing different runs<a href="ch8.html#comparing-different-runs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As mentioned in the introduction of this chapter, you can get slightly different results even when re-running the same community detection method on the same network (assuming that you did not initially set a stable random seed). It is a good idea to repeat this multiple times to check if your results are generally consistent. The code below shows you how to run the algorithm multiple times and save the outputs into a list object that you can later investigate further.</p>
+<p>As you can see there are minor variations in the modularity scores for each instance, and the very high Kappa score of 0.95 indicates highly consistent communities across runs.</p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="ch8.html#cb307-1" tabindex="-1"></a>cluster_results <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb307-2"><a href="ch8.html#cb307-2" tabindex="-1"></a></span>
+<span id="cb307-3"><a href="ch8.html#cb307-3" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) { <span class="co"># change 5 to a different number if you want more runs </span></span>
+<span id="cb307-4"><a href="ch8.html#cb307-4" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb307-5"><a href="ch8.html#cb307-5" tabindex="-1"></a>  </span>
+<span id="cb307-6"><a href="ch8.html#cb307-6" tabindex="-1"></a>  cluster_results[[i]] <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate_uu)</span>
+<span id="cb307-7"><a href="ch8.html#cb307-7" tabindex="-1"></a>}</span>
+<span id="cb307-8"><a href="ch8.html#cb307-8" tabindex="-1"></a></span>
+<span id="cb307-9"><a href="ch8.html#cb307-9" tabindex="-1"></a><span class="co"># compare Q</span></span>
+<span id="cb307-10"><a href="ch8.html#cb307-10" tabindex="-1"></a><span class="fu">sapply</span>(cluster_results, modularity)</span></code></pre></div>
+<pre><code>## [1] 0.4188034 0.4188034 0.4188034 0.4155983 0.4155983</code></pre>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="ch8.html#cb309-1" tabindex="-1"></a><span class="co"># compare consistency of membership </span></span>
+<span id="cb309-2"><a href="ch8.html#cb309-2" tabindex="-1"></a><span class="co"># first, compile the community membership results from all runs into a single df</span></span>
+<span id="cb309-3"><a href="ch8.html#cb309-3" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(cluster_results, <span class="cf">function</span>(x) x<span class="sc">$</span>membership)</span>
+<span id="cb309-4"><a href="ch8.html#cb309-4" tabindex="-1"></a>df1_merged <span class="ot">&lt;-</span> <span class="fu">do.call</span>(cbind, df1)</span>
+<span id="cb309-5"><a href="ch8.html#cb309-5" tabindex="-1"></a></span>
+<span id="cb309-6"><a href="ch8.html#cb309-6" tabindex="-1"></a><span class="fu">kappam.fleiss</span>(df1_merged)</span></code></pre></div>
+<pre><code>##  Fleiss&#39; Kappa for m Raters
+## 
+##  Subjects = 34 
+##    Raters = 5 
+##     Kappa = 0.95 
+## 
+##         z = 28.6 
+##   p-value = 0</code></pre>
+</div>
+<div id="other-community-detection-methods" class="section level3 hasAnchor" number="8.7.5">
+<h3><span class="header-section-number">8.7.5</span> Other community detection methods<a href="ch8.html#other-community-detection-methods" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Several other community detection methods can be implemented in <code>igraph</code>:</p>
+<ul>
+<li><a href="https://igraph.org/r/doc/cluster_fast_greedy.html">cluster_fast_greedy</a> - fast greedy modularity optimization algorithm</li>
+<li><a href="https://igraph.org/r/doc/cluster_fluid_communities.html">cluster_fluid_communities</a> - community detection algorithm based on interacting fluids</li>
+<li><a href="https://igraph.org/r/doc/cluster_label_prop.html">cluster_label_prop</a> - community detection based on majority voting of label in the neighborhood of the vertex</li>
+<li><a href="https://igraph.org/r/doc/cluster_leading_eigen.html">cluster_leading_eigen</a> - community detection based on the leading eigenvector</li>
+<li><a href="https://igraph.org/r/doc/cluster_leiden.html">cluster_leiden</a> - Leiden algorithm</li>
+<li><a href="https://igraph.org/r/doc/cluster_optimal.html">cluster_optimal</a> - community detection by maximizing the modularity measure over all possible partitions.</li>
+<li><a href="https://igraph.org/r/doc/cluster_spinglass.html">cluster_spinglass</a> - find communities in graphs via a spin-glass model and simulated annealing</li>
+</ul>
+</div>
+</div>
+<div id="exercise-6" class="section level2 hasAnchor" number="8.8">
+<h2><span class="header-section-number">8.8</span> Exercise<a href="ch8.html#exercise-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li><p>Pick a network for your own choosing for this exercise.</p></li>
+<li><p>Pick one of the 4 community detection methods that you’ve learned about. Conduct a community detection analysis with that method.</p></li>
+</ol>
+<ul>
+<li>What is the modularity, <em>Q</em>, of the network?</li>
+<li>How many communities were detected? What was the size of the largest one? What was the size of the smallest one?</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Bonus questions:</li>
+</ol>
+<ul>
+<li>Can you save the output of the node community membership results as a <code>.csv</code> file?</li>
+<li>Which community detection method produced the highest modularity value?</li>
+<li>What is the meaning of these communities specific to the network that you picked for this exercise?</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch7.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch9.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/csqsiew/intro-to-igraph08-meso.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

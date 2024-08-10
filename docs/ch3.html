@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Chapter 3: Introduction to network objects | Introduction to Network Analysis in igraph</title>
+  <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Chapter 3: Introduction to network objects | Introduction to Network Analysis in igraph" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Chapter 3: Introduction to network objects | Introduction to Network Analysis in igraph" />
+  
+  <meta name="twitter:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Cynthia S. Q. Siew" />
+
+
+<meta name="date" content="2024-08-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch2.html"/>
+<link rel="next" href="ch4.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Network Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction to Network Analysis in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#what-is-this-book-about"><i class="fa fa-check"></i><b>0.1</b> What is this book about?</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#why-write-this-book"><i class="fa fa-check"></i><b>0.2</b> Why write this book?</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="0.4" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>0.4</b> About the author</a></li>
+<li class="chapter" data-level="0.5" data-path="index.html"><a href="index.html#table-of-contents"><i class="fa fa-check"></i><b>0.5</b> Table of Contents</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="ch1.html"><a href="ch1.html"><i class="fa fa-check"></i><b>1</b> Chapter 1: Installation and set up</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch1.html"><a href="ch1.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="ch1.html"><a href="ch1.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.2</b> RStudio Cloud</a></li>
+<li class="chapter" data-level="1.3" data-path="ch1.html"><a href="ch1.html#installing-r-packages"><i class="fa fa-check"></i><b>1.3</b> Installing R packages</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="ch1.html"><a href="ch1.html#exercise"><i class="fa fa-check"></i><b>1.3.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i><b>2</b> Chapter 2: Programming and data science basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch2.html"><a href="ch2.html#the-rstudio-environment"><i class="fa fa-check"></i><b>2.1</b> The RStudio Environment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="ch2.html"><a href="ch2.html#setting-up-a-project"><i class="fa fa-check"></i><b>2.1.1</b> Setting up a Project</a></li>
+<li class="chapter" data-level="2.1.2" data-path="ch2.html"><a href="ch2.html#layout-of-rstudio"><i class="fa fa-check"></i><b>2.1.2</b> Layout of RStudio</a></li>
+<li class="chapter" data-level="2.1.3" data-path="ch2.html"><a href="ch2.html#r-scripts-vs.-console"><i class="fa fa-check"></i><b>2.1.3</b> R scripts vs. Console</a></li>
+<li class="chapter" data-level="2.1.4" data-path="ch2.html"><a href="ch2.html#working-with-r-scripts-is-recommended"><i class="fa fa-check"></i><b>2.1.4</b> Working with R scripts is recommended!</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="ch2.html"><a href="ch2.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.2</b> Variables and Data Types</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="ch2.html"><a href="ch2.html#what-are-variables"><i class="fa fa-check"></i><b>2.2.1</b> What are variables?</a></li>
+<li class="chapter" data-level="2.2.2" data-path="ch2.html"><a href="ch2.html#removing-objects"><i class="fa fa-check"></i><b>2.2.2</b> Removing objects</a></li>
+<li class="chapter" data-level="2.2.3" data-path="ch2.html"><a href="ch2.html#saving-objects"><i class="fa fa-check"></i><b>2.2.3</b> Saving objects</a></li>
+<li class="chapter" data-level="2.2.4" data-path="ch2.html"><a href="ch2.html#loading-objects"><i class="fa fa-check"></i><b>2.2.4</b> Loading objects</a></li>
+<li class="chapter" data-level="2.2.5" data-path="ch2.html"><a href="ch2.html#what-are-vectors"><i class="fa fa-check"></i><b>2.2.5</b> What are vectors?</a></li>
+<li class="chapter" data-level="2.2.6" data-path="ch2.html"><a href="ch2.html#cool-things-you-can-do-with-vectors"><i class="fa fa-check"></i><b>2.2.6</b> Cool things you can do with vectors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="ch2.html"><a href="ch2.html#functions-and-arguments"><i class="fa fa-check"></i><b>2.3</b> Functions and Arguments</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="ch2.html"><a href="ch2.html#what-are-functions"><i class="fa fa-check"></i><b>2.3.1</b> What are functions?</a></li>
+<li class="chapter" data-level="2.3.2" data-path="ch2.html"><a href="ch2.html#what-are-arguments"><i class="fa fa-check"></i><b>2.3.2</b> What are arguments?</a></li>
+<li class="chapter" data-level="2.3.3" data-path="ch2.html"><a href="ch2.html#multiple-arguments"><i class="fa fa-check"></i><b>2.3.3</b> Multiple arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="ch2.html"><a href="ch2.html#file-paths-and-working-directory"><i class="fa fa-check"></i><b>2.4</b> File Paths and Working Directory</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="ch2.html"><a href="ch2.html#navigation-in-computers"><i class="fa fa-check"></i><b>2.4.1</b> Navigation in computers</a></li>
+<li class="chapter" data-level="2.4.2" data-path="ch2.html"><a href="ch2.html#helping-rstudio-find-your-stuff"><i class="fa fa-check"></i><b>2.4.2</b> Helping RStudio find your stuff</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="ch2.html"><a href="ch2.html#packages"><i class="fa fa-check"></i><b>2.5</b> Packages</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="ch2.html"><a href="ch2.html#what-are-packageslibraries"><i class="fa fa-check"></i><b>2.5.1</b> What are packages/libraries?</a></li>
+<li class="chapter" data-level="2.5.2" data-path="ch2.html"><a href="ch2.html#installation-vs.-loading"><i class="fa fa-check"></i><b>2.5.2</b> Installation vs. Loading</a></li>
+<li class="chapter" data-level="2.5.3" data-path="ch2.html"><a href="ch2.html#detaching-packages"><i class="fa fa-check"></i><b>2.5.3</b> Detaching packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="ch2.html"><a href="ch2.html#special-datatypes"><i class="fa fa-check"></i><b>2.6</b> Special Datatypes</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="ch2.html"><a href="ch2.html#dataframes"><i class="fa fa-check"></i><b>2.6.1</b> Dataframes</a></li>
+<li class="chapter" data-level="2.6.2" data-path="ch2.html"><a href="ch2.html#loading-data-into-rstudio"><i class="fa fa-check"></i><b>2.6.2</b> Loading data into RStudio</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i><b>3</b> Chapter 3: Introduction to network objects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch3.html"><a href="ch3.html#what-is-a-network"><i class="fa fa-check"></i><b>3.1</b> What is a network?</a></li>
+<li class="chapter" data-level="3.2" data-path="ch3.html"><a href="ch3.html#your-first-network"><i class="fa fa-check"></i><b>3.2</b> Your first network</a></li>
+<li class="chapter" data-level="3.3" data-path="ch3.html"><a href="ch3.html#your-second-network"><i class="fa fa-check"></i><b>3.3</b> Your second network</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch3.html"><a href="ch3.html#exercise-1"><i class="fa fa-check"></i><b>3.3.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="ch3.html"><a href="ch3.html#node-and-edge-attributes"><i class="fa fa-check"></i><b>3.4</b> Node and edge attributes</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="ch3.html"><a href="ch3.html#exercise-2"><i class="fa fa-check"></i><b>3.4.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="ch3.html"><a href="ch3.html#graph-attributes"><i class="fa fa-check"></i><b>3.5</b> Graph attributes</a></li>
+<li class="chapter" data-level="3.6" data-path="ch3.html"><a href="ch3.html#useful-functions-for-working-with-attributes"><i class="fa fa-check"></i><b>3.6</b> Useful functions for working with attributes</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i><b>4</b> Chapter 4: From data to networks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch4.html"><a href="ch4.html#how-are-networks-represented"><i class="fa fa-check"></i><b>4.1</b> How are networks represented?</a></li>
+<li class="chapter" data-level="4.2" data-path="ch4.html"><a href="ch4.html#edge-list"><i class="fa fa-check"></i><b>4.2</b> Edge List</a></li>
+<li class="chapter" data-level="4.3" data-path="ch4.html"><a href="ch4.html#adjacency-matrix"><i class="fa fa-check"></i><b>4.3</b> Adjacency Matrix</a></li>
+<li class="chapter" data-level="4.4" data-path="ch4.html"><a href="ch4.html#importing-your-data-and-converting-into-a-network"><i class="fa fa-check"></i><b>4.4</b> Importing your data and converting into a network</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="ch4.html"><a href="ch4.html#importing-edge-lists"><i class="fa fa-check"></i><b>4.4.1</b> Importing edge lists</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ch4.html"><a href="ch4.html#importing-adjacency-matrices"><i class="fa fa-check"></i><b>4.4.2</b> Importing adjacency matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ch4.html"><a href="ch4.html#exercise-3"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i><b>5</b> Chapter 5: Manipulating network objects</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch5.html"><a href="ch5.html#set-up"><i class="fa fa-check"></i><b>5.1</b> Set up</a></li>
+<li class="chapter" data-level="5.2" data-path="ch5.html"><a href="ch5.html#adding-node-attributes"><i class="fa fa-check"></i><b>5.2</b> Adding node attributes</a></li>
+<li class="chapter" data-level="5.3" data-path="ch5.html"><a href="ch5.html#adding-edge-attributes"><i class="fa fa-check"></i><b>5.3</b> Adding edge attributes</a></li>
+<li class="chapter" data-level="5.4" data-path="ch5.html"><a href="ch5.html#subsetting-the-network"><i class="fa fa-check"></i><b>5.4</b> Subsetting the network</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch6.html"><a href="ch6.html"><i class="fa fa-check"></i><b>6</b> Chapter 6: Macro-level network measures</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch6.html"><a href="ch6.html#average-degree"><i class="fa fa-check"></i><b>6.1</b> Average Degree</a></li>
+<li class="chapter" data-level="6.2" data-path="ch6.html"><a href="ch6.html#average-shortest-path-length"><i class="fa fa-check"></i><b>6.2</b> Average Shortest Path Length</a></li>
+<li class="chapter" data-level="6.3" data-path="ch6.html"><a href="ch6.html#global-clustering-coefficient"><i class="fa fa-check"></i><b>6.3</b> Global Clustering Coefficient</a></li>
+<li class="chapter" data-level="6.4" data-path="ch6.html"><a href="ch6.html#small-world-index"><i class="fa fa-check"></i><b>6.4</b> Small World Index</a></li>
+<li class="chapter" data-level="6.5" data-path="ch6.html"><a href="ch6.html#network-density"><i class="fa fa-check"></i><b>6.5</b> Network Density</a></li>
+<li class="chapter" data-level="6.6" data-path="ch6.html"><a href="ch6.html#network-diameter"><i class="fa fa-check"></i><b>6.6</b> Network Diameter</a></li>
+<li class="chapter" data-level="6.7" data-path="ch6.html"><a href="ch6.html#assortative-mixing"><i class="fa fa-check"></i><b>6.7</b> Assortative Mixing</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-degree-continuous-attributes"><i class="fa fa-check"></i><b>6.7.1</b> Assortative Mixing by Degree (continuous attributes)</a></li>
+<li class="chapter" data-level="6.7.2" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-node-attributes-categorical-attributes"><i class="fa fa-check"></i><b>6.7.2</b> Assortative Mixing by Node Attributes (categorical attributes)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="ch6.html"><a href="ch6.html#network-components"><i class="fa fa-check"></i><b>6.8</b> Network Components</a></li>
+<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-4"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch7.html"><a href="ch7.html"><i class="fa fa-check"></i><b>7</b> Chapter 7: Micro-level network measures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch7.html"><a href="ch7.html#degree"><i class="fa fa-check"></i><b>7.1</b> Degree</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="ch7.html"><a href="ch7.html#in--out--all-degree"><i class="fa fa-check"></i><b>7.1.1</b> In-, out-, all-degree</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ch7.html"><a href="ch7.html#strength"><i class="fa fa-check"></i><b>7.2</b> Strength</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch7.html"><a href="ch7.html#in--out--all-strength"><i class="fa fa-check"></i><b>7.2.1</b> In-, out-, all-strength</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch7.html"><a href="ch7.html#local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3</b> Local clustering coefficient</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="ch7.html"><a href="ch7.html#weighted-local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3.1</b> Weighted local clustering coefficient</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ch7.html"><a href="ch7.html#closeness-centrality"><i class="fa fa-check"></i><b>7.4</b> Closeness centrality</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="ch7.html"><a href="ch7.html#weighted-closeness-centrality"><i class="fa fa-check"></i><b>7.4.1</b> Weighted closeness centrality</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ch7.html"><a href="ch7.html#interpretation-of-edge-weights"><i class="fa fa-check"></i><b>7.4.2</b> Interpretation of edge weights</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ch7.html"><a href="ch7.html#directed-closeness-centrality"><i class="fa fa-check"></i><b>7.4.3</b> Directed closeness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ch7.html"><a href="ch7.html#betweenness-centrality"><i class="fa fa-check"></i><b>7.5</b> Betweenness centrality</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ch7.html"><a href="ch7.html#weighted-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.1</b> Weighted betweenness centrality</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ch7.html"><a href="ch7.html#directed-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.2</b> Directed betweenness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ch7.html"><a href="ch7.html#page-rank-centrality"><i class="fa fa-check"></i><b>7.6</b> Page Rank centrality</a></li>
+<li class="chapter" data-level="7.7" data-path="ch7.html"><a href="ch7.html#other-forms-of-node-centrality"><i class="fa fa-check"></i><b>7.7</b> Other forms of node centrality</a></li>
+<li class="chapter" data-level="7.8" data-path="ch7.html"><a href="ch7.html#exporting-node-centrality-measures-for-data-analysis"><i class="fa fa-check"></i><b>7.8</b> Exporting node centrality measures for data analysis</a></li>
+<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-5"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ch8.html"><a href="ch8.html"><i class="fa fa-check"></i><b>8</b> Chapter 8: Meso-level network measures</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ch8.html"><a href="ch8.html#how-do-network-scientists-find-communities-in-networks"><i class="fa fa-check"></i><b>8.1</b> How do network scientists “find” communities in networks?</a></li>
+<li class="chapter" data-level="8.2" data-path="ch8.html"><a href="ch8.html#edge-betweenness-divisive-method"><i class="fa fa-check"></i><b>8.2</b> Edge betweenness (“divisive method”)</a></li>
+<li class="chapter" data-level="8.3" data-path="ch8.html"><a href="ch8.html#louvain-method-greedy-maximization-method"><i class="fa fa-check"></i><b>8.3</b> Louvain method (“greedy, maximization method”)</a></li>
+<li class="chapter" data-level="8.4" data-path="ch8.html"><a href="ch8.html#random-walker-dynamic-method"><i class="fa fa-check"></i><b>8.4</b> Random walker (“dynamic method”)</a></li>
+<li class="chapter" data-level="8.5" data-path="ch8.html"><a href="ch8.html#infomap-information-theoretic-method"><i class="fa fa-check"></i><b>8.5</b> Infomap (“information-theoretic method”)</a></li>
+<li class="chapter" data-level="8.6" data-path="ch8.html"><a href="ch8.html#comparison-of-methods"><i class="fa fa-check"></i><b>8.6</b> Comparison of methods</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ch8.html"><a href="ch8.html#comparing-modularity"><i class="fa fa-check"></i><b>8.6.1</b> Comparing modularity</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ch8.html"><a href="ch8.html#comparing-community-membership"><i class="fa fa-check"></i><b>8.6.2</b> Comparing community membership</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ch8.html"><a href="ch8.html#things-to-note"><i class="fa fa-check"></i><b>8.7</b> Things to note</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="ch8.html"><a href="ch8.html#weighted-and-directed-graphs"><i class="fa fa-check"></i><b>8.7.1</b> Weighted and directed graphs</a></li>
+<li class="chapter" data-level="8.7.2" data-path="ch8.html"><a href="ch8.html#networks-with-multiple-components"><i class="fa fa-check"></i><b>8.7.2</b> Networks with multiple components</a></li>
+<li class="chapter" data-level="8.7.3" data-path="ch8.html"><a href="ch8.html#calculating-modularity-for-self-defined-communities"><i class="fa fa-check"></i><b>8.7.3</b> Calculating modularity for self-defined communities</a></li>
+<li class="chapter" data-level="8.7.4" data-path="ch8.html"><a href="ch8.html#comparing-different-runs"><i class="fa fa-check"></i><b>8.7.4</b> Comparing different runs</a></li>
+<li class="chapter" data-level="8.7.5" data-path="ch8.html"><a href="ch8.html#other-community-detection-methods"><i class="fa fa-check"></i><b>8.7.5</b> Other community detection methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-6"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ch9.html"><a href="ch9.html"><i class="fa fa-check"></i><b>9</b> Chapter 9: Network models</a></li>
+<li class="chapter" data-level="10" data-path="ch10.html"><a href="ch10.html"><i class="fa fa-check"></i><b>10</b> Chapter 10: Behaviors in the network</a></li>
+<li class="chapter" data-level="11" data-path="ch11.html"><a href="ch11.html"><i class="fa fa-check"></i><b>11</b> Chapter 11: <code>keyplayer</code> package</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ch11.html"><a href="ch11.html#set-up-1"><i class="fa fa-check"></i><b>11.1</b> Set up</a></li>
+<li class="chapter" data-level="11.2" data-path="ch11.html"><a href="ch11.html#key-player-problem-negative"><i class="fa fa-check"></i><b>11.2</b> Key Player Problem-Negative</a></li>
+<li class="chapter" data-level="11.3" data-path="ch11.html"><a href="ch11.html#key-player-problem-positive"><i class="fa fa-check"></i><b>11.3</b> Key Player Problem-Positive</a></li>
+<li class="chapter" data-level="11.4" data-path="ch11.html"><a href="ch11.html#references"><i class="fa fa-check"></i><b>11.4</b> References</a></li>
+<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-7"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
+<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ch13.html"><a href="ch13.html"><i class="fa fa-check"></i><b>13</b> Chapter 13: <code>bootnet</code> package</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ch13.html"><a href="ch13.html#chapter-outline"><i class="fa fa-check"></i><b>13.1</b> Chapter outline</a></li>
+<li class="chapter" data-level="13.2" data-path="ch13.html"><a href="ch13.html#installation-of-bootnet"><i class="fa fa-check"></i><b>13.2</b> Installation of <code>bootnet</code></a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="ch13.html"><a href="ch13.html#qgraph-vs.-igraph"><i class="fa fa-check"></i><b>13.2.1</b> <code>qgraph</code> vs. <code>igraph</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="ch13.html"><a href="ch13.html#dataset"><i class="fa fa-check"></i><b>13.3</b> Dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="ch13.html"><a href="ch13.html#estimate-a-partial-correlation-network"><i class="fa fa-check"></i><b>13.4</b> Estimate a partial correlation network</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="ch13.html"><a href="ch13.html#thresholding"><i class="fa fa-check"></i><b>13.4.1</b> Thresholding</a></li>
+<li class="chapter" data-level="13.4.2" data-path="ch13.html"><a href="ch13.html#absolutizing"><i class="fa fa-check"></i><b>13.4.2</b> Absolutizing</a></li>
+<li class="chapter" data-level="13.4.3" data-path="ch13.html"><a href="ch13.html#conversion-to-igraph"><i class="fa fa-check"></i><b>13.4.3</b> Conversion to igraph</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="ch13.html"><a href="ch13.html#sample-sizes"><i class="fa fa-check"></i><b>13.5</b> Sample sizes</a></li>
+<li class="chapter" data-level="13.6" data-path="ch13.html"><a href="ch13.html#additional-resources"><i class="fa fa-check"></i><b>13.6</b> Additional resources</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="ch14.html"><a href="ch14.html"><i class="fa fa-check"></i><b>14</b> Chapter 14: Network visualization in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ch14.html"><a href="ch14.html#set-up-3"><i class="fa fa-check"></i><b>14.1</b> Set up</a></li>
+<li class="chapter" data-level="14.2" data-path="ch14.html"><a href="ch14.html#visualizing-node-attributes"><i class="fa fa-check"></i><b>14.2</b> Visualizing node attributes</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.1</b> Color nodes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.2" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.2</b> Color nodes by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.3" data-path="ch14.html"><a href="ch14.html#node-shapes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.3</b> Node shapes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.4" data-path="ch14.html"><a href="ch14.html#node-size-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.4</b> Node size by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.5" data-path="ch14.html"><a href="ch14.html#example-1-color-nodes-by-their-community-membership"><i class="fa fa-check"></i><b>14.2.5</b> Example 1: Color nodes by their community membership</a></li>
+<li class="chapter" data-level="14.2.6" data-path="ch14.html"><a href="ch14.html#example-2-size-nodes-by-their-degree"><i class="fa fa-check"></i><b>14.2.6</b> Example 2: Size nodes by their degree</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="ch14.html"><a href="ch14.html#visualizing-edge-attributes"><i class="fa fa-check"></i><b>14.3</b> Visualizing edge attributes</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="ch14.html"><a href="ch14.html#color-edges-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.3.1</b> Color edges by their categorical attributes</a></li>
+<li class="chapter" data-level="14.3.2" data-path="ch14.html"><a href="ch14.html#edge-thickness-based-on-their-continuous-attributes"><i class="fa fa-check"></i><b>14.3.2</b> Edge thickness based on their continuous attributes</a></li>
+<li class="chapter" data-level="14.3.3" data-path="ch14.html"><a href="ch14.html#arrows-for-directed-edges"><i class="fa fa-check"></i><b>14.3.3</b> Arrows for directed edges</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="ch14.html"><a href="ch14.html#other"><i class="fa fa-check"></i><b>14.4</b> Other</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ch14.html"><a href="ch14.html#graph-layouts"><i class="fa fa-check"></i><b>14.4.1</b> Graph layouts</a></li>
+<li class="chapter" data-level="14.4.2" data-path="ch14.html"><a href="ch14.html#plot-title"><i class="fa fa-check"></i><b>14.4.2</b> Plot title</a></li>
+<li class="chapter" data-level="14.4.3" data-path="ch14.html"><a href="ch14.html#add-a-subtitle"><i class="fa fa-check"></i><b>14.4.3</b> Add a subtitle</a></li>
+<li class="chapter" data-level="14.4.4" data-path="ch14.html"><a href="ch14.html#multiple-plots"><i class="fa fa-check"></i><b>14.4.4</b> Multiple plots</a></li>
+<li class="chapter" data-level="14.4.5" data-path="ch14.html"><a href="ch14.html#useful-links"><i class="fa fa-check"></i><b>14.4.5</b> Useful links</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch15.html"><a href="ch15.html"><i class="fa fa-check"></i><b>15</b> Chapter 15: Network visualization with other packages</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Network Analysis in <code>igraph</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch3" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Chapter 3: Introduction to network objects<a href="ch3.html#ch3" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="what-is-a-network" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> What is a network?<a href="ch3.html#what-is-a-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A network consists of two sets of entities: A list of <em>nodes</em> and a list of <em>edges</em>. Nodes correspond to the individual elements whose pairwise relational structure is specified by edges or links. So, if node A and node B are related to each other based on some criteria set by the modeler (you!) then you would specify an edge between nodes A and B.</p>
+<p>When networks are small (on the order of a handful of nodes), it would not too be difficult to manually specify the list of nodes and their connections. However, this quickly gets too onerous once the number of nodes increases because the number of possible edges increases exponentially. For instance, a network of 5 nodes could have a maximum of 10 edges, whereas a network of 50 nodes could have a maximum of 1,225 edges.</p>
+<p>In practice, the networks that a social scientist are likely to be working with are going to be quite large, and the networks are derived from large datasets that are external to the R programming environment. In the next chapter we will explore how to get these datasets into RStudio and how to convert them into network. In this chapter, we focus on understanding the structure of the network object, a special datatype that <code>igraph</code> uses for network analysis.</p>
+</div>
+<div id="your-first-network" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Your first network<a href="ch3.html#your-first-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Network objects are a special variable that can only be analyzed with functions from the <code>igraph</code> library (that you previously installed).
+Let’s check out a simple example.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch3.html#cb48-1" tabindex="-1"></a><span class="fu">library</span>(igraph) <span class="co"># remember that we need to load this</span></span>
+<span id="cb48-2"><a href="ch3.html#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="ch3.html#cb48-3" tabindex="-1"></a><span class="co"># create a network of 2 nodes that are connected</span></span>
+<span id="cb48-4"><a href="ch3.html#cb48-4" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-</span><span class="st">&#39;bat&#39;</span>)</span></code></pre></div>
+<p><code>graph_from_literal</code> is a special function that allows the user to quickly build small networks by explicitly stating the nodes and edges of the network. Here we are creating a network of 2 nodes, labeled ‘cat’ and ‘bat’, and these 2 nodes are connected to each other.</p>
+<p>You should find a new object <code>g</code> in Environment. But the description of the object does not seem like a network. That is OK! R knows what it is.</p>
+<p>When we print <code>g</code> in the Console, we find that it has a number of special properties. If you don’t want to see all the edges being printed, you can type <code>summary(g)</code> instead.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="ch3.html#cb49-1" tabindex="-1"></a>g</span></code></pre></div>
+<pre><code>## IGRAPH 1418932 UN-- 2 1 -- 
+## + attr: name (v/c)
+## + edge from 1418932 (vertex names):
+## [1] cat--bat</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="ch3.html#cb51-1" tabindex="-1"></a><span class="fu">summary</span>(g)</span></code></pre></div>
+<pre><code>## IGRAPH 1418932 UN-- 2 1 -- 
+## + attr: name (v/c)</code></pre>
+<p>Let’s try to make sense of the output in Console when we “print” the network object <code>g</code>.</p>
+<p>This first line already packs a ton of information:</p>
+<p><code>IGRAPH f977daf UN-- 2 1 --</code></p>
+<ol style="list-style-type: decimal">
+<li>The IGRAPH label is a good sign, it means that this object is need a network object that <code>igraph</code> understands. This is followed by a UUID generated to uniquely identify the graph.</li>
+<li>The first letter in caps can either be <strong>D</strong> or <strong>U</strong>, which corresponds to <em>Directed</em> or <em>Undirected</em> edges, respectively. In this example we have a <strong>U</strong>, which means that the edges in this network are undirected.</li>
+<li>The second letter in caps can either be <strong>N</strong> or <strong>-</strong>, which corresponds to nodes either having <em>Names</em> or are left unlabeled, respectively. In this example we have a <strong>N</strong>, which means that the nodes are labeled.</li>
+<li>The third letter in caps: <strong>W</strong> or <strong>-</strong>, which corresponds to edges either having <em>Weights</em> or are unweighted, respectively. In this example we have a <strong>-</strong>, which means that the nodes are unweighted.</li>
+<li>It is worth noting that it is possible to have a fourth letter, <strong>B</strong> or <strong>-</strong>, which corresponds to the network being a <em>Bipartite</em> graph or not, respectively. We do not cover bipartite networks in this book (for now), and so we should expect to see a <strong>-</strong>, as we do in this example.</li>
+<li>The first number refers to the number of nodes.</li>
+<li>The second number refers to the number of edges.</li>
+</ol>
+<blockquote>
+<p>A good tip for network analysis is to always check the summary of the network object to make sure that the network that you are analyzing is indeed what you think it is. For instance, if you wanted to analyze a network with weighted edges, but do not see the <strong>W</strong> in your network summary, this indicates that <code>igraph</code> is not interpreting the network as a weighted graph and suggests that something went wrong during the network construction/specification phase.</p>
+</blockquote>
+<p>The second line reads:</p>
+<p><code>+ attr: name (v/c)</code></p>
+<p>This prints a list of the various node, edge, or network-level attributes associated with the network. You can think of “attributes” like “properties” of the nodes and edges. Here we have a single attribute, labeled ‘name’, and it is a node (<strong>v</strong>ertex) attribute of <strong>c</strong>haracter class. This can be inferred from ‘(v/c)’ following ‘name’.</p>
+<p>It is possible for edges to have attributes, and for the network itself to have attributes. These will be labeled with <em>e</em> and <em>g</em> respectively in the character <em>before</em> the forward slash.</p>
+<p>It is possible for the attribute to take on various data classes, such as numeric, character, logical. These will be labeld with <em>n</em>, <em>c</em>, and <em>l</em> respectively in the character <em>after</em> the forward slash.</p>
+<p>The final lines read:</p>
+<pre><code>+ edge from f977daf (vertex names):
+[1] cat--bat</code></pre>
+<p>This simply prints out all of the edges in the network, and this output will be truncated for very large network.</p>
+</div>
+<div id="your-second-network" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Your second network<a href="ch3.html#your-second-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To broaden our understanding, let’s create a slightly different network and explore its properties.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="ch3.html#cb54-1" tabindex="-1"></a><span class="co"># let&#39;s create a slightly different network</span></span>
+<span id="cb54-2"><a href="ch3.html#cb54-2" tabindex="-1"></a>g_directed <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-+</span><span class="st">&#39;bat&#39;</span>)</span>
+<span id="cb54-3"><a href="ch3.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="ch3.html#cb54-4" tabindex="-1"></a>g_directed</span></code></pre></div>
+<pre><code>## IGRAPH f47f998 DN-- 2 1 -- 
+## + attr: name (v/c)
+## + edge from f47f998 (vertex names):
+## [1] cat-&gt;bat</code></pre>
+<p>First, are you able to tell what was different from the code used to create the second network?</p>
+<p>It is a subtle change, but an additional <strong>+</strong> symbol is added to the dash. The function interprets <strong>+</strong> as the arrow head of the edge, and creates a <em>directed</em> edge pointing from ‘cat’ to ‘bat’.</p>
+<p>Now’s examine the summary of <code>g_directed</code>.</p>
+<p><code>IGRAPH ba5e381 DN-- 2 1 --</code></p>
+<ol style="list-style-type: decimal">
+<li>Notice that the first character is now <strong>D</strong>; this indicates that the network has directed edges.</li>
+<li>The number of nodes and edges remains the same.</li>
+</ol>
+<pre><code>+ edge from ba5e381 (vertex names):
+[1] cat-&gt;bat</code></pre>
+<p>Notice that the “directedness” of edges is also represented in the output, with arrowheads.</p>
+<div id="exercise-1" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Exercise<a href="ch3.html#exercise-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Run the following code, and answer the questions below:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="ch3.html#cb57-1" tabindex="-1"></a>g_exercise <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-+</span>B, B<span class="sc">-+</span>C, C<span class="sc">-+</span>A)</span>
+<span id="cb57-2"><a href="ch3.html#cb57-2" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb57-3"><a href="ch3.html#cb57-3" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="ch3.html#cb57-4" tabindex="-1"></a><span class="fu">summary</span>(g_exercise)</span></code></pre></div>
+<pre><code>## IGRAPH 367d6eb DNW- 3 3 -- 
+## + attr: name (v/c), weight (e/n)</code></pre>
+<ol style="list-style-type: decimal">
+<li>How many nodes and edges does this network have?</li>
+<li>Are the edges in this network undirected or directed, and unweighted or weighted? Substantiate your answer.</li>
+<li>How many attributes does this network have? Describe what these attributes are.</li>
+</ol>
+</div>
+</div>
+<div id="node-and-edge-attributes" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Node and edge attributes<a href="ch3.html#node-and-edge-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the previous exercise you might have noticed that I snuck in some new code: <code>E(g_exercise)$weight &lt;- c(1,2,1)</code>. This section explains what this code does and how you can explore and manipulate the node and edge attributes of your network.</p>
+<p>Try running the following and see what gets printed in the Console:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="ch3.html#cb59-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)</span></code></pre></div>
+<pre><code>## + 3/3 vertices, named, from 367d6eb:
+## [1] A B C</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="ch3.html#cb61-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)</span></code></pre></div>
+<pre><code>## + 3/3 edges from 367d6eb (vertex names):
+## [1] A-&gt;B B-&gt;C C-&gt;A</code></pre>
+<p>As you can see, <code>V()</code> and <code>E()</code> are special functions in <code>igraph</code> which you can use to print a list of the nodes and edges associated with a particular network object.</p>
+<p>Now let’s see what we get with the following code:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="ch3.html#cb63-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="ch3.html#cb65-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight</span></code></pre></div>
+<pre><code>## [1] 1 2 1</code></pre>
+<p>The <code>$</code> is a special operator because it acts like a kind of a “selector” of a specific part of a larger thing. So you could interpret <code>V(g_exercise)$name</code> as the names of the nodes in the <code>g_exercise</code> network. Likewise, <code>E(g_exercise)$weight</code> refers to the weights of the edges in the <code>g_exercise</code> network.</p>
+<p>Notice that the output is a <em>vector</em> (Chapter 2) of numbers and characters. This means we can also manipulate them using the special functions that we’ve learned about in Chapter 2.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="ch3.html#cb67-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Alice&#39;</span>, <span class="st">&#39;Bob&#39;</span>, <span class="st">&#39;Colin&#39;</span>)</span>
+<span id="cb67-2"><a href="ch3.html#cb67-2" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="ch3.html#cb67-3" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
+<pre><code>## [1] &quot;Alice&quot; &quot;Bob&quot;   &quot;Colin&quot;</code></pre>
+<p>Based on this new knowledge, think back to this line of code <code>E(g_exercise)$weight &lt;- c(1,2,1)</code> and see if you can figure out what is happening here. A neat thing that happened here is that <code>g_exercise</code> did not initially have an edge attribute called <code>weight</code> (you can verify this for yourself by removing <code>g_exercise</code> from your Environment and re-running only the line <code>g_exercise &lt;- graph_from_literal(A-+B, B-+C, C-+A)</code> and checking the summary.) So you can actually specify your own node/edge attributes and add the corresponding information. Of course, this becomes an error-prone process once networks get even a little bit bigger. You will likely include these attributes at the initial stage of the network construction when importing the data used to create the network, so that these information are already “linked” to the nodes and edges of the network. We will explore this in the next chapter.</p>
+<div id="exercise-2" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Exercise<a href="ch3.html#exercise-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Run the following in your Console and try to explain the output you observe.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="ch3.html#cb69-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>weight</span>
+<span id="cb69-2"><a href="ch3.html#cb69-2" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="ch3.html#cb69-3" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
+<blockquote>
+<p><em>Answer: We get a NULL output because there is no node attribute called <code>weight</code> and no edge attribute called <code>name</code>.</em></p>
+</blockquote>
+</div>
+</div>
+<div id="graph-attributes" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Graph attributes<a href="ch3.html#graph-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Earlier in this chapter I mentioned that it is possible for the network itself to have an attribute. This is not particularly relevant for network analysis, but for completeness the code below demonstrates how you can specify a graph attribute and how it would look like in the summary output. One possible use for this is to label a network object that you have painstakingly build with a reference so that when you share this network with others they can then cite and acknowledge your work.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="ch3.html#cb70-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation <span class="ot">&lt;-</span> <span class="st">&quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</span></span>
+<span id="cb70-2"><a href="ch3.html#cb70-2" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="ch3.html#cb70-3" tabindex="-1"></a><span class="fu">summary</span>(g_exercise) <span class="co"># pay attention to the attributes section! </span></span></code></pre></div>
+<pre><code>## IGRAPH 367d6eb DNW- 3 3 -- 
+## + attr: citation (g/c), name (v/c), weight (e/n)</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="ch3.html#cb72-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation</span></code></pre></div>
+<pre><code>## [1] &quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</code></pre>
+</div>
+<div id="useful-functions-for-working-with-attributes" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Useful functions for working with attributes<a href="ch3.html#useful-functions-for-working-with-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>igraph</code> offers some useful helper functions for working with attributes.</p>
+<p><strong>To get a list of attributes of each type</strong></p>
+<ul>
+<li><code>graph_attr_names(network)</code></li>
+<li><code>vertex_attr_names(network)</code></li>
+<li><code>edge_attr_names(network)</code></li>
+</ul>
+<p>where <code>network</code> = name of your network object.</p>
+<p><strong>To set an attribute of each type</strong></p>
+<ul>
+<li><code>set_graph_attr(network, name, value)</code></li>
+<li><code>set_vertex_attr(network, name, value)</code></li>
+<li><code>set_edge_attr(network, name, value)</code></li>
+</ul>
+<p>where <code>network</code> = name of your network object, <code>name</code> = name of attribute, <code>value</code> = the values associated for nodes/edges/graph for that attribute. This is an alternative approach and identical to <code>V(network)$name &lt;- value</code> (for node attributes).</p>
+<p><strong>To remove an attribute of each type</strong></p>
+<ul>
+<li><code>delete_graph_attr(network, name)</code></li>
+<li><code>delete_vertex_attr(network, name)</code></li>
+<li><code>delete_edge_attr(network, name)</code></li>
+</ul>
+<p>where <code>network</code> = name of your network object, <code>name</code> = name of attribute.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/csqsiew/intro-to-igraph03-network-objects.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
