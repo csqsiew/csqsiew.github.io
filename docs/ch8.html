@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-08-10" />
+<meta name="date" content="2024-09-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,8 +54,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -403,12 +401,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Many community detection methods have been developed by network scientists to detect communities in networks. Each differs in their implementation, and reflects the creator’s implicit definition of what is a community. In this section we will explore just 4 of these methods.</p>
 <p>If you are interested to learn more about community detection, check out Fortunato (2010) who provided a comprehensive comparison of various community detection techniques.</p>
 <p>In this section we will use the undirected, unweighted version of the karate network from Chapter 4 for demonstration.</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="ch8.html#cb267-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb267-2"><a href="ch8.html#cb267-2" tabindex="-1"></a></span>
-<span id="cb267-3"><a href="ch8.html#cb267-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb267-4"><a href="ch8.html#cb267-4" tabindex="-1"></a></span>
-<span id="cb267-5"><a href="ch8.html#cb267-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 68176cd UN-- 34 78 -- 
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="ch8.html#cb276-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb276-2"><a href="ch8.html#cb276-2" tabindex="-1"></a></span>
+<span id="cb276-3"><a href="ch8.html#cb276-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb276-4"><a href="ch8.html#cb276-4" tabindex="-1"></a></span>
+<span id="cb276-5"><a href="ch8.html#cb276-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
+<pre><code>## IGRAPH caf3269 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>As you will see in the rest of this chapter, the template for conducting a community detection analysis is identical across the four methods. <code>igraph</code> contains additional community detection algorithms not covered in this chapter, but you should be able to generalize the application of these algorithms based on the code provided below. Generally, community detection algorithms have in-built default parameters that are used to optimize performance. At the completion of the method, it returns the communities (i.e., how the individual nodes are grouped), and the modularity score based on this final grouping.</p>
 </div>
@@ -418,18 +416,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The algorithm works by calculating the edge betweenness of all edges of the graph, and then removing the edge with the highest edge betweenness score. It recalculates the edge betweenness of remaining edges and again removes the one with the highest score. This repeats until modularity cannot be improved further.</p>
 <p>Because there may be random components in the community detection algorithm, it is a good idea to use <code>set.seed</code> to ensure that your results are reproducible. Usually the algorithm is repeated several times, and the results are compared across runs. For now we will just run the algorithm once and return to this point at the end of this section.</p>
 <p>For the edge betweenness method, we use the <code>cluster_edge_betweenness</code> function. Functions that begin with <code>cluster_</code> are community detection methods in <code>igraph</code>. The outputs of the community detection are saved into the <code>karate_edge</code> object.</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="ch8.html#cb269-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb269-2"><a href="ch8.html#cb269-2" tabindex="-1"></a></span>
-<span id="cb269-3"><a href="ch8.html#cb269-3" tabindex="-1"></a>karate_edge <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(karate_uu)</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ch8.html#cb278-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb278-2"><a href="ch8.html#cb278-2" tabindex="-1"></a></span>
+<span id="cb278-3"><a href="ch8.html#cb278-3" tabindex="-1"></a>karate_edge <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(karate_uu)</span></code></pre></div>
 <p>Normally, we wish to know at least these 3 things from the community detection results, which we can easily retrieve from the <code>karate_edge</code> object:</p>
 <ol style="list-style-type: decimal">
 <li>The community membership of each node in the network (i.e., which nodes belong to the same community?). In the code below, this is merged with the node names and only the first 10 nodes are shown. It would be straightforward to save and export this information for further analyses; see the commented code below.</li>
 <li>We also want to know how nodes are distributed across the communities. By using the <code>table</code> function we get a count of the community labels. Here, we can see that there are a total of 5 communities, the largest one consisting of 12 nodes (community 4) and the smallest one consisting of a single node (community 5).</li>
 <li>The modularity of the final community grouping, which gives us a sense of the quality of partitions retrieved by the algorithm. Here, <em>Q</em> is 0.401.</li>
 </ol>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ch8.html#cb270-1" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
-<span id="cb270-2"><a href="ch8.html#cb270-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_edge<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
-<span id="cb270-3"><a href="ch8.html#cb270-3" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="ch8.html#cb279-1" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb279-2"><a href="ch8.html#cb279-2" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_edge<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb279-3"><a href="ch8.html#cb279-3" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
 <pre><code>##        node community
 ## 1     Mr Hi         1
 ## 2   Actor 2         1
@@ -441,17 +439,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8   Actor 9         4
 ## 9  Actor 10         5
 ## 10 Actor 14         1</code></pre>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ch8.html#cb272-1" tabindex="-1"></a><span class="do">### saving the results </span></span>
-<span id="cb272-2"><a href="ch8.html#cb272-2" tabindex="-1"></a><span class="co"># results &lt;- data.frame(node = V(karate_uu)$name, community = karate_edge$membership)</span></span>
-<span id="cb272-3"><a href="ch8.html#cb272-3" tabindex="-1"></a><span class="co"># write.csv(results, file = &#39;results.csv&#39;)</span></span>
-<span id="cb272-4"><a href="ch8.html#cb272-4" tabindex="-1"></a></span>
-<span id="cb272-5"><a href="ch8.html#cb272-5" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
-<span id="cb272-6"><a href="ch8.html#cb272-6" tabindex="-1"></a><span class="fu">table</span>(karate_edge<span class="sc">$</span>membership) </span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="ch8.html#cb281-1" tabindex="-1"></a><span class="do">### saving the results </span></span>
+<span id="cb281-2"><a href="ch8.html#cb281-2" tabindex="-1"></a><span class="co"># results &lt;- data.frame(node = V(karate_uu)$name, community = karate_edge$membership)</span></span>
+<span id="cb281-3"><a href="ch8.html#cb281-3" tabindex="-1"></a><span class="co"># write.csv(results, file = &#39;results.csv&#39;)</span></span>
+<span id="cb281-4"><a href="ch8.html#cb281-4" tabindex="-1"></a></span>
+<span id="cb281-5"><a href="ch8.html#cb281-5" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb281-6"><a href="ch8.html#cb281-6" tabindex="-1"></a><span class="fu">table</span>(karate_edge<span class="sc">$</span>membership) </span></code></pre></div>
 <pre><code>## 
 ##  1  2  3  4  5 
 ## 10  6  5 12  1</code></pre>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ch8.html#cb274-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
-<span id="cb274-2"><a href="ch8.html#cb274-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_edge)  </span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="ch8.html#cb283-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb283-2"><a href="ch8.html#cb283-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_edge)  </span></code></pre></div>
 <pre><code>## [1] 0.4012985</code></pre>
 <p>In the subsequent sections, you will notice that the structure of the code/output is identical, except for the specific community detection function used.</p>
 </div>
@@ -464,13 +462,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Repeat Step 1 and 2 until it is not possible to further increase the value of <em>Q</em>.</p></li>
 </ol>
 <p>For the Louvain method, we use the <code>cluster_louvain</code> function. The outputs of the community detection are saved into the <code>karate_louvain</code> object.</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="ch8.html#cb276-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb276-2"><a href="ch8.html#cb276-2" tabindex="-1"></a></span>
-<span id="cb276-3"><a href="ch8.html#cb276-3" tabindex="-1"></a>karate_louvain <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate_uu)</span>
-<span id="cb276-4"><a href="ch8.html#cb276-4" tabindex="-1"></a></span>
-<span id="cb276-5"><a href="ch8.html#cb276-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
-<span id="cb276-6"><a href="ch8.html#cb276-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_louvain<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
-<span id="cb276-7"><a href="ch8.html#cb276-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="ch8.html#cb285-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb285-2"><a href="ch8.html#cb285-2" tabindex="-1"></a></span>
+<span id="cb285-3"><a href="ch8.html#cb285-3" tabindex="-1"></a>karate_louvain <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate_uu)</span>
+<span id="cb285-4"><a href="ch8.html#cb285-4" tabindex="-1"></a></span>
+<span id="cb285-5"><a href="ch8.html#cb285-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb285-6"><a href="ch8.html#cb285-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_louvain<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb285-7"><a href="ch8.html#cb285-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
 <pre><code>##        node community
 ## 1     Mr Hi         1
 ## 2   Actor 2         1
@@ -482,13 +480,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8   Actor 9         3
 ## 9  Actor 10         1
 ## 10 Actor 14         1</code></pre>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ch8.html#cb278-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
-<span id="cb278-2"><a href="ch8.html#cb278-2" tabindex="-1"></a><span class="fu">table</span>(karate_louvain<span class="sc">$</span>membership) </span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="ch8.html#cb287-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb287-2"><a href="ch8.html#cb287-2" tabindex="-1"></a><span class="fu">table</span>(karate_louvain<span class="sc">$</span>membership) </span></code></pre></div>
 <pre><code>## 
 ##  1  2  3  4 
 ## 12  5 11  6</code></pre>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="ch8.html#cb280-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
-<span id="cb280-2"><a href="ch8.html#cb280-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_louvain)  </span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="ch8.html#cb289-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb289-2"><a href="ch8.html#cb289-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_louvain)  </span></code></pre></div>
 <pre><code>## [1] 0.4188034</code></pre>
 <p>Notice that the Louvain method returned 4 communities ranging in size from 5 to 12, with a <em>Q</em> of 0.419.</p>
 </div>
@@ -497,13 +495,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The core idea behind the random walker community detection method is that if there are communities in the network, a random walker will tend to spend more time inside the community than outside.</p>
 <p>The Walktrap algorithm groups nodes together based on the similarities of the paths taken by the random walker starting from that node. The idea is to merge sets of vertices that have low “distance” from each other.</p>
 <p>For the random walker method, we use the <code>cluster_walktrap</code> function. The outputs of the community detection are saved into the <code>karate_walktrap</code> object.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="ch8.html#cb282-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb282-2"><a href="ch8.html#cb282-2" tabindex="-1"></a></span>
-<span id="cb282-3"><a href="ch8.html#cb282-3" tabindex="-1"></a>karate_walktrap <span class="ot">&lt;-</span> <span class="fu">cluster_walktrap</span>(karate_uu)</span>
-<span id="cb282-4"><a href="ch8.html#cb282-4" tabindex="-1"></a></span>
-<span id="cb282-5"><a href="ch8.html#cb282-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
-<span id="cb282-6"><a href="ch8.html#cb282-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_walktrap<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
-<span id="cb282-7"><a href="ch8.html#cb282-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="ch8.html#cb291-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb291-2"><a href="ch8.html#cb291-2" tabindex="-1"></a></span>
+<span id="cb291-3"><a href="ch8.html#cb291-3" tabindex="-1"></a>karate_walktrap <span class="ot">&lt;-</span> <span class="fu">cluster_walktrap</span>(karate_uu)</span>
+<span id="cb291-4"><a href="ch8.html#cb291-4" tabindex="-1"></a></span>
+<span id="cb291-5"><a href="ch8.html#cb291-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb291-6"><a href="ch8.html#cb291-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_walktrap<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb291-7"><a href="ch8.html#cb291-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
 <pre><code>##        node community
 ## 1     Mr Hi         1
 ## 2   Actor 2         1
@@ -515,13 +513,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8   Actor 9         2
 ## 9  Actor 10         2
 ## 10 Actor 14         2</code></pre>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="ch8.html#cb284-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
-<span id="cb284-2"><a href="ch8.html#cb284-2" tabindex="-1"></a><span class="fu">table</span>(karate_walktrap<span class="sc">$</span>membership) </span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="ch8.html#cb293-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb293-2"><a href="ch8.html#cb293-2" tabindex="-1"></a><span class="fu">table</span>(karate_walktrap<span class="sc">$</span>membership) </span></code></pre></div>
 <pre><code>## 
 ## 1 2 3 4 5 
 ## 9 7 9 4 5</code></pre>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="ch8.html#cb286-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
-<span id="cb286-2"><a href="ch8.html#cb286-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_walktrap)  </span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="ch8.html#cb295-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb295-2"><a href="ch8.html#cb295-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_walktrap)  </span></code></pre></div>
 <pre><code>## [1] 0.3532216</code></pre>
 <p>Notice that the random walker method returned 5 communities ranging in size from 5 to 9, with a <em>Q</em> of 0.353.</p>
 </div>
@@ -530,13 +528,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The core idea behind the Infomap community detection method is to leverage on information-theoretic methods to “describe” the information flow of the entire system (based on random walks).</p>
 <p>The Infomap algorithm attempts to describe the random walker’s trajectory using the fewest number of “bits” of information. Communities are groups of nodes that receive new “names” during the compression process.</p>
 <p>For the Infomap method, we use the <code>cluster_infomap</code> function. The outputs of the community detection are saved into the <code>karate_infomap</code> object.</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="ch8.html#cb288-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb288-2"><a href="ch8.html#cb288-2" tabindex="-1"></a></span>
-<span id="cb288-3"><a href="ch8.html#cb288-3" tabindex="-1"></a>karate_infomap <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(karate_uu)</span>
-<span id="cb288-4"><a href="ch8.html#cb288-4" tabindex="-1"></a></span>
-<span id="cb288-5"><a href="ch8.html#cb288-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
-<span id="cb288-6"><a href="ch8.html#cb288-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_infomap<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
-<span id="cb288-7"><a href="ch8.html#cb288-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="ch8.html#cb297-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb297-2"><a href="ch8.html#cb297-2" tabindex="-1"></a></span>
+<span id="cb297-3"><a href="ch8.html#cb297-3" tabindex="-1"></a>karate_infomap <span class="ot">&lt;-</span> <span class="fu">cluster_infomap</span>(karate_uu)</span>
+<span id="cb297-4"><a href="ch8.html#cb297-4" tabindex="-1"></a></span>
+<span id="cb297-5"><a href="ch8.html#cb297-5" tabindex="-1"></a><span class="co"># 1. membership of nodes in each community </span></span>
+<span id="cb297-6"><a href="ch8.html#cb297-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>name, <span class="at">community =</span> karate_infomap<span class="sc">$</span>membership) <span class="sc">|&gt;</span> </span>
+<span id="cb297-7"><a href="ch8.html#cb297-7" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="co"># view the first 10</span></span></code></pre></div>
 <pre><code>##        node community
 ## 1     Mr Hi         1
 ## 2   Actor 2         1
@@ -548,13 +546,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8   Actor 9         3
 ## 9  Actor 10         1
 ## 10 Actor 14         1</code></pre>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="ch8.html#cb290-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
-<span id="cb290-2"><a href="ch8.html#cb290-2" tabindex="-1"></a><span class="fu">table</span>(karate_infomap<span class="sc">$</span>membership) </span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="ch8.html#cb299-1" tabindex="-1"></a><span class="co"># 2. distribution of nodes across communities</span></span>
+<span id="cb299-2"><a href="ch8.html#cb299-2" tabindex="-1"></a><span class="fu">table</span>(karate_infomap<span class="sc">$</span>membership) </span></code></pre></div>
 <pre><code>## 
 ##  1  2  3 
 ## 12  5 17</code></pre>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="ch8.html#cb292-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
-<span id="cb292-2"><a href="ch8.html#cb292-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_infomap)  </span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="ch8.html#cb301-1" tabindex="-1"></a><span class="co"># 3. modularity of the network </span></span>
+<span id="cb301-2"><a href="ch8.html#cb301-2" tabindex="-1"></a><span class="fu">modularity</span>(karate_infomap)  </span></code></pre></div>
 <pre><code>## [1] 0.4020381</code></pre>
 <p>Notice that the Infomap method returned 3 communities ranging in size from 5 to 17, with a <em>Q</em> of 0.402.</p>
 </div>
@@ -565,41 +563,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="comparing-modularity" class="section level3 hasAnchor" number="8.6.1">
 <h3><span class="header-section-number">8.6.1</span> Comparing modularity<a href="ch8.html#comparing-modularity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In this example, the Louvain method yielded community groupings that led to the highest <em>Q</em> score of 0.419, whereas the Walktrap method yielded the lowest <em>Q</em> score of 0.353. Overall, there is moderately strong evidence of community structure in the karate network with modularity scores approximating ~0.40 across the four community detection methods used.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="ch8.html#cb294-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_edge)</span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="ch8.html#cb303-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_edge)</span></code></pre></div>
 <pre><code>## [1] 0.4012985</code></pre>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="ch8.html#cb296-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_louvain)</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="ch8.html#cb305-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_louvain)</span></code></pre></div>
 <pre><code>## [1] 0.4188034</code></pre>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="ch8.html#cb298-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_walktrap)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="ch8.html#cb307-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_walktrap)</span></code></pre></div>
 <pre><code>## [1] 0.3532216</code></pre>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="ch8.html#cb300-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_infomap)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="ch8.html#cb309-1" tabindex="-1"></a><span class="fu">modularity</span>(karate_infomap)</span></code></pre></div>
 <pre><code>## [1] 0.4020381</code></pre>
 </div>
 <div id="comparing-community-membership" class="section level3 hasAnchor" number="8.6.2">
 <h3><span class="header-section-number">8.6.2</span> Comparing community membership<a href="ch8.html#comparing-community-membership" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The code below provides the following visualization that compares how different methods are grouping nodes into communities.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="ch8.html#cb302-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)<span class="sc">+</span>.<span class="dv">6</span>, <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># reduce margins and plot both networks together</span></span>
-<span id="cb302-2"><a href="ch8.html#cb302-2" tabindex="-1"></a></span>
-<span id="cb302-3"><a href="ch8.html#cb302-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb302-4"><a href="ch8.html#cb302-4" tabindex="-1"></a>fixed_l <span class="ot">&lt;-</span> <span class="fu">layout_with_fr</span>(karate_uu) <span class="co"># to fix node layout across plots </span></span>
-<span id="cb302-5"><a href="ch8.html#cb302-5" tabindex="-1"></a></span>
-<span id="cb302-6"><a href="ch8.html#cb302-6" tabindex="-1"></a><span class="fu">plot</span>(karate_edge, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;edge betweenness&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
-<span id="cb302-7"><a href="ch8.html#cb302-7" tabindex="-1"></a><span class="fu">plot</span>(karate_louvain, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Louvain&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
-<span id="cb302-8"><a href="ch8.html#cb302-8" tabindex="-1"></a><span class="fu">plot</span>(karate_walktrap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Walktrap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
-<span id="cb302-9"><a href="ch8.html#cb302-9" tabindex="-1"></a><span class="fu">plot</span>(karate_infomap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Infomap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-103-1.png" width="672" /></p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="ch8.html#cb311-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)<span class="sc">+</span>.<span class="dv">6</span>, <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># reduce margins and plot both networks together</span></span>
+<span id="cb311-2"><a href="ch8.html#cb311-2" tabindex="-1"></a></span>
+<span id="cb311-3"><a href="ch8.html#cb311-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb311-4"><a href="ch8.html#cb311-4" tabindex="-1"></a>fixed_l <span class="ot">&lt;-</span> <span class="fu">layout_with_fr</span>(karate_uu) <span class="co"># to fix node layout across plots </span></span>
+<span id="cb311-5"><a href="ch8.html#cb311-5" tabindex="-1"></a></span>
+<span id="cb311-6"><a href="ch8.html#cb311-6" tabindex="-1"></a><span class="fu">plot</span>(karate_edge, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;edge betweenness&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
+<span id="cb311-7"><a href="ch8.html#cb311-7" tabindex="-1"></a><span class="fu">plot</span>(karate_louvain, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Louvain&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
+<span id="cb311-8"><a href="ch8.html#cb311-8" tabindex="-1"></a><span class="fu">plot</span>(karate_walktrap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Walktrap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
+<span id="cb311-9"><a href="ch8.html#cb311-9" tabindex="-1"></a><span class="fu">plot</span>(karate_infomap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Infomap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
 <p>More formally, we can make use of statistical methods such as the Fleiss’ Kappa test to quantify the extent to which the groupings are consistent across the 4 methods.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="ch8.html#cb303-1" tabindex="-1"></a><span class="co"># first, compile the community membership results from all methods </span></span>
-<span id="cb303-2"><a href="ch8.html#cb303-2" tabindex="-1"></a>compare_membership <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb303-3"><a href="ch8.html#cb303-3" tabindex="-1"></a>  <span class="at">edge =</span> karate_edge<span class="sc">$</span>membership,</span>
-<span id="cb303-4"><a href="ch8.html#cb303-4" tabindex="-1"></a>  <span class="at">louvain =</span> karate_louvain<span class="sc">$</span>membership,</span>
-<span id="cb303-5"><a href="ch8.html#cb303-5" tabindex="-1"></a>  <span class="at">walktrap =</span> karate_walktrap<span class="sc">$</span>membership,</span>
-<span id="cb303-6"><a href="ch8.html#cb303-6" tabindex="-1"></a>  <span class="at">infomap =</span> karate_infomap<span class="sc">$</span>membership</span>
-<span id="cb303-7"><a href="ch8.html#cb303-7" tabindex="-1"></a>)</span>
-<span id="cb303-8"><a href="ch8.html#cb303-8" tabindex="-1"></a></span>
-<span id="cb303-9"><a href="ch8.html#cb303-9" tabindex="-1"></a><span class="co"># compute consistency that two nodes tend to be found in the same cluster </span></span>
-<span id="cb303-10"><a href="ch8.html#cb303-10" tabindex="-1"></a><span class="fu">library</span>(irr) <span class="co"># we need this library for the kappa test of interrater agreement </span></span>
-<span id="cb303-11"><a href="ch8.html#cb303-11" tabindex="-1"></a></span>
-<span id="cb303-12"><a href="ch8.html#cb303-12" tabindex="-1"></a><span class="fu">kappam.fleiss</span>(compare_membership)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="ch8.html#cb312-1" tabindex="-1"></a><span class="co"># first, compile the community membership results from all methods </span></span>
+<span id="cb312-2"><a href="ch8.html#cb312-2" tabindex="-1"></a>compare_membership <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb312-3"><a href="ch8.html#cb312-3" tabindex="-1"></a>  <span class="at">edge =</span> karate_edge<span class="sc">$</span>membership,</span>
+<span id="cb312-4"><a href="ch8.html#cb312-4" tabindex="-1"></a>  <span class="at">louvain =</span> karate_louvain<span class="sc">$</span>membership,</span>
+<span id="cb312-5"><a href="ch8.html#cb312-5" tabindex="-1"></a>  <span class="at">walktrap =</span> karate_walktrap<span class="sc">$</span>membership,</span>
+<span id="cb312-6"><a href="ch8.html#cb312-6" tabindex="-1"></a>  <span class="at">infomap =</span> karate_infomap<span class="sc">$</span>membership</span>
+<span id="cb312-7"><a href="ch8.html#cb312-7" tabindex="-1"></a>)</span>
+<span id="cb312-8"><a href="ch8.html#cb312-8" tabindex="-1"></a></span>
+<span id="cb312-9"><a href="ch8.html#cb312-9" tabindex="-1"></a><span class="co"># compute consistency that two nodes tend to be found in the same cluster </span></span>
+<span id="cb312-10"><a href="ch8.html#cb312-10" tabindex="-1"></a><span class="fu">library</span>(irr) <span class="co"># we need this library for the kappa test of interrater agreement </span></span></code></pre></div>
+<pre><code>## Loading required package: lpSolve</code></pre>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="ch8.html#cb314-1" tabindex="-1"></a><span class="fu">kappam.fleiss</span>(compare_membership)</span></code></pre></div>
 <pre><code>##  Fleiss&#39; Kappa for m Raters
 ## 
 ##  Subjects = 34 
@@ -628,33 +626,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It is possible to compute modularity based on pre-specified communities. For instance, you may have prior information on the subgroups that each node in the network belongs to (i.e., community labels that are extrinsic to the network structure; e.g., student interest groups or majors) and you want to see how those groupings correspond to the connectivity structure.</p>
 <p>If the modularity of those labels are quite high and comparable to the community detection results, it would suggest that nodes that belong to the same extrinsic group also have relatively higher density of connections internally, relative to the density of connections across different groups.</p>
 <p>In the toy example below, I provided “made-up” groups to the karate network through the node-attribute “suburb”. Because these labels were randomly generated, we would expect modularity computed based on these groups to be very low or close to zero.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="ch8.html#cb305-1" tabindex="-1"></a><span class="co"># let&#39;s assume we have information about the suburb that each karate member lives in </span></span>
-<span id="cb305-2"><a href="ch8.html#cb305-2" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>suburb <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb305-3"><a href="ch8.html#cb305-3" tabindex="-1"></a></span>
-<span id="cb305-4"><a href="ch8.html#cb305-4" tabindex="-1"></a><span class="fu">modularity</span>(karate_uu, <span class="at">membership =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>suburb) <span class="co"># specify your own labels </span></span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="ch8.html#cb316-1" tabindex="-1"></a><span class="co"># let&#39;s assume we have information about the suburb that each karate member lives in </span></span>
+<span id="cb316-2"><a href="ch8.html#cb316-2" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>suburb <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb316-3"><a href="ch8.html#cb316-3" tabindex="-1"></a></span>
+<span id="cb316-4"><a href="ch8.html#cb316-4" tabindex="-1"></a><span class="fu">modularity</span>(karate_uu, <span class="at">membership =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>suburb) <span class="co"># specify your own labels </span></span></code></pre></div>
 <pre><code>## [1] -0.06402038</code></pre>
 </div>
 <div id="comparing-different-runs" class="section level3 hasAnchor" number="8.7.4">
 <h3><span class="header-section-number">8.7.4</span> Comparing different runs<a href="ch8.html#comparing-different-runs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As mentioned in the introduction of this chapter, you can get slightly different results even when re-running the same community detection method on the same network (assuming that you did not initially set a stable random seed). It is a good idea to repeat this multiple times to check if your results are generally consistent. The code below shows you how to run the algorithm multiple times and save the outputs into a list object that you can later investigate further.</p>
 <p>As you can see there are minor variations in the modularity scores for each instance, and the very high Kappa score of 0.95 indicates highly consistent communities across runs.</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="ch8.html#cb307-1" tabindex="-1"></a>cluster_results <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb307-2"><a href="ch8.html#cb307-2" tabindex="-1"></a></span>
-<span id="cb307-3"><a href="ch8.html#cb307-3" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) { <span class="co"># change 5 to a different number if you want more runs </span></span>
-<span id="cb307-4"><a href="ch8.html#cb307-4" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
-<span id="cb307-5"><a href="ch8.html#cb307-5" tabindex="-1"></a>  </span>
-<span id="cb307-6"><a href="ch8.html#cb307-6" tabindex="-1"></a>  cluster_results[[i]] <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate_uu)</span>
-<span id="cb307-7"><a href="ch8.html#cb307-7" tabindex="-1"></a>}</span>
-<span id="cb307-8"><a href="ch8.html#cb307-8" tabindex="-1"></a></span>
-<span id="cb307-9"><a href="ch8.html#cb307-9" tabindex="-1"></a><span class="co"># compare Q</span></span>
-<span id="cb307-10"><a href="ch8.html#cb307-10" tabindex="-1"></a><span class="fu">sapply</span>(cluster_results, modularity)</span></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="ch8.html#cb318-1" tabindex="-1"></a>cluster_results <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb318-2"><a href="ch8.html#cb318-2" tabindex="-1"></a></span>
+<span id="cb318-3"><a href="ch8.html#cb318-3" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) { <span class="co"># change 5 to a different number if you want more runs </span></span>
+<span id="cb318-4"><a href="ch8.html#cb318-4" tabindex="-1"></a>  <span class="fu">set.seed</span>(i)</span>
+<span id="cb318-5"><a href="ch8.html#cb318-5" tabindex="-1"></a>  </span>
+<span id="cb318-6"><a href="ch8.html#cb318-6" tabindex="-1"></a>  cluster_results[[i]] <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate_uu)</span>
+<span id="cb318-7"><a href="ch8.html#cb318-7" tabindex="-1"></a>}</span>
+<span id="cb318-8"><a href="ch8.html#cb318-8" tabindex="-1"></a></span>
+<span id="cb318-9"><a href="ch8.html#cb318-9" tabindex="-1"></a><span class="co"># compare Q</span></span>
+<span id="cb318-10"><a href="ch8.html#cb318-10" tabindex="-1"></a><span class="fu">sapply</span>(cluster_results, modularity)</span></code></pre></div>
 <pre><code>## [1] 0.4188034 0.4188034 0.4188034 0.4155983 0.4155983</code></pre>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="ch8.html#cb309-1" tabindex="-1"></a><span class="co"># compare consistency of membership </span></span>
-<span id="cb309-2"><a href="ch8.html#cb309-2" tabindex="-1"></a><span class="co"># first, compile the community membership results from all runs into a single df</span></span>
-<span id="cb309-3"><a href="ch8.html#cb309-3" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(cluster_results, <span class="cf">function</span>(x) x<span class="sc">$</span>membership)</span>
-<span id="cb309-4"><a href="ch8.html#cb309-4" tabindex="-1"></a>df1_merged <span class="ot">&lt;-</span> <span class="fu">do.call</span>(cbind, df1)</span>
-<span id="cb309-5"><a href="ch8.html#cb309-5" tabindex="-1"></a></span>
-<span id="cb309-6"><a href="ch8.html#cb309-6" tabindex="-1"></a><span class="fu">kappam.fleiss</span>(df1_merged)</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="ch8.html#cb320-1" tabindex="-1"></a><span class="co"># compare consistency of membership </span></span>
+<span id="cb320-2"><a href="ch8.html#cb320-2" tabindex="-1"></a><span class="co"># first, compile the community membership results from all runs into a single df</span></span>
+<span id="cb320-3"><a href="ch8.html#cb320-3" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(cluster_results, <span class="cf">function</span>(x) x<span class="sc">$</span>membership)</span>
+<span id="cb320-4"><a href="ch8.html#cb320-4" tabindex="-1"></a>df1_merged <span class="ot">&lt;-</span> <span class="fu">do.call</span>(cbind, df1)</span>
+<span id="cb320-5"><a href="ch8.html#cb320-5" tabindex="-1"></a></span>
+<span id="cb320-6"><a href="ch8.html#cb320-6" tabindex="-1"></a><span class="fu">kappam.fleiss</span>(df1_merged)</span></code></pre></div>
 <pre><code>##  Fleiss&#39; Kappa for m Raters
 ## 
 ##  Subjects = 34 

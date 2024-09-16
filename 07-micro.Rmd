@@ -241,6 +241,29 @@ E(g_w)$weight <- 1/c(2,1,2,1,1)
 shortest_paths(g_w, from = "A", to = "C")$vpath 
 ```
 
+To reiterate, if you have a weighted graph and you would like to compute weighted closeness centrality for your nodes AND your edge weights are already interpreted as *distances* this is the pseudo R code that you need: 
+
+```{r}
+#| echo: true
+#| eval: false 
+
+closeness(network, normalized = T, weights = E(network)$weight)
+```
+
+If your edge weights are interpreted as *strengths*, then you need to mathematically "flip" or invert the edge weights. 
+
+```{r}
+#| echo: true
+#| eval: false
+
+# take the inverse
+closeness(network, normalized = T, weights = 1/E(network)$weight) 
+
+# if your weights are Likert ratings, this code flips the scale around 
+closeness(network, normalized = T, 
+          weights = abs(E(network)$weight - (max(E(network)$weight) + 1))) 
+```
+
 ### Directed closeness centrality 
 
 As shown in the example below for *John A*, different closeness centrality values are returned depending on whether closeness centrality should be computed based on both incoming and outgoing edges (`mode = 'all'`), incoming edges only (`mode = 'in'`), or outgoing edges only (`mode = 'out'`). Because *John A* has an out-degree of 0 (see if you know how to verify this for yourself!), it has a closeness centrality of NaN when `mode = 'out'` is specified. 

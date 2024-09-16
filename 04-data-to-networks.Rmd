@@ -63,7 +63,7 @@ After reading the previous section, you should be able to identify whether your 
 
 Another point to note is that you as the modeler will have to make decisions about the type of edges your network will have. Should the edges be undirected or directed, and/or unweighted or weighted? While there are no objectively right or wrong decisions, there are probably better or worse decisions that would depend mostly on your own research questions, interpretation of the data set, and the extant network science literature on similar topics. 
 
-A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github, and are stored in a subdirectory called `/data` from which I am reading from. Based on chapter 2 (finding files) you should be able to make the corresponding modifications to the `read.csv()` parts of the code. 
+A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github ([https://github.com/csqsiew/csqsiew.github.io/tree/main/data](https://github.com/csqsiew/csqsiew.github.io/tree/main/data)), and are stored in a subdirectory called `/data` from which I am reading from. Based on chapter 2 (finding files) you should be able to make the corresponding modifications to the `read.csv()` parts of the code. 
 
 ### Importing edge lists 
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-08-10" />
+<meta name="date" content="2024-09-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,8 +54,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -400,127 +398,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="set-up-3" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> Set up<a href="ch14.html#set-up-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will use the <code>karate</code> network from Chapter 5, which contains various node and edge attributes.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="ch14.html#cb361-1" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb361-2"><a href="ch14.html#cb361-2" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
-<span id="cb361-3"><a href="ch14.html#cb361-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb361-4"><a href="ch14.html#cb361-4" tabindex="-1"></a></span>
-<span id="cb361-5"><a href="ch14.html#cb361-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;karate&#39;</span>)</span>
-<span id="cb361-6"><a href="ch14.html#cb361-6" tabindex="-1"></a></span>
-<span id="cb361-7"><a href="ch14.html#cb361-7" tabindex="-1"></a><span class="co"># import your node attributes </span></span>
-<span id="cb361-8"><a href="ch14.html#cb361-8" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_nodes_added.csv&#39;</span>, <span class="at">header =</span> T)</span>
-<span id="cb361-9"><a href="ch14.html#cb361-9" tabindex="-1"></a></span>
-<span id="cb361-10"><a href="ch14.html#cb361-10" tabindex="-1"></a><span class="co"># very important to ensure that node order is identical </span></span>
-<span id="cb361-11"><a href="ch14.html#cb361-11" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> node_info <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">factor</span>(node, <span class="at">levels =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>name))</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="ch14.html#cb379-1" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb379-2"><a href="ch14.html#cb379-2" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb379-3"><a href="ch14.html#cb379-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb379-4"><a href="ch14.html#cb379-4" tabindex="-1"></a></span>
+<span id="cb379-5"><a href="ch14.html#cb379-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;karate&#39;</span>)</span>
+<span id="cb379-6"><a href="ch14.html#cb379-6" tabindex="-1"></a></span>
+<span id="cb379-7"><a href="ch14.html#cb379-7" tabindex="-1"></a><span class="co"># import your node attributes </span></span>
+<span id="cb379-8"><a href="ch14.html#cb379-8" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_nodes_added.csv&#39;</span>, <span class="at">header =</span> T)</span>
+<span id="cb379-9"><a href="ch14.html#cb379-9" tabindex="-1"></a></span>
+<span id="cb379-10"><a href="ch14.html#cb379-10" tabindex="-1"></a><span class="co"># very important to ensure that node order is identical </span></span>
+<span id="cb379-11"><a href="ch14.html#cb379-11" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> node_info <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">factor</span>(node, <span class="at">levels =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>name))</span></code></pre></div>
 <pre><code>## This graph was created by an old(er) igraph version.
 ##   Call upgrade_graph() on it to use with the current igraph version
 ##   For now we convert it on the fly...</code></pre>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="ch14.html#cb363-1" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>name, node_info<span class="sc">$</span>node) <span class="co"># sanity check that the node name order is identical</span></span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="ch14.html#cb381-1" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>name, node_info<span class="sc">$</span>node) <span class="co"># sanity check that the node name order is identical</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="ch14.html#cb365-1" tabindex="-1"></a><span class="co"># add the &#39;gender&#39; attribute</span></span>
-<span id="cb365-2"><a href="ch14.html#cb365-2" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
-<span id="cb365-3"><a href="ch14.html#cb365-3" tabindex="-1"></a>                          <span class="at">name =</span> <span class="st">&#39;gender&#39;</span>,</span>
-<span id="cb365-4"><a href="ch14.html#cb365-4" tabindex="-1"></a>                          <span class="at">value =</span> node_info<span class="sc">$</span>gender)</span>
-<span id="cb365-5"><a href="ch14.html#cb365-5" tabindex="-1"></a></span>
-<span id="cb365-6"><a href="ch14.html#cb365-6" tabindex="-1"></a><span class="co"># add the &#39;belt&#39; attribute</span></span>
-<span id="cb365-7"><a href="ch14.html#cb365-7" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
-<span id="cb365-8"><a href="ch14.html#cb365-8" tabindex="-1"></a>                          <span class="at">name =</span> <span class="st">&#39;belt&#39;</span>,</span>
-<span id="cb365-9"><a href="ch14.html#cb365-9" tabindex="-1"></a>                          <span class="at">value =</span> node_info<span class="sc">$</span>belt)</span>
-<span id="cb365-10"><a href="ch14.html#cb365-10" tabindex="-1"></a></span>
-<span id="cb365-11"><a href="ch14.html#cb365-11" tabindex="-1"></a><span class="co"># add the &#39;age&#39; attribute </span></span>
-<span id="cb365-12"><a href="ch14.html#cb365-12" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
-<span id="cb365-13"><a href="ch14.html#cb365-13" tabindex="-1"></a>                          <span class="at">name =</span> <span class="st">&#39;age&#39;</span>,</span>
-<span id="cb365-14"><a href="ch14.html#cb365-14" tabindex="-1"></a>                          <span class="at">value =</span> node_info<span class="sc">$</span>age)</span>
-<span id="cb365-15"><a href="ch14.html#cb365-15" tabindex="-1"></a></span>
-<span id="cb365-16"><a href="ch14.html#cb365-16" tabindex="-1"></a><span class="co"># initialize all edges with the same label </span></span>
-<span id="cb365-17"><a href="ch14.html#cb365-17" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type <span class="ot">&lt;-</span> <span class="st">&#39;same&#39;</span> </span>
-<span id="cb365-18"><a href="ch14.html#cb365-18" tabindex="-1"></a></span>
-<span id="cb365-19"><a href="ch14.html#cb365-19" tabindex="-1"></a><span class="co"># re-assign those with mixed edges to a new label </span></span>
-<span id="cb365-20"><a href="ch14.html#cb365-20" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type[<span class="fu">E</span>(karate)[<span class="fu">V</span>(karate)[<span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;male&#39;</span>] <span class="sc">%--%</span> <span class="fu">V</span>(karate)[<span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;female&#39;</span>]]] <span class="ot">&lt;-</span> <span class="st">&#39;different&#39;</span></span>
-<span id="cb365-21"><a href="ch14.html#cb365-21" tabindex="-1"></a></span>
-<span id="cb365-22"><a href="ch14.html#cb365-22" tabindex="-1"></a><span class="fu">summary</span>(karate) <span class="co"># there should be a new edge type </span></span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="ch14.html#cb383-1" tabindex="-1"></a><span class="co"># add the &#39;gender&#39; attribute</span></span>
+<span id="cb383-2"><a href="ch14.html#cb383-2" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
+<span id="cb383-3"><a href="ch14.html#cb383-3" tabindex="-1"></a>                          <span class="at">name =</span> <span class="st">&#39;gender&#39;</span>,</span>
+<span id="cb383-4"><a href="ch14.html#cb383-4" tabindex="-1"></a>                          <span class="at">value =</span> node_info<span class="sc">$</span>gender)</span>
+<span id="cb383-5"><a href="ch14.html#cb383-5" tabindex="-1"></a></span>
+<span id="cb383-6"><a href="ch14.html#cb383-6" tabindex="-1"></a><span class="co"># add the &#39;belt&#39; attribute</span></span>
+<span id="cb383-7"><a href="ch14.html#cb383-7" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
+<span id="cb383-8"><a href="ch14.html#cb383-8" tabindex="-1"></a>                          <span class="at">name =</span> <span class="st">&#39;belt&#39;</span>,</span>
+<span id="cb383-9"><a href="ch14.html#cb383-9" tabindex="-1"></a>                          <span class="at">value =</span> node_info<span class="sc">$</span>belt)</span>
+<span id="cb383-10"><a href="ch14.html#cb383-10" tabindex="-1"></a></span>
+<span id="cb383-11"><a href="ch14.html#cb383-11" tabindex="-1"></a><span class="co"># add the &#39;age&#39; attribute </span></span>
+<span id="cb383-12"><a href="ch14.html#cb383-12" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
+<span id="cb383-13"><a href="ch14.html#cb383-13" tabindex="-1"></a>                          <span class="at">name =</span> <span class="st">&#39;age&#39;</span>,</span>
+<span id="cb383-14"><a href="ch14.html#cb383-14" tabindex="-1"></a>                          <span class="at">value =</span> node_info<span class="sc">$</span>age)</span>
+<span id="cb383-15"><a href="ch14.html#cb383-15" tabindex="-1"></a></span>
+<span id="cb383-16"><a href="ch14.html#cb383-16" tabindex="-1"></a><span class="co"># initialize all edges with the same label </span></span>
+<span id="cb383-17"><a href="ch14.html#cb383-17" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type <span class="ot">&lt;-</span> <span class="st">&#39;same&#39;</span> </span>
+<span id="cb383-18"><a href="ch14.html#cb383-18" tabindex="-1"></a></span>
+<span id="cb383-19"><a href="ch14.html#cb383-19" tabindex="-1"></a><span class="co"># re-assign those with mixed edges to a new label </span></span>
+<span id="cb383-20"><a href="ch14.html#cb383-20" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type[<span class="fu">E</span>(karate)[<span class="fu">V</span>(karate)[<span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;male&#39;</span>] <span class="sc">%--%</span> <span class="fu">V</span>(karate)[<span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;female&#39;</span>]]] <span class="ot">&lt;-</span> <span class="st">&#39;different&#39;</span></span>
+<span id="cb383-21"><a href="ch14.html#cb383-21" tabindex="-1"></a></span>
+<span id="cb383-22"><a href="ch14.html#cb383-22" tabindex="-1"></a><span class="fu">summary</span>(karate) <span class="co"># there should be a new edge type </span></span></code></pre></div>
 <pre><code>## IGRAPH 4b458a1 UNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color
-## | (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 </div>
 <div id="visualizing-node-attributes" class="section level2 hasAnchor" number="14.2">
 <h2><span class="header-section-number">14.2</span> Visualizing node attributes<a href="ch14.html#visualizing-node-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="color-nodes-by-their-categorical-attributes" class="section level3 hasAnchor" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> Color nodes by their categorical attributes<a href="ch14.html#color-nodes-by-their-categorical-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="ch14.html#cb367-1" tabindex="-1"></a><span class="co"># color nodes by their attributes (categorical)</span></span>
-<span id="cb367-2"><a href="ch14.html#cb367-2" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">factor</span>( <span class="fu">V</span>(karate)<span class="sc">$</span>gender )) <span class="co"># notice the use of factor() </span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="ch14.html#cb368-1" tabindex="-1"></a><span class="co"># plot(karate, vertex.color = V(karate)$gender) # this throws an error </span></span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="ch14.html#cb385-1" tabindex="-1"></a><span class="co"># color nodes by their attributes (categorical)</span></span>
+<span id="cb385-2"><a href="ch14.html#cb385-2" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">factor</span>( <span class="fu">V</span>(karate)<span class="sc">$</span>gender )) <span class="co"># notice the use of factor() </span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="ch14.html#cb386-1" tabindex="-1"></a><span class="co"># plot(karate, vertex.color = V(karate)$gender) # this throws an error </span></span></code></pre></div>
 <p>Can you try replacing the <code>gender</code> attribute with the <code>belt</code> attribute?</p>
 </div>
 <div id="color-nodes-by-their-continuous-attributes" class="section level3 hasAnchor" number="14.2.2">
 <h3><span class="header-section-number">14.2.2</span> Color nodes by their continuous attributes<a href="ch14.html#color-nodes-by-their-continuous-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="ch14.html#cb369-1" tabindex="-1"></a><span class="co"># color nodes by their attributes (continuous) </span></span>
-<span id="cb369-2"><a href="ch14.html#cb369-2" tabindex="-1"></a></span>
-<span id="cb369-3"><a href="ch14.html#cb369-3" tabindex="-1"></a><span class="co"># a function to generate color gradients from a pre-specified palette </span></span>
-<span id="cb369-4"><a href="ch14.html#cb369-4" tabindex="-1"></a>palf <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>)) <span class="co"># smaller values = white </span></span>
-<span id="cb369-5"><a href="ch14.html#cb369-5" tabindex="-1"></a></span>
-<span id="cb369-6"><a href="ch14.html#cb369-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">y=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="dv">5</span>, <span class="at">col=</span><span class="fu">palf</span>(<span class="dv">10</span>))</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-127-1.png" width="672" /></p>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="ch14.html#cb370-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">palf</span>(<span class="dv">10</span>)[<span class="fu">cut</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>age, <span class="dv">10</span>)]) <span class="co"># notice the use of cut() </span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-127-2.png" width="672" /></p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="ch14.html#cb371-1" tabindex="-1"></a><span class="co"># cut() chops up the age distribution into 10 bins, each bin is assigned to the color gradient based on the order </span></span>
-<span id="cb371-2"><a href="ch14.html#cb371-2" tabindex="-1"></a><span class="co"># the number of bins and color bins must be the same </span></span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="ch14.html#cb387-1" tabindex="-1"></a><span class="co"># color nodes by their attributes (continuous) </span></span>
+<span id="cb387-2"><a href="ch14.html#cb387-2" tabindex="-1"></a></span>
+<span id="cb387-3"><a href="ch14.html#cb387-3" tabindex="-1"></a><span class="co"># a function to generate color gradients from a pre-specified palette </span></span>
+<span id="cb387-4"><a href="ch14.html#cb387-4" tabindex="-1"></a>palf <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>)) <span class="co"># smaller values = white </span></span>
+<span id="cb387-5"><a href="ch14.html#cb387-5" tabindex="-1"></a></span>
+<span id="cb387-6"><a href="ch14.html#cb387-6" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">y=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span><span class="dv">5</span>, <span class="at">col=</span><span class="fu">palf</span>(<span class="dv">10</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="ch14.html#cb388-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">palf</span>(<span class="dv">10</span>)[<span class="fu">cut</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>age, <span class="dv">10</span>)]) <span class="co"># notice the use of cut() </span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-2.png" width="672" /></p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="ch14.html#cb389-1" tabindex="-1"></a><span class="co"># cut() chops up the age distribution into 10 bins, each bin is assigned to the color gradient based on the order </span></span>
+<span id="cb389-2"><a href="ch14.html#cb389-2" tabindex="-1"></a><span class="co"># the number of bins and color bins must be the same </span></span></code></pre></div>
 </div>
 <div id="node-shapes-by-their-categorical-attributes" class="section level3 hasAnchor" number="14.2.3">
 <h3><span class="header-section-number">14.2.3</span> Node shapes by their categorical attributes<a href="ch14.html#node-shapes-by-their-categorical-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="ch14.html#cb372-1" tabindex="-1"></a><span class="co"># give categorical attributes different shapes </span></span>
-<span id="cb372-2"><a href="ch14.html#cb372-2" tabindex="-1"></a><span class="fu">plot</span>(karate, </span>
-<span id="cb372-3"><a href="ch14.html#cb372-3" tabindex="-1"></a>     <span class="at">vertex.shape =</span> <span class="fu">c</span>(<span class="st">&#39;circle&#39;</span>, <span class="st">&#39;square&#39;</span>)[<span class="fu">factor</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>gender)], <span class="co"># notice the use of factor() with gender to subset a vector of pre-defined node shapes</span></span>
-<span id="cb372-4"><a href="ch14.html#cb372-4" tabindex="-1"></a>     <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>) </span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-128-1.png" width="672" /></p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="ch14.html#cb373-1" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>gender) <span class="sc">|&gt;</span> <span class="fu">levels</span>() <span class="co"># female/circle, male/square</span></span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="ch14.html#cb390-1" tabindex="-1"></a><span class="co"># give categorical attributes different shapes </span></span>
+<span id="cb390-2"><a href="ch14.html#cb390-2" tabindex="-1"></a><span class="fu">plot</span>(karate, </span>
+<span id="cb390-3"><a href="ch14.html#cb390-3" tabindex="-1"></a>     <span class="at">vertex.shape =</span> <span class="fu">c</span>(<span class="st">&#39;circle&#39;</span>, <span class="st">&#39;square&#39;</span>)[<span class="fu">factor</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>gender)], <span class="co"># notice the use of factor() with gender to subset a vector of pre-defined node shapes</span></span>
+<span id="cb390-4"><a href="ch14.html#cb390-4" tabindex="-1"></a>     <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>) </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="ch14.html#cb391-1" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>gender) <span class="sc">|&gt;</span> <span class="fu">levels</span>() <span class="co"># female/circle, male/square</span></span></code></pre></div>
 <pre><code>## [1] &quot;female&quot; &quot;male&quot;</code></pre>
 </div>
 <div id="node-size-by-their-continuous-attributes" class="section level3 hasAnchor" number="14.2.4">
 <h3><span class="header-section-number">14.2.4</span> Node size by their continuous attributes<a href="ch14.html#node-size-by-their-continuous-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="ch14.html#cb375-1" tabindex="-1"></a><span class="co"># give continuous attributes different sizes </span></span>
-<span id="cb375-2"><a href="ch14.html#cb375-2" tabindex="-1"></a></span>
-<span id="cb375-3"><a href="ch14.html#cb375-3" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.size =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>age) <span class="co"># notice that the sizes are not very well scaled </span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="ch14.html#cb376-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.size =</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fu">V</span>(karate)<span class="sc">$</span>age) <span class="co"># you will have to play around to find a suitable scale </span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-129-2.png" width="672" /></p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ch14.html#cb393-1" tabindex="-1"></a><span class="co"># give continuous attributes different sizes </span></span>
+<span id="cb393-2"><a href="ch14.html#cb393-2" tabindex="-1"></a></span>
+<span id="cb393-3"><a href="ch14.html#cb393-3" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.size =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>age) <span class="co"># notice that the sizes are not very well scaled </span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-131-1.png" width="672" /></p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="ch14.html#cb394-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.size =</span> <span class="fl">0.5</span><span class="sc">*</span><span class="fu">V</span>(karate)<span class="sc">$</span>age) <span class="co"># you will have to play around to find a suitable scale </span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-131-2.png" width="672" /></p>
 </div>
 <div id="example-1-color-nodes-by-their-community-membership" class="section level3 hasAnchor" number="14.2.5">
 <h3><span class="header-section-number">14.2.5</span> Example 1: Color nodes by their community membership<a href="ch14.html#example-1-color-nodes-by-their-community-membership" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="ch14.html#cb377-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb377-2"><a href="ch14.html#cb377-2" tabindex="-1"></a>community_result <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate)</span>
-<span id="cb377-3"><a href="ch14.html#cb377-3" tabindex="-1"></a></span>
-<span id="cb377-4"><a href="ch14.html#cb377-4" tabindex="-1"></a><span class="fu">V</span>(karate)<span class="sc">$</span>community <span class="ot">&lt;-</span> community_result<span class="sc">$</span>membership</span>
-<span id="cb377-5"><a href="ch14.html#cb377-5" tabindex="-1"></a></span>
-<span id="cb377-6"><a href="ch14.html#cb377-6" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>community)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-130-1.png" width="672" /></p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ch14.html#cb395-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb395-2"><a href="ch14.html#cb395-2" tabindex="-1"></a>community_result <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(karate)</span>
+<span id="cb395-3"><a href="ch14.html#cb395-3" tabindex="-1"></a></span>
+<span id="cb395-4"><a href="ch14.html#cb395-4" tabindex="-1"></a><span class="fu">V</span>(karate)<span class="sc">$</span>community <span class="ot">&lt;-</span> community_result<span class="sc">$</span>membership</span>
+<span id="cb395-5"><a href="ch14.html#cb395-5" tabindex="-1"></a></span>
+<span id="cb395-6"><a href="ch14.html#cb395-6" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>community)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
 </div>
 <div id="example-2-size-nodes-by-their-degree" class="section level3 hasAnchor" number="14.2.6">
 <h3><span class="header-section-number">14.2.6</span> Example 2: Size nodes by their degree<a href="ch14.html#example-2-size-nodes-by-their-degree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="ch14.html#cb378-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.size =</span> <span class="fu">degree</span>(karate), <span class="at">vertex.color =</span> <span class="st">&#39;black&#39;</span>) <span class="co"># the scaling issue may apply here </span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-131-1.png" width="672" /></p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="ch14.html#cb396-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.size =</span> <span class="fu">degree</span>(karate), <span class="at">vertex.color =</span> <span class="st">&#39;black&#39;</span>) <span class="co"># the scaling issue may apply here </span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
 </div>
 </div>
 <div id="visualizing-edge-attributes" class="section level2 hasAnchor" number="14.3">
 <h2><span class="header-section-number">14.3</span> Visualizing edge attributes<a href="ch14.html#visualizing-edge-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="color-edges-by-their-categorical-attributes" class="section level3 hasAnchor" number="14.3.1">
 <h3><span class="header-section-number">14.3.1</span> Color edges by their categorical attributes<a href="ch14.html#color-edges-by-their-categorical-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="ch14.html#cb379-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.color =</span> <span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type)) <span class="co"># note the use of factor()</span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="ch14.html#cb380-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.color =</span> <span class="fu">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;blue&#39;</span>)[<span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type)]) <span class="co"># specifying your own colors </span></span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-132-2.png" width="672" /></p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="ch14.html#cb381-1" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type) <span class="sc">|&gt;</span> <span class="fu">levels</span>() <span class="co"># this tells you the ordering of the levels so you can tell that red = different and blue = same </span></span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ch14.html#cb397-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.color =</span> <span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type)) <span class="co"># note the use of factor()</span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-1.png" width="672" /></p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="ch14.html#cb398-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.color =</span> <span class="fu">c</span>(<span class="st">&#39;red&#39;</span>, <span class="st">&#39;blue&#39;</span>)[<span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type)]) <span class="co"># specifying your own colors </span></span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-2.png" width="672" /></p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="ch14.html#cb399-1" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type) <span class="sc">|&gt;</span> <span class="fu">levels</span>() <span class="co"># this tells you the ordering of the levels so you can tell that red = different and blue = same </span></span></code></pre></div>
 <pre><code>## [1] &quot;different&quot; &quot;same&quot;</code></pre>
 </div>
 <div id="edge-thickness-based-on-their-continuous-attributes" class="section level3 hasAnchor" number="14.3.2">
 <h3><span class="header-section-number">14.3.2</span> Edge thickness based on their continuous attributes<a href="ch14.html#edge-thickness-based-on-their-continuous-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="ch14.html#cb383-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.width =</span> <span class="fu">E</span>(karate)<span class="sc">$</span>weight)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="ch14.html#cb401-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.width =</span> <span class="fu">E</span>(karate)<span class="sc">$</span>weight)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
 </div>
 <div id="arrows-for-directed-edges" class="section level3 hasAnchor" number="14.3.3">
 <h3><span class="header-section-number">14.3.3</span> Arrows for directed edges<a href="ch14.html#arrows-for-directed-edges" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="ch14.html#cb384-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.directed</span>(karate, <span class="at">mode =</span> <span class="st">&#39;random&#39;</span>), <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.arrow.width =</span> <span class="fl">0.5</span>, <span class="at">edge.arrow.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-134-1.png" width="672" /></p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="ch14.html#cb402-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.directed</span>(karate, <span class="at">mode =</span> <span class="st">&#39;random&#39;</span>), <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">edge.arrow.width =</span> <span class="fl">0.5</span>, <span class="at">edge.arrow.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
 </div>
 </div>
 <div id="other" class="section level2 hasAnchor" number="14.4">
@@ -528,41 +525,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="graph-layouts" class="section level3 hasAnchor" number="14.4.1">
 <h3><span class="header-section-number">14.4.1</span> Graph layouts<a href="ch14.html#graph-layouts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It is good practice to set a seed before executing the graph layout functions, so that you are able to “save” the output and replicate it in the future. Notice that the layout function takes the network as its argument and outputs a 2 column matrix which is the x- and y-coordinates for each of the nodes in the network (explore the <code>my_layout1</code> R object). Then you can insert that as the input to the layout parameter when you want to plot the network.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="ch14.html#cb385-1" tabindex="-1"></a><span class="do">## saving a fixed layout for future use </span></span>
-<span id="cb385-2"><a href="ch14.html#cb385-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb385-3"><a href="ch14.html#cb385-3" tabindex="-1"></a>my_layout1 <span class="ot">&lt;-</span> <span class="fu">layout_in_circle</span>(karate)</span>
-<span id="cb385-4"><a href="ch14.html#cb385-4" tabindex="-1"></a></span>
-<span id="cb385-5"><a href="ch14.html#cb385-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb385-6"><a href="ch14.html#cb385-6" tabindex="-1"></a>my_layout2 <span class="ot">&lt;-</span> <span class="fu">layout_with_dh</span>(karate)</span>
-<span id="cb385-7"><a href="ch14.html#cb385-7" tabindex="-1"></a></span>
-<span id="cb385-8"><a href="ch14.html#cb385-8" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout1)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="ch14.html#cb386-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout2)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-135-2.png" width="672" /></p>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="ch14.html#cb403-1" tabindex="-1"></a><span class="do">## saving a fixed layout for future use </span></span>
+<span id="cb403-2"><a href="ch14.html#cb403-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb403-3"><a href="ch14.html#cb403-3" tabindex="-1"></a>my_layout1 <span class="ot">&lt;-</span> <span class="fu">layout_in_circle</span>(karate)</span>
+<span id="cb403-4"><a href="ch14.html#cb403-4" tabindex="-1"></a></span>
+<span id="cb403-5"><a href="ch14.html#cb403-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb403-6"><a href="ch14.html#cb403-6" tabindex="-1"></a>my_layout2 <span class="ot">&lt;-</span> <span class="fu">layout_with_dh</span>(karate)</span>
+<span id="cb403-7"><a href="ch14.html#cb403-7" tabindex="-1"></a></span>
+<span id="cb403-8"><a href="ch14.html#cb403-8" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout1)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="ch14.html#cb404-1" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout2)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-137-2.png" width="672" /></p>
 <p>See <a href="https://kateto.net/network-visualization" class="uri">https://kateto.net/network-visualization</a> (Section 4.2 Network layouts) to learn more about the different plotting formats available in <code>igraph</code>.</p>
 </div>
 <div id="plot-title" class="section level3 hasAnchor" number="14.4.2">
 <h3><span class="header-section-number">14.4.2</span> Plot title<a href="ch14.html#plot-title" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="ch14.html#cb387-1" tabindex="-1"></a><span class="do">## add a plot title ----</span></span>
-<span id="cb387-2"><a href="ch14.html#cb387-2" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>community, <span class="at">main =</span> <span class="st">&#39;Communities in the karate network&#39;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="ch14.html#cb405-1" tabindex="-1"></a><span class="do">## add a plot title ----</span></span>
+<span id="cb405-2"><a href="ch14.html#cb405-2" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>community, <span class="at">main =</span> <span class="st">&#39;Communities in the karate network&#39;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
 </div>
 <div id="add-a-subtitle" class="section level3 hasAnchor" number="14.4.3">
 <h3><span class="header-section-number">14.4.3</span> Add a subtitle<a href="ch14.html#add-a-subtitle" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="ch14.html#cb388-1" tabindex="-1"></a><span class="do">## add a subtitle ----</span></span>
-<span id="cb388-2"><a href="ch14.html#cb388-2" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>community, <span class="at">main =</span> <span class="st">&#39;Communities in the karate network&#39;</span>,</span>
-<span id="cb388-3"><a href="ch14.html#cb388-3" tabindex="-1"></a>     <span class="at">sub =</span> <span class="st">&#39;The Louvain community detection method was used.&#39;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="ch14.html#cb406-1" tabindex="-1"></a><span class="do">## add a subtitle ----</span></span>
+<span id="cb406-2"><a href="ch14.html#cb406-2" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">vertex.color =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>community, <span class="at">main =</span> <span class="st">&#39;Communities in the karate network&#39;</span>,</span>
+<span id="cb406-3"><a href="ch14.html#cb406-3" tabindex="-1"></a>     <span class="at">sub =</span> <span class="st">&#39;The Louvain community detection method was used.&#39;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-139-1.png" width="672" /></p>
 </div>
 <div id="multiple-plots" class="section level3 hasAnchor" number="14.4.4">
 <h3><span class="header-section-number">14.4.4</span> Multiple plots<a href="ch14.html#multiple-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="ch14.html#cb389-1" tabindex="-1"></a><span class="do">## multiple plots ----</span></span>
-<span id="cb389-2"><a href="ch14.html#cb389-2" tabindex="-1"></a></span>
-<span id="cb389-3"><a href="ch14.html#cb389-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)<span class="sc">+</span><span class="dv">1</span>, <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) <span class="co"># adjust margins, 1 row, 2 columns  </span></span>
-<span id="cb389-4"><a href="ch14.html#cb389-4" tabindex="-1"></a></span>
-<span id="cb389-5"><a href="ch14.html#cb389-5" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout1, <span class="at">main =</span> <span class="st">&#39;layout 1&#39;</span>)</span>
-<span id="cb389-6"><a href="ch14.html#cb389-6" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout2, <span class="at">main =</span> <span class="st">&#39;layout 2&#39;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="ch14.html#cb407-1" tabindex="-1"></a><span class="do">## multiple plots ----</span></span>
+<span id="cb407-2"><a href="ch14.html#cb407-2" tabindex="-1"></a></span>
+<span id="cb407-3"><a href="ch14.html#cb407-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)<span class="sc">+</span><span class="dv">1</span>, <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) <span class="co"># adjust margins, 1 row, 2 columns  </span></span>
+<span id="cb407-4"><a href="ch14.html#cb407-4" tabindex="-1"></a></span>
+<span id="cb407-5"><a href="ch14.html#cb407-5" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout1, <span class="at">main =</span> <span class="st">&#39;layout 1&#39;</span>)</span>
+<span id="cb407-6"><a href="ch14.html#cb407-6" tabindex="-1"></a><span class="fu">plot</span>(karate, <span class="at">layout =</span> my_layout2, <span class="at">main =</span> <span class="st">&#39;layout 2&#39;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-140-1.png" width="672" /></p>
 </div>
 <div id="useful-links" class="section level3 hasAnchor" number="14.4.5">
 <h3><span class="header-section-number">14.4.5</span> Useful links<a href="ch14.html#useful-links" class="anchor-section" aria-label="Anchor link to header"></a></h3>

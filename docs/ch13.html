@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-08-10" />
+<meta name="date" content="2024-09-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,8 +54,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -412,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="installation-of-bootnet" class="section level2 hasAnchor" number="13.2">
 <h2><span class="header-section-number">13.2</span> Installation of <code>bootnet</code><a href="ch13.html#installation-of-bootnet" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We need to first install the <code>bootnet</code> R library.</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="ch13.html#cb338-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;bootnet&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="ch13.html#cb353-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;bootnet&#39;</span>)</span></code></pre></div>
 <div id="qgraph-vs.-igraph" class="section level3 hasAnchor" number="13.2.1">
 <h3><span class="header-section-number">13.2.1</span> <code>qgraph</code> vs. <code>igraph</code><a href="ch13.html#qgraph-vs.-igraph" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It is important to keep in mind that that network objects created by the <code>bootnet</code> R package are <em>not</em> <code>igraph</code> objects; instead, they are <code>qgraph</code> objects, a different class of data objects specially created for <code>bootnet</code> and other packages for psychometric network analysis. In order for you to use the code provided in this book, we will need to first extract the adjacency matrix representation of this object and convert it to an <code>igraph</code> network object. I will show you how to do this later in the chapter.</p>
@@ -425,38 +423,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Foa, E. B., Riggs, D. S., Dancu, C. V., &amp; Rothbaum, B. O. (1993). Reliability and validity of a brief instrument for assessing post‐traumatic stress disorder. Journal of Traumatic Stress, 6(4), 459-473.</p>
 <p>Hien DA, Wells EA, Jiang H, Suarez-Morales L, Campbell AN, Cohen LR, Zhang Y, et al. Multisite randomized trial of behavioral interventions for women with co-occurring ptsd and substance use disorders. Journal of Consulting and Clinical Psychology. 2009;77(4):607–619. doi: 10.1037/a0016227</p>
 <p>As we can see below, there are 17 items in the PSS-SR, corresponding to the columns of the data frame, and 359 responses corresponding to the rows of the data frame. The responses are ordinal and range from 1 to 5.</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="ch13.html#cb339-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;data/ptsd_freq.RData&#39;</span>) <span class="co"># load pre-processed data </span></span>
-<span id="cb339-2"><a href="ch13.html#cb339-2" tabindex="-1"></a></span>
-<span id="cb339-3"><a href="ch13.html#cb339-3" tabindex="-1"></a>qs_freq_wide[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="co"># each row = 1 subject, each column = 1 item </span></span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="ch13.html#cb354-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;data/ptsd_freq.RData&#39;</span>) <span class="co"># load pre-processed data </span></span>
+<span id="cb354-2"><a href="ch13.html#cb354-2" tabindex="-1"></a></span>
+<span id="cb354-3"><a href="ch13.html#cb354-3" tabindex="-1"></a>qs_freq_wide[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>] <span class="co"># each row = 1 subject, each column = 1 item </span></span></code></pre></div>
 <pre><code>## # A tibble: 3 × 5
-##   AVOID REMINDERS OF THE…¹ BAD DREAMS ABOUT THE…² BEING JUMPY OR EASIL…³ `BEING OVER ALERT` DISTANT OR CUT OFF F…⁴
-##                      &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;              &lt;dbl&gt;                  &lt;dbl&gt;
-## 1                        4                      1                      4                  4                      1
-## 2                        1                      3                      2                  3                      1
-## 3                        4                      2                      1                  2                      2
-## # ℹ abbreviated names: ¹​`AVOID REMINDERS OF THE TRAUMA`, ²​`BAD DREAMS ABOUT THE TRAUMA`,
-## #   ³​`BEING JUMPY OR EASILY STARTLED`, ⁴​`DISTANT OR CUT OFF FROM PEOPLE`</code></pre>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="ch13.html#cb341-1" tabindex="-1"></a><span class="fu">colnames</span>(qs_freq_wide) <span class="co"># list of items </span></span></code></pre></div>
-<pre><code>##  [1] &quot;AVOID REMINDERS OF THE TRAUMA&quot;  &quot;BAD DREAMS ABOUT THE TRAUMA&quot;    &quot;BEING JUMPY OR EASILY STARTLED&quot;
-##  [4] &quot;BEING OVER ALERT&quot;               &quot;DISTANT OR CUT OFF FROM PEOPLE&quot; &quot;FEELING EMOTIONALLY NUMB&quot;      
-##  [7] &quot;FEELING IRRITABLE&quot;              &quot;FEELING PLANS WONT COME TRUE&quot;   &quot;HAVING TROUBLE CONCENTRATING&quot;  
-## [10] &quot;HAVING TROUBLE SLEEPING&quot;        &quot;LESS INTEREST IN ACTIVITIES&quot;    &quot;NOT ABLE TO REMEMBER&quot;          
-## [13] &quot;NOT THINKING ABOUT TRAUMA&quot;      &quot;PHYSICAL REACTIONS&quot;             &quot;RELIVING THE TRAUMA&quot;           
-## [16] &quot;UPSET WHEN REMINDED OF TRAUMA&quot;  &quot;UPSETTING THOUGHTS OR IMAGES&quot;</code></pre>
+##   `AVOID REMINDERS OF THE TRAUMA` `BAD DREAMS ABOUT THE TRAUMA` `BEING JUMPY OR EASILY STARTLED` `BEING OVER ALERT` `DISTANT OR CUT OFF FROM PEOPLE`
+##                             &lt;dbl&gt;                         &lt;dbl&gt;                            &lt;dbl&gt;              &lt;dbl&gt;                            &lt;dbl&gt;
+## 1                               4                             1                                4                  4                                1
+## 2                               1                             3                                2                  3                                1
+## 3                               4                             2                                1                  2                                2</code></pre>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="ch13.html#cb356-1" tabindex="-1"></a><span class="fu">colnames</span>(qs_freq_wide) <span class="co"># list of items </span></span></code></pre></div>
+<pre><code>##  [1] &quot;AVOID REMINDERS OF THE TRAUMA&quot;  &quot;BAD DREAMS ABOUT THE TRAUMA&quot;    &quot;BEING JUMPY OR EASILY STARTLED&quot; &quot;BEING OVER ALERT&quot;               &quot;DISTANT OR CUT OFF FROM PEOPLE&quot; &quot;FEELING EMOTIONALLY NUMB&quot;      
+##  [7] &quot;FEELING IRRITABLE&quot;              &quot;FEELING PLANS WONT COME TRUE&quot;   &quot;HAVING TROUBLE CONCENTRATING&quot;   &quot;HAVING TROUBLE SLEEPING&quot;        &quot;LESS INTEREST IN ACTIVITIES&quot;    &quot;NOT ABLE TO REMEMBER&quot;          
+## [13] &quot;NOT THINKING ABOUT TRAUMA&quot;      &quot;PHYSICAL REACTIONS&quot;             &quot;RELIVING THE TRAUMA&quot;            &quot;UPSET WHEN REMINDED OF TRAUMA&quot;  &quot;UPSETTING THOUGHTS OR IMAGES&quot;</code></pre>
 </div>
 <div id="estimate-a-partial-correlation-network" class="section level2 hasAnchor" number="13.4">
 <h2><span class="header-section-number">13.4</span> Estimate a partial correlation network<a href="ch13.html#estimate-a-partial-correlation-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To represent the associations across the 17 items in our dataset, we will estimate a <em>partial correlation</em> network. The partial correlation depicts the strength of association of 2 variables after conditioning on other variables.</p>
 <p>We make use of the <code>estimateNetwork</code> function from bootnet to help us do this. To estimate a partial correlation network, we need to specify an additional argument, <code>default = "pcor"</code>.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="ch13.html#cb343-1" tabindex="-1"></a><span class="fu">library</span>(bootnet)</span>
-<span id="cb343-2"><a href="ch13.html#cb343-2" tabindex="-1"></a></span>
-<span id="cb343-3"><a href="ch13.html#cb343-3" tabindex="-1"></a>ptsd_network <span class="ot">&lt;-</span> <span class="fu">estimateNetwork</span>(qs_freq_wide, <span class="at">default =</span> <span class="st">&quot;pcor&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="ch13.html#cb358-1" tabindex="-1"></a><span class="fu">library</span>(bootnet)</span></code></pre></div>
+<pre><code>## This is bootnet 1.6</code></pre>
+<pre><code>## For questions and issues, please see github.com/SachaEpskamp/bootnet.</code></pre>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="ch13.html#cb361-1" tabindex="-1"></a>ptsd_network <span class="ot">&lt;-</span> <span class="fu">estimateNetwork</span>(qs_freq_wide, <span class="at">default =</span> <span class="st">&quot;pcor&quot;</span>) </span></code></pre></div>
 <pre><code>## Estimating Network. Using package::function:
 ##   - qgraph::qgraph(..., graph = &#39;pcor&#39;) for network computation
 ##   - psych::corr.p for significance thresholding</code></pre>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="ch13.html#cb345-1" tabindex="-1"></a><span class="co"># pcor = partial correlation network</span></span>
-<span id="cb345-2"><a href="ch13.html#cb345-2" tabindex="-1"></a></span>
-<span id="cb345-3"><a href="ch13.html#cb345-3" tabindex="-1"></a><span class="fu">summary</span>(ptsd_network) <span class="co"># how many nodes and edges does this network have?</span></span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="ch13.html#cb363-1" tabindex="-1"></a><span class="co"># pcor = partial correlation network</span></span>
+<span id="cb363-2"><a href="ch13.html#cb363-2" tabindex="-1"></a></span>
+<span id="cb363-3"><a href="ch13.html#cb363-3" tabindex="-1"></a><span class="fu">summary</span>(ptsd_network) <span class="co"># how many nodes and edges does this network have?</span></span></code></pre></div>
 <pre><code>## 
 ## === Estimated network ===
 ## Number of nodes: 17 
@@ -478,14 +472,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">13.4.1</span> Thresholding<a href="ch13.html#thresholding" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>ptsd_network</code> contains 17 nodes and 136/136 non-zero edges. Notice that the number 136 corresponds to the maximum number of edges possible in a network of 17 nodes (test this for your yourself by calculating the number of possible combinations of 2 from 17 options). The presence of 136 non-zero edges indicates that this is in fact a fully connected graph.</p>
 <p>A fully connected network is a rather meaningless representation to work with as there will be little to no variance in the node-level measures. Because many of these correlations depict very weak relationships, we can remove such non-significant correlations by including the argument <code>threshold = 'sig'</code>.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="ch13.html#cb347-1" tabindex="-1"></a>ptsd_network <span class="ot">&lt;-</span> <span class="fu">estimateNetwork</span>(qs_freq_wide, <span class="at">default =</span> <span class="st">&quot;pcor&quot;</span>, </span>
-<span id="cb347-2"><a href="ch13.html#cb347-2" tabindex="-1"></a>                                <span class="at">threshold =</span> <span class="st">&#39;sig&#39;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="ch13.html#cb365-1" tabindex="-1"></a>ptsd_network <span class="ot">&lt;-</span> <span class="fu">estimateNetwork</span>(qs_freq_wide, <span class="at">default =</span> <span class="st">&quot;pcor&quot;</span>, </span>
+<span id="cb365-2"><a href="ch13.html#cb365-2" tabindex="-1"></a>                                <span class="at">threshold =</span> <span class="st">&#39;sig&#39;</span>) </span></code></pre></div>
 <pre><code>## Estimating Network. Using package::function:
 ##   - qgraph::qgraph(..., graph = &#39;pcor&#39;) for network computation
 ##   - psych::corr.p for significance thresholding</code></pre>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="ch13.html#cb349-1" tabindex="-1"></a><span class="co"># pcor = partial correlation network, only retain significant edges </span></span>
-<span id="cb349-2"><a href="ch13.html#cb349-2" tabindex="-1"></a></span>
-<span id="cb349-3"><a href="ch13.html#cb349-3" tabindex="-1"></a><span class="fu">summary</span>(ptsd_network) <span class="co"># how many nodes and edges does this network have?</span></span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="ch13.html#cb367-1" tabindex="-1"></a><span class="co"># pcor = partial correlation network, only retain significant edges </span></span>
+<span id="cb367-2"><a href="ch13.html#cb367-2" tabindex="-1"></a></span>
+<span id="cb367-3"><a href="ch13.html#cb367-3" tabindex="-1"></a><span class="fu">summary</span>(ptsd_network) <span class="co"># how many nodes and edges does this network have?</span></span></code></pre></div>
 <pre><code>## 
 ## === Estimated network ===
 ## Number of nodes: 17 
@@ -506,49 +500,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="absolutizing" class="section level3 hasAnchor" number="13.4.2">
 <h3><span class="header-section-number">13.4.2</span> Absolutizing<a href="ch13.html#absolutizing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can view the adjacency matrix of the network from running the following:</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="ch13.html#cb351-1" tabindex="-1"></a>ptsd_network<span class="sc">$</span>graph</span></code></pre></div>
-<pre><code>##            AROTT      BDATT      BJOES       BOA    DOCOFP       FEN       FEI     FPWCT        HTC       HTS
-## AROTT  0.0000000  0.0000000  0.0000000 0.1555554 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## BDATT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 -0.1221041 0.0000000
-## BJOES  0.0000000  0.0000000  0.0000000 0.4075190 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## BOA    0.1555554  0.0000000  0.4075190 0.0000000 0.0000000 0.1423142 0.0000000 0.0000000  0.0000000 0.0000000
-## DOCOFP 0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.2357181 0.1334469 0.0000000  0.0000000 0.0000000
-## FEN    0.0000000  0.0000000  0.0000000 0.1423142 0.2357181 0.0000000 0.1410481 0.1474119  0.0000000 0.0000000
-## FEI    0.0000000  0.0000000  0.0000000 0.0000000 0.1334469 0.1410481 0.0000000 0.1214582  0.1793871 0.0000000
-## FPWCT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.1474119 0.1214582 0.0000000  0.0000000 0.0000000
-## HTC    0.0000000 -0.1221041  0.0000000 0.0000000 0.0000000 0.0000000 0.1793871 0.0000000  0.0000000 0.1332300
-## HTS    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.1332300 0.0000000
-## LIIA   0.0000000  0.0000000  0.1129132 0.0000000 0.3509726 0.0000000 0.0000000 0.2044012  0.0000000 0.0000000
-## NATR   0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## NTAT   0.1515577  0.0000000  0.1204094 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## PHR    0.1746399  0.1089284  0.1692879 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## RTT    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## UWROT  0.0000000  0.1461690 -0.1109757 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## UTOI   0.0000000  0.1710409  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.1351728
-##             LIIA      NATR      NTAT       PHR       RTT      UWROT      UTOI
-## AROTT  0.0000000 0.0000000 0.1515577 0.1746399 0.0000000  0.0000000 0.0000000
-## BDATT  0.0000000 0.0000000 0.0000000 0.1089284 0.0000000  0.1461690 0.1710409
-## BJOES  0.1129132 0.0000000 0.1204094 0.1692879 0.0000000 -0.1109757 0.0000000
-## BOA    0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## DOCOFP 0.3509726 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## FEN    0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## FEI    0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## FPWCT  0.2044012 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## HTC    0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
-## HTS    0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.1351728
-## LIIA   0.0000000 0.0000000 0.0000000 0.0000000 0.1093724  0.0000000 0.0000000
-## NATR   0.0000000 0.0000000 0.1711055 0.0000000 0.1487162  0.1546641 0.0000000
-## NTAT   0.0000000 0.1711055 0.0000000 0.0000000 0.0000000  0.1169038 0.0000000
-## PHR    0.0000000 0.0000000 0.0000000 0.0000000 0.1811024  0.0000000 0.0000000
-## RTT    0.1093724 0.1487162 0.0000000 0.1811024 0.0000000  0.0000000 0.1970405
-## UWROT  0.0000000 0.1546641 0.1169038 0.0000000 0.0000000  0.0000000 0.4497070
-## UTOI   0.0000000 0.0000000 0.0000000 0.0000000 0.1970405  0.4497070 0.0000000</code></pre>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="ch13.html#cb369-1" tabindex="-1"></a>ptsd_network<span class="sc">$</span>graph</span></code></pre></div>
+<pre><code>##            AROTT      BDATT      BJOES       BOA    DOCOFP       FEN       FEI     FPWCT        HTC       HTS      LIIA      NATR      NTAT       PHR       RTT      UWROT      UTOI
+## AROTT  0.0000000  0.0000000  0.0000000 0.1555554 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.1515577 0.1746399 0.0000000  0.0000000 0.0000000
+## BDATT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 -0.1221041 0.0000000 0.0000000 0.0000000 0.0000000 0.1089284 0.0000000  0.1461690 0.1710409
+## BJOES  0.0000000  0.0000000  0.0000000 0.4075190 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.1129132 0.0000000 0.1204094 0.1692879 0.0000000 -0.1109757 0.0000000
+## BOA    0.1555554  0.0000000  0.4075190 0.0000000 0.0000000 0.1423142 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
+## DOCOFP 0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.2357181 0.1334469 0.0000000  0.0000000 0.0000000 0.3509726 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
+## FEN    0.0000000  0.0000000  0.0000000 0.1423142 0.2357181 0.0000000 0.1410481 0.1474119  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
+## FEI    0.0000000  0.0000000  0.0000000 0.0000000 0.1334469 0.1410481 0.0000000 0.1214582  0.1793871 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
+## FPWCT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.1474119 0.1214582 0.0000000  0.0000000 0.0000000 0.2044012 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
+## HTC    0.0000000 -0.1221041  0.0000000 0.0000000 0.0000000 0.0000000 0.1793871 0.0000000  0.0000000 0.1332300 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000
+## HTS    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.1332300 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.1351728
+## LIIA   0.0000000  0.0000000  0.1129132 0.0000000 0.3509726 0.0000000 0.0000000 0.2044012  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.1093724  0.0000000 0.0000000
+## NATR   0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.1711055 0.0000000 0.1487162  0.1546641 0.0000000
+## NTAT   0.1515577  0.0000000  0.1204094 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.1711055 0.0000000 0.0000000 0.0000000  0.1169038 0.0000000
+## PHR    0.1746399  0.1089284  0.1692879 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.1811024  0.0000000 0.0000000
+## RTT    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.1093724 0.1487162 0.0000000 0.1811024 0.0000000  0.0000000 0.1970405
+## UWROT  0.0000000  0.1461690 -0.1109757 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.1546641 0.1169038 0.0000000 0.0000000  0.0000000 0.4497070
+## UTOI   0.0000000  0.1710409  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.1351728 0.0000000 0.0000000 0.0000000 0.0000000 0.1970405  0.4497070 0.0000000</code></pre>
 <p>You may notice from the adjacency matrix that some partial correlations are negative. For instance, the correlation between HTC and BDATT is -0.1221041. However, when edge weights are negative, certain network measures cannot be computed and so we need to convert them to a positive value (but maintain the magnitude of the effect). Edges that depict a “positive” or “negative” meaning are associated with the theory of <a href="https://en.wikipedia.org/wiki/Signed_network">signed networks</a>, which are beyond the scope of this book. Interested readers can refer to the <a href="https://www.r-bloggers.com/2020/01/a-package-for-analysing-signed-networks/"><code>signnet</code> R package</a> for further information about how to analyze signed networks.</p>
 <p>The code below shows you how to absolutize the matrix and assigns the output as a new data object <code>my_adj_mat</code>.</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="ch13.html#cb353-1" tabindex="-1"></a><span class="co"># make all edge weights positive </span></span>
-<span id="cb353-2"><a href="ch13.html#cb353-2" tabindex="-1"></a>my_adj_mat <span class="ot">&lt;-</span> <span class="fu">abs</span>(ptsd_network<span class="sc">$</span>graph)</span>
-<span id="cb353-3"><a href="ch13.html#cb353-3" tabindex="-1"></a></span>
-<span id="cb353-4"><a href="ch13.html#cb353-4" tabindex="-1"></a>my_adj_mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="ch13.html#cb371-1" tabindex="-1"></a><span class="co"># make all edge weights positive </span></span>
+<span id="cb371-2"><a href="ch13.html#cb371-2" tabindex="-1"></a>my_adj_mat <span class="ot">&lt;-</span> <span class="fu">abs</span>(ptsd_network<span class="sc">$</span>graph)</span>
+<span id="cb371-3"><a href="ch13.html#cb371-3" tabindex="-1"></a></span>
+<span id="cb371-4"><a href="ch13.html#cb371-4" tabindex="-1"></a>my_adj_mat[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div>
 <pre><code>##            AROTT     BDATT    BJOES       BOA    DOCOFP       FEN       FEI
 ## AROTT  0.0000000 0.0000000 0.000000 0.1555554 0.0000000 0.0000000 0.0000000
 ## BDATT  0.0000000 0.0000000 0.000000 0.0000000 0.0000000 0.0000000 0.0000000
@@ -564,26 +540,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="conversion-to-igraph" class="section level3 hasAnchor" number="13.4.3">
 <h3><span class="header-section-number">13.4.3</span> Conversion to igraph<a href="ch13.html#conversion-to-igraph" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In the final step, we need to convert the matrix object into an <code>igraph</code> network, using a function that should be familiar to you by now! (see Chapter 2/3).</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="ch13.html#cb355-1" tabindex="-1"></a><span class="fu">library</span>(igraph) <span class="co"># load the package</span></span>
-<span id="cb355-2"><a href="ch13.html#cb355-2" tabindex="-1"></a></span>
-<span id="cb355-3"><a href="ch13.html#cb355-3" tabindex="-1"></a><span class="co"># why we should use this particular function? </span></span>
-<span id="cb355-4"><a href="ch13.html#cb355-4" tabindex="-1"></a>ptsd_network_igraph <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(my_adj_mat, </span>
-<span id="cb355-5"><a href="ch13.html#cb355-5" tabindex="-1"></a>                                                   <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>, </span>
-<span id="cb355-6"><a href="ch13.html#cb355-6" tabindex="-1"></a>                                                   <span class="at">weighted =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb355-7"><a href="ch13.html#cb355-7" tabindex="-1"></a></span>
-<span id="cb355-8"><a href="ch13.html#cb355-8" tabindex="-1"></a><span class="fu">summary</span>(ptsd_network_igraph)</span></code></pre></div>
-<pre><code>## IGRAPH fc85b53 UNW- 17 31 -- 
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="ch13.html#cb373-1" tabindex="-1"></a><span class="fu">library</span>(igraph) <span class="co"># load the package</span></span>
+<span id="cb373-2"><a href="ch13.html#cb373-2" tabindex="-1"></a></span>
+<span id="cb373-3"><a href="ch13.html#cb373-3" tabindex="-1"></a><span class="co"># why we should use this particular function? </span></span>
+<span id="cb373-4"><a href="ch13.html#cb373-4" tabindex="-1"></a>ptsd_network_igraph <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(my_adj_mat, </span>
+<span id="cb373-5"><a href="ch13.html#cb373-5" tabindex="-1"></a>                                                   <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>, </span>
+<span id="cb373-6"><a href="ch13.html#cb373-6" tabindex="-1"></a>                                                   <span class="at">weighted =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb373-7"><a href="ch13.html#cb373-7" tabindex="-1"></a></span>
+<span id="cb373-8"><a href="ch13.html#cb373-8" tabindex="-1"></a><span class="fu">summary</span>(ptsd_network_igraph)</span></code></pre></div>
+<pre><code>## IGRAPH 45e68f5 UNW- 17 31 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>We can easily see that the network contains 17 nodes and 31 edges, and is an undirected and weighted graph. The weights correspond to the strength of the partial correlation between those two items, and only significant correlations were retained as edges. The edges are undirected because direction of causality cannot be inferred from the correlations.</p>
 <p>Thereafter, we can easily compute various network measures for the network.</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="ch13.html#cb357-1" tabindex="-1"></a><span class="co"># degree of nodes</span></span>
-<span id="cb357-2"><a href="ch13.html#cb357-2" tabindex="-1"></a><span class="fu">degree</span>(ptsd_network_igraph)</span></code></pre></div>
-<pre><code>##  AROTT  BDATT  BJOES    BOA DOCOFP    FEN    FEI  FPWCT    HTC    HTS   LIIA   NATR   NTAT    PHR    RTT  UWROT 
-##      3      4      5      3      3      4      4      3      3      2      4      3      4      4      4      5 
-##   UTOI 
-##      4</code></pre>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="ch13.html#cb359-1" tabindex="-1"></a><span class="co"># global clustering coefficient </span></span>
-<span id="cb359-2"><a href="ch13.html#cb359-2" tabindex="-1"></a><span class="fu">transitivity</span>(ptsd_network_igraph, <span class="at">type =</span> <span class="st">&#39;global&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="ch13.html#cb375-1" tabindex="-1"></a><span class="co"># degree of nodes</span></span>
+<span id="cb375-2"><a href="ch13.html#cb375-2" tabindex="-1"></a><span class="fu">degree</span>(ptsd_network_igraph)</span></code></pre></div>
+<pre><code>##  AROTT  BDATT  BJOES    BOA DOCOFP    FEN    FEI  FPWCT    HTC    HTS   LIIA   NATR   NTAT    PHR    RTT  UWROT   UTOI 
+##      3      4      5      3      3      4      4      3      3      2      4      3      4      4      4      5      4</code></pre>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="ch13.html#cb377-1" tabindex="-1"></a><span class="co"># global clustering coefficient </span></span>
+<span id="cb377-2"><a href="ch13.html#cb377-2" tabindex="-1"></a><span class="fu">transitivity</span>(ptsd_network_igraph, <span class="at">type =</span> <span class="st">&#39;global&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1724138</code></pre>
 <p><img src="bookdown-demo_files/figure-html/test-1.png" width="672" /></p>
 </div>
