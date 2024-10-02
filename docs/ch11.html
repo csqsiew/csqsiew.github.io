@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Chapter 11: keyplayer package | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Chapter 11: keyplayer package | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-09-16" />
+<meta name="date" content="2024-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -413,15 +415,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="set-up-1" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> Set up<a href="ch11.html#set-up-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First, let’s install the <code>keyplayer</code> R package:</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="ch11.html#cb322-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;keyplayer&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="ch11.html#cb319-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;keyplayer&#39;</span>)</span></code></pre></div>
 <p>We will use the <code>macaque</code> network from the <code>igraphdata</code> R package for demonstration. This dataset comes from Négyessy et al., where they used network science to study the cortical pathways from the primary somatosensory cortex to the primary visual cortex in the macaque monkey brain. The network consists of 45 nodes representing 45 brain areas (30 visual and 15 sensorimotor), and 463 directed and unweighted edges. An edge indicates the presence of a pathway or axonal tracts <em>from</em> brain area <em>i</em> <em>to</em> brain area <em>j</em>, as identified through the use of tracers.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="ch11.html#cb323-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
-<span id="cb323-2"><a href="ch11.html#cb323-2" tabindex="-1"></a></span>
-<span id="cb323-3"><a href="ch11.html#cb323-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>)</span>
-<span id="cb323-4"><a href="ch11.html#cb323-4" tabindex="-1"></a></span>
-<span id="cb323-5"><a href="ch11.html#cb323-5" tabindex="-1"></a><span class="co"># load the other packages that we need </span></span>
-<span id="cb323-6"><a href="ch11.html#cb323-6" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb323-7"><a href="ch11.html#cb323-7" tabindex="-1"></a><span class="fu">library</span>(keyplayer)</span></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="ch11.html#cb320-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb320-2"><a href="ch11.html#cb320-2" tabindex="-1"></a></span>
+<span id="cb320-3"><a href="ch11.html#cb320-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>)</span>
+<span id="cb320-4"><a href="ch11.html#cb320-4" tabindex="-1"></a></span>
+<span id="cb320-5"><a href="ch11.html#cb320-5" tabindex="-1"></a><span class="co"># load the other packages that we need </span></span>
+<span id="cb320-6"><a href="ch11.html#cb320-6" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb320-7"><a href="ch11.html#cb320-7" tabindex="-1"></a><span class="fu">library</span>(keyplayer)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;keyplayer&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:igraph&#39;:
@@ -441,28 +443,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>method</code>: grouping criterion; documentation suggests that the <code>"min"</code> method should be used for fragment centrality.</li>
 <li><code>binary</code>: I set this to <em>TRUE</em> so that the edges are treated as unweighted (which is the case for the <code>macaque</code> network anyway), but change this to <em>FALSE</em> if you would like to have the edge weights be included.</li>
 </ol>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="ch11.html#cb326-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb326-2"><a href="ch11.html#cb326-2" tabindex="-1"></a></span>
-<span id="cb326-3"><a href="ch11.html#cb326-3" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">kpset</span>(<span class="at">adj.matrix =</span> <span class="fu">as_adjacency_matrix</span>(macaque), </span>
-<span id="cb326-4"><a href="ch11.html#cb326-4" tabindex="-1"></a>                 <span class="at">size =</span> <span class="dv">3</span>, </span>
-<span id="cb326-5"><a href="ch11.html#cb326-5" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;fragment&quot;</span>, </span>
-<span id="cb326-6"><a href="ch11.html#cb326-6" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">&quot;min&quot;</span>, </span>
-<span id="cb326-7"><a href="ch11.html#cb326-7" tabindex="-1"></a>                 <span class="at">binary =</span> T)</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="ch11.html#cb323-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb323-2"><a href="ch11.html#cb323-2" tabindex="-1"></a></span>
+<span id="cb323-3"><a href="ch11.html#cb323-3" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">kpset</span>(<span class="at">adj.matrix =</span> <span class="fu">as_adjacency_matrix</span>(macaque), </span>
+<span id="cb323-4"><a href="ch11.html#cb323-4" tabindex="-1"></a>                 <span class="at">size =</span> <span class="dv">3</span>, </span>
+<span id="cb323-5"><a href="ch11.html#cb323-5" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;fragment&quot;</span>, </span>
+<span id="cb323-6"><a href="ch11.html#cb323-6" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">&quot;min&quot;</span>, </span>
+<span id="cb323-7"><a href="ch11.html#cb323-7" tabindex="-1"></a>                 <span class="at">binary =</span> T)</span></code></pre></div>
 <pre><code>## This graph was created by an old(er) igraph version.
 ##   Call upgrade_graph() on it to use with the current igraph version
 ##   For now we convert it on the fly...</code></pre>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="ch11.html#cb328-1" tabindex="-1"></a>results</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="ch11.html#cb325-1" tabindex="-1"></a>results</span></code></pre></div>
 <pre><code>## $keyplayers
 ## [1] 13 15 30
 ## 
 ## $centrality
 ## [1] 0.484427</code></pre>
 <p>Notice that the results of the key player algorithm is stored in an object called <code>results</code>, which is a list object containing two elements. The <code>centrality</code> element (which is accessed via <code>results$centrality</code>) provides the fragmentation score of the final set of keyplayers (i.e., the extent to which the network fragments when these nodes are removed). The second element is the optimal set of key players based on the goal of fragmentation which is stored in <code>results$keyplayers</code>. Because it records the “position” of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below.</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="ch11.html#cb330-1" tabindex="-1"></a><span class="co"># fragmentation score </span></span>
-<span id="cb330-2"><a href="ch11.html#cb330-2" tabindex="-1"></a>results<span class="sc">$</span>centrality</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="ch11.html#cb327-1" tabindex="-1"></a><span class="co"># fragmentation score </span></span>
+<span id="cb327-2"><a href="ch11.html#cb327-2" tabindex="-1"></a>results<span class="sc">$</span>centrality</span></code></pre></div>
 <pre><code>## [1] 0.484427</code></pre>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="ch11.html#cb332-1" tabindex="-1"></a><span class="co"># to map the keyplayer number to node names </span></span>
-<span id="cb332-2"><a href="ch11.html#cb332-2" tabindex="-1"></a><span class="fu">V</span>(macaque)<span class="sc">$</span>name[results<span class="sc">$</span>keyplayers] </span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="ch11.html#cb329-1" tabindex="-1"></a><span class="co"># to map the keyplayer number to node names </span></span>
+<span id="cb329-2"><a href="ch11.html#cb329-2" tabindex="-1"></a><span class="fu">V</span>(macaque)<span class="sc">$</span>name[results<span class="sc">$</span>keyplayers] </span></code></pre></div>
 <pre><code>## [1] &quot;LIP&quot; &quot;VIP&quot; &quot;46&quot;</code></pre>
 <p>The set of 3 brain areas that leads to the most amount of fragmentation in the macaque brain network when removed is [LIP, VIP, and 46], with a fragmentation score, <em>F</em>, of 0.484.</p>
 </div>
@@ -479,27 +481,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>method</code>: grouping criterion; documentation suggests that the <code>"union"</code> method should be used for cohesion centrality. <code>T = 1</code> indicates that we allow for the diffusion to spread for 1 step from the set of keyplayer nodes when computing for cohesion centrality.</li>
 <li><code>binary</code>: I set this to <em>TRUE</em> so that the edges are treated as unweighted (which is the case for the <code>macaque</code> network anyway), but change this to <em>FALSE</em> if you would like to have the edge weights be included.</li>
 </ol>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="ch11.html#cb334-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb334-2"><a href="ch11.html#cb334-2" tabindex="-1"></a></span>
-<span id="cb334-3"><a href="ch11.html#cb334-3" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">kpset</span>(<span class="fu">as_adjacency_matrix</span>(macaque), </span>
-<span id="cb334-4"><a href="ch11.html#cb334-4" tabindex="-1"></a>                 <span class="at">size =</span> <span class="dv">3</span>, </span>
-<span id="cb334-5"><a href="ch11.html#cb334-5" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;diffusion&quot;</span>, </span>
-<span id="cb334-6"><a href="ch11.html#cb334-6" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">&quot;union&quot;</span>, </span>
-<span id="cb334-7"><a href="ch11.html#cb334-7" tabindex="-1"></a>                 <span class="at">T =</span> <span class="dv">1</span>, </span>
-<span id="cb334-8"><a href="ch11.html#cb334-8" tabindex="-1"></a>                 <span class="at">binary =</span> T)</span>
-<span id="cb334-9"><a href="ch11.html#cb334-9" tabindex="-1"></a></span>
-<span id="cb334-10"><a href="ch11.html#cb334-10" tabindex="-1"></a>results </span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="ch11.html#cb331-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb331-2"><a href="ch11.html#cb331-2" tabindex="-1"></a></span>
+<span id="cb331-3"><a href="ch11.html#cb331-3" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">kpset</span>(<span class="fu">as_adjacency_matrix</span>(macaque), </span>
+<span id="cb331-4"><a href="ch11.html#cb331-4" tabindex="-1"></a>                 <span class="at">size =</span> <span class="dv">3</span>, </span>
+<span id="cb331-5"><a href="ch11.html#cb331-5" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">&quot;diffusion&quot;</span>, </span>
+<span id="cb331-6"><a href="ch11.html#cb331-6" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">&quot;union&quot;</span>, </span>
+<span id="cb331-7"><a href="ch11.html#cb331-7" tabindex="-1"></a>                 <span class="at">T =</span> <span class="dv">1</span>, </span>
+<span id="cb331-8"><a href="ch11.html#cb331-8" tabindex="-1"></a>                 <span class="at">binary =</span> T)</span>
+<span id="cb331-9"><a href="ch11.html#cb331-9" tabindex="-1"></a></span>
+<span id="cb331-10"><a href="ch11.html#cb331-10" tabindex="-1"></a>results </span></code></pre></div>
 <pre><code>## $keyplayers
 ## [1]  5 15 27
 ## 
 ## $centrality
 ## [1] 38</code></pre>
 <p>Notice that the results of the key player algorithm is stored in an object called <code>results</code>, which is a list object containing two elements. The <code>centrality</code> element (which is accessed via <code>results$centrality</code>) provides the cohesion score of the final set of keyplayers (i.e., the number of nodes in the network that is accessible from the key player set by 1 step (i.e., <code>T = 1</code>)). It would be important to normalize this value by the total number of nodes in the network so that we get a cohesion score that reflects the proportion of coverage of the network offered by the key players. The second element is the optimal set of key players based on the goal of fragmentation which is stored in <code>results$keyplayers</code>. Because it records the “position” of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below.</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="ch11.html#cb336-1" tabindex="-1"></a><span class="co"># cohesion score </span></span>
-<span id="cb336-2"><a href="ch11.html#cb336-2" tabindex="-1"></a>results<span class="sc">$</span>centrality<span class="sc">/</span><span class="fu">gorder</span>(macaque) </span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="ch11.html#cb333-1" tabindex="-1"></a><span class="co"># cohesion score </span></span>
+<span id="cb333-2"><a href="ch11.html#cb333-2" tabindex="-1"></a>results<span class="sc">$</span>centrality<span class="sc">/</span><span class="fu">gorder</span>(macaque) </span></code></pre></div>
 <pre><code>## [1] 0.8444444</code></pre>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="ch11.html#cb338-1" tabindex="-1"></a><span class="co"># to map the keyplayer number to node names </span></span>
-<span id="cb338-2"><a href="ch11.html#cb338-2" tabindex="-1"></a><span class="fu">V</span>(macaque)<span class="sc">$</span>name[results<span class="sc">$</span>keyplayers] </span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="ch11.html#cb335-1" tabindex="-1"></a><span class="co"># to map the keyplayer number to node names </span></span>
+<span id="cb335-2"><a href="ch11.html#cb335-2" tabindex="-1"></a><span class="fu">V</span>(macaque)<span class="sc">$</span>name[results<span class="sc">$</span>keyplayers] </span></code></pre></div>
 <pre><code>## [1] &quot;V4&quot;  &quot;VIP&quot; &quot;TF&quot;</code></pre>
 </div>
 <div id="references" class="section level2 hasAnchor" number="11.4">

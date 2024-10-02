@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Chapter 2: Programming and data science basics | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Chapter 2: Programming and data science basics | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-09-16" />
+<meta name="date" content="2024-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -422,7 +424,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.1.3</span> R scripts vs. Console<a href="ch2.html#r-scripts-vs.-console" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You can enter commands (instructions to the computer) directly into the Console (where the ‘&gt;’ is) and hit Enter/Return.</p>
 <p>Try entering the following into your Console:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="ch2.html#cb7-1" tabindex="-1"></a><span class="dv">10</span> <span class="sc">+</span> <span class="dv">20</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="ch2.html#cb4-1" tabindex="-1"></a><span class="dv">10</span> <span class="sc">+</span> <span class="dv">20</span></span></code></pre></div>
 <pre><code>## [1] 30</code></pre>
 <p>Notice that the answer of this math equation has been returned to you in the Console.</p>
 <p>You can also open a blank file (<em>File -&gt; New File -&gt; R Script</em>), write the command in it, and then execute it with <code>Ctrl-Enter</code> (Win) or <code>Cmd-Return</code> (Mac), or clicking on “Run” near the top right corner with the cursor on the same line. The result should also appear in the Console.</p>
@@ -435,9 +437,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>You can leave comments in the R script to remind yourself of your work. Comments are not interpreted by R and occur after the <code>#</code> symbol. Writing useful comments for your future self is both a skill and an art.</li>
 <li>You can break up a complex command into multiple lines for ease of writing and editing, and then run it all by highlighting the lines and pressing Ctrl-Enter.</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="ch2.html#cb9-1" tabindex="-1"></a><span class="dv">10</span> <span class="sc">+</span> <span class="dv">20</span> <span class="co"># this is a comment</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="ch2.html#cb6-1" tabindex="-1"></a><span class="dv">10</span> <span class="sc">+</span> <span class="dv">20</span> <span class="co"># this is a comment</span></span></code></pre></div>
 <pre><code>## [1] 30</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="ch2.html#cb11-1" tabindex="-1"></a><span class="co"># 20 * 20 (will not be run)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="ch2.html#cb8-1" tabindex="-1"></a><span class="co"># 20 * 20 (will not be run)</span></span></code></pre></div>
 <p>Advanced R users can consider using <a href="https://rmarkdown.rstudio.com/articles_intro.html">Rmarkdown</a> or <a href="https://quarto.org/">Quarto</a> for literate programming and publishing.</p>
 </div>
 </div>
@@ -446,27 +448,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="what-are-variables" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> What are variables?<a href="ch2.html#what-are-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A key aspect of programming is the ability to store information into <em>variables</em>. In R sometimes these variables are also known as <em>objects</em>. Try executing the following:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="ch2.html#cb12-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span></span>
-<span id="cb12-2"><a href="ch2.html#cb12-2" tabindex="-1"></a>my_height <span class="ot">&lt;-</span> <span class="dv">163</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="ch2.html#cb9-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb9-2"><a href="ch2.html#cb9-2" tabindex="-1"></a>my_height <span class="ot">&lt;-</span> <span class="dv">163</span></span></code></pre></div>
 <p>Other than numeric data, you can also store text (character) and logical data too.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="ch2.html#cb13-1" tabindex="-1"></a>my_name <span class="ot">&lt;-</span> <span class="st">&quot;Cynthia&quot;</span></span>
-<span id="cb13-2"><a href="ch2.html#cb13-2" tabindex="-1"></a>SundayToday <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="ch2.html#cb10-1" tabindex="-1"></a>my_name <span class="ot">&lt;-</span> <span class="st">&quot;Cynthia&quot;</span></span>
+<span id="cb10-2"><a href="ch2.html#cb10-2" tabindex="-1"></a>SundayToday <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span></code></pre></div>
 <p>Notice the use of <code>&lt;-</code> above: this is an <em>assignment operator</em> to “assign” values to a name/label that you provide.</p>
 <p>In addition, variable names should not contain any weird characters and should not begin with a number. I recommend using letters and underscores.</p>
 <p>You should notice that while no output is printed to the console, there are new lines in the Environment tab of RStudio. Have a look and see if the items make sense to you. Basically, by running the above code, the value of <code>x</code> and <code>my_height</code> (as well as <code>my_name</code> and <code>SundayToday</code>) has been stored in the “memory” of RStudio.</p>
 <p>Then you can begin to do interesting things with the variables:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="ch2.html#cb14-1" tabindex="-1"></a><span class="co"># what is Cynthia&#39;s height in metres?</span></span>
-<span id="cb14-2"><a href="ch2.html#cb14-2" tabindex="-1"></a>my_height<span class="sc">/</span><span class="dv">100</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="ch2.html#cb11-1" tabindex="-1"></a><span class="co"># what is Cynthia&#39;s height in metres?</span></span>
+<span id="cb11-2"><a href="ch2.html#cb11-2" tabindex="-1"></a>my_height<span class="sc">/</span><span class="dv">100</span></span></code></pre></div>
 <pre><code>## [1] 1.63</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="ch2.html#cb16-1" tabindex="-1"></a>my_height <span class="sc">*</span> x <span class="co"># a random math equation </span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="ch2.html#cb13-1" tabindex="-1"></a>my_height <span class="sc">*</span> x <span class="co"># a random math equation </span></span></code></pre></div>
 <pre><code>## [1] 1141</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="ch2.html#cb18-1" tabindex="-1"></a>SundayToday <span class="co"># this just prints the value of the variable </span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="ch2.html#cb15-1" tabindex="-1"></a>SundayToday <span class="co"># this just prints the value of the variable </span></span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="removing-objects" class="section level3 hasAnchor" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Removing objects<a href="ch2.html#removing-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your workspace/environment gets too messy, you can remove variables by using the <code>rm()</code> function:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="ch2.html#cb20-1" tabindex="-1"></a><span class="fu">rm</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ch2.html#cb17-1" tabindex="-1"></a><span class="fu">rm</span>(x)</span></code></pre></div>
 <p>Notice that <code>x</code> is missing from the Environment tab.</p>
 <p>To remove everything in the Environment, click on the Broom icon in the Environment tab or use the following command <code>rm(list=ls())</code>.</p>
 </div>
@@ -474,11 +476,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.2.3</span> Saving objects<a href="ch2.html#saving-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Although it doesn’t make sense to save variables that contain only one value, it is useful to save variables that are more complex (e.g., data frames or network objects), and to save the entire workspace so that you can come back to your project later.</p>
 <p>Here is how you do it:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="ch2.html#cb21-1" tabindex="-1"></a><span class="co"># single objects </span></span>
-<span id="cb21-2"><a href="ch2.html#cb21-2" tabindex="-1"></a><span class="fu">save</span>(my_height, <span class="at">file =</span> <span class="st">&#39;CS_height.RData&#39;</span>)</span>
-<span id="cb21-3"><a href="ch2.html#cb21-3" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="ch2.html#cb21-4" tabindex="-1"></a><span class="co"># entire workspace</span></span>
-<span id="cb21-5"><a href="ch2.html#cb21-5" tabindex="-1"></a><span class="fu">save.image</span>(<span class="at">file =</span> <span class="st">&#39;everything.RData&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="ch2.html#cb18-1" tabindex="-1"></a><span class="co"># single objects </span></span>
+<span id="cb18-2"><a href="ch2.html#cb18-2" tabindex="-1"></a><span class="fu">save</span>(my_height, <span class="at">file =</span> <span class="st">&#39;CS_height.RData&#39;</span>)</span>
+<span id="cb18-3"><a href="ch2.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="ch2.html#cb18-4" tabindex="-1"></a><span class="co"># entire workspace</span></span>
+<span id="cb18-5"><a href="ch2.html#cb18-5" tabindex="-1"></a><span class="fu">save.image</span>(<span class="at">file =</span> <span class="st">&#39;everything.RData&#39;</span>)</span></code></pre></div>
 <p>Notice that you need to specify a <code>file</code> argument which is the name of the file that you want to save the information to, and that the file extension is <code>.RData</code>.</p>
 <p>You can also save all of the objects in the workspace by clicking on the Floppy Disk icon in the Environment tab (NOT the Scripts tab).</p>
 <p>Recall from ‘Setting up a Project’ that you are automatically prompted to save all of the objects in the workspace before exiting the R session - this creates a hidden file called <code>.RData</code> where the information is saved to and is automatically loaded when you start a new session for the same project.</p>
@@ -486,38 +488,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="loading-objects" class="section level3 hasAnchor" number="2.2.4">
 <h3><span class="header-section-number">2.2.4</span> Loading objects<a href="ch2.html#loading-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>First, wipe the Environment with the Broom icon. The Environment should be empty. Then run the following:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ch2.html#cb22-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="ch2.html#cb19-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>)</span></code></pre></div>
 <p>All your variables have magically returned!</p>
 </div>
 <div id="what-are-vectors" class="section level3 hasAnchor" number="2.2.5">
 <h3><span class="header-section-number">2.2.5</span> What are vectors?<a href="ch2.html#what-are-vectors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vectors are a kind of a special variable that can store multiple values or data points, instead of just one.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="ch2.html#cb23-1" tabindex="-1"></a>a_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
-<span id="cb23-2"><a href="ch2.html#cb23-2" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="ch2.html#cb23-3" tabindex="-1"></a>a_vector</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="ch2.html#cb20-1" tabindex="-1"></a>a_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">9</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
+<span id="cb20-2"><a href="ch2.html#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="ch2.html#cb20-3" tabindex="-1"></a>a_vector</span></code></pre></div>
 <pre><code>## [1] 1 9 6 8</code></pre>
 <p>Notice the use of a special function <code>c()</code> to combine single values into the vector.</p>
 </div>
 <div id="cool-things-you-can-do-with-vectors" class="section level3 hasAnchor" number="2.2.6">
 <h3><span class="header-section-number">2.2.6</span> Cool things you can do with vectors<a href="ch2.html#cool-things-you-can-do-with-vectors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here are some interesting things you can do with vectors - try running each command and see if you can figure out what it does by examining the output. The comments below give you several hints!</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="ch2.html#cb25-1" tabindex="-1"></a><span class="co"># extraction</span></span>
-<span id="cb25-2"><a href="ch2.html#cb25-2" tabindex="-1"></a>a_vector[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ch2.html#cb22-1" tabindex="-1"></a><span class="co"># extraction</span></span>
+<span id="cb22-2"><a href="ch2.html#cb22-2" tabindex="-1"></a>a_vector[<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="ch2.html#cb27-1" tabindex="-1"></a><span class="co"># removal </span></span>
-<span id="cb27-2"><a href="ch2.html#cb27-2" tabindex="-1"></a>a_vector[<span class="sc">-</span><span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="ch2.html#cb24-1" tabindex="-1"></a><span class="co"># removal </span></span>
+<span id="cb24-2"><a href="ch2.html#cb24-2" tabindex="-1"></a>a_vector[<span class="sc">-</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 1 6 8</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="ch2.html#cb29-1" tabindex="-1"></a>a_vector[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)] <span class="co"># this removes the first 3 elements</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ch2.html#cb26-1" tabindex="-1"></a>a_vector[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)] <span class="co"># this removes the first 3 elements</span></span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="ch2.html#cb31-1" tabindex="-1"></a><span class="co"># editing</span></span>
-<span id="cb31-2"><a href="ch2.html#cb31-2" tabindex="-1"></a>a_vector[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb31-3"><a href="ch2.html#cb31-3" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="ch2.html#cb31-4" tabindex="-1"></a>a_vector</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ch2.html#cb28-1" tabindex="-1"></a><span class="co"># editing</span></span>
+<span id="cb28-2"><a href="ch2.html#cb28-2" tabindex="-1"></a>a_vector[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb28-3"><a href="ch2.html#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="ch2.html#cb28-4" tabindex="-1"></a>a_vector</span></code></pre></div>
 <pre><code>## [1] 0 9 6 8</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="ch2.html#cb33-1" tabindex="-1"></a><span class="co"># naming</span></span>
-<span id="cb33-2"><a href="ch2.html#cb33-2" tabindex="-1"></a><span class="fu">names</span>(a_vector) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>)</span>
-<span id="cb33-3"><a href="ch2.html#cb33-3" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="ch2.html#cb33-4" tabindex="-1"></a>a_vector</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="ch2.html#cb30-1" tabindex="-1"></a><span class="co"># naming</span></span>
+<span id="cb30-2"><a href="ch2.html#cb30-2" tabindex="-1"></a><span class="fu">names</span>(a_vector) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>)</span>
+<span id="cb30-3"><a href="ch2.html#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="ch2.html#cb30-4" tabindex="-1"></a>a_vector</span></code></pre></div>
 <pre><code>## a b c d 
 ## 0 9 6 8</code></pre>
 <p>A key concept is the use of [square brackets] to subset the vector based on the order of the elements in the vector (numbered from left to right starting with 1).</p>
@@ -538,18 +540,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.3.3</span> Multiple arguments<a href="ch2.html#multiple-arguments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Some functions can take on several arguments. When this is the case, it is good practice to explicitly name the argument.</p>
 <p>Consider the following:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="ch2.html#cb35-1" tabindex="-1"></a><span class="fu">round</span>(<span class="at">x =</span> <span class="fl">131.485783</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="ch2.html#cb32-1" tabindex="-1"></a><span class="fu">round</span>(<span class="at">x =</span> <span class="fl">131.485783</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 131.5</code></pre>
 <p><code>round()</code> is a function that takes two arguments, the first argument (<em>x</em>) is the number that is being rounded, and the second argument (<em>digits</em>) indicating the number of decimal places.</p>
 <p>If you don’t specify the argument names, then R assumes that they follow the internal expected order:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="ch2.html#cb37-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">131.485783</span>, <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="ch2.html#cb34-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">131.485783</span>, <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 131.5</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="ch2.html#cb39-1" tabindex="-1"></a><span class="co"># try the following and think about the output</span></span>
-<span id="cb39-2"><a href="ch2.html#cb39-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">131.485783</span>, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="ch2.html#cb36-1" tabindex="-1"></a><span class="co"># try the following and think about the output</span></span>
+<span id="cb36-2"><a href="ch2.html#cb36-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">131.485783</span>, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## [1] 131.49</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="ch2.html#cb41-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">1</span>, <span class="fl">131.485783</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="ch2.html#cb38-1" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">1</span>, <span class="fl">131.485783</span>)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="ch2.html#cb43-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">131.485783</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="ch2.html#cb40-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fl">131.485783</span>)</span></code></pre></div>
 <pre><code>## [1] 131</code></pre>
 <p>For the final command, if no argument is specified (in the second location) and there is a default value (here it is 0), then R will use the default. To find out about the internal ordering of arguments and default values for any function, you can search for the function name in the Help tab, or type <code>?function_name</code> into the Console. This gives you handy documentation about a specific function that you can quickly review.</p>
 </div>
@@ -564,18 +566,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="helping-rstudio-find-your-stuff" class="section level3 hasAnchor" number="2.4.2">
 <h3><span class="header-section-number">2.4.2</span> Helping RStudio find your stuff<a href="ch2.html#helping-rstudio-find-your-stuff" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>First you need to know where it is currently looking at (i.e., your current <em>working directory</em>):</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="ch2.html#cb45-1" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="ch2.html#cb42-1" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/home/cynthia/Documents/Research-Workspace/intro-to-igraph&quot;</code></pre>
 <p>Make a new folder called “test_folder” in that location (using Finder or Files in your computer system). For learning purposes you can also move the <code>everything.RData</code> file there. Then try out the following:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="ch2.html#cb47-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>) <span class="co"># notice that this does not work </span></span>
-<span id="cb47-2"><a href="ch2.html#cb47-2" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="ch2.html#cb47-3" tabindex="-1"></a><span class="co"># let&#39;s have RStudio look in the correct folder </span></span>
-<span id="cb47-4"><a href="ch2.html#cb47-4" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&#39;./test_folder&#39;</span>) <span class="co"># note that in Windows you will need backslashes instead</span></span>
-<span id="cb47-5"><a href="ch2.html#cb47-5" tabindex="-1"></a><span class="co"># the period means &quot;from the current location&quot;</span></span>
-<span id="cb47-6"><a href="ch2.html#cb47-6" tabindex="-1"></a></span>
-<span id="cb47-7"><a href="ch2.html#cb47-7" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co"># this should be updated </span></span>
-<span id="cb47-8"><a href="ch2.html#cb47-8" tabindex="-1"></a></span>
-<span id="cb47-9"><a href="ch2.html#cb47-9" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>) <span class="co"># does it work now? </span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="ch2.html#cb44-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>) <span class="co"># notice that this does not work </span></span>
+<span id="cb44-2"><a href="ch2.html#cb44-2" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="ch2.html#cb44-3" tabindex="-1"></a><span class="co"># let&#39;s have RStudio look in the correct folder </span></span>
+<span id="cb44-4"><a href="ch2.html#cb44-4" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&#39;./test_folder&#39;</span>) <span class="co"># note that in Windows you will need backslashes instead</span></span>
+<span id="cb44-5"><a href="ch2.html#cb44-5" tabindex="-1"></a><span class="co"># the period means &quot;from the current location&quot;</span></span>
+<span id="cb44-6"><a href="ch2.html#cb44-6" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="ch2.html#cb44-7" tabindex="-1"></a><span class="fu">getwd</span>() <span class="co"># this should be updated </span></span>
+<span id="cb44-8"><a href="ch2.html#cb44-8" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="ch2.html#cb44-9" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>) <span class="co"># does it work now? </span></span></code></pre></div>
 <p>Now when you place a <code>.RData</code> file in <code>test_folder</code> you should be able to load it into your workspace.</p>
 <p>An alternate (and possibly more intuitive) solution via the GUI is to do the either of the following: (1) <em>Session -&gt; Set Working Directory -&gt; Choose Working Directory</em> or (2) Files tab: navigate to desired location and click on the Gear icon. Then choose “Set Working Directory”.</p>
 <p>Note that when you are working in a dedicated R project workspace, the default working directory is basically the project folder where the .Rproj file lives in. If you have set up the workspace as recommended in “Setting up a Project”, then the easier approach is to simply move any data files that you need for your project into that folder, rather than to keep changing the working directory to “find” your files. This is good practice in any case; better to consolidate all the files associated with a given project rather than have them scattered across multiple folders.</p>
@@ -590,18 +592,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="installation-vs.-loading" class="section level3 hasAnchor" number="2.5.2">
 <h3><span class="header-section-number">2.5.2</span> Installation vs. Loading<a href="ch2.html#installation-vs.-loading" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Remember that you only need to install a package once, but you need to load them each time you begin a new RStudio session so that you can use the special functions of that package.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch2.html#cb48-1" tabindex="-1"></a><span class="co"># install ONCE</span></span>
-<span id="cb48-2"><a href="ch2.html#cb48-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;igraph&#39;</span>)</span>
-<span id="cb48-3"><a href="ch2.html#cb48-3" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="ch2.html#cb48-4" tabindex="-1"></a><span class="co"># load EACH TIME</span></span>
-<span id="cb48-5"><a href="ch2.html#cb48-5" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="ch2.html#cb45-1" tabindex="-1"></a><span class="co"># install ONCE</span></span>
+<span id="cb45-2"><a href="ch2.html#cb45-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;igraph&#39;</span>)</span>
+<span id="cb45-3"><a href="ch2.html#cb45-3" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="ch2.html#cb45-4" tabindex="-1"></a><span class="co"># load EACH TIME</span></span>
+<span id="cb45-5"><a href="ch2.html#cb45-5" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div>
 <p>You can also install and load packages via the Packages tab in RStudio. Click on “Install” and search for the package you need. Then you can search for the packages installed on your system and load the ones you want with the check box. It is also convenient to Update packages here.</p>
 </div>
 <div id="detaching-packages" class="section level3 hasAnchor" number="2.5.3">
 <h3><span class="header-section-number">2.5.3</span> Detaching packages<a href="ch2.html#detaching-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If you need to remove an already loaded package in your workspace, you can uncheck the package name in Packages tab.</p>
 <p>Or you can run the following in your console:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="ch2.html#cb49-1" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">&quot;package:igraph&quot;</span>, <span class="at">unload=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="ch2.html#cb46-1" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">&quot;package:igraph&quot;</span>, <span class="at">unload=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="special-datatypes" class="section level2 hasAnchor" number="2.6">
@@ -639,7 +641,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Save this file into your current working directory.</p>
 <p>To load the file via the Console:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="ch2.html#cb50-1" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;numbers.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="ch2.html#cb47-1" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;numbers.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Notice that we are using a function called <code>read.csv</code> to read in .csv files (there are other functions for other kinds of files but we will mostly work with .csv files in this book). This function contains two arguments: the name of the file in the first position, and a second argument which states that there are column headers in the file. If there are no column headers, then switch this to <code>FALSE</code> and R will automatically provide labels. Finally, we assign the contents of the .csv file to a data frame object called <code>my_data</code>, which now shows up in the Environment tab. You are of course free to change this to a different label that describes your data better.</p>
 <p>There is an alternative approach using the RStudio GUI. To load the file via the GUI: Navigate to the file on Files tab, click on file and select “Import Dataset”. A helpful window opens to preview how the data will look like, and gives you options to change the name of the data object, specify if there are column names/headers, etc.</p>
 <blockquote>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Chapter 7: Micro-level network measures | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Chapter 7: Micro-level network measures | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-09-16" />
+<meta name="date" content="2024-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -396,51 +398,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 7</span> Chapter 7: Micro-level network measures<a href="ch7.html#ch7" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Micro-level network measures provide you with information about specific nodes in the network. These are generally known as centrality measures in the network science literature. Centrality is the network scientist’s way of quantifying the relative “importance” of a given node relative to other nodes in the network. There are <em>many</em> different definitions of what counts as “central”, as you will see in the following subsections, and also from this <a href="http://schochastics.net/sna/periodic.html">Periodic Table of Centrality Indices</a>. There is no single “correct” or “best” metric - which metrics are most useful to you will depend on the nature of the system that you are modeling as well as the network behavior that you interested in.</p>
 <p>To facilitate the demonstrations below, we will use the directed, weighted karate network that we have previously seen in Chapter 4. In the rest of the chapter we will compute various micro-level network measures for the nodes in this network.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ch7.html#cb197-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el_weights.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb197-2"><a href="ch7.html#cb197-2" tabindex="-1"></a></span>
-<span id="cb197-3"><a href="ch7.html#cb197-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb197-4"><a href="ch7.html#cb197-4" tabindex="-1"></a></span>
-<span id="cb197-5"><a href="ch7.html#cb197-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH 2d9d11b DNW- 34 78 -- 
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ch7.html#cb194-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el_weights.csv&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb194-2"><a href="ch7.html#cb194-2" tabindex="-1"></a></span>
+<span id="cb194-3"><a href="ch7.html#cb194-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb194-4"><a href="ch7.html#cb194-4" tabindex="-1"></a></span>
+<span id="cb194-5"><a href="ch7.html#cb194-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
+<pre><code>## IGRAPH bf29878 DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <div id="degree" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Degree<a href="ch7.html#degree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong>degree</strong> of node <em>i</em>, frequently denoted as <em>k_i</em> in the network science literature, refers to the number of edges or links directly connected to node <em>i</em>.</p>
 <p>To get the degree of all nodes in the network, try running the following code:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ch7.html#cb199-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw)</span></code></pre></div>
-<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 
-##       16        9       10        6        3        4        4        5        2        5        2        2        2        3        2        2        5        3        3        2        4        3        4        4 
-## Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
-##        6       12        4        3        1        2        2        2        2       17</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ch7.html#cb196-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw)</span></code></pre></div>
+<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 
+##       16        9       10        6        3        4        4        5        2        5        2        2        2        3        2        2        5        3 
+## Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
+##        3        2        4        3        4        4        6       12        4        3        1        2        2        2        2       17</code></pre>
 <p>If you only want the degree for a specific node:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ch7.html#cb201-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Mr Hi&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ch7.html#cb198-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Mr Hi&#39;</span>)</span></code></pre></div>
 <pre><code>## Mr Hi 
 ##    16</code></pre>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ch7.html#cb203-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="fu">c</span>(<span class="st">&#39;Mr Hi&#39;</span>, <span class="st">&#39;Actor 5&#39;</span>)) <span class="co"># for more than 1 node</span></span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ch7.html#cb200-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="fu">c</span>(<span class="st">&#39;Mr Hi&#39;</span>, <span class="st">&#39;Actor 5&#39;</span>)) <span class="co"># for more than 1 node</span></span></code></pre></div>
 <pre><code>##   Mr Hi Actor 5 
 ##      16       3</code></pre>
 <p>It would be better to “save” the outputs as an object (especially if your network is very large!) so that you can manipulate or export it later.</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ch7.html#cb205-1" tabindex="-1"></a>karate_degree <span class="ot">&lt;-</span> <span class="fu">degree</span>(karate_dw)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ch7.html#cb202-1" tabindex="-1"></a>karate_degree <span class="ot">&lt;-</span> <span class="fu">degree</span>(karate_dw)</span></code></pre></div>
 <p>Notice that you have a named vector called <code>karate_degree</code> in your Environment.</p>
 <div id="in--out--all-degree" class="section level3 hasAnchor" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> In-, out-, all-degree<a href="ch7.html#in--out--all-degree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your network has directed edges, <strong>in-degree</strong> refers to the number of edges that are going towards the target node, whereas <strong>out-degree</strong> refers to the number of edges that are going away from the target node. <strong>all-degree</strong> is the sum of in-degree and out-degree, and is the same as <em>degree</em>.</p>
 <p><img src="images/in_out_degree.jpg" /></p>
 <p>To get the in- or out-degree of a node, we need to include the <code>mode = 'in'</code> or <code>mode = 'out'</code> argument accordingly.</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ch7.html#cb206-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>) <span class="co"># in-degree = incoming edges</span></span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ch7.html#cb203-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>) <span class="co"># in-degree = incoming edges</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       1</code></pre>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ch7.html#cb208-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>) <span class="co"># out-degree = outgoing edges</span></span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ch7.html#cb205-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>) <span class="co"># out-degree = outgoing edges</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       2</code></pre>
 <p>Notice that Actor 5 has an in-degree of 1 and out-degree of 2, and in the previous section we saw that Actor 5 had a degree of 3. If no arguments are specified, <code>igraph</code> will compute all-degree, which is the sum of a node’s in- and out-degree, by default for directed graphs. Keep this in mind!</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="ch7.html#cb210-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>) <span class="co"># the default is all-degree</span></span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="ch7.html#cb207-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>) <span class="co"># the default is all-degree</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       3</code></pre>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="ch7.html#cb212-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="ch7.html#cb209-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>) </span></code></pre></div>
 <pre><code>## Actor 5 
 ##       3</code></pre>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="ch7.html#cb214-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;total&#39;</span>) <span class="co"># all is the same as total</span></span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="ch7.html#cb211-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;total&#39;</span>) <span class="co"># all is the same as total</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       3</code></pre>
 </div>
@@ -449,37 +451,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">7.2</span> Strength<a href="ch7.html#strength" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong>strength</strong> of node <em>i</em> refers to the sum of its adjacent edge weights. This measure is only applicable to weighted networks.</p>
 <p>To get the strength of all nodes in the network, try running the following code:</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="ch7.html#cb216-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw)</span></code></pre></div>
-<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 
-##       45       23       33       16        4       12       11       16        5       17        6        7        5        9        2        9       22       11        7        4       13        9       12       11 
-## Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
-##       17       31        8        5        1        7        7        3        5       53</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="ch7.html#cb213-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw)</span></code></pre></div>
+<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 
+##       45       23       33       16        4       12       11       16        5       17        6        7        5        9        2        9       22       11 
+## Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
+##        7        4       13        9       12       11       17       31        8        5        1        7        7        3        5       53</code></pre>
 <p>If you only want the strength for a specific node(s):</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="ch7.html#cb218-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Mr Hi&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="ch7.html#cb215-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Mr Hi&#39;</span>)</span></code></pre></div>
 <pre><code>## Mr Hi 
 ##    45</code></pre>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="ch7.html#cb220-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="fu">c</span>(<span class="st">&#39;Mr Hi&#39;</span>, <span class="st">&#39;Actor 5&#39;</span>)) <span class="co"># for more than 1 node</span></span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="ch7.html#cb217-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="fu">c</span>(<span class="st">&#39;Mr Hi&#39;</span>, <span class="st">&#39;Actor 5&#39;</span>)) <span class="co"># for more than 1 node</span></span></code></pre></div>
 <pre><code>##   Mr Hi Actor 5 
 ##      45       4</code></pre>
 <div id="in--out--all-strength" class="section level3 hasAnchor" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> In-, out-, all-strength<a href="ch7.html#in--out--all-strength" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your network has directed edges, we can have variations to the original strength measure just as we saw for degree. <strong>In-strength</strong> refers to the sum of the edge weights that are going towards the target node, whereas <strong>out-strength</strong> refers to the sum of the edge weights that are going away from the target node. <strong>all-strength</strong> is the sum of in-strength and out-strength, and is the same as <em>strength</em>.</p>
 <p>To get the in- or out-strength of a node, we need to include the <code>mode = 'in'</code> or <code>mode = 'out'</code> argument accordingly.</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="ch7.html#cb222-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>) <span class="co"># in-degree = incoming edges</span></span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="ch7.html#cb219-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>) <span class="co"># in-degree = incoming edges</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       2</code></pre>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="ch7.html#cb224-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>) <span class="co"># out-degree = outgoing edges</span></span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="ch7.html#cb221-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>) <span class="co"># out-degree = outgoing edges</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       2</code></pre>
 <p>It is worth noting here that the in-strength and out-strength of Actor 5 is the same, but recall from the degree section that the in-degree and out-degree of Actor 5 differed. This is a key point to remember, is that strength does <em>not</em> provide you with information about the <em>number</em> of edges the node has - it is possible for a node to have high strength due to a few highly weighted edges or several weakly weighted edges.</p>
 <p>Once again, if no arguments are specified, <code>igraph</code> will compute all-strength, which is the sum of a node’s in- and out-strength, by default for directed graphs.</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="ch7.html#cb226-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>) <span class="co"># the default is all-strength</span></span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="ch7.html#cb223-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>) <span class="co"># the default is all-strength</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       4</code></pre>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="ch7.html#cb228-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="ch7.html#cb225-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>) </span></code></pre></div>
 <pre><code>## Actor 5 
 ##       4</code></pre>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="ch7.html#cb230-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;total&#39;</span>) <span class="co"># all is the same as total</span></span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="ch7.html#cb227-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Actor 5&#39;</span>, <span class="at">mode =</span> <span class="st">&#39;total&#39;</span>) <span class="co"># all is the same as total</span></span></code></pre></div>
 <pre><code>## Actor 5 
 ##       4</code></pre>
 </div>
@@ -491,29 +493,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can think of local clustering coefficient as providing a measure of the <em>level of interconnectivity among the local neighborhood of the target node</em>. If you look at the figure below, you can easily see that it is possible for nodes to have the same degree, but different local clustering coefficients.</p>
 <p><img src="images/hcc-lcc.jpg" />
 To get the local clustering coefficient of all nodes in the network, try running the following code:</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="ch7.html#cb232-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">isolates =</span> <span class="st">&#39;zero&#39;</span>)</span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29 
-## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 
-##  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
-## 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667 0.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.1102941</code></pre>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="ch7.html#cb229-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">isolates =</span> <span class="st">&#39;zero&#39;</span>)</span></code></pre></div>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667 0.0000000 1.0000000 1.0000000 1.0000000 
+##  Actor 17    John A 
+## 1.0000000 0.1102941</code></pre>
 <p>A couple of things to note:</p>
 <ol style="list-style-type: decimal">
 <li><p>It is important to specify <code>type = local</code> for local clustering coefficients (one value for each node), as compared to the global clustering coefficient of the entire graph (this is a macro-level measure that we learned about in Chapter 6).</p></li>
 <li><p>For nodes that have a degree of 0 or 1, it would not be possible to compute a local clustering coefficient value for those nodes. Be default <code>igraph</code> will return a <code>NaN</code> value (see Actor 12’s value below). By specifying <code>isolates = 'zero'</code> these <code>NaN</code> values will be reported as zeros instead.</p></li>
 </ol>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="ch7.html#cb234-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>)</span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29 
-## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 
-##  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
-## 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667       NaN 1.0000000 1.0000000 1.0000000 1.0000000 0.1102941</code></pre>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="ch7.html#cb231-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>)</span></code></pre></div>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667       NaN 1.0000000 1.0000000 1.0000000 
+##  Actor 17    John A 
+## 1.0000000 0.1102941</code></pre>
 <div id="weighted-local-clustering-coefficient" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Weighted local clustering coefficient<a href="ch7.html#weighted-local-clustering-coefficient" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If you have a weighted network, you can compute <em>weighted</em> local clustering coefficients using Barrat et al.’s (2004) generalization of transitivity to weighted networks by specifying <code>type = 'weighted'</code>. If your network is unweighted, this generalization will simply return unweighted C values.</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="ch7.html#cb236-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;weighted&#39;</span>)</span></code></pre></div>
-<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27 
-## 0.13629630 0.31521739 0.25925926 0.63750000 0.75000000 0.58333333 0.54545455 0.48437500 0.00000000 0.70588235 1.00000000 1.00000000 1.00000000 0.22222222 1.00000000 1.00000000 0.38636364 0.27272727 0.14285714 1.00000000 
-##   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
-## 0.15384615 0.27777778 0.75000000 0.60606061 0.16470588 0.15542522 1.00000000 0.80000000        NaN 1.00000000 1.00000000 1.00000000 1.00000000 0.09669811</code></pre>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="ch7.html#cb233-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;weighted&#39;</span>)</span></code></pre></div>
+<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20 
+## 0.13629630 0.31521739 0.25925926 0.63750000 0.75000000 0.58333333 0.54545455 0.48437500 0.00000000 0.70588235 1.00000000 1.00000000 1.00000000 0.22222222 
+##   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11 
+## 1.00000000 1.00000000 0.38636364 0.27272727 0.14285714 1.00000000 0.15384615 0.27777778 0.75000000 0.60606061 0.16470588 0.15542522 1.00000000 0.80000000 
+##   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
+##        NaN 1.00000000 1.00000000 1.00000000 1.00000000 0.09669811</code></pre>
 </div>
 </div>
 <div id="closeness-centrality" class="section level2 hasAnchor" number="7.4">
@@ -521,11 +529,13 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p><strong>Closeness centrality</strong> of node <em>i</em> is the inverse of the average of the length of the shortest path between node <em>i</em> and all other nodes in the network. If a node has high closeness centrality, it means that on average, it takes few steps to travel from that node to all other nodes in the network. If a node has low closeness centrality, it means that on average, it takes more steps to travel from that node to all other nodes in the network.</p>
 <p>Closeness centrality is commonly viewed as an indicator of the accessibility of a given node in the network from all other locations in the network.</p>
 <p>To get the closeness centrality of all nodes in the network, try running the following code:</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="ch7.html#cb238-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29 
-## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 
-##  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
-## 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN       NaN       NaN</code></pre>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="ch7.html#cb235-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
+##  Actor 17    John A 
+##       NaN       NaN</code></pre>
 <p>It is typical to include <code>normalized = T</code> so that the values are normalized with respect to the size of the network.</p>
 <p>Note that closeness centrality can only be meaningfully computed for connected graphs (so that a path exists between any pair of nodes; see Chapter 6: Network Components). If there are distinct network components in the network, this means that for some sets of node pairs, the path between them does not exist and closeness cannot be computed. Usually, network scientists focus their analysis on the largest connected component of the network and ignore the smaller connected components (which are typically viewed as outliers). Chapter 6 provides you with the code needed to extract the largest connected component from the initial network.</p>
 <p>You can specify the <code>mode</code> and <code>weights</code> arguments accordingly if you have directed/weighted networks to get the corresponding versions of closeness centrality computed.</p>
@@ -533,69 +543,73 @@ To get the local clustering coefficient of all nodes in the network, try running
 <h3><span class="header-section-number">7.4.1</span> Weighted closeness centrality<a href="ch7.html#weighted-closeness-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your network is weighted, weights are automatically included in the computation of closeness centrality. If you prefer that edge weights are <em>not</em> considered, include <code>weights = NA</code> in the argument. Notice that some of the values have changed depending on whether weights are considered or not.</p>
 <p>If your network is unweighted, then weights are not considered by default.</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="ch7.html#cb240-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29 
-## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 
-##  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
-## 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN       NaN       NaN</code></pre>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="ch7.html#cb242-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="co"># weights are ignored</span></span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29 
-## 0.7666667 0.6400000 0.7500000 0.8000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.8571429 0.7142857 0.6000000 0.7500000 1.0000000 0.7500000 
-##  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
-## 1.0000000 1.0000000 1.0000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN       NaN       NaN</code></pre>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="ch7.html#cb237-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
+##  Actor 17    John A 
+##       NaN       NaN</code></pre>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="ch7.html#cb239-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="co"># weights are ignored</span></span></code></pre></div>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.7666667 0.6400000 0.7500000 0.8000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.8571429 0.7142857 0.6000000 0.7500000 1.0000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
+##  Actor 17    John A 
+##       NaN       NaN</code></pre>
 </div>
 <div id="interpretation-of-edge-weights" class="section level3 hasAnchor" number="7.4.2">
 <h3><span class="header-section-number">7.4.2</span> Interpretation of edge weights<a href="ch7.html#interpretation-of-edge-weights" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Caution is needed as the interpretation of edge weights in this context is to treat them as <em>distances</em> rather than as connection strengths. In other words, when computing closeness centralities, <code>igraph</code> treats higher edge weights as longer distances. As reproduced from the <code>igraph</code> documentation: “If the graph has a weight edge attribute, then this is used by default. Weights are used for calculating weighted shortest paths, so they are interpreted as distances.”).</p>
 <p>Notice that this is different from how we would normally want to interpret edge weights, usually as indicator of the strength of the relation between two nodes. If we want the weights to be interpreted in the way that we intend (as relational strength) we need to include the following to “trick” igraph: <code>weights = 1/E(network)$weight</code>. This inverts the relation so that now bigger numbers for edge weight corresponds to shorter distances (and hence shorter paths).</p>
 <p>To demonstrate this point consider the simple example below where we wish to compute the shortest path between two nodes in unweighted and weighted networks. Notice that the result changes depending on the weights assigned to the edges–whereby smaller weights are considered to provide “shorter paths” between pairs of nodes. This corresponds to the “distance” interpretation of edge weights. Because closeness centrality relies on the same <code>shortest_paths</code> function under the hood, this is something that we need to keep in mind when deciding to computed weighted closeness centrality.</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="ch7.html#cb244-1" tabindex="-1"></a><span class="co"># unweighted graph</span></span>
-<span id="cb244-2"><a href="ch7.html#cb244-2" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B,B<span class="sc">-</span>C,A<span class="sc">-</span>D,D<span class="sc">-</span>E,E<span class="sc">-</span>C) </span>
-<span id="cb244-3"><a href="ch7.html#cb244-3" tabindex="-1"></a></span>
-<span id="cb244-4"><a href="ch7.html#cb244-4" tabindex="-1"></a><span class="co"># weighted graph </span></span>
-<span id="cb244-5"><a href="ch7.html#cb244-5" tabindex="-1"></a>g_w <span class="ot">&lt;-</span> g</span>
-<span id="cb244-6"><a href="ch7.html#cb244-6" tabindex="-1"></a><span class="fu">E</span>(g_w)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>) </span>
-<span id="cb244-7"><a href="ch7.html#cb244-7" tabindex="-1"></a></span>
-<span id="cb244-8"><a href="ch7.html#cb244-8" tabindex="-1"></a><span class="fu">plot</span>(g_w, <span class="at">edge.width =</span> <span class="fu">E</span>(g_w)<span class="sc">$</span>weight<span class="sc">*</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="ch7.html#cb245-1" tabindex="-1"></a><span class="co"># what is the shortest path between nodes A and C?</span></span>
-<span id="cb245-2"><a href="ch7.html#cb245-2" tabindex="-1"></a><span class="fu">shortest_paths</span>(g_w, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath <span class="co"># the shortest path is not A-B-C! </span></span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="ch7.html#cb241-1" tabindex="-1"></a><span class="co"># unweighted graph</span></span>
+<span id="cb241-2"><a href="ch7.html#cb241-2" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B,B<span class="sc">-</span>C,A<span class="sc">-</span>D,D<span class="sc">-</span>E,E<span class="sc">-</span>C) </span>
+<span id="cb241-3"><a href="ch7.html#cb241-3" tabindex="-1"></a></span>
+<span id="cb241-4"><a href="ch7.html#cb241-4" tabindex="-1"></a><span class="co"># weighted graph </span></span>
+<span id="cb241-5"><a href="ch7.html#cb241-5" tabindex="-1"></a>g_w <span class="ot">&lt;-</span> g</span>
+<span id="cb241-6"><a href="ch7.html#cb241-6" tabindex="-1"></a><span class="fu">E</span>(g_w)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>) </span>
+<span id="cb241-7"><a href="ch7.html#cb241-7" tabindex="-1"></a></span>
+<span id="cb241-8"><a href="ch7.html#cb241-8" tabindex="-1"></a><span class="fu">plot</span>(g_w, <span class="at">edge.width =</span> <span class="fu">E</span>(g_w)<span class="sc">$</span>weight<span class="sc">*</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="ch7.html#cb242-1" tabindex="-1"></a><span class="co"># what is the shortest path between nodes A and C?</span></span>
+<span id="cb242-2"><a href="ch7.html#cb242-2" tabindex="-1"></a><span class="fu">shortest_paths</span>(g_w, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath <span class="co"># the shortest path is not A-B-C! </span></span></code></pre></div>
 <pre><code>## [[1]]
-## + 4/5 vertices, named, from c061cfe:
+## + 4/5 vertices, named, from 98c7bf7:
 ## [1] A D E C</code></pre>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="ch7.html#cb247-1" tabindex="-1"></a><span class="fu">shortest_paths</span>(g, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath <span class="co"># the shortest path is A-B-C! </span></span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="ch7.html#cb244-1" tabindex="-1"></a><span class="fu">shortest_paths</span>(g, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath <span class="co"># the shortest path is A-B-C! </span></span></code></pre></div>
 <pre><code>## [[1]]
-## + 3/5 vertices, named, from c061cfe:
+## + 3/5 vertices, named, from 98c7bf7:
 ## [1] A B C</code></pre>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="ch7.html#cb249-1" tabindex="-1"></a><span class="co"># the reason is between bigger weights correspond to larger distances.</span></span>
-<span id="cb249-2"><a href="ch7.html#cb249-2" tabindex="-1"></a><span class="co"># and hence longer paths </span></span>
-<span id="cb249-3"><a href="ch7.html#cb249-3" tabindex="-1"></a></span>
-<span id="cb249-4"><a href="ch7.html#cb249-4" tabindex="-1"></a><span class="co"># the shortest path is A-B-C after we invert the edge weights</span></span>
-<span id="cb249-5"><a href="ch7.html#cb249-5" tabindex="-1"></a><span class="fu">E</span>(g_w)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb249-6"><a href="ch7.html#cb249-6" tabindex="-1"></a><span class="fu">shortest_paths</span>(g_w, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath </span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="ch7.html#cb246-1" tabindex="-1"></a><span class="co"># the reason is between bigger weights correspond to larger distances.</span></span>
+<span id="cb246-2"><a href="ch7.html#cb246-2" tabindex="-1"></a><span class="co"># and hence longer paths </span></span>
+<span id="cb246-3"><a href="ch7.html#cb246-3" tabindex="-1"></a></span>
+<span id="cb246-4"><a href="ch7.html#cb246-4" tabindex="-1"></a><span class="co"># the shortest path is A-B-C after we invert the edge weights</span></span>
+<span id="cb246-5"><a href="ch7.html#cb246-5" tabindex="-1"></a><span class="fu">E</span>(g_w)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb246-6"><a href="ch7.html#cb246-6" tabindex="-1"></a><span class="fu">shortest_paths</span>(g_w, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath </span></code></pre></div>
 <pre><code>## [[1]]
-## + 3/5 vertices, named, from c061cfe:
+## + 3/5 vertices, named, from 98c7bf7:
 ## [1] A B C</code></pre>
 <p>To reiterate, if you have a weighted graph and you would like to compute weighted closeness centrality for your nodes AND your edge weights are already interpreted as <em>distances</em> this is the pseudo R code that you need:</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="ch7.html#cb251-1" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="fu">E</span>(network)<span class="sc">$</span>weight)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ch7.html#cb248-1" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="fu">E</span>(network)<span class="sc">$</span>weight)</span></code></pre></div>
 <p>If your edge weights are interpreted as <em>strengths</em>, then you need to mathematically “flip” or invert the edge weights.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ch7.html#cb252-1" tabindex="-1"></a><span class="co"># take the inverse</span></span>
-<span id="cb252-2"><a href="ch7.html#cb252-2" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">E</span>(network)<span class="sc">$</span>weight) </span>
-<span id="cb252-3"><a href="ch7.html#cb252-3" tabindex="-1"></a></span>
-<span id="cb252-4"><a href="ch7.html#cb252-4" tabindex="-1"></a><span class="co"># if your weights are Likert ratings, this code flips the scale around </span></span>
-<span id="cb252-5"><a href="ch7.html#cb252-5" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, </span>
-<span id="cb252-6"><a href="ch7.html#cb252-6" tabindex="-1"></a>          <span class="at">weights =</span> <span class="fu">abs</span>(<span class="fu">E</span>(network)<span class="sc">$</span>weight <span class="sc">-</span> (<span class="fu">max</span>(<span class="fu">E</span>(network)<span class="sc">$</span>weight) <span class="sc">+</span> <span class="dv">1</span>))) </span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="ch7.html#cb249-1" tabindex="-1"></a><span class="co"># take the inverse</span></span>
+<span id="cb249-2"><a href="ch7.html#cb249-2" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">E</span>(network)<span class="sc">$</span>weight) </span>
+<span id="cb249-3"><a href="ch7.html#cb249-3" tabindex="-1"></a></span>
+<span id="cb249-4"><a href="ch7.html#cb249-4" tabindex="-1"></a><span class="co"># if your weights are Likert ratings, this code flips the scale around </span></span>
+<span id="cb249-5"><a href="ch7.html#cb249-5" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, </span>
+<span id="cb249-6"><a href="ch7.html#cb249-6" tabindex="-1"></a>          <span class="at">weights =</span> <span class="fu">abs</span>(<span class="fu">E</span>(network)<span class="sc">$</span>weight <span class="sc">-</span> (<span class="fu">max</span>(<span class="fu">E</span>(network)<span class="sc">$</span>weight) <span class="sc">+</span> <span class="dv">1</span>))) </span></code></pre></div>
 </div>
 <div id="directed-closeness-centrality" class="section level3 hasAnchor" number="7.4.3">
 <h3><span class="header-section-number">7.4.3</span> Directed closeness centrality<a href="ch7.html#directed-closeness-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As shown in the example below for <em>John A</em>, different closeness centrality values are returned depending on whether closeness centrality should be computed based on both incoming and outgoing edges (<code>mode = 'all'</code>), incoming edges only (<code>mode = 'in'</code>), or outgoing edges only (<code>mode = 'out'</code>). Because <em>John A</em> has an out-degree of 0 (see if you know how to verify this for yourself!), it has a closeness centrality of NaN when <code>mode = 'out'</code> is specified.</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="ch7.html#cb253-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>, <span class="at">vids =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ch7.html#cb250-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>, <span class="at">vids =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
 <pre><code>## John A 
 ##   0.55</code></pre>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="ch7.html#cb255-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>, <span class="at">vids =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ch7.html#cb252-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>, <span class="at">vids =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
 <pre><code>##    John A 
 ## 0.7931034</code></pre>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="ch7.html#cb257-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>, <span class="at">vids =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ch7.html#cb254-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>, <span class="at">vids =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
 <pre><code>## John A 
 ##    NaN</code></pre>
 </div>
@@ -605,39 +619,39 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p><strong>Betweenness centrality</strong> is a measure of the degree to which nodes stand in between each other. A node with a high betweenness centrality is a node that is frequently found in the short paths of other pairs of nodes in the network. In contrast, a node with a low betweenness centrality is a node that is not usually found in the short paths of node pairs. Betweeenness can be viewed as an indicator of whether a node represents a “bottleneck” in the system.</p>
 <p>The same considerations (i.e., about connected graphs, additional arguments for weighted and directed graphs, normalization, interpretation of weights as distances) from the closeness centrality section applies to betweenness centrality as well, because betweenness centrality also relies on the <code>shortest_paths</code> function for its computation.</p>
 <p>To get the betweenness centrality of all nodes in the network, try running the following code:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="ch7.html#cb259-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16     Actor 19     Actor 20     Actor 21     Actor 23 
-## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
-##     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22 
-## 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
-##     Actor 17       John A 
-## 0.0000000000 0.0000000000</code></pre>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="ch7.html#cb256-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
+<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
+## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
+##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
+##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
+## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
 <div id="weighted-betweenness-centrality" class="section level3 hasAnchor" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Weighted betweenness centrality<a href="ch7.html#weighted-betweenness-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your network is weighted, weights are automatically included in the computation of betweenness centrality. If you prefer that edge weights are <em>not</em> considered, include <code>weights = NA</code> in the argument. Notice that some of the values have changed depending on whether weights are considered or not.</p>
 <p>If your network is unweighted, then weights are not considered by default.</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="ch7.html#cb261-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16     Actor 19     Actor 20     Actor 21     Actor 23 
-## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
-##     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22 
-## 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
-##     Actor 17       John A 
-## 0.0000000000 0.0000000000</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="ch7.html#cb263-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="co"># weights are ignored</span></span></code></pre></div>
-<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16     Actor 19     Actor 20     Actor 21     Actor 23 
-## 0.0000000000 0.0004734848 0.0083648990 0.0018939394 0.0000000000 0.0004734848 0.0014204545 0.0021306818 0.0001578283 0.0016571970 0.0000000000 0.0000000000 0.0000000000 0.0005523990 0.0000000000 0.0000000000 
-##     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22 
-## 0.0000000000 0.0000000000 0.0009469697 0.0000000000 0.0006313131 0.0020517677 0.0009469697 0.0007891414 0.0048137626 0.0001578283 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
-##     Actor 17       John A 
-## 0.0000000000 0.0000000000</code></pre>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="ch7.html#cb258-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
+<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
+## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
+##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
+##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
+## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="ch7.html#cb260-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="co"># weights are ignored</span></span></code></pre></div>
+<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
+## 0.0000000000 0.0004734848 0.0083648990 0.0018939394 0.0000000000 0.0004734848 0.0014204545 0.0021306818 0.0001578283 0.0016571970 0.0000000000 0.0000000000 
+##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
+## 0.0000000000 0.0005523990 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0009469697 0.0000000000 0.0006313131 0.0020517677 0.0009469697 0.0007891414 
+##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
+## 0.0048137626 0.0001578283 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
 </div>
 <div id="directed-betweenness-centrality" class="section level3 hasAnchor" number="7.5.2">
 <h3><span class="header-section-number">7.5.2</span> Directed betweenness centrality<a href="ch7.html#directed-betweenness-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As shown in the example below for <em>John A</em>, different betweenness centrality values are returned depending on whether betweenness centrality should be computed by considering the directionality of the edges (<code>directed = TRUE</code>), or if edge direction should be ignored (<code>directed = FALSE</code>). Basically, if <code>directed = TRUE</code>, the shortest paths are only possible between node pairs where the edge directions are aligned (i.e., A-&gt;B-&gt;C), but if <code>directed = FALSE</code> then shortest paths are possible as long as there is an existing edge and direction of the edges is ignored.</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="ch7.html#cb265-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="ch7.html#cb262-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> <span class="cn">TRUE</span>, <span class="at">v =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
 <pre><code>## John A 
 ##      0</code></pre>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="ch7.html#cb267-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">v =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="ch7.html#cb264-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">v =</span> <span class="st">&#39;John A&#39;</span>)</span></code></pre></div>
 <pre><code>##   John A 
 ## 0.304075</code></pre>
 <p>Quick note: I’ve included <code>igraph::betweenness</code> to tell R to use the <code>betweenness</code> function from the <code>igraph</code> library and not the one from <code>influenceR</code> library (Chapter 12). This is important because sometimes different libraries have functions with the same name.</p>
@@ -648,21 +662,25 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p><strong>Page Rank centrality</strong> is a centrality measure developed by Google to rank webpages (the historic paper describing the algorithm can be viewed <a href="http://infolab.stanford.edu/~backrub/google.html">here</a>). The general idea is that a random walker will traverse the network space and their paths are biased by the link connectivity structure of the network. The random walker restarts the walk after some time (simulating “boredom” of the surfer). The number of visits received by a node provides an indicator of its importance in the network. Intuitively, we expect that nodes have a high Page Rank score if there are many nodes that point to it, or if the nodes that point to it themselves have a high Page Rank score.</p>
 <p>The <code>weights</code> and <code>directed</code> arguments can be adjusted depending on your graph type. It is important to note that the interpretation of edge weights here is that of “connection strength” (Reproduced from the <code>igraph</code> manual: “This function interprets edge weights as connection strengths. In the random surfer model, an edge with a larger weight is more likely to be selected by the surfer.”). This is different from the “distance” interpretation of edge weights in the closeness and betweenness centralities sections.</p>
 <p>To get the Page Rank centrality of all nodes in the network, try running the following code:</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="ch7.html#cb269-1" tabindex="-1"></a><span class="co"># undirected, unweighted centralities </span></span>
-<span id="cb269-2"><a href="ch7.html#cb269-2" tabindex="-1"></a><span class="fu">page_rank</span>(<span class="at">graph =</span> karate_dw, <span class="at">directed =</span> F, <span class="at">weights =</span> <span class="cn">NA</span>)<span class="sc">$</span>vector</span></code></pre></div>
-<pre><code>##       Mr Hi     Actor 2     Actor 3     Actor 4     Actor 5     Actor 6     Actor 7     Actor 9    Actor 10    Actor 14    Actor 15    Actor 16    Actor 19    Actor 20    Actor 21    Actor 23    Actor 24    Actor 25 
-## 0.096997285 0.052876924 0.057078509 0.035859858 0.021977952 0.029111155 0.029111155 0.029766056 0.014309397 0.029536456 0.014535994 0.014535994 0.014535994 0.019604636 0.014535994 0.014535994 0.031522515 0.021076034 
-##    Actor 26    Actor 27    Actor 28    Actor 29    Actor 30    Actor 31    Actor 32    Actor 33     Actor 8    Actor 11    Actor 12    Actor 13    Actor 18    Actor 22    Actor 17      John A 
-## 0.021006197 0.015044038 0.025639767 0.019573459 0.026288538 0.024590155 0.037158087 0.071693226 0.024490497 0.021977952 0.009564745 0.014644892 0.014558677 0.014558677 0.016784005 0.100919182</code></pre>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="ch7.html#cb271-1" tabindex="-1"></a><span class="co"># directed, weighted centralities (weights used by default)</span></span>
-<span id="cb271-2"><a href="ch7.html#cb271-2" tabindex="-1"></a><span class="fu">page_rank</span>(<span class="at">graph =</span> karate_dw, <span class="at">directed =</span> T)<span class="sc">$</span>vector</span></code></pre></div>
-<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27 
-## 0.01523537 0.01552315 0.01938528 0.01886916 0.01581093 0.01667427 0.03091729 0.01884496 0.01729506 0.02746170 0.01523537 0.01523537 0.01523537 0.01701045 0.01523537 0.01523537 0.01523537 0.01523537 0.01935585 0.01523537 
-##   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
-## 0.02484945 0.01798162 0.02141609 0.01939474 0.04512689 0.08402038 0.02351277 0.02484309 0.01552315 0.01988203 0.01880972 0.01672267 0.04556454 0.26808640</code></pre>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="ch7.html#cb273-1" tabindex="-1"></a><span class="co"># notice we include the &quot;$vector&quot; after the function because the function outputs</span></span>
-<span id="cb273-2"><a href="ch7.html#cb273-2" tabindex="-1"></a><span class="co"># a list object, and we only want the part of the object that contains the </span></span>
-<span id="cb273-3"><a href="ch7.html#cb273-3" tabindex="-1"></a><span class="co"># centrality values for the individual nodes </span></span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="ch7.html#cb266-1" tabindex="-1"></a><span class="co"># undirected, unweighted centralities </span></span>
+<span id="cb266-2"><a href="ch7.html#cb266-2" tabindex="-1"></a><span class="fu">page_rank</span>(<span class="at">graph =</span> karate_dw, <span class="at">directed =</span> F, <span class="at">weights =</span> <span class="cn">NA</span>)<span class="sc">$</span>vector</span></code></pre></div>
+<pre><code>##       Mr Hi     Actor 2     Actor 3     Actor 4     Actor 5     Actor 6     Actor 7     Actor 9    Actor 10    Actor 14    Actor 15    Actor 16    Actor 19 
+## 0.096997285 0.052876924 0.057078509 0.035859858 0.021977952 0.029111155 0.029111155 0.029766056 0.014309397 0.029536456 0.014535994 0.014535994 0.014535994 
+##    Actor 20    Actor 21    Actor 23    Actor 24    Actor 25    Actor 26    Actor 27    Actor 28    Actor 29    Actor 30    Actor 31    Actor 32    Actor 33 
+## 0.019604636 0.014535994 0.014535994 0.031522515 0.021076034 0.021006197 0.015044038 0.025639767 0.019573459 0.026288538 0.024590155 0.037158087 0.071693226 
+##     Actor 8    Actor 11    Actor 12    Actor 13    Actor 18    Actor 22    Actor 17      John A 
+## 0.024490497 0.021977952 0.009564745 0.014644892 0.014558677 0.014558677 0.016784005 0.100919182</code></pre>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="ch7.html#cb268-1" tabindex="-1"></a><span class="co"># directed, weighted centralities (weights used by default)</span></span>
+<span id="cb268-2"><a href="ch7.html#cb268-2" tabindex="-1"></a><span class="fu">page_rank</span>(<span class="at">graph =</span> karate_dw, <span class="at">directed =</span> T)<span class="sc">$</span>vector</span></code></pre></div>
+<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20 
+## 0.01523537 0.01552315 0.01938528 0.01886916 0.01581093 0.01667427 0.03091729 0.01884496 0.01729506 0.02746170 0.01523537 0.01523537 0.01523537 0.01701045 
+##   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11 
+## 0.01523537 0.01523537 0.01523537 0.01523537 0.01935585 0.01523537 0.02484945 0.01798162 0.02141609 0.01939474 0.04512689 0.08402038 0.02351277 0.02484309 
+##   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
+## 0.01552315 0.01988203 0.01880972 0.01672267 0.04556454 0.26808640</code></pre>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ch7.html#cb270-1" tabindex="-1"></a><span class="co"># notice we include the &quot;$vector&quot; after the function because the function outputs</span></span>
+<span id="cb270-2"><a href="ch7.html#cb270-2" tabindex="-1"></a><span class="co"># a list object, and we only want the part of the object that contains the </span></span>
+<span id="cb270-3"><a href="ch7.html#cb270-3" tabindex="-1"></a><span class="co"># centrality values for the individual nodes </span></span></code></pre></div>
 </div>
 <div id="other-forms-of-node-centrality" class="section level2 hasAnchor" number="7.7">
 <h2><span class="header-section-number">7.7</span> Other forms of node centrality<a href="ch7.html#other-forms-of-node-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -680,13 +698,13 @@ To get the local clustering coefficient of all nodes in the network, try running
 <h2><span class="header-section-number">7.8</span> Exporting node centrality measures for data analysis<a href="ch7.html#exporting-node-centrality-measures-for-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As you can see from this chapter, it is fairly straightforward to obtain node centrality measures–you need to know which functions to use, and think about whether you want a variant of the measure that reflects properties of the network that are important for your research (e.g., directedness and weightedness of the edges). However, printing out the values in the Console is unwieldy, and makes it quite difficult to manipulate and analyze this information.</p>
 <p>Below is a code chunk that you should be able to easily edit to extract the measures that you want for all nodes in a given network. It creates a data frame containing each centrality measure in a separate column and node names in another column. You can add more or fewer centrality measures in the data frame. Then you analyze the data frame object as per normal (e.g., are degree and local clustering coefficient of nodes positively correlated in this network?) or export the data frame so that you can merge it with other measures (e.g., gender of each person) and conduct statistical tests in another software (e.g., on average, do males have a higher closeness centrality than females?).</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ch7.html#cb274-1" tabindex="-1"></a>node_centrality_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb274-2"><a href="ch7.html#cb274-2" tabindex="-1"></a>    <span class="at">degree =</span> <span class="fu">degree</span>(karate_dw, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>), <span class="co"># column_name = centrality function </span></span>
-<span id="cb274-3"><a href="ch7.html#cb274-3" tabindex="-1"></a>    <span class="at">out_strength =</span> <span class="fu">strength</span>(karate_dw, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>),</span>
-<span id="cb274-4"><a href="ch7.html#cb274-4" tabindex="-1"></a>    <span class="at">uu_closeness =</span> <span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> <span class="cn">TRUE</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>, <span class="at">weights =</span> <span class="cn">NA</span>)</span>
-<span id="cb274-5"><a href="ch7.html#cb274-5" tabindex="-1"></a>    )</span>
-<span id="cb274-6"><a href="ch7.html#cb274-6" tabindex="-1"></a></span>
-<span id="cb274-7"><a href="ch7.html#cb274-7" tabindex="-1"></a><span class="fu">write.csv</span>(node_centrality_data, <span class="at">file =</span> <span class="st">&#39;results.csv&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="ch7.html#cb271-1" tabindex="-1"></a>node_centrality_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb271-2"><a href="ch7.html#cb271-2" tabindex="-1"></a>    <span class="at">degree =</span> <span class="fu">degree</span>(karate_dw, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>), <span class="co"># column_name = centrality function </span></span>
+<span id="cb271-3"><a href="ch7.html#cb271-3" tabindex="-1"></a>    <span class="at">out_strength =</span> <span class="fu">strength</span>(karate_dw, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>),</span>
+<span id="cb271-4"><a href="ch7.html#cb271-4" tabindex="-1"></a>    <span class="at">uu_closeness =</span> <span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> <span class="cn">TRUE</span>, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>, <span class="at">weights =</span> <span class="cn">NA</span>)</span>
+<span id="cb271-5"><a href="ch7.html#cb271-5" tabindex="-1"></a>    )</span>
+<span id="cb271-6"><a href="ch7.html#cb271-6" tabindex="-1"></a></span>
+<span id="cb271-7"><a href="ch7.html#cb271-7" tabindex="-1"></a><span class="fu">write.csv</span>(node_centrality_data, <span class="at">file =</span> <span class="st">&#39;results.csv&#39;</span>)</span></code></pre></div>
 </div>
 <div id="exercise-5" class="section level2 hasAnchor" number="7.9">
 <h2><span class="header-section-number">7.9</span> Exercise<a href="ch7.html#exercise-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -694,9 +712,9 @@ To get the local clustering coefficient of all nodes in the network, try running
 <ol style="list-style-type: decimal">
 <li>Load the famous <a href="https://en.wikipedia.org/wiki/Krackhardt_kite_graph">Krackhardt’s Kite</a> network from the <code>igraphdata</code> library using the following code:</li>
 </ol>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="ch7.html#cb275-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># have you downloaded the package? </span></span>
-<span id="cb275-2"><a href="ch7.html#cb275-2" tabindex="-1"></a></span>
-<span id="cb275-3"><a href="ch7.html#cb275-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;kite&quot;</span>) <span class="co"># you should see a kite object appear in your Environment</span></span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ch7.html#cb272-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># have you downloaded the package? </span></span>
+<span id="cb272-2"><a href="ch7.html#cb272-2" tabindex="-1"></a></span>
+<span id="cb272-3"><a href="ch7.html#cb272-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;kite&quot;</span>) <span class="co"># you should see a kite object appear in your Environment</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Answer the following questions:</li>
 </ol>

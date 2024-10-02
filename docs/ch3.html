@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Chapter 3: Introduction to network objects | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Chapter 3: Introduction to network objects | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-09-16" />
+<meta name="date" content="2024-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -404,20 +406,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.2</span> Your first network<a href="ch3.html#your-first-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Network objects are a special variable that can only be analyzed with functions from the <code>igraph</code> library (that you previously installed).
 Let’s check out a simple example.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="ch3.html#cb51-1" tabindex="-1"></a><span class="fu">library</span>(igraph) <span class="co"># remember that we need to load this</span></span>
-<span id="cb51-2"><a href="ch3.html#cb51-2" tabindex="-1"></a></span>
-<span id="cb51-3"><a href="ch3.html#cb51-3" tabindex="-1"></a><span class="co"># create a network of 2 nodes that are connected</span></span>
-<span id="cb51-4"><a href="ch3.html#cb51-4" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-</span><span class="st">&#39;bat&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch3.html#cb48-1" tabindex="-1"></a><span class="fu">library</span>(igraph) <span class="co"># remember that we need to load this</span></span>
+<span id="cb48-2"><a href="ch3.html#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="ch3.html#cb48-3" tabindex="-1"></a><span class="co"># create a network of 2 nodes that are connected</span></span>
+<span id="cb48-4"><a href="ch3.html#cb48-4" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-</span><span class="st">&#39;bat&#39;</span>)</span></code></pre></div>
 <p><code>graph_from_literal</code> is a special function that allows the user to quickly build small networks by explicitly stating the nodes and edges of the network. Here we are creating a network of 2 nodes, labeled ‘cat’ and ‘bat’, and these 2 nodes are connected to each other.</p>
 <p>You should find a new object <code>g</code> in Environment. But the description of the object does not seem like a network. That is OK! R knows what it is.</p>
 <p>When we print <code>g</code> in the Console, we find that it has a number of special properties. If you don’t want to see all the edges being printed, you can type <code>summary(g)</code> instead.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="ch3.html#cb52-1" tabindex="-1"></a>g</span></code></pre></div>
-<pre><code>## IGRAPH 163ef08 UN-- 2 1 -- 
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="ch3.html#cb49-1" tabindex="-1"></a>g</span></code></pre></div>
+<pre><code>## IGRAPH 434376e UN-- 2 1 -- 
 ## + attr: name (v/c)
-## + edge from 163ef08 (vertex names):
+## + edge from 434376e (vertex names):
 ## [1] cat--bat</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="ch3.html#cb54-1" tabindex="-1"></a><span class="fu">summary</span>(g)</span></code></pre></div>
-<pre><code>## IGRAPH 163ef08 UN-- 2 1 -- 
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="ch3.html#cb51-1" tabindex="-1"></a><span class="fu">summary</span>(g)</span></code></pre></div>
+<pre><code>## IGRAPH 434376e UN-- 2 1 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Let’s try to make sense of the output in Console when we “print” the network object <code>g</code>.</p>
 <p>This first line already packs a ton of information:</p>
@@ -447,13 +449,13 @@ Let’s check out a simple example.</p>
 <div id="your-second-network" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Your second network<a href="ch3.html#your-second-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To broaden our understanding, let’s create a slightly different network and explore its properties.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="ch3.html#cb57-1" tabindex="-1"></a><span class="co"># let&#39;s create a slightly different network</span></span>
-<span id="cb57-2"><a href="ch3.html#cb57-2" tabindex="-1"></a>g_directed <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-+</span><span class="st">&#39;bat&#39;</span>)</span>
-<span id="cb57-3"><a href="ch3.html#cb57-3" tabindex="-1"></a></span>
-<span id="cb57-4"><a href="ch3.html#cb57-4" tabindex="-1"></a>g_directed</span></code></pre></div>
-<pre><code>## IGRAPH d260995 DN-- 2 1 -- 
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="ch3.html#cb54-1" tabindex="-1"></a><span class="co"># let&#39;s create a slightly different network</span></span>
+<span id="cb54-2"><a href="ch3.html#cb54-2" tabindex="-1"></a>g_directed <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-+</span><span class="st">&#39;bat&#39;</span>)</span>
+<span id="cb54-3"><a href="ch3.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="ch3.html#cb54-4" tabindex="-1"></a>g_directed</span></code></pre></div>
+<pre><code>## IGRAPH 8840f0f DN-- 2 1 -- 
 ## + attr: name (v/c)
-## + edge from d260995 (vertex names):
+## + edge from 8840f0f (vertex names):
 ## [1] cat-&gt;bat</code></pre>
 <p>First, are you able to tell what was different from the code used to create the second network?</p>
 <p>It is a subtle change, but an additional <strong>+</strong> symbol is added to the dash. The function interprets <strong>+</strong> as the arrow head of the edge, and creates a <em>directed</em> edge pointing from ‘cat’ to ‘bat’.</p>
@@ -469,11 +471,11 @@ Let’s check out a simple example.</p>
 <div id="exercise-1" class="section level3 hasAnchor" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Exercise<a href="ch3.html#exercise-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Run the following code, and answer the questions below:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="ch3.html#cb60-1" tabindex="-1"></a>g_exercise <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-+</span>B, B<span class="sc">-+</span>C, C<span class="sc">-+</span>A)</span>
-<span id="cb60-2"><a href="ch3.html#cb60-2" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
-<span id="cb60-3"><a href="ch3.html#cb60-3" tabindex="-1"></a></span>
-<span id="cb60-4"><a href="ch3.html#cb60-4" tabindex="-1"></a><span class="fu">summary</span>(g_exercise)</span></code></pre></div>
-<pre><code>## IGRAPH d0572a2 DNW- 3 3 -- 
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="ch3.html#cb57-1" tabindex="-1"></a>g_exercise <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-+</span>B, B<span class="sc">-+</span>C, C<span class="sc">-+</span>A)</span>
+<span id="cb57-2"><a href="ch3.html#cb57-2" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb57-3"><a href="ch3.html#cb57-3" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="ch3.html#cb57-4" tabindex="-1"></a><span class="fu">summary</span>(g_exercise)</span></code></pre></div>
+<pre><code>## IGRAPH c2ab5c5 DNW- 3 3 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <ol style="list-style-type: decimal">
 <li>How many nodes and edges does this network have?</li>
@@ -486,31 +488,31 @@ Let’s check out a simple example.</p>
 <h2><span class="header-section-number">3.4</span> Node and edge attributes<a href="ch3.html#node-and-edge-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the previous exercise you might have noticed that I snuck in some new code: <code>E(g_exercise)$weight &lt;- c(1,2,1)</code>. This section explains what this code does and how you can explore and manipulate the node and edge attributes of your network.</p>
 <p>Try running the following and see what gets printed in the Console:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="ch3.html#cb62-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)</span></code></pre></div>
-<pre><code>## + 3/3 vertices, named, from d0572a2:
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="ch3.html#cb59-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)</span></code></pre></div>
+<pre><code>## + 3/3 vertices, named, from c2ab5c5:
 ## [1] A B C</code></pre>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="ch3.html#cb64-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)</span></code></pre></div>
-<pre><code>## + 3/3 edges from d0572a2 (vertex names):
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="ch3.html#cb61-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)</span></code></pre></div>
+<pre><code>## + 3/3 edges from c2ab5c5 (vertex names):
 ## [1] A-&gt;B B-&gt;C C-&gt;A</code></pre>
 <p>As you can see, <code>V()</code> and <code>E()</code> are special functions in <code>igraph</code> which you can use to print a list of the nodes and edges associated with a particular network object.</p>
 <p>Now let’s see what we get with the following code:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="ch3.html#cb66-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="ch3.html#cb63-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="ch3.html#cb68-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="ch3.html#cb65-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight</span></code></pre></div>
 <pre><code>## [1] 1 2 1</code></pre>
 <p>The <code>$</code> is a special operator because it acts like a kind of a “selector” of a specific part of a larger thing. So you could interpret <code>V(g_exercise)$name</code> as the names of the nodes in the <code>g_exercise</code> network. Likewise, <code>E(g_exercise)$weight</code> refers to the weights of the edges in the <code>g_exercise</code> network.</p>
 <p>Notice that the output is a <em>vector</em> (Chapter 2) of numbers and characters. This means we can also manipulate them using the special functions that we’ve learned about in Chapter 2.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="ch3.html#cb70-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Alice&#39;</span>, <span class="st">&#39;Bob&#39;</span>, <span class="st">&#39;Colin&#39;</span>)</span>
-<span id="cb70-2"><a href="ch3.html#cb70-2" tabindex="-1"></a></span>
-<span id="cb70-3"><a href="ch3.html#cb70-3" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="ch3.html#cb67-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Alice&#39;</span>, <span class="st">&#39;Bob&#39;</span>, <span class="st">&#39;Colin&#39;</span>)</span>
+<span id="cb67-2"><a href="ch3.html#cb67-2" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="ch3.html#cb67-3" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
 <pre><code>## [1] &quot;Alice&quot; &quot;Bob&quot;   &quot;Colin&quot;</code></pre>
 <p>Based on this new knowledge, think back to this line of code <code>E(g_exercise)$weight &lt;- c(1,2,1)</code> and see if you can figure out what is happening here. A neat thing that happened here is that <code>g_exercise</code> did not initially have an edge attribute called <code>weight</code> (you can verify this for yourself by removing <code>g_exercise</code> from your Environment and re-running only the line <code>g_exercise &lt;- graph_from_literal(A-+B, B-+C, C-+A)</code> and checking the summary.) So you can actually specify your own node/edge attributes and add the corresponding information. Of course, this becomes an error-prone process once networks get even a little bit bigger. You will likely include these attributes at the initial stage of the network construction when importing the data used to create the network, so that these information are already “linked” to the nodes and edges of the network. We will explore this in the next chapter.</p>
 <div id="exercise-2" class="section level3 hasAnchor" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Exercise<a href="ch3.html#exercise-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Run the following in your Console and try to explain the output you observe.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="ch3.html#cb72-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>weight</span>
-<span id="cb72-2"><a href="ch3.html#cb72-2" tabindex="-1"></a></span>
-<span id="cb72-3"><a href="ch3.html#cb72-3" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="ch3.html#cb69-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)<span class="sc">$</span>weight</span>
+<span id="cb69-2"><a href="ch3.html#cb69-2" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="ch3.html#cb69-3" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>name</span></code></pre></div>
 <blockquote>
 <p><em>Answer: We get a NULL output because there is no node attribute called <code>weight</code> and no edge attribute called <code>name</code>.</em></p>
 </blockquote>
@@ -519,12 +521,12 @@ Let’s check out a simple example.</p>
 <div id="graph-attributes" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Graph attributes<a href="ch3.html#graph-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Earlier in this chapter I mentioned that it is possible for the network itself to have an attribute. This is not particularly relevant for network analysis, but for completeness the code below demonstrates how you can specify a graph attribute and how it would look like in the summary output. One possible use for this is to label a network object that you have painstakingly build with a reference so that when you share this network with others they can then cite and acknowledge your work.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="ch3.html#cb73-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation <span class="ot">&lt;-</span> <span class="st">&quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</span></span>
-<span id="cb73-2"><a href="ch3.html#cb73-2" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="ch3.html#cb73-3" tabindex="-1"></a><span class="fu">summary</span>(g_exercise) <span class="co"># pay attention to the attributes section! </span></span></code></pre></div>
-<pre><code>## IGRAPH d0572a2 DNW- 3 3 -- 
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="ch3.html#cb70-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation <span class="ot">&lt;-</span> <span class="st">&quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</span></span>
+<span id="cb70-2"><a href="ch3.html#cb70-2" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="ch3.html#cb70-3" tabindex="-1"></a><span class="fu">summary</span>(g_exercise) <span class="co"># pay attention to the attributes section! </span></span></code></pre></div>
+<pre><code>## IGRAPH c2ab5c5 DNW- 3 3 -- 
 ## + attr: citation (g/c), name (v/c), weight (e/n)</code></pre>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="ch3.html#cb75-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="ch3.html#cb72-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation</span></code></pre></div>
 <pre><code>## [1] &quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</code></pre>
 </div>
 <div id="useful-functions-for-working-with-attributes" class="section level2 hasAnchor" number="3.6">

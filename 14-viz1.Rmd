@@ -67,6 +67,22 @@ plot(karate, vertex.color = factor( V(karate)$gender )) # notice the use of fact
 # plot(karate, vertex.color = V(karate)$gender) # this throws an error 
 ```
 
+If you would like to specify your own colors, you can refer to [this website](https://r-charts.com/colors/) for the names of colors in R and assign them to each category as shown in the following code: 
+
+```{r}
+#| echo: true
+#| eval: true
+
+factor( V(karate)$gender ) |> levels() # order of levels is female male
+
+my_colors <- c('firebrick', 'slateblue') # firebrick = female, slateblue = male
+
+# use of square brackets to map the colors onto the labels 
+plot(karate, vertex.color = my_colors[ factor( V(karate)$gender ) ] ,
+     vertex.label.color = 'white' # to make the labels visible
+     )
+```
+
 Can you try replacing the `gender` attribute with the `belt` attribute? 
 
 ### Color nodes by their continuous attributes

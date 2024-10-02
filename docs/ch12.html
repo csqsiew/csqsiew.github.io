@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Chapter 12: influenceR package | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Chapter 12: influenceR package | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-09-16" />
+<meta name="date" content="2024-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -398,15 +400,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="set-up-2" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Set up<a href="ch12.html#set-up-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First, let’s install the <code>influenceR</code> R package:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="ch12.html#cb340-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;influenceR&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="ch12.html#cb337-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;influenceR&#39;</span>)</span></code></pre></div>
 <p>We will continue to use the <code>macaque</code> network from Chapter 11 for demonstration.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="ch12.html#cb341-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
-<span id="cb341-2"><a href="ch12.html#cb341-2" tabindex="-1"></a></span>
-<span id="cb341-3"><a href="ch12.html#cb341-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>)</span>
-<span id="cb341-4"><a href="ch12.html#cb341-4" tabindex="-1"></a></span>
-<span id="cb341-5"><a href="ch12.html#cb341-5" tabindex="-1"></a><span class="co"># load the other packages that we need </span></span>
-<span id="cb341-6"><a href="ch12.html#cb341-6" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb341-7"><a href="ch12.html#cb341-7" tabindex="-1"></a><span class="fu">library</span>(influenceR)</span></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="ch12.html#cb338-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb338-2"><a href="ch12.html#cb338-2" tabindex="-1"></a></span>
+<span id="cb338-3"><a href="ch12.html#cb338-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>)</span>
+<span id="cb338-4"><a href="ch12.html#cb338-4" tabindex="-1"></a></span>
+<span id="cb338-5"><a href="ch12.html#cb338-5" tabindex="-1"></a><span class="co"># load the other packages that we need </span></span>
+<span id="cb338-6"><a href="ch12.html#cb338-6" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb338-7"><a href="ch12.html#cb338-7" tabindex="-1"></a><span class="fu">library</span>(influenceR)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;influenceR&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:igraph&#39;:
@@ -427,27 +429,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Then, take the sum of the change in cohesiveness, divide by the number of edges (degree).</p>
 <p>Below, we can easily use the <code>bridging</code> function to compute this information for us.</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="ch12.html#cb344-1" tabindex="-1"></a><span class="fu">bridging</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="ch12.html#cb341-1" tabindex="-1"></a><span class="fu">bridging</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
 <pre><code>## This graph was created by an old(er) igraph version.
 ##   Call upgrade_graph() on it to use with the current igraph version
 ##   For now we convert it on the fly...</code></pre>
-<pre><code>##          V1          V2          V3         V3A          V4         V4t         VOT          VP          MT      MSTd/p        MSTl          PO         LIP         PIP         VIP          DP          7a         FST 
-##  0.14705387  0.02944625  0.14705387  0.14118182  0.14705387  0.12115270 -0.05294613  0.14161679  0.14705387  0.14260790  0.12387471  0.06513949  0.13933192  0.12873264  0.13972854  0.11769360  0.02708158  0.13447090 
-##        PITd        PITv        CITd        CITv        AITd        AITv        STPp        STPa          TF          TH         FEF          46          3a          3b           1           2           5          Ri 
-##  0.11318959  0.11769360  0.09812009  0.14705387  0.08414502  0.12258698  0.14705387  0.13074261  0.12179844  0.12609828 -0.27082337  0.10301861  0.14705387  0.14705387  0.13726712  0.13239899  0.13242424  0.14705387 
-##         SII          7b           4           6         SMA          Ig          Id          35          36 
-## -2.87204289 -4.06143251 -1.17293523  0.13239899  0.14705387  0.13370830  0.12608225  0.09830247  0.07380577</code></pre>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="ch12.html#cb347-1" tabindex="-1"></a>bridging_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
-<span id="cb347-2"><a href="ch12.html#cb347-2" tabindex="-1"></a>                            <span class="at">bridge_score =</span> <span class="fu">bridging</span>(macaque))</span>
-<span id="cb347-3"><a href="ch12.html#cb347-3" tabindex="-1"></a></span>
-<span id="cb347-4"><a href="ch12.html#cb347-4" tabindex="-1"></a><span class="fu">head</span>(bridging_data)</span></code></pre></div>
-<pre><code>##     node   bridge_score
-## V1    V1   1.470539e-01
-## V2    V2   1.365891e-01
-## V3    V3   1.470539e-01
-## V3A  V3A  2.350379e+242
-## V4    V4 -2.620991e+305
-## V4t  V4t  8.080899e+199</code></pre>
+<pre><code>##          V1          V2          V3         V3A          V4         V4t         VOT          VP          MT      MSTd/p        MSTl          PO         LIP 
+##  0.14705387  0.02944625  0.07562530  0.10118182 -0.05294613  0.12115270 -0.15294613  0.10457975 -0.07169613  0.05169881  0.12387471  0.06513949  0.06038455 
+##         PIP         VIP          DP          7a         FST        PITd        PITv        CITd        CITv        AITd        AITv        STPp        STPa 
+##  0.12873264  0.11472854  0.11769360 -0.09791842 -0.09410053  0.11318959  0.11769360  0.09812009  0.14705387  0.08414502  0.03925365  0.04705387  0.13074261 
+##          TF          TH         FEF          46          3a          3b           1           2           5          Ri         SII          7b           4 
+##  0.12179844  0.12609828  0.12391348  0.01968528  0.14705387  0.14705387  0.13726712  0.13239899  0.13242424  0.14705387  0.08447885 -0.01597796  0.06235888 
+##           6         SMA          Ig          Id          35          36 
+##  0.13239899  0.14705387  0.13370830  0.12608225  0.09830247  0.07380577</code></pre>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="ch12.html#cb344-1" tabindex="-1"></a>bridging_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
+<span id="cb344-2"><a href="ch12.html#cb344-2" tabindex="-1"></a>                            <span class="at">bridge_score =</span> <span class="fu">bridging</span>(macaque))</span>
+<span id="cb344-3"><a href="ch12.html#cb344-3" tabindex="-1"></a></span>
+<span id="cb344-4"><a href="ch12.html#cb344-4" tabindex="-1"></a><span class="fu">head</span>(bridging_data)</span></code></pre></div>
+<pre><code>##     node bridge_score
+## V1    V1  0.147053872
+## V2    V2 -0.006268038
+## V3    V3  0.004196729
+## V3A  V3A  0.101181818
+## V4    V4 -0.027946128
+## V4t  V4t  0.003505645</code></pre>
 </div>
 <div id="effective-network-science" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> Effective network science<a href="ch12.html#effective-network-science" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -462,17 +466,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Check the extent to which its neighbors are connected by counting number of ties, <em>t</em>.</li>
 </ol>
 <p>Below, we can easily use the <code>ens</code> function to compute this information for us.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="ch12.html#cb349-1" tabindex="-1"></a><span class="fu">ens</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
-<pre><code>##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP        7a       FST      PITd      PITv      CITd      CITv 
-##  2.375000  7.400000  5.785714  5.230769 13.300000  3.333333  3.000000  6.857143  6.562500  8.764706  1.250000  4.538462 11.950000  3.375000 12.300000  4.400000  4.400000  8.647059  6.250000  4.333333  4.500000  4.500000 
-##      AITd      AITv      STPp      STPa        TF        TH       FEF        46        3a        3b         1         2         5        Ri       SII        7b         4         6       SMA        Ig        Id        35 
-##  0.800000  0.600000  6.500000  2.400000 12.882353  8.583333 12.400000 15.050000  2.166667  1.000000  3.500000  4.500000  4.700000  1.750000  5.000000  4.300000  2.500000  4.000000  3.000000  3.200000  3.250000  1.500000 
-##        36 
-##  1.500000</code></pre>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="ch12.html#cb351-1" tabindex="-1"></a>ens_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
-<span id="cb351-2"><a href="ch12.html#cb351-2" tabindex="-1"></a>                            <span class="at">ens_score =</span> <span class="fu">ens</span>(macaque))</span>
-<span id="cb351-3"><a href="ch12.html#cb351-3" tabindex="-1"></a></span>
-<span id="cb351-4"><a href="ch12.html#cb351-4" tabindex="-1"></a><span class="fu">head</span>(ens_data)</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="ch12.html#cb346-1" tabindex="-1"></a><span class="fu">ens</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
+<pre><code>##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP 
+##  2.375000  7.400000  5.785714  5.230769 13.300000  3.333333  3.000000  6.857143  6.562500  8.764706  1.250000  4.538462 11.950000  3.375000 12.300000  4.400000 
+##        7a       FST      PITd      PITv      CITd      CITv      AITd      AITv      STPp      STPa        TF        TH       FEF        46        3a        3b 
+##  4.400000  8.647059  6.250000  4.333333  4.500000  4.500000  0.800000  0.600000  6.500000  2.400000 12.882353  8.583333 12.400000 15.050000  2.166667  1.000000 
+##         1         2         5        Ri       SII        7b         4         6       SMA        Ig        Id        35        36 
+##  3.500000  4.500000  4.700000  1.750000  5.000000  4.300000  2.500000  4.000000  3.000000  3.200000  3.250000  1.500000  1.500000</code></pre>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="ch12.html#cb348-1" tabindex="-1"></a>ens_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
+<span id="cb348-2"><a href="ch12.html#cb348-2" tabindex="-1"></a>                            <span class="at">ens_score =</span> <span class="fu">ens</span>(macaque))</span>
+<span id="cb348-3"><a href="ch12.html#cb348-3" tabindex="-1"></a></span>
+<span id="cb348-4"><a href="ch12.html#cb348-4" tabindex="-1"></a><span class="fu">head</span>(ens_data)</span></code></pre></div>
 <pre><code>##     node ens_score
 ## V1    V1  2.375000
 ## V2    V2  7.400000
