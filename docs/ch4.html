@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-02" />
+<meta name="date" content="2024-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,8 +324,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
-<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
-<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
 <li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -406,7 +413,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb74-5"><a href="ch4.html#cb74-5" tabindex="-1"></a><span class="co"># visualize the network</span></span>
 <span id="cb74-6"><a href="ch4.html#cb74-6" tabindex="-1"></a><span class="fu">plot</span>(g, <span class="at">vertex.color =</span> <span class="st">&#39;blue&#39;</span>, <span class="at">vertex.frame.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">vertex.size =</span> <span class="dv">10</span>, </span>
 <span id="cb74-7"><a href="ch4.html#cb74-7" tabindex="-1"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">1.5</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an <em>edge list</em> or an <em>adjacency matrix</em>. The following sections will demonstrate what data in an edge list and adjacency matrix looks like, and how to import the data into RStudio so that it corresponds to the network representation that you want.</p>
 </div>
 <div id="edge-list" class="section level2 hasAnchor" number="4.2">
@@ -620,7 +627,7 @@ Eliza
 <span id="cb75-3"><a href="ch4.html#cb75-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb75-4"><a href="ch4.html#cb75-4" tabindex="-1"></a></span>
 <span id="cb75-5"><a href="ch4.html#cb75-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 119c716 UN-- 34 78 -- 
+<pre><code>## IGRAPH 3cf89d3 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -634,7 +641,7 @@ Eliza
 <span id="cb77-3"><a href="ch4.html#cb77-3" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb77-4"><a href="ch4.html#cb77-4" tabindex="-1"></a></span>
 <span id="cb77-5"><a href="ch4.html#cb77-5" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
-<pre><code>## IGRAPH 679bdc0 DN-- 34 78 -- 
+<pre><code>## IGRAPH 1cac009 DN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -646,7 +653,7 @@ Eliza
 <span id="cb79-3"><a href="ch4.html#cb79-3" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb79-4"><a href="ch4.html#cb79-4" tabindex="-1"></a></span>
 <span id="cb79-5"><a href="ch4.html#cb79-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
-<pre><code>## IGRAPH 8b15b1f UNW- 34 78 -- 
+<pre><code>## IGRAPH c98cea2 UNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -659,7 +666,7 @@ Eliza
 <span id="cb81-3"><a href="ch4.html#cb81-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb81-4"><a href="ch4.html#cb81-4" tabindex="-1"></a></span>
 <span id="cb81-5"><a href="ch4.html#cb81-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH fd8d13d DNW- 34 78 -- 
+<pre><code>## IGRAPH 5be9ec8 DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 </div>
 <div id="importing-adjacency-matrices" class="section level3 hasAnchor" number="4.4.2">
@@ -674,7 +681,7 @@ Eliza
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="ch4.html#cb85-1" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>)</span>
 <span id="cb85-2"><a href="ch4.html#cb85-2" tabindex="-1"></a></span>
 <span id="cb85-3"><a href="ch4.html#cb85-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 7f6c1ae UN-- 34 78 -- 
+<pre><code>## IGRAPH 7493872 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -693,7 +700,7 @@ Eliza
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="ch4.html#cb89-1" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>)</span>
 <span id="cb89-2"><a href="ch4.html#cb89-2" tabindex="-1"></a></span>
 <span id="cb89-3"><a href="ch4.html#cb89-3" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
-<pre><code>## IGRAPH 58c0201 DN-- 34 156 -- 
+<pre><code>## IGRAPH 2242bb0 DN-- 34 156 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -713,7 +720,7 @@ Eliza
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="ch4.html#cb95-1" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
-<pre><code>## IGRAPH 3fb8936 UNW- 34 100 -- 
+<pre><code>## IGRAPH b1b8466 UNW- 34 100 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -730,7 +737,7 @@ Eliza
 <div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="ch4.html#cb99-1" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
 <span id="cb99-2"><a href="ch4.html#cb99-2" tabindex="-1"></a></span>
 <span id="cb99-3"><a href="ch4.html#cb99-3" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH fd30e8d DNW- 34 103 -- 
+<pre><code>## IGRAPH f7809ee DNW- 34 103 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 </div>
 </div>

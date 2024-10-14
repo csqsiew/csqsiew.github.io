@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-02" />
+<meta name="date" content="2024-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,8 +324,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
-<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
-<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
 <li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -403,17 +410,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb194-3"><a href="ch7.html#cb194-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb194-4"><a href="ch7.html#cb194-4" tabindex="-1"></a></span>
 <span id="cb194-5"><a href="ch7.html#cb194-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH bf29878 DNW- 34 78 -- 
+<pre><code>## IGRAPH f83cf90 DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <div id="degree" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Degree<a href="ch7.html#degree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong>degree</strong> of node <em>i</em>, frequently denoted as <em>k_i</em> in the network science literature, refers to the number of edges or links directly connected to node <em>i</em>.</p>
 <p>To get the degree of all nodes in the network, try running the following code:</p>
 <div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ch7.html#cb196-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw)</span></code></pre></div>
-<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 
-##       16        9       10        6        3        4        4        5        2        5        2        2        2        3        2        2        5        3 
-## Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
-##        3        2        4        3        4        4        6       12        4        3        1        2        2        2        2       17</code></pre>
+<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 
+##       16        9       10        6        3        4        4        5        2        5        2        2        2        3        2        2        5        3        3        2        4        3        4        4 
+## Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
+##        6       12        4        3        1        2        2        2        2       17</code></pre>
 <p>If you only want the degree for a specific node:</p>
 <div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ch7.html#cb198-1" tabindex="-1"></a><span class="fu">degree</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Mr Hi&#39;</span>)</span></code></pre></div>
 <pre><code>## Mr Hi 
@@ -452,10 +459,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <strong>strength</strong> of node <em>i</em> refers to the sum of its adjacent edge weights. This measure is only applicable to weighted networks.</p>
 <p>To get the strength of all nodes in the network, try running the following code:</p>
 <div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="ch7.html#cb213-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw)</span></code></pre></div>
-<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 
-##       45       23       33       16        4       12       11       16        5       17        6        7        5        9        2        9       22       11 
-## Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
-##        7        4       13        9       12       11       17       31        8        5        1        7        7        3        5       53</code></pre>
+<pre><code>##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 
+##       45       23       33       16        4       12       11       16        5       17        6        7        5        9        2        9       22       11        7        4       13        9       12       11 
+## Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
+##       17       31        8        5        1        7        7        3        5       53</code></pre>
 <p>If you only want the strength for a specific node(s):</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="ch7.html#cb215-1" tabindex="-1"></a><span class="fu">strength</span>(<span class="at">graph =</span> karate_dw, <span class="at">v =</span> <span class="st">&#39;Mr Hi&#39;</span>)</span></code></pre></div>
 <pre><code>## Mr Hi 
@@ -494,34 +501,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/hcc-lcc.jpg" />
 To get the local clustering coefficient of all nodes in the network, try running the following code:</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="ch7.html#cb229-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">isolates =</span> <span class="st">&#39;zero&#39;</span>)</span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667 0.0000000 1.0000000 1.0000000 1.0000000 
-##  Actor 17    John A 
-## 1.0000000 0.1102941</code></pre>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28 
+## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 
+##  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
+## 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667 0.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.1102941</code></pre>
 <p>A couple of things to note:</p>
 <ol style="list-style-type: decimal">
 <li><p>It is important to specify <code>type = local</code> for local clustering coefficients (one value for each node), as compared to the global clustering coefficient of the entire graph (this is a macro-level measure that we learned about in Chapter 6).</p></li>
 <li><p>For nodes that have a degree of 0 or 1, it would not be possible to compute a local clustering coefficient value for those nodes. Be default <code>igraph</code> will return a <code>NaN</code> value (see Actor 12’s value below). By specifying <code>isolates = 'zero'</code> these <code>NaN</code> values will be reported as zeros instead.</p></li>
 </ol>
 <div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="ch7.html#cb231-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>)</span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667       NaN 1.0000000 1.0000000 1.0000000 
-##  Actor 17    John A 
-## 1.0000000 0.1102941</code></pre>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28 
+## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 
+##  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
+## 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667       NaN 1.0000000 1.0000000 1.0000000 1.0000000 0.1102941</code></pre>
 <div id="weighted-local-clustering-coefficient" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Weighted local clustering coefficient<a href="ch7.html#weighted-local-clustering-coefficient" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If you have a weighted network, you can compute <em>weighted</em> local clustering coefficients using Barrat et al.’s (2004) generalization of transitivity to weighted networks by specifying <code>type = 'weighted'</code>. If your network is unweighted, this generalization will simply return unweighted C values.</p>
 <div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="ch7.html#cb233-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_dw, <span class="at">type =</span> <span class="st">&#39;weighted&#39;</span>)</span></code></pre></div>
-<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20 
-## 0.13629630 0.31521739 0.25925926 0.63750000 0.75000000 0.58333333 0.54545455 0.48437500 0.00000000 0.70588235 1.00000000 1.00000000 1.00000000 0.22222222 
-##   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11 
-## 1.00000000 1.00000000 0.38636364 0.27272727 0.14285714 1.00000000 0.15384615 0.27777778 0.75000000 0.60606061 0.16470588 0.15542522 1.00000000 0.80000000 
-##   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
-##        NaN 1.00000000 1.00000000 1.00000000 1.00000000 0.09669811</code></pre>
+<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26 
+## 0.13629630 0.31521739 0.25925926 0.63750000 0.75000000 0.58333333 0.54545455 0.48437500 0.00000000 0.70588235 1.00000000 1.00000000 1.00000000 0.22222222 1.00000000 1.00000000 0.38636364 0.27272727 0.14285714 
+##   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
+## 1.00000000 0.15384615 0.27777778 0.75000000 0.60606061 0.16470588 0.15542522 1.00000000 0.80000000        NaN 1.00000000 1.00000000 1.00000000 1.00000000 0.09669811</code></pre>
 </div>
 </div>
 <div id="closeness-centrality" class="section level2 hasAnchor" number="7.4">
@@ -530,12 +531,10 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p>Closeness centrality is commonly viewed as an indicator of the accessibility of a given node in the network from all other locations in the network.</p>
 <p>To get the closeness centrality of all nodes in the network, try running the following code:</p>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="ch7.html#cb235-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
-##  Actor 17    John A 
-##       NaN       NaN</code></pre>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28 
+## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 
+##  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
+## 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN       NaN       NaN</code></pre>
 <p>It is typical to include <code>normalized = T</code> so that the values are normalized with respect to the size of the network.</p>
 <p>Note that closeness centrality can only be meaningfully computed for connected graphs (so that a path exists between any pair of nodes; see Chapter 6: Network Components). If there are distinct network components in the network, this means that for some sets of node pairs, the path between them does not exist and closeness cannot be computed. Usually, network scientists focus their analysis on the largest connected component of the network and ignore the smaller connected components (which are typically viewed as outliers). Chapter 6 provides you with the code needed to extract the largest connected component from the initial network.</p>
 <p>You can specify the <code>mode</code> and <code>weights</code> arguments accordingly if you have directed/weighted networks to get the corresponding versions of closeness centrality computed.</p>
@@ -544,19 +543,15 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p>If your network is weighted, weights are automatically included in the computation of closeness centrality. If you prefer that edge weights are <em>not</em> considered, include <code>weights = NA</code> in the argument. Notice that some of the values have changed depending on whether weights are considered or not.</p>
 <p>If your network is unweighted, then weights are not considered by default.</p>
 <div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="ch7.html#cb237-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
-##  Actor 17    John A 
-##       NaN       NaN</code></pre>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28 
+## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 
+##  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
+## 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN       NaN       NaN</code></pre>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="ch7.html#cb239-1" tabindex="-1"></a><span class="fu">closeness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="co"># weights are ignored</span></span></code></pre></div>
-<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.7666667 0.6400000 0.7500000 0.8000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.8571429 0.7142857 0.6000000 0.7500000 1.0000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
-##  Actor 17    John A 
-##       NaN       NaN</code></pre>
+<pre><code>##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28 
+## 0.7666667 0.6400000 0.7500000 0.8000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 0.8571429 0.7142857 0.6000000 0.7500000 1.0000000 
+##  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22  Actor 17    John A 
+## 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN       NaN       NaN</code></pre>
 </div>
 <div id="interpretation-of-edge-weights" class="section level3 hasAnchor" number="7.4.2">
 <h3><span class="header-section-number">7.4.2</span> Interpretation of edge weights<a href="ch7.html#interpretation-of-edge-weights" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -571,15 +566,15 @@ To get the local clustering coefficient of all nodes in the network, try running
 <span id="cb241-6"><a href="ch7.html#cb241-6" tabindex="-1"></a><span class="fu">E</span>(g_w)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>) </span>
 <span id="cb241-7"><a href="ch7.html#cb241-7" tabindex="-1"></a></span>
 <span id="cb241-8"><a href="ch7.html#cb241-8" tabindex="-1"></a><span class="fu">plot</span>(g_w, <span class="at">edge.width =</span> <span class="fu">E</span>(g_w)<span class="sc">$</span>weight<span class="sc">*</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
 <div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="ch7.html#cb242-1" tabindex="-1"></a><span class="co"># what is the shortest path between nodes A and C?</span></span>
 <span id="cb242-2"><a href="ch7.html#cb242-2" tabindex="-1"></a><span class="fu">shortest_paths</span>(g_w, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath <span class="co"># the shortest path is not A-B-C! </span></span></code></pre></div>
 <pre><code>## [[1]]
-## + 4/5 vertices, named, from 98c7bf7:
+## + 4/5 vertices, named, from a4d9579:
 ## [1] A D E C</code></pre>
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="ch7.html#cb244-1" tabindex="-1"></a><span class="fu">shortest_paths</span>(g, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath <span class="co"># the shortest path is A-B-C! </span></span></code></pre></div>
 <pre><code>## [[1]]
-## + 3/5 vertices, named, from 98c7bf7:
+## + 3/5 vertices, named, from a4d9579:
 ## [1] A B C</code></pre>
 <div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="ch7.html#cb246-1" tabindex="-1"></a><span class="co"># the reason is between bigger weights correspond to larger distances.</span></span>
 <span id="cb246-2"><a href="ch7.html#cb246-2" tabindex="-1"></a><span class="co"># and hence longer paths </span></span>
@@ -588,7 +583,7 @@ To get the local clustering coefficient of all nodes in the network, try running
 <span id="cb246-5"><a href="ch7.html#cb246-5" tabindex="-1"></a><span class="fu">E</span>(g_w)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb246-6"><a href="ch7.html#cb246-6" tabindex="-1"></a><span class="fu">shortest_paths</span>(g_w, <span class="at">from =</span> <span class="st">&quot;A&quot;</span>, <span class="at">to =</span> <span class="st">&quot;C&quot;</span>)<span class="sc">$</span>vpath </span></code></pre></div>
 <pre><code>## [[1]]
-## + 3/5 vertices, named, from 98c7bf7:
+## + 3/5 vertices, named, from a4d9579:
 ## [1] A B C</code></pre>
 <p>To reiterate, if you have a weighted graph and you would like to compute weighted closeness centrality for your nodes AND your edge weights are already interpreted as <em>distances</em> this is the pseudo R code that you need:</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ch7.html#cb248-1" tabindex="-1"></a><span class="fu">closeness</span>(network, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="fu">E</span>(network)<span class="sc">$</span>weight)</span></code></pre></div>
@@ -620,30 +615,30 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p>The same considerations (i.e., about connected graphs, additional arguments for weighted and directed graphs, normalization, interpretation of weights as distances) from the closeness centrality section applies to betweenness centrality as well, because betweenness centrality also relies on the <code>shortest_paths</code> function for its computation.</p>
 <p>To get the betweenness centrality of all nodes in the network, try running the following code:</p>
 <div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="ch7.html#cb256-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
-## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
-##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
-## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
-##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
-## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
+<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16     Actor 19     Actor 20     Actor 21     Actor 23 
+## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22 
+## 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 17       John A 
+## 0.0000000000 0.0000000000</code></pre>
 <div id="weighted-betweenness-centrality" class="section level3 hasAnchor" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Weighted betweenness centrality<a href="ch7.html#weighted-betweenness-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your network is weighted, weights are automatically included in the computation of betweenness centrality. If you prefer that edge weights are <em>not</em> considered, include <code>weights = NA</code> in the argument. Notice that some of the values have changed depending on whether weights are considered or not.</p>
 <p>If your network is unweighted, then weights are not considered by default.</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="ch7.html#cb258-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T) <span class="co"># weights are automatically considered</span></span></code></pre></div>
-<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
-## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
-##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
-## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
-##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
-## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
+<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16     Actor 19     Actor 20     Actor 21     Actor 23 
+## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22 
+## 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 17       John A 
+## 0.0000000000 0.0000000000</code></pre>
 <div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="ch7.html#cb260-1" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">betweenness</span>(karate_dw, <span class="at">normalized =</span> T, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="co"># weights are ignored</span></span></code></pre></div>
-<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
-## 0.0000000000 0.0004734848 0.0083648990 0.0018939394 0.0000000000 0.0004734848 0.0014204545 0.0021306818 0.0001578283 0.0016571970 0.0000000000 0.0000000000 
-##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
-## 0.0000000000 0.0005523990 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0009469697 0.0000000000 0.0006313131 0.0020517677 0.0009469697 0.0007891414 
-##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
-## 0.0048137626 0.0001578283 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
+<pre><code>##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16     Actor 19     Actor 20     Actor 21     Actor 23 
+## 0.0000000000 0.0004734848 0.0083648990 0.0018939394 0.0000000000 0.0004734848 0.0014204545 0.0021306818 0.0001578283 0.0016571970 0.0000000000 0.0000000000 0.0000000000 0.0005523990 0.0000000000 0.0000000000 
+##     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22 
+## 0.0000000000 0.0000000000 0.0009469697 0.0000000000 0.0006313131 0.0020517677 0.0009469697 0.0007891414 0.0048137626 0.0001578283 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 17       John A 
+## 0.0000000000 0.0000000000</code></pre>
 </div>
 <div id="directed-betweenness-centrality" class="section level3 hasAnchor" number="7.5.2">
 <h3><span class="header-section-number">7.5.2</span> Directed betweenness centrality<a href="ch7.html#directed-betweenness-centrality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -664,20 +659,16 @@ To get the local clustering coefficient of all nodes in the network, try running
 <p>To get the Page Rank centrality of all nodes in the network, try running the following code:</p>
 <div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="ch7.html#cb266-1" tabindex="-1"></a><span class="co"># undirected, unweighted centralities </span></span>
 <span id="cb266-2"><a href="ch7.html#cb266-2" tabindex="-1"></a><span class="fu">page_rank</span>(<span class="at">graph =</span> karate_dw, <span class="at">directed =</span> F, <span class="at">weights =</span> <span class="cn">NA</span>)<span class="sc">$</span>vector</span></code></pre></div>
-<pre><code>##       Mr Hi     Actor 2     Actor 3     Actor 4     Actor 5     Actor 6     Actor 7     Actor 9    Actor 10    Actor 14    Actor 15    Actor 16    Actor 19 
-## 0.096997285 0.052876924 0.057078509 0.035859858 0.021977952 0.029111155 0.029111155 0.029766056 0.014309397 0.029536456 0.014535994 0.014535994 0.014535994 
-##    Actor 20    Actor 21    Actor 23    Actor 24    Actor 25    Actor 26    Actor 27    Actor 28    Actor 29    Actor 30    Actor 31    Actor 32    Actor 33 
-## 0.019604636 0.014535994 0.014535994 0.031522515 0.021076034 0.021006197 0.015044038 0.025639767 0.019573459 0.026288538 0.024590155 0.037158087 0.071693226 
-##     Actor 8    Actor 11    Actor 12    Actor 13    Actor 18    Actor 22    Actor 17      John A 
-## 0.024490497 0.021977952 0.009564745 0.014644892 0.014558677 0.014558677 0.016784005 0.100919182</code></pre>
+<pre><code>##       Mr Hi     Actor 2     Actor 3     Actor 4     Actor 5     Actor 6     Actor 7     Actor 9    Actor 10    Actor 14    Actor 15    Actor 16    Actor 19    Actor 20    Actor 21    Actor 23    Actor 24    Actor 25 
+## 0.096997285 0.052876924 0.057078509 0.035859858 0.021977952 0.029111155 0.029111155 0.029766056 0.014309397 0.029536456 0.014535994 0.014535994 0.014535994 0.019604636 0.014535994 0.014535994 0.031522515 0.021076034 
+##    Actor 26    Actor 27    Actor 28    Actor 29    Actor 30    Actor 31    Actor 32    Actor 33     Actor 8    Actor 11    Actor 12    Actor 13    Actor 18    Actor 22    Actor 17      John A 
+## 0.021006197 0.015044038 0.025639767 0.019573459 0.026288538 0.024590155 0.037158087 0.071693226 0.024490497 0.021977952 0.009564745 0.014644892 0.014558677 0.014558677 0.016784005 0.100919182</code></pre>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="ch7.html#cb268-1" tabindex="-1"></a><span class="co"># directed, weighted centralities (weights used by default)</span></span>
 <span id="cb268-2"><a href="ch7.html#cb268-2" tabindex="-1"></a><span class="fu">page_rank</span>(<span class="at">graph =</span> karate_dw, <span class="at">directed =</span> T)<span class="sc">$</span>vector</span></code></pre></div>
-<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20 
-## 0.01523537 0.01552315 0.01938528 0.01886916 0.01581093 0.01667427 0.03091729 0.01884496 0.01729506 0.02746170 0.01523537 0.01523537 0.01523537 0.01701045 
-##   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11 
-## 0.01523537 0.01523537 0.01523537 0.01523537 0.01935585 0.01523537 0.02484945 0.01798162 0.02141609 0.01939474 0.04512689 0.08402038 0.02351277 0.02484309 
-##   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
-## 0.01552315 0.01988203 0.01880972 0.01672267 0.04556454 0.26808640</code></pre>
+<pre><code>##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26 
+## 0.01523537 0.01552315 0.01938528 0.01886916 0.01581093 0.01667427 0.03091729 0.01884496 0.01729506 0.02746170 0.01523537 0.01523537 0.01523537 0.01701045 0.01523537 0.01523537 0.01523537 0.01523537 0.01935585 
+##   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
+## 0.01523537 0.02484945 0.01798162 0.02141609 0.01939474 0.04512689 0.08402038 0.02351277 0.02484309 0.01552315 0.01988203 0.01880972 0.01672267 0.04556454 0.26808640</code></pre>
 <div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ch7.html#cb270-1" tabindex="-1"></a><span class="co"># notice we include the &quot;$vector&quot; after the function because the function outputs</span></span>
 <span id="cb270-2"><a href="ch7.html#cb270-2" tabindex="-1"></a><span class="co"># a list object, and we only want the part of the object that contains the </span></span>
 <span id="cb270-3"><a href="ch7.html#cb270-3" tabindex="-1"></a><span class="co"># centrality values for the individual nodes </span></span></code></pre></div>

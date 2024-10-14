@@ -100,7 +100,7 @@ The goal of KPP-Pos is to maximize Cohesion.
 
 Cohesion, *C*, is defined as the amount of connection between the key player set and the rest of the graph. It measures the number of unique nodes that can be reached from the key player set in a given number of steps (usually, steps = 1).
 
-$C_{min} = 0$ indicates that the KP set is infinitely far from all other nodes in the network. $C_{max} = 1$ indicates that the KP set is immediately adjacent (steps = 1) to all other nodes in the network. The KPP-Pos aims to find the set of key playerse that would maximize *C*.
+$C_{min} = 0$ indicates that the KP set is infinitely far from all other nodes in the network. $C_{max} = 1$ indicates that the KP set is immediately adjacent (steps = 1) to all other nodes in the network (excluding the keyplayer nodes themselves). The KPP-Pos aims to find the set of key players that would maximize *C*.
 
 To run the key player analysis, we make use of the `kpset` function from the `keyplayer` library. Notice that there are a number of additional parameters that need to be specified. 
 
@@ -126,14 +126,15 @@ results <- kpset(as_adjacency_matrix(macaque),
 results 
 ```
 
-Notice that the results of the key player algorithm is stored in an object called `results`, which is a list object containing two elements. The `centrality` element (which is accessed via `results$centrality`) provides the cohesion score of the final set of keyplayers (i.e., the number of nodes in the network that is accessible from the key player set by 1 step (i.e., `T = 1`)). It would be important to normalize this value by the total number of nodes in the network so that we get a cohesion score that reflects the proportion of coverage of the network offered by the key players. The second element is the optimal set of key players based on the goal of fragmentation which is stored in `results$keyplayers`. Because it records the "position" of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below. 
+Notice that the results of the key player algorithm is stored in an object called `results`, which is a list object containing two elements. The `centrality` element (which is accessed via `results$centrality`) provides the cohesion score of the final set of keyplayers (i.e., the number of nodes in the network that is accessible from the key player set by 1 step (i.e., `T = 1`), but excluding the key players themselves). It would be important to normalize this value by the total number of nodes in the network (minus the number of nodes in the key player set) so that we get a cohesion score that reflects the proportion of coverage of the network offered by the key players. The second element is the optimal set of key players based on the goal of fragmentation which is stored in `results$keyplayers`. Because it records the "position" of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below. 
 
 ```{r}
 #| echo: true
 #| eval: true
 
 # cohesion score 
-results$centrality/gorder(macaque) 
+results$centrality/(gorder(macaque) - length(results$keyplayers)) 
+# notice that we subtract the keyplayers from the full network size 
 
 # to map the keyplayer number to node names 
 V(macaque)$name[results$keyplayers] 

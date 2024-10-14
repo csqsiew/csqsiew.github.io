@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-02" />
+<meta name="date" content="2024-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,8 +324,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
-<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
-<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
 <li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -403,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb142-3"><a href="ch6.html#cb142-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb142-4"><a href="ch6.html#cb142-4" tabindex="-1"></a></span>
 <span id="cb142-5"><a href="ch6.html#cb142-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 6935feb UN-- 34 78 -- 
+<pre><code>## IGRAPH 6bd31ab UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Although it is possible to compute macro-level network measures for directed, weighted networks in certain instances (and this will be pointed out where appropriate), I choose to focus on the undirected, unweighted version for this chapter because macro-level measures are more complex to interpret and less intuitive when additional information like edge weights and direction are included. For instance, <em>network density</em> refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network–it is not clear how this measure be adapted if we wanted to use weighted edges instead.</p>
 <div id="average-degree" class="section level2 hasAnchor" number="6.1">
@@ -545,7 +552,7 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="ch6.html#cb177-1" tabindex="-1"></a><span class="co"># create a sample network with two distinct components </span></span>
 <span id="cb177-2"><a href="ch6.html#cb177-2" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B, B<span class="sc">-</span>C, A<span class="sc">-</span>C, D<span class="sc">-</span>E)</span>
 <span id="cb177-3"><a href="ch6.html#cb177-3" tabindex="-1"></a><span class="fu">plot</span>(g)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
 <p>When working with networks derived from behavioral data, it can be common to observe that the network consists of distinct network components. This has implications for the computing and interpretation of the macro-level network measures, because several of them rely on the computation of shortest path between node pairs. For instance, ASPL computes the shortest paths for all possible node pairs and takes the mean–but what happens if there is no path between nodes A and D, for example?</p>
 <p>Node pairs that do not have a path are ignored in the computation. This is the default behavior in <code>igraph</code>. Hence, this value reflects the mean of all “computable” short paths (i.e., when node pairs are found in the same component) and this is computed across all network components in the network.</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="ch6.html#cb178-1" tabindex="-1"></a><span class="fu">mean_distance</span>(g, <span class="at">unconnected =</span> <span class="cn">TRUE</span>) <span class="co"># ignore infinite paths, default </span></span></code></pre></div>
@@ -574,14 +581,14 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <span id="cb189-2"><a href="ch6.html#cb189-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
 <span id="cb189-3"><a href="ch6.html#cb189-3" tabindex="-1"></a></span>
 <span id="cb189-4"><a href="ch6.html#cb189-4" tabindex="-1"></a><span class="fu">summary</span>(g_lcc)</span></code></pre></div>
-<pre><code>## IGRAPH b89993e UN-- 3 3 -- 
+<pre><code>## IGRAPH 1010725 UN-- 3 3 -- 
 ## + attr: name (v/c)</code></pre>
 <p>It is also possible to extract other components of the network. The code below retains nodes that do not belong to the largest connected component of the network.</p>
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ch6.html#cb191-1" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
 <span id="cb191-2"><a href="ch6.html#cb191-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">!=</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
 <span id="cb191-3"><a href="ch6.html#cb191-3" tabindex="-1"></a></span>
 <span id="cb191-4"><a href="ch6.html#cb191-4" tabindex="-1"></a><span class="fu">summary</span>(g_2)</span></code></pre></div>
-<pre><code>## IGRAPH ab8bd35 UN-- 2 1 -- 
+<pre><code>## IGRAPH 64cc239 UN-- 2 1 -- 
 ## + attr: name (v/c)</code></pre>
 </div>
 <div id="exercise-4" class="section level2 hasAnchor" number="6.9">

@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-02" />
+<meta name="date" content="2024-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,8 +324,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
-<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
-<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
 <li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -414,12 +421,12 @@ Let’s check out a simple example.</p>
 <p>You should find a new object <code>g</code> in Environment. But the description of the object does not seem like a network. That is OK! R knows what it is.</p>
 <p>When we print <code>g</code> in the Console, we find that it has a number of special properties. If you don’t want to see all the edges being printed, you can type <code>summary(g)</code> instead.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="ch3.html#cb49-1" tabindex="-1"></a>g</span></code></pre></div>
-<pre><code>## IGRAPH 434376e UN-- 2 1 -- 
+<pre><code>## IGRAPH 68ca30c UN-- 2 1 -- 
 ## + attr: name (v/c)
-## + edge from 434376e (vertex names):
+## + edge from 68ca30c (vertex names):
 ## [1] cat--bat</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="ch3.html#cb51-1" tabindex="-1"></a><span class="fu">summary</span>(g)</span></code></pre></div>
-<pre><code>## IGRAPH 434376e UN-- 2 1 -- 
+<pre><code>## IGRAPH 68ca30c UN-- 2 1 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Let’s try to make sense of the output in Console when we “print” the network object <code>g</code>.</p>
 <p>This first line already packs a ton of information:</p>
@@ -453,9 +460,9 @@ Let’s check out a simple example.</p>
 <span id="cb54-2"><a href="ch3.html#cb54-2" tabindex="-1"></a>g_directed <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(<span class="st">&#39;cat&#39;</span><span class="sc">-+</span><span class="st">&#39;bat&#39;</span>)</span>
 <span id="cb54-3"><a href="ch3.html#cb54-3" tabindex="-1"></a></span>
 <span id="cb54-4"><a href="ch3.html#cb54-4" tabindex="-1"></a>g_directed</span></code></pre></div>
-<pre><code>## IGRAPH 8840f0f DN-- 2 1 -- 
+<pre><code>## IGRAPH 8f10587 DN-- 2 1 -- 
 ## + attr: name (v/c)
-## + edge from 8840f0f (vertex names):
+## + edge from 8f10587 (vertex names):
 ## [1] cat-&gt;bat</code></pre>
 <p>First, are you able to tell what was different from the code used to create the second network?</p>
 <p>It is a subtle change, but an additional <strong>+</strong> symbol is added to the dash. The function interprets <strong>+</strong> as the arrow head of the edge, and creates a <em>directed</em> edge pointing from ‘cat’ to ‘bat’.</p>
@@ -475,7 +482,7 @@ Let’s check out a simple example.</p>
 <span id="cb57-2"><a href="ch3.html#cb57-2" tabindex="-1"></a><span class="fu">E</span>(g_exercise)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
 <span id="cb57-3"><a href="ch3.html#cb57-3" tabindex="-1"></a></span>
 <span id="cb57-4"><a href="ch3.html#cb57-4" tabindex="-1"></a><span class="fu">summary</span>(g_exercise)</span></code></pre></div>
-<pre><code>## IGRAPH c2ab5c5 DNW- 3 3 -- 
+<pre><code>## IGRAPH eb20f47 DNW- 3 3 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <ol style="list-style-type: decimal">
 <li>How many nodes and edges does this network have?</li>
@@ -489,10 +496,10 @@ Let’s check out a simple example.</p>
 <p>In the previous exercise you might have noticed that I snuck in some new code: <code>E(g_exercise)$weight &lt;- c(1,2,1)</code>. This section explains what this code does and how you can explore and manipulate the node and edge attributes of your network.</p>
 <p>Try running the following and see what gets printed in the Console:</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="ch3.html#cb59-1" tabindex="-1"></a><span class="fu">V</span>(g_exercise)</span></code></pre></div>
-<pre><code>## + 3/3 vertices, named, from c2ab5c5:
+<pre><code>## + 3/3 vertices, named, from eb20f47:
 ## [1] A B C</code></pre>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="ch3.html#cb61-1" tabindex="-1"></a><span class="fu">E</span>(g_exercise)</span></code></pre></div>
-<pre><code>## + 3/3 edges from c2ab5c5 (vertex names):
+<pre><code>## + 3/3 edges from eb20f47 (vertex names):
 ## [1] A-&gt;B B-&gt;C C-&gt;A</code></pre>
 <p>As you can see, <code>V()</code> and <code>E()</code> are special functions in <code>igraph</code> which you can use to print a list of the nodes and edges associated with a particular network object.</p>
 <p>Now let’s see what we get with the following code:</p>
@@ -524,7 +531,7 @@ Let’s check out a simple example.</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="ch3.html#cb70-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation <span class="ot">&lt;-</span> <span class="st">&quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</span></span>
 <span id="cb70-2"><a href="ch3.html#cb70-2" tabindex="-1"></a></span>
 <span id="cb70-3"><a href="ch3.html#cb70-3" tabindex="-1"></a><span class="fu">summary</span>(g_exercise) <span class="co"># pay attention to the attributes section! </span></span></code></pre></div>
-<pre><code>## IGRAPH c2ab5c5 DNW- 3 3 -- 
+<pre><code>## IGRAPH eb20f47 DNW- 3 3 -- 
 ## + attr: citation (g/c), name (v/c), weight (e/n)</code></pre>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="ch3.html#cb72-1" tabindex="-1"></a>g_exercise<span class="sc">$</span>citation</span></code></pre></div>
 <pre><code>## [1] &quot;Please cite: Siew, C. S. Q. Sample network for Chapter 3.&quot;</code></pre>

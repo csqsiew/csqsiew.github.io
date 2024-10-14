@@ -119,7 +119,10 @@ exercise-7
 ch12
 set-up-2
 bridging-score
+important-note-about-directed-graphs
 effective-network-science
+how-is-effective-network-science-different-from-local-clustering-coefficient
+important-note-about-directed-graphs-1
 references-1
 exercise-8
 ch13

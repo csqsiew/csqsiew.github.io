@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-02" />
+<meta name="date" content="2024-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,8 +324,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
-<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
-<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
 <li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -472,7 +479,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">11.3</span> Key Player Problem-Positive<a href="ch11.html#key-player-problem-positive" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The goal of KPP-Pos is to maximize Cohesion.</p>
 <p>Cohesion, <em>C</em>, is defined as the amount of connection between the key player set and the rest of the graph. It measures the number of unique nodes that can be reached from the key player set in a given number of steps (usually, steps = 1).</p>
-<p><span class="math inline">\(C_{min} = 0\)</span> indicates that the KP set is infinitely far from all other nodes in the network. <span class="math inline">\(C_{max} = 1\)</span> indicates that the KP set is immediately adjacent (steps = 1) to all other nodes in the network. The KPP-Pos aims to find the set of key playerse that would maximize <em>C</em>.</p>
+<p><span class="math inline">\(C_{min} = 0\)</span> indicates that the KP set is infinitely far from all other nodes in the network. <span class="math inline">\(C_{max} = 1\)</span> indicates that the KP set is immediately adjacent (steps = 1) to all other nodes in the network (excluding the keyplayer nodes themselves). The KPP-Pos aims to find the set of key players that would maximize <em>C</em>.</p>
 <p>To run the key player analysis, we make use of the <code>kpset</code> function from the <code>keyplayer</code> library. Notice that there are a number of additional parameters that need to be specified.</p>
 <ol style="list-style-type: lower-roman">
 <li><code>adj.matrix</code>: which refers to the network, that needs to be first converted into an adjacency matrix for the function to work. We can use the <code>igraph</code> function <code>as_adjacency_matrix</code> to do this.</li>
@@ -496,12 +503,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## $centrality
 ## [1] 38</code></pre>
-<p>Notice that the results of the key player algorithm is stored in an object called <code>results</code>, which is a list object containing two elements. The <code>centrality</code> element (which is accessed via <code>results$centrality</code>) provides the cohesion score of the final set of keyplayers (i.e., the number of nodes in the network that is accessible from the key player set by 1 step (i.e., <code>T = 1</code>)). It would be important to normalize this value by the total number of nodes in the network so that we get a cohesion score that reflects the proportion of coverage of the network offered by the key players. The second element is the optimal set of key players based on the goal of fragmentation which is stored in <code>results$keyplayers</code>. Because it records the “position” of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below.</p>
+<p>Notice that the results of the key player algorithm is stored in an object called <code>results</code>, which is a list object containing two elements. The <code>centrality</code> element (which is accessed via <code>results$centrality</code>) provides the cohesion score of the final set of keyplayers (i.e., the number of nodes in the network that is accessible from the key player set by 1 step (i.e., <code>T = 1</code>), but excluding the key players themselves). It would be important to normalize this value by the total number of nodes in the network (minus the number of nodes in the key player set) so that we get a cohesion score that reflects the proportion of coverage of the network offered by the key players. The second element is the optimal set of key players based on the goal of fragmentation which is stored in <code>results$keyplayers</code>. Because it records the “position” of the keyplayer nodes within the node order of the graph, we can treat it as a vector to extract the names of the keyplayer nodes as shown below.</p>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="ch11.html#cb333-1" tabindex="-1"></a><span class="co"># cohesion score </span></span>
-<span id="cb333-2"><a href="ch11.html#cb333-2" tabindex="-1"></a>results<span class="sc">$</span>centrality<span class="sc">/</span><span class="fu">gorder</span>(macaque) </span></code></pre></div>
-<pre><code>## [1] 0.8444444</code></pre>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="ch11.html#cb335-1" tabindex="-1"></a><span class="co"># to map the keyplayer number to node names </span></span>
-<span id="cb335-2"><a href="ch11.html#cb335-2" tabindex="-1"></a><span class="fu">V</span>(macaque)<span class="sc">$</span>name[results<span class="sc">$</span>keyplayers] </span></code></pre></div>
+<span id="cb333-2"><a href="ch11.html#cb333-2" tabindex="-1"></a>results<span class="sc">$</span>centrality<span class="sc">/</span>(<span class="fu">gorder</span>(macaque) <span class="sc">-</span> <span class="fu">length</span>(results<span class="sc">$</span>keyplayers)) </span></code></pre></div>
+<pre><code>## [1] 0.9047619</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="ch11.html#cb335-1" tabindex="-1"></a><span class="co"># notice that we subtract the keyplayers from the full network size </span></span>
+<span id="cb335-2"><a href="ch11.html#cb335-2" tabindex="-1"></a></span>
+<span id="cb335-3"><a href="ch11.html#cb335-3" tabindex="-1"></a><span class="co"># to map the keyplayer number to node names </span></span>
+<span id="cb335-4"><a href="ch11.html#cb335-4" tabindex="-1"></a><span class="fu">V</span>(macaque)<span class="sc">$</span>name[results<span class="sc">$</span>keyplayers] </span></code></pre></div>
 <pre><code>## [1] &quot;V4&quot;  &quot;VIP&quot; &quot;TF&quot;</code></pre>
 </div>
 <div id="references" class="section level2 hasAnchor" number="11.4">

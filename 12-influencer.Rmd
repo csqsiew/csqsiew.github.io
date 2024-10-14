@@ -29,6 +29,9 @@ data("macaque")
 # load the other packages that we need 
 library(igraph)
 library(influenceR)
+
+# to make edges undirected by collapsing directed edges 
+macaque <- as.undirected(macaque, mode = 'collapse')
 ```
 
 ## Bridging score
@@ -63,6 +66,10 @@ bridging_data <- data.frame(node = V(macaque)$name,
 head(bridging_data)
 ```
 
+### Important note about directed graphs
+
+The `bridging` function does not work as expected when edges are directed. Negative scores and inconsistent scores could arise from running this function on graphs with directed edges. Hence, please convert directed graphs into undirected graphs before proceeding (see Chapter 5.5, `as.undirected()` function). The root cause of this is because of a parallelization invoked in the function to compute the change in the cohesion when removing each edge, which does not behave consistently when edges are directed. 
+
 ## Effective network science 
 
 Burt (2004) argues that people who are located near "holes" in a social network tend to have better ideas. This occurs because such individuals are "brokers" across different social groups and can accumulate social capital more quickly.
@@ -94,6 +101,81 @@ head(ens_data)
 ```
 
 By now, you should know how to export the data frames as a .csv file for further exploration! (Hint: `write.csv(...)`).
+
+### How is effective network science different from local clustering coefficient? 
+
+A common question that arises is whether ENS is really capturing information that is different from that of local clustering coefficient (Chapter 7.3), since both measures are micro-level network measures that quantify the density of the internal connectivity structure of a node's immediate neighbors. To illustrate how they are different we consider two toy networks (visualized below). For the first network we are interested in ego node 1, which has a degree of 5, and for the second network we are interested in ego node 21, which has a degree of 20. 
+
+```{r}
+#| echo: false
+
+load('data/ens-networks-example.RData')
+
+par(mar=c(0,0,0,0)+.1) # to reduce the margins 
+
+# code for the visualization of small network
+plot(g_small, layout = layout_as_star, vertex.size = 20, 
+     vertex.color = c('red', rep('blue', 5)), 
+     vertex.label.color = 'white', vertex.label.cex = 3,
+     edge.color = c(rep('lightgrey', 3), rep('black', 2), 
+                    'lightgrey', 'black', 'lightgrey', rep('black', 4))
+    )
+
+# code for the visualization of large network
+
+plot(g_large, layout = layout_as_star(g_large, center = 21), vertex.size = 20, 
+     vertex.color = c(rep('blue', 20), 'red'), 
+     vertex.label.color = 'white', vertex.label.cex = 2,
+     edge.color = c(rep('black', 133), 
+                     rep('lightgrey', 20))
+    )
+
+```
+
+
+Let's compute the ENS and local C for the ego node in the smaller neighborhood (using both the corresponding functions and the mathematical equations): 
+
+```{r}
+#| echo: true 
+
+# the ego node is node 1 in the g_small network 
+
+transitivity(g_small, type = 'local', vids = 1)
+
+# number of ties / number of possible ties among neighbors 
+# t / (k(k-1)/2)
+7/(5*(5-1)/2) 
+
+ens(g_small)[1]
+
+# k - (2t/k)
+5 - (2*7/5)
+```
+
+Let's also compute the ENS and local C for the ego node in the larger neighborhood (using both the corresponding functions and the mathematical equations): 
+
+```{r}
+#| echo: true 
+
+# the ego node is node 21 in the g_large network 
+
+transitivity(g_large, type = 'local', vids = 21)
+
+# number of ties / number of possible ties among neighbors 
+# t / (k(k-1)/2)
+133/(20*(20-1)/2) 
+
+ens(g_large)[21]
+
+# k - (2t/k)
+20 - (2*133/20)
+```
+
+What you will notice is that although both nodes have a local *C* of 0.7, indicating that 70% of all possible connections in their immediate neighborhoods are fulfilled, the two nodes have different effective network sizes. The node from the larger neighborhood has a ENS of 6.7 whereas the node from the smaller neighborhood has a ENS of 2.2. The difference in ENS reflects the fact that the node from the larger neighborhood has more potential in its ability to fill/exploit structural holes in their network than the node from the smaller neighborhood, due to the former having a larger neighborhood to begin with. This is despite both nodes having the same level of interconnectivity within their neighborhoods. 
+
+### Important note about directed graphs
+
+The `ens` function does not work as expected when edges are directed. Negative scores and scores less than 1 could arise from running this function on graphs with directed edges. Hence, please convert directed graphs into undirected graphs before proceeding (see Chapter 5.5, `as.undirected()` function). 
 
 ## References 
 

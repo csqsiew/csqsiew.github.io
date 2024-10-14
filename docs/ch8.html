@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-02" />
+<meta name="date" content="2024-10-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -324,8 +324,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
-<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a></li>
-<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-1"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
 <li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
@@ -408,7 +415,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb273-3"><a href="ch8.html#cb273-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb273-4"><a href="ch8.html#cb273-4" tabindex="-1"></a></span>
 <span id="cb273-5"><a href="ch8.html#cb273-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 8c3290e UN-- 34 78 -- 
+<pre><code>## IGRAPH b710c99 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>As you will see in the rest of this chapter, the template for conducting a community detection analysis is identical across the four methods. <code>igraph</code> contains additional community detection algorithms not covered in this chapter, but you should be able to generalize the application of these algorithms based on the code provided below. Generally, community detection algorithms have in-built default parameters that are used to optimize performance. At the completion of the method, it returns the communities (i.e., how the individual nodes are grouped), and the modularity score based on this final grouping.</p>
 </div>
@@ -586,7 +593,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb308-7"><a href="ch8.html#cb308-7" tabindex="-1"></a><span class="fu">plot</span>(karate_louvain, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Louvain&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
 <span id="cb308-8"><a href="ch8.html#cb308-8" tabindex="-1"></a><span class="fu">plot</span>(karate_walktrap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Walktrap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span>
 <span id="cb308-9"><a href="ch8.html#cb308-9" tabindex="-1"></a><span class="fu">plot</span>(karate_infomap, karate_uu, <span class="at">layout =</span> fixed_l, <span class="at">main =</span> <span class="st">&#39;Infomap&#39;</span>, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
 <p>More formally, we can make use of statistical methods such as the Fleiss’ Kappa test to quantify the extent to which the groupings are consistent across the 4 methods.</p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="ch8.html#cb309-1" tabindex="-1"></a><span class="co"># first, compile the community membership results from all methods </span></span>
 <span id="cb309-2"><a href="ch8.html#cb309-2" tabindex="-1"></a>compare_membership <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
