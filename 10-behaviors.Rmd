@@ -5,8 +5,126 @@ output:
 ---
 # Chapter 10: Behaviors in the network {#ch10}
 
-Under construction. 
+Networks are ultimately theoretical, mathematical objects that offer behavioral scientists a useful framework to study and characterize phenomena that they are interested in studying. As we have seen in the previous chapters, relational data from various subfields of psychology can be represented as a network, and network science provides the tools and measures that enable us to study its micro, meso, and macro-level structure. However, what arguably makes networks really meaningful are the processes that operate on the network. 
 
-Planned topics:
-- spreadr
-- random walks 
+A key reason why we spend so much time discussing measures of network structure is because an underlying assumption is that the network structure has meaningful implications on network processes, and it is through these network processes whereby complex behaviors emerge from the networks. For instance, the presence of echo chambers in social networks and the emergence of epilepsy episodes in brain activation networks highlight how it is not just the structure of the network that contributes to these phenomena, but also the mechanisms and processes that occur within that network structure. In other words, the mechanism implemented on the network structure represents a key theoretical linkage between the abstract mathematical representation and the psychological construct. 
+
+In this first iteration of this chapter, we explore how *spreading activation*, which is a key construct in the cognitive sciences, can be implemented on a language network to provide a computational account of empirical phenomena. In future iterations, I plan to include other approaches of implementing "behaviors" in the network, including random walks and SIR models. 
+
+## Introduction to `spreadr` 
+
+First, let's download and load the `spreadr` R package. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+# install.packages('spreadr')
+# remotes::install_github('csqsiew/spreadr') # to get the most updated version from my github 
+
+library(spreadr)
+library(igraph)
+```
+
+`spreadr` is a R package that enables the user to implement the spreading activation mechanism in a network structure (Siew, 2019). Although the concept of spreading activation is very prominent in psychology research (Collins & Loftus, 1975; Dell, 1986), there are not many accessible ways of formally implementing this idea on an explicit cognitive structure. `spreadr` assumes that activation is a limited cognitive resource that can be passed from one node to another node, as long as those two nodes are connected. This "passing" of activation to a neighboring node mimics the idea that an activated node can activate other related nodes. This process is assumed to proceed in a parallel fashion across all nodes in the network that have a non-zero activation value assigned to them, and are connected to other nodes that could receive activation from them. For details on the algorithm used, see Siew (2019). 
+
+In order to implement the spreading activation mechanism, we need to specify a number of parameters: 
+
+1. `network`: the network `igraph` object to conduct the simulation on 
+2. `time`: number of time steps to continue for (not actual time)
+3. `start_run`: a data frame object that has two columns ("node" and "activation") that specifies which nodes receive how many activation units at time = 0 (advanced: it is possible to specify different times at which the node receive activation as well)
+4. `retention`: This represents the proportion of activation that remains in the node (not spread) at each time step. Then, 1 - retention of the activation at each node is spread to neighbouring nodes.
+5. `decay`: Number from 0 to 1 (inclusive) representing the proportion of activation that is lost at each time step.
+6. `suppress`: Number representing the maximum amount of activation in a node for it to be set to 0, at each time step.
+
+```{r}
+#| echo: true
+#| eval: true
+
+# use the pnet network that comes in the spreadr package
+pnet
+
+# starting activation values (time = 0)
+start_run <- data.frame(
+  node = c("beach"),
+  activation = c(20))
+
+# run the simulation
+result <- spreadr(network = pnet, start_run = start_run, 
+                  retention = 0.5, decay = 0, suppress = 0,
+                  time = 2, include_t0 = TRUE)
+
+# view the result 
+result
+```
+
+It is possible to change various parameters of the simulation in order to get it to mimic the situation that you want. For instance, you could assign activation to more than 1 node in the network, different starting activation values, different network structures, different values for the retention, decay, and suppress parameters. You can also allow the simulation to continue for several time steps. There are also multiple ways to analyze the end result. You may choose to focus on a couple of target nodes' final activation levels, or look at how activation is distributed across the entire network or among a subset of nodes. At the end of the day, what you decide to do should align with your research questions so that the simulations can help you test a specific idea or question that you had of your network.  
+
+## Case study: False memories 
+
+Vitevitch et al. (2012) (Experiment 1) conducted a false memory task comparing false alarm rates for words with high and low clustering coefficients. In this task, the phonological neighbors of the target word were presented to the participants, but the target word was never presented. Then, the participants were asked to recall as many words as they could. The authors found that participants falsely recognized more words with low C than high C, suggesting that the lower connectivity structure of the low C word led to more activation spreading to the target word, increasing false alarm rates.
+
+In this simulation, we explore if their empirical result could be replicated computationally using `spreadr`. The `chapter10-networks.RData` contains two phonological networks containing the two target words each, "seethe" and "wrist". Although both words have the same degree of 16, "seethe" has a higher local C (0.49) than "wrist" (0.16).
+
+In the simulation below, equal levels of activation are assigned to all neighbors of the target, but never the target node itself. Activation is allowed to spread for a fixed number of time steps, and the final activation values of the target nodes are retrieved at the final time step. A higher final activation of target node is taken as an indicator of more false alarms in memory retrieval. 
+
+Question: Based on the outputs of the simulation below, which word has the higher final activation value? Does this result align with the empirical result reported by Vitevitch et al. (2012)? 
+
+```{r}
+#| echo: true
+#| eval: true
+
+load('data/chapter10-networks.RData')
+
+library(tidyverse)
+
+# low C network 
+start_run_low <- data.frame(
+  node = neighbors(lowC, v = 'rIst;wrist')$name,
+  activation = rep(10, 16))
+
+result_low <- spreadr(network = lowC, start_run = start_run_low, 
+                  retention = 0.5, decay = 0, suppress = 0,
+                  time = 5, include_t0 = TRUE)
+
+result_low |> filter(node == 'rIst;wrist', time == 5) 
+
+# high C network 
+start_run_high <- data.frame(
+  node = neighbors(highC, v = 'siD;seethe')$name,
+  activation = rep(10, 16))
+
+result_high <- spreadr(network = highC, start_run = start_run_high, 
+                  retention = 0.5, decay = 0, suppress = 0,
+                  time = 5, include_t0 = TRUE)
+
+result_high |> filter(node == 'siD;seethe', time == 5) 
+```
+
+## Exercise: Design your experiment! 
+
+For this exercise, try to design a simulation study using spreading activation, on any network of your choosing. Some questions to help you with this: 
+
+- What would I learn from doing this simulation? 
+- What does the notion of "spreading activation" mean for the specific network that I've chosen?
+- How should the simulation be set up? What are the starting values and parameters? And why were these specific values chosen? 
+- How should the outputs be analyzed? Why? 
+- What are your expected results? Did the actual results align with your initial expectations?
+- What did I learn from doing this simulation? 
+
+## References 
+
+Collins, A. M., & Loftus, E. F. (1975). A spreading-activation theory of semantic processing. *Psychological Review, 82*(6), 407–428.
+
+Dell, G. S. (1986). A spreading-activation theory of retrieval in sentence production. *Psychological Review, 93*(3), 283.
+
+Siew, C. S. Q. (2019). spreadr: An R package to simulate spreading activation in a network. *Behavior Research Methods, 51*(2), 910–929. https://doi.org/10.3758/s13428-018-1186-5
+
+Vitevitch, M. S., Ercal, G., & Adagarla, B. (2011). Simulating retrieval from a highly clustered network: Implications for spoken word recognition. *Frontiers in Psychology, 2*, 369.
+
+Vitevitch, M. S., Chan, K. Y., & Roodenrys, S. (2012). Complex network structure influences processing in long-term and short-term memory. *Journal of Memory and Language, 67*(1), 30–44. https://doi.org/10.1016/j.jml.2012.02.008
+
+## Future topics under this chapter 
+
+- random walker 
+- SIR models 

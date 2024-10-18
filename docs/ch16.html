@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 16 Chapter 16: Analyzing degree distributions | Introduction to Network Analysis in igraph</title>
+  <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 16 Chapter 16: Analyzing degree distributions | Introduction to Network Analysis in igraph" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 16 Chapter 16: Analyzing degree distributions | Introduction to Network Analysis in igraph" />
+  
+  <meta name="twitter:description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
+  
+
+<meta name="author" content="Cynthia S. Q. Siew" />
+
+
+<meta name="date" content="2024-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch15.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Network Analysis</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction to Network Analysis in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#what-is-this-book-about"><i class="fa fa-check"></i><b>0.1</b> What is this book about?</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#why-write-this-book"><i class="fa fa-check"></i><b>0.2</b> Why write this book?</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>0.3</b> Acknowledgements</a></li>
+<li class="chapter" data-level="0.4" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>0.4</b> About the author</a></li>
+<li class="chapter" data-level="0.5" data-path="index.html"><a href="index.html#table-of-contents"><i class="fa fa-check"></i><b>0.5</b> Table of Contents</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="ch1.html"><a href="ch1.html"><i class="fa fa-check"></i><b>1</b> Chapter 1: Installation and set up</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch1.html"><a href="ch1.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="ch1.html"><a href="ch1.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.2</b> RStudio Cloud</a></li>
+<li class="chapter" data-level="1.3" data-path="ch1.html"><a href="ch1.html#installing-r-packages"><i class="fa fa-check"></i><b>1.3</b> Installing R packages</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="ch1.html"><a href="ch1.html#exercise"><i class="fa fa-check"></i><b>1.3.1</b> Exercise</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i><b>2</b> Chapter 2: Programming and data science basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch2.html"><a href="ch2.html#the-rstudio-environment"><i class="fa fa-check"></i><b>2.1</b> The RStudio Environment</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="ch2.html"><a href="ch2.html#setting-up-a-project"><i class="fa fa-check"></i><b>2.1.1</b> Setting up a Project</a></li>
+<li class="chapter" data-level="2.1.2" data-path="ch2.html"><a href="ch2.html#layout-of-rstudio"><i class="fa fa-check"></i><b>2.1.2</b> Layout of RStudio</a></li>
+<li class="chapter" data-level="2.1.3" data-path="ch2.html"><a href="ch2.html#r-scripts-vs.-console"><i class="fa fa-check"></i><b>2.1.3</b> R scripts vs. Console</a></li>
+<li class="chapter" data-level="2.1.4" data-path="ch2.html"><a href="ch2.html#working-with-r-scripts-is-recommended"><i class="fa fa-check"></i><b>2.1.4</b> Working with R scripts is recommended!</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="ch2.html"><a href="ch2.html#variables-and-data-types"><i class="fa fa-check"></i><b>2.2</b> Variables and Data Types</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="ch2.html"><a href="ch2.html#what-are-variables"><i class="fa fa-check"></i><b>2.2.1</b> What are variables?</a></li>
+<li class="chapter" data-level="2.2.2" data-path="ch2.html"><a href="ch2.html#removing-objects"><i class="fa fa-check"></i><b>2.2.2</b> Removing objects</a></li>
+<li class="chapter" data-level="2.2.3" data-path="ch2.html"><a href="ch2.html#saving-objects"><i class="fa fa-check"></i><b>2.2.3</b> Saving objects</a></li>
+<li class="chapter" data-level="2.2.4" data-path="ch2.html"><a href="ch2.html#loading-objects"><i class="fa fa-check"></i><b>2.2.4</b> Loading objects</a></li>
+<li class="chapter" data-level="2.2.5" data-path="ch2.html"><a href="ch2.html#what-are-vectors"><i class="fa fa-check"></i><b>2.2.5</b> What are vectors?</a></li>
+<li class="chapter" data-level="2.2.6" data-path="ch2.html"><a href="ch2.html#cool-things-you-can-do-with-vectors"><i class="fa fa-check"></i><b>2.2.6</b> Cool things you can do with vectors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="ch2.html"><a href="ch2.html#functions-and-arguments"><i class="fa fa-check"></i><b>2.3</b> Functions and Arguments</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="ch2.html"><a href="ch2.html#what-are-functions"><i class="fa fa-check"></i><b>2.3.1</b> What are functions?</a></li>
+<li class="chapter" data-level="2.3.2" data-path="ch2.html"><a href="ch2.html#what-are-arguments"><i class="fa fa-check"></i><b>2.3.2</b> What are arguments?</a></li>
+<li class="chapter" data-level="2.3.3" data-path="ch2.html"><a href="ch2.html#multiple-arguments"><i class="fa fa-check"></i><b>2.3.3</b> Multiple arguments</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="ch2.html"><a href="ch2.html#file-paths-and-working-directory"><i class="fa fa-check"></i><b>2.4</b> File Paths and Working Directory</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="ch2.html"><a href="ch2.html#navigation-in-computers"><i class="fa fa-check"></i><b>2.4.1</b> Navigation in computers</a></li>
+<li class="chapter" data-level="2.4.2" data-path="ch2.html"><a href="ch2.html#helping-rstudio-find-your-stuff"><i class="fa fa-check"></i><b>2.4.2</b> Helping RStudio find your stuff</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="ch2.html"><a href="ch2.html#packages"><i class="fa fa-check"></i><b>2.5</b> Packages</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="ch2.html"><a href="ch2.html#what-are-packageslibraries"><i class="fa fa-check"></i><b>2.5.1</b> What are packages/libraries?</a></li>
+<li class="chapter" data-level="2.5.2" data-path="ch2.html"><a href="ch2.html#installation-vs.-loading"><i class="fa fa-check"></i><b>2.5.2</b> Installation vs. Loading</a></li>
+<li class="chapter" data-level="2.5.3" data-path="ch2.html"><a href="ch2.html#detaching-packages"><i class="fa fa-check"></i><b>2.5.3</b> Detaching packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="ch2.html"><a href="ch2.html#special-datatypes"><i class="fa fa-check"></i><b>2.6</b> Special Datatypes</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="ch2.html"><a href="ch2.html#dataframes"><i class="fa fa-check"></i><b>2.6.1</b> Dataframes</a></li>
+<li class="chapter" data-level="2.6.2" data-path="ch2.html"><a href="ch2.html#loading-data-into-rstudio"><i class="fa fa-check"></i><b>2.6.2</b> Loading data into RStudio</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i><b>3</b> Chapter 3: Introduction to network objects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch3.html"><a href="ch3.html#what-is-a-network"><i class="fa fa-check"></i><b>3.1</b> What is a network?</a></li>
+<li class="chapter" data-level="3.2" data-path="ch3.html"><a href="ch3.html#your-first-network"><i class="fa fa-check"></i><b>3.2</b> Your first network</a></li>
+<li class="chapter" data-level="3.3" data-path="ch3.html"><a href="ch3.html#your-second-network"><i class="fa fa-check"></i><b>3.3</b> Your second network</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch3.html"><a href="ch3.html#exercise-1"><i class="fa fa-check"></i><b>3.3.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="ch3.html"><a href="ch3.html#node-and-edge-attributes"><i class="fa fa-check"></i><b>3.4</b> Node and edge attributes</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="ch3.html"><a href="ch3.html#exercise-2"><i class="fa fa-check"></i><b>3.4.1</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="ch3.html"><a href="ch3.html#graph-attributes"><i class="fa fa-check"></i><b>3.5</b> Graph attributes</a></li>
+<li class="chapter" data-level="3.6" data-path="ch3.html"><a href="ch3.html#useful-functions-for-working-with-attributes"><i class="fa fa-check"></i><b>3.6</b> Useful functions for working with attributes</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch4.html"><a href="ch4.html"><i class="fa fa-check"></i><b>4</b> Chapter 4: From data to networks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch4.html"><a href="ch4.html#how-are-networks-represented"><i class="fa fa-check"></i><b>4.1</b> How are networks represented?</a></li>
+<li class="chapter" data-level="4.2" data-path="ch4.html"><a href="ch4.html#edge-list"><i class="fa fa-check"></i><b>4.2</b> Edge List</a></li>
+<li class="chapter" data-level="4.3" data-path="ch4.html"><a href="ch4.html#adjacency-matrix"><i class="fa fa-check"></i><b>4.3</b> Adjacency Matrix</a></li>
+<li class="chapter" data-level="4.4" data-path="ch4.html"><a href="ch4.html#importing-your-data-and-converting-into-a-network"><i class="fa fa-check"></i><b>4.4</b> Importing your data and converting into a network</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="ch4.html"><a href="ch4.html#importing-edge-lists"><i class="fa fa-check"></i><b>4.4.1</b> Importing edge lists</a></li>
+<li class="chapter" data-level="4.4.2" data-path="ch4.html"><a href="ch4.html#importing-adjacency-matrices"><i class="fa fa-check"></i><b>4.4.2</b> Importing adjacency matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="ch4.html"><a href="ch4.html#exercise-3"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i><b>5</b> Chapter 5: Manipulating network objects</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch5.html"><a href="ch5.html#set-up"><i class="fa fa-check"></i><b>5.1</b> Set up</a></li>
+<li class="chapter" data-level="5.2" data-path="ch5.html"><a href="ch5.html#adding-node-attributes"><i class="fa fa-check"></i><b>5.2</b> Adding node attributes</a></li>
+<li class="chapter" data-level="5.3" data-path="ch5.html"><a href="ch5.html#adding-edge-attributes"><i class="fa fa-check"></i><b>5.3</b> Adding edge attributes</a></li>
+<li class="chapter" data-level="5.4" data-path="ch5.html"><a href="ch5.html#subsetting-the-network"><i class="fa fa-check"></i><b>5.4</b> Subsetting the network</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
+<li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch6.html"><a href="ch6.html"><i class="fa fa-check"></i><b>6</b> Chapter 6: Macro-level network measures</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch6.html"><a href="ch6.html#average-degree"><i class="fa fa-check"></i><b>6.1</b> Average Degree</a></li>
+<li class="chapter" data-level="6.2" data-path="ch6.html"><a href="ch6.html#average-shortest-path-length"><i class="fa fa-check"></i><b>6.2</b> Average Shortest Path Length</a></li>
+<li class="chapter" data-level="6.3" data-path="ch6.html"><a href="ch6.html#global-clustering-coefficient"><i class="fa fa-check"></i><b>6.3</b> Global Clustering Coefficient</a></li>
+<li class="chapter" data-level="6.4" data-path="ch6.html"><a href="ch6.html#small-world-index"><i class="fa fa-check"></i><b>6.4</b> Small World Index</a></li>
+<li class="chapter" data-level="6.5" data-path="ch6.html"><a href="ch6.html#network-density"><i class="fa fa-check"></i><b>6.5</b> Network Density</a></li>
+<li class="chapter" data-level="6.6" data-path="ch6.html"><a href="ch6.html#network-diameter"><i class="fa fa-check"></i><b>6.6</b> Network Diameter</a></li>
+<li class="chapter" data-level="6.7" data-path="ch6.html"><a href="ch6.html#assortative-mixing"><i class="fa fa-check"></i><b>6.7</b> Assortative Mixing</a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-degree-continuous-attributes"><i class="fa fa-check"></i><b>6.7.1</b> Assortative Mixing by Degree (continuous attributes)</a></li>
+<li class="chapter" data-level="6.7.2" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-node-attributes-categorical-attributes"><i class="fa fa-check"></i><b>6.7.2</b> Assortative Mixing by Node Attributes (categorical attributes)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="ch6.html"><a href="ch6.html#network-components"><i class="fa fa-check"></i><b>6.8</b> Network Components</a></li>
+<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-4"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch7.html"><a href="ch7.html"><i class="fa fa-check"></i><b>7</b> Chapter 7: Micro-level network measures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ch7.html"><a href="ch7.html#degree"><i class="fa fa-check"></i><b>7.1</b> Degree</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="ch7.html"><a href="ch7.html#in--out--all-degree"><i class="fa fa-check"></i><b>7.1.1</b> In-, out-, all-degree</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ch7.html"><a href="ch7.html#strength"><i class="fa fa-check"></i><b>7.2</b> Strength</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ch7.html"><a href="ch7.html#in--out--all-strength"><i class="fa fa-check"></i><b>7.2.1</b> In-, out-, all-strength</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ch7.html"><a href="ch7.html#local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3</b> Local clustering coefficient</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="ch7.html"><a href="ch7.html#weighted-local-clustering-coefficient"><i class="fa fa-check"></i><b>7.3.1</b> Weighted local clustering coefficient</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ch7.html"><a href="ch7.html#closeness-centrality"><i class="fa fa-check"></i><b>7.4</b> Closeness centrality</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="ch7.html"><a href="ch7.html#weighted-closeness-centrality"><i class="fa fa-check"></i><b>7.4.1</b> Weighted closeness centrality</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ch7.html"><a href="ch7.html#interpretation-of-edge-weights"><i class="fa fa-check"></i><b>7.4.2</b> Interpretation of edge weights</a></li>
+<li class="chapter" data-level="7.4.3" data-path="ch7.html"><a href="ch7.html#directed-closeness-centrality"><i class="fa fa-check"></i><b>7.4.3</b> Directed closeness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ch7.html"><a href="ch7.html#betweenness-centrality"><i class="fa fa-check"></i><b>7.5</b> Betweenness centrality</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ch7.html"><a href="ch7.html#weighted-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.1</b> Weighted betweenness centrality</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ch7.html"><a href="ch7.html#directed-betweenness-centrality"><i class="fa fa-check"></i><b>7.5.2</b> Directed betweenness centrality</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ch7.html"><a href="ch7.html#page-rank-centrality"><i class="fa fa-check"></i><b>7.6</b> Page Rank centrality</a></li>
+<li class="chapter" data-level="7.7" data-path="ch7.html"><a href="ch7.html#other-forms-of-node-centrality"><i class="fa fa-check"></i><b>7.7</b> Other forms of node centrality</a></li>
+<li class="chapter" data-level="7.8" data-path="ch7.html"><a href="ch7.html#exporting-node-centrality-measures-for-data-analysis"><i class="fa fa-check"></i><b>7.8</b> Exporting node centrality measures for data analysis</a></li>
+<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-5"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ch8.html"><a href="ch8.html"><i class="fa fa-check"></i><b>8</b> Chapter 8: Meso-level network measures</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ch8.html"><a href="ch8.html#how-do-network-scientists-find-communities-in-networks"><i class="fa fa-check"></i><b>8.1</b> How do network scientists “find” communities in networks?</a></li>
+<li class="chapter" data-level="8.2" data-path="ch8.html"><a href="ch8.html#edge-betweenness-divisive-method"><i class="fa fa-check"></i><b>8.2</b> Edge betweenness (“divisive method”)</a></li>
+<li class="chapter" data-level="8.3" data-path="ch8.html"><a href="ch8.html#louvain-method-greedy-maximization-method"><i class="fa fa-check"></i><b>8.3</b> Louvain method (“greedy, maximization method”)</a></li>
+<li class="chapter" data-level="8.4" data-path="ch8.html"><a href="ch8.html#random-walker-dynamic-method"><i class="fa fa-check"></i><b>8.4</b> Random walker (“dynamic method”)</a></li>
+<li class="chapter" data-level="8.5" data-path="ch8.html"><a href="ch8.html#infomap-information-theoretic-method"><i class="fa fa-check"></i><b>8.5</b> Infomap (“information-theoretic method”)</a></li>
+<li class="chapter" data-level="8.6" data-path="ch8.html"><a href="ch8.html#comparison-of-methods"><i class="fa fa-check"></i><b>8.6</b> Comparison of methods</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="ch8.html"><a href="ch8.html#comparing-modularity"><i class="fa fa-check"></i><b>8.6.1</b> Comparing modularity</a></li>
+<li class="chapter" data-level="8.6.2" data-path="ch8.html"><a href="ch8.html#comparing-community-membership"><i class="fa fa-check"></i><b>8.6.2</b> Comparing community membership</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="ch8.html"><a href="ch8.html#things-to-note"><i class="fa fa-check"></i><b>8.7</b> Things to note</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="ch8.html"><a href="ch8.html#weighted-and-directed-graphs"><i class="fa fa-check"></i><b>8.7.1</b> Weighted and directed graphs</a></li>
+<li class="chapter" data-level="8.7.2" data-path="ch8.html"><a href="ch8.html#networks-with-multiple-components"><i class="fa fa-check"></i><b>8.7.2</b> Networks with multiple components</a></li>
+<li class="chapter" data-level="8.7.3" data-path="ch8.html"><a href="ch8.html#calculating-modularity-for-self-defined-communities"><i class="fa fa-check"></i><b>8.7.3</b> Calculating modularity for self-defined communities</a></li>
+<li class="chapter" data-level="8.7.4" data-path="ch8.html"><a href="ch8.html#comparing-different-runs"><i class="fa fa-check"></i><b>8.7.4</b> Comparing different runs</a></li>
+<li class="chapter" data-level="8.7.5" data-path="ch8.html"><a href="ch8.html#other-community-detection-methods"><i class="fa fa-check"></i><b>8.7.5</b> Other community detection methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-6"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ch9.html"><a href="ch9.html"><i class="fa fa-check"></i><b>9</b> Chapter 9: Network models</a></li>
+<li class="chapter" data-level="10" data-path="ch10.html"><a href="ch10.html"><i class="fa fa-check"></i><b>10</b> Chapter 10: Behaviors in the network</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="ch10.html"><a href="ch10.html#introduction-to-spreadr"><i class="fa fa-check"></i><b>10.1</b> Introduction to <code>spreadr</code></a></li>
+<li class="chapter" data-level="10.2" data-path="ch10.html"><a href="ch10.html#case-study-false-memories"><i class="fa fa-check"></i><b>10.2</b> Case study: False memories</a></li>
+<li class="chapter" data-level="10.3" data-path="ch10.html"><a href="ch10.html#exercise-design-your-experiment"><i class="fa fa-check"></i><b>10.3</b> Exercise: Design your experiment!</a></li>
+<li class="chapter" data-level="10.4" data-path="ch10.html"><a href="ch10.html#references"><i class="fa fa-check"></i><b>10.4</b> References</a></li>
+<li class="chapter" data-level="10.5" data-path="ch10.html"><a href="ch10.html#future-topics-under-this-chapter"><i class="fa fa-check"></i><b>10.5</b> Future topics under this chapter</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="ch11.html"><a href="ch11.html"><i class="fa fa-check"></i><b>11</b> Chapter 11: <code>keyplayer</code> package</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="ch11.html"><a href="ch11.html#set-up-1"><i class="fa fa-check"></i><b>11.1</b> Set up</a></li>
+<li class="chapter" data-level="11.2" data-path="ch11.html"><a href="ch11.html#key-player-problem-negative"><i class="fa fa-check"></i><b>11.2</b> Key Player Problem-Negative</a></li>
+<li class="chapter" data-level="11.3" data-path="ch11.html"><a href="ch11.html#key-player-problem-positive"><i class="fa fa-check"></i><b>11.3</b> Key Player Problem-Positive</a></li>
+<li class="chapter" data-level="11.4" data-path="ch11.html"><a href="ch11.html#references-1"><i class="fa fa-check"></i><b>11.4</b> References</a></li>
+<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-7"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="ch12.html"><a href="ch12.html#set-up-2"><i class="fa fa-check"></i><b>12.1</b> Set up</a></li>
+<li class="chapter" data-level="12.2" data-path="ch12.html"><a href="ch12.html#bridging-score"><i class="fa fa-check"></i><b>12.2</b> Bridging score</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs"><i class="fa fa-check"></i><b>12.2.1</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="ch12.html"><a href="ch12.html#effective-network-science"><i class="fa fa-check"></i><b>12.3</b> Effective network science</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="ch12.html"><a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient"><i class="fa fa-check"></i><b>12.3.1</b> How is effective network science different from local clustering coefficient?</a></li>
+<li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-2"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
+<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="ch13.html"><a href="ch13.html"><i class="fa fa-check"></i><b>13</b> Chapter 13: <code>bootnet</code> package</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="ch13.html"><a href="ch13.html#chapter-outline"><i class="fa fa-check"></i><b>13.1</b> Chapter outline</a></li>
+<li class="chapter" data-level="13.2" data-path="ch13.html"><a href="ch13.html#installation-of-bootnet"><i class="fa fa-check"></i><b>13.2</b> Installation of <code>bootnet</code></a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="ch13.html"><a href="ch13.html#qgraph-vs.-igraph"><i class="fa fa-check"></i><b>13.2.1</b> <code>qgraph</code> vs. <code>igraph</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="ch13.html"><a href="ch13.html#dataset"><i class="fa fa-check"></i><b>13.3</b> Dataset</a></li>
+<li class="chapter" data-level="13.4" data-path="ch13.html"><a href="ch13.html#estimate-a-partial-correlation-network"><i class="fa fa-check"></i><b>13.4</b> Estimate a partial correlation network</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="ch13.html"><a href="ch13.html#thresholding"><i class="fa fa-check"></i><b>13.4.1</b> Thresholding</a></li>
+<li class="chapter" data-level="13.4.2" data-path="ch13.html"><a href="ch13.html#absolutizing"><i class="fa fa-check"></i><b>13.4.2</b> Absolutizing</a></li>
+<li class="chapter" data-level="13.4.3" data-path="ch13.html"><a href="ch13.html#conversion-to-igraph"><i class="fa fa-check"></i><b>13.4.3</b> Conversion to igraph</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="ch13.html"><a href="ch13.html#sample-sizes"><i class="fa fa-check"></i><b>13.5</b> Sample sizes</a></li>
+<li class="chapter" data-level="13.6" data-path="ch13.html"><a href="ch13.html#additional-resources"><i class="fa fa-check"></i><b>13.6</b> Additional resources</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="ch14.html"><a href="ch14.html"><i class="fa fa-check"></i><b>14</b> Chapter 14: Network visualization in <code>igraph</code></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="ch14.html"><a href="ch14.html#set-up-3"><i class="fa fa-check"></i><b>14.1</b> Set up</a></li>
+<li class="chapter" data-level="14.2" data-path="ch14.html"><a href="ch14.html#visualizing-node-attributes"><i class="fa fa-check"></i><b>14.2</b> Visualizing node attributes</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.1</b> Color nodes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.2" data-path="ch14.html"><a href="ch14.html#color-nodes-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.2</b> Color nodes by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.3" data-path="ch14.html"><a href="ch14.html#node-shapes-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.2.3</b> Node shapes by their categorical attributes</a></li>
+<li class="chapter" data-level="14.2.4" data-path="ch14.html"><a href="ch14.html#node-size-by-their-continuous-attributes"><i class="fa fa-check"></i><b>14.2.4</b> Node size by their continuous attributes</a></li>
+<li class="chapter" data-level="14.2.5" data-path="ch14.html"><a href="ch14.html#example-1-color-nodes-by-their-community-membership"><i class="fa fa-check"></i><b>14.2.5</b> Example 1: Color nodes by their community membership</a></li>
+<li class="chapter" data-level="14.2.6" data-path="ch14.html"><a href="ch14.html#example-2-size-nodes-by-their-degree"><i class="fa fa-check"></i><b>14.2.6</b> Example 2: Size nodes by their degree</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="ch14.html"><a href="ch14.html#visualizing-edge-attributes"><i class="fa fa-check"></i><b>14.3</b> Visualizing edge attributes</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="ch14.html"><a href="ch14.html#color-edges-by-their-categorical-attributes"><i class="fa fa-check"></i><b>14.3.1</b> Color edges by their categorical attributes</a></li>
+<li class="chapter" data-level="14.3.2" data-path="ch14.html"><a href="ch14.html#edge-thickness-based-on-their-continuous-attributes"><i class="fa fa-check"></i><b>14.3.2</b> Edge thickness based on their continuous attributes</a></li>
+<li class="chapter" data-level="14.3.3" data-path="ch14.html"><a href="ch14.html#arrows-for-directed-edges"><i class="fa fa-check"></i><b>14.3.3</b> Arrows for directed edges</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="ch14.html"><a href="ch14.html#other"><i class="fa fa-check"></i><b>14.4</b> Other</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="ch14.html"><a href="ch14.html#graph-layouts"><i class="fa fa-check"></i><b>14.4.1</b> Graph layouts</a></li>
+<li class="chapter" data-level="14.4.2" data-path="ch14.html"><a href="ch14.html#plot-title"><i class="fa fa-check"></i><b>14.4.2</b> Plot title</a></li>
+<li class="chapter" data-level="14.4.3" data-path="ch14.html"><a href="ch14.html#add-a-subtitle"><i class="fa fa-check"></i><b>14.4.3</b> Add a subtitle</a></li>
+<li class="chapter" data-level="14.4.4" data-path="ch14.html"><a href="ch14.html#multiple-plots"><i class="fa fa-check"></i><b>14.4.4</b> Multiple plots</a></li>
+<li class="chapter" data-level="14.4.5" data-path="ch14.html"><a href="ch14.html#useful-links"><i class="fa fa-check"></i><b>14.4.5</b> Useful links</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ch15.html"><a href="ch15.html"><i class="fa fa-check"></i><b>15</b> Chapter 15: Network visualization with other packages</a></li>
+<li class="chapter" data-level="16" data-path="ch16.html"><a href="ch16.html"><i class="fa fa-check"></i><b>16</b> Chapter 16: Analyzing degree distributions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="ch16.html"><a href="ch16.html#set-up-4"><i class="fa fa-check"></i><b>16.1</b> Set up</a></li>
+<li class="chapter" data-level="16.2" data-path="ch16.html"><a href="ch16.html#fitting-the-power-law-distribution"><i class="fa fa-check"></i><b>16.2</b> Fitting the power law distribution</a></li>
+<li class="chapter" data-level="16.3" data-path="ch16.html"><a href="ch16.html#visualization"><i class="fa fa-check"></i><b>16.3</b> Visualization</a></li>
+<li class="chapter" data-level="16.4" data-path="ch16.html"><a href="ch16.html#statistical-testing-of-distribution-fit"><i class="fa fa-check"></i><b>16.4</b> Statistical testing of distribution fit</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="ch16.html"><a href="ch16.html#method-1-bootstrapping-the-data"><i class="fa fa-check"></i><b>16.4.1</b> Method 1: Bootstrapping the data</a></li>
+<li class="chapter" data-level="16.4.2" data-path="ch16.html"><a href="ch16.html#method-2-comparing-alternative-distributions"><i class="fa fa-check"></i><b>16.4.2</b> Method 2: Comparing alternative distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="ch16.html"><a href="ch16.html#exercise-9"><i class="fa fa-check"></i><b>16.5</b> Exercise</a></li>
+<li class="chapter" data-level="16.6" data-path="ch16.html"><a href="ch16.html#references-3"><i class="fa fa-check"></i><b>16.6</b> References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Network Analysis in <code>igraph</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch16" class="section level1 hasAnchor" number="16">
+<h1><span class="header-section-number">Chapter 16</span> Chapter 16: Analyzing degree distributions<a href="ch16.html#ch16" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Early work in the era of modern network science has revealed that the degree distributions of real-world networks followed a power-law (Barabasi &amp; Albert, 2002). This was an important discovery because the fact that a power law could characterize the distribution of node degrees across a wide, diverse range of networks suggested that a common mechanism or organizing principle could be responsible for such a pattern. This led Barabasi and colleagues to propose a prominent model of network growth, known as <em>preferential attachment</em>, that provided a possible mechanism for the emergence of a power law degree distributions in networks.</p>
+<p>However, we need to first understand two concepts before proceeding: <em>degree distribution</em> and <em>power law</em>.</p>
+<p><em>Degree distribution</em> refers to the probability distribution of node degrees in a given network. For instance, what proportion of nodes in the network have a degree of <span class="math inline">\(x\)</span>, where <span class="math inline">\(x\)</span> represents various degree values in the network?</p>
+<p><em>Power law</em> is a class of long-tailed distributions where the relationship between two variables is best characterized by an exponent (power relation). If a degree distribution follows a power law, the relation between the probability distribution of node degrees and the value of the degree itself is characterized by an exponential function, as follows:</p>
+<center>
+<span class="math inline">\(p(x) = Cx^{-\alpha}\)</span>
+</center>
+<p>Where <span class="math inline">\(p(x)\)</span> is the probability of <span class="math inline">\(x\)</span> occurring in the dataset, <span class="math inline">\(C\)</span> = a constant, <span class="math inline">\(\alpha\)</span> = exponent or power of the relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(p(x)\)</span>. The exponent is negative because it is a negative relationship: As <span class="math inline">\(x\)</span> (node degree) increases, the probability (of it occurring) decreases. This mathematical relationship captures the idea that hubs (nodes with extremely high degree) are more uncommon in the network than nodes with lower degree.</p>
+<p>In this Chapter, we will work through an example of how to analyze the distribution of a variable, and to statistically assess if its distribution is indeed similar to a power law distribution. The example is drawn from the tutorials provided by the creator of the <code>poweRlaw</code> R package, see the vignettes on <a href="https://cran.r-project.org/web/packages/poweRlaw/index.html">https://cran.r-project.org/web/packages/poweRlaw/index.html</a> for a more detailed walk through.</p>
+<div id="set-up-4" class="section level2 hasAnchor" number="16.1">
+<h2><span class="header-section-number">16.1</span> Set up<a href="ch16.html#set-up-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, let’s make sure to download and then load the <code>poweRLaw</code> R package into our workspace.</p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="ch16.html#cb420-1" tabindex="-1"></a><span class="co"># install.packages(&#39;poweRlaw&#39;)</span></span>
+<span id="cb420-2"><a href="ch16.html#cb420-2" tabindex="-1"></a></span>
+<span id="cb420-3"><a href="ch16.html#cb420-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&#39;poweRlaw&#39;</span>)</span></code></pre></div>
+<p>For this example, we will use the Moby Dick data set provided in the <code>poweRlaw</code> package. The <code>moby</code> R object is a vector of numbers, which each number corresponds to the raw frequency count of words found in the novel Moby Dick. The vector is also organized from the most frequently occurring word, to the least frequently occurring word. Notice that the identity of the words was not provided in the vector, but usually function words are the most frequently words in language corpora (e.g., the, of, to, etc.). Finally, although the example is on word frequencies, the same procedure can be applied to any quantity, e.g. node degrees in the network.</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="ch16.html#cb421-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;moby&quot;</span>, <span class="at">package =</span> <span class="st">&quot;poweRlaw&quot;</span>)</span>
+<span id="cb421-2"><a href="ch16.html#cb421-2" tabindex="-1"></a></span>
+<span id="cb421-3"><a href="ch16.html#cb421-3" tabindex="-1"></a><span class="fu">head</span>(moby)</span></code></pre></div>
+<pre><code>## [1] 14086  6414  6260  4573  4484  4040</code></pre>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="ch16.html#cb423-1" tabindex="-1"></a><span class="fu">tail</span>(moby)</span></code></pre></div>
+<pre><code>## [1] 1 1 1 1 1 1</code></pre>
+</div>
+<div id="fitting-the-power-law-distribution" class="section level2 hasAnchor" number="16.2">
+<h2><span class="header-section-number">16.2</span> Fitting the power law distribution<a href="ch16.html#fitting-the-power-law-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Then, we run the following code to fit the data to a power law distribution and infer two key parameters, alpha and <span class="math inline">\(x_{min}\)</span>.</p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="ch16.html#cb425-1" tabindex="-1"></a><span class="co"># assign a power law distribution &quot;object&quot; to the data </span></span>
+<span id="cb425-2"><a href="ch16.html#cb425-2" tabindex="-1"></a>m_pl <span class="ot">=</span> displ<span class="sc">$</span><span class="fu">new</span>(moby) </span>
+<span id="cb425-3"><a href="ch16.html#cb425-3" tabindex="-1"></a></span>
+<span id="cb425-4"><a href="ch16.html#cb425-4" tabindex="-1"></a><span class="co"># infer parameters (alpha, minimum cut off)</span></span>
+<span id="cb425-5"><a href="ch16.html#cb425-5" tabindex="-1"></a>est <span class="ot">=</span> <span class="fu">estimate_xmin</span>(m_pl) </span>
+<span id="cb425-6"><a href="ch16.html#cb425-6" tabindex="-1"></a>est</span></code></pre></div>
+<pre><code>## $gof
+## [1] 0.008252634
+## 
+## $xmin
+## [1] 7
+## 
+## $pars
+## [1] 1.952728
+## 
+## $ntail
+## [1] 2958
+## 
+## $distance
+## [1] &quot;ks&quot;
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;estimate_xmin&quot;</code></pre>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="ch16.html#cb427-1" tabindex="-1"></a><span class="co"># update the power law object with parameters </span></span>
+<span id="cb427-2"><a href="ch16.html#cb427-2" tabindex="-1"></a>m_pl<span class="sc">$</span><span class="fu">setXmin</span>(est) </span>
+<span id="cb427-3"><a href="ch16.html#cb427-3" tabindex="-1"></a>m_pl</span></code></pre></div>
+<pre><code>## Reference class object of class &quot;displ&quot; 
+## Field &quot;xmin&quot;: 
+## [1] 7
+## Field &quot;pars&quot;: 
+## [1] 1.952728
+## Field &quot;no_pars&quot;: 
+## [1] 1</code></pre>
+<p>The output looks a bit crazy! Let’s try to unpack it. The first output <code>est</code> contains the results of fitting the power law distribution to the word frequency data. <code>$gof</code> tells us the goodness of fit statistic as estimated from using the Kolmogorov-Smirnov test to measure the distance between the actual distribution and the fitted power law distribution. <code>$pars</code> is the alpha exponent of the power law distribution. <code>$xmin</code> tells us the cut off point at which the power law up to. You can think of this as the part of the distribution where there is a lot of jitter and noise (common in real world data) and the power law is not fitted to the data where <span class="math inline">\(x\)</span> is less than that cut off. In the last part of the code, we plug these estimated values back into the power law object; this is to enable us to conduct statistical testing later on.</p>
+</div>
+<div id="visualization" class="section level2 hasAnchor" number="16.3">
+<h2><span class="header-section-number">16.3</span> Visualization<a href="ch16.html#visualization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can also visualize the fitted power law distribution (in red; notice how the line does not continue beyond <span class="math inline">\(x_{min}\)</span> &lt; 7), plotted on log-log scale. The (negative) slope of the best-fit line corresponds to the alpha (exponent) parameter.</p>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="ch16.html#cb429-1" tabindex="-1"></a><span class="co"># visualization </span></span>
+<span id="cb429-2"><a href="ch16.html#cb429-2" tabindex="-1"></a><span class="fu">plot</span>(m_pl)</span>
+<span id="cb429-3"><a href="ch16.html#cb429-3" tabindex="-1"></a><span class="fu">lines</span>(m_pl, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-151-1.png" width="672" /></p>
+</div>
+<div id="statistical-testing-of-distribution-fit" class="section level2 hasAnchor" number="16.4">
+<h2><span class="header-section-number">16.4</span> Statistical testing of distribution fit<a href="ch16.html#statistical-testing-of-distribution-fit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="method-1-bootstrapping-the-data" class="section level3 hasAnchor" number="16.4.1">
+<h3><span class="header-section-number">16.4.1</span> Method 1: Bootstrapping the data<a href="ch16.html#method-1-bootstrapping-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Because it is possible to fit a power-law distribution to any data set, Clauset et al. strongly recommend that we test whether the observed data set actually follows a power-law. The method used below follows Clauset et al.’s suggestion to test the null hypothesis (that the data came from a power law distribution) using a goodness-of-fit test with a bootstrapping procedure. The basic concept is to perform a hypothesis test by generating multiple data sets (with the previously estimated parameters <span class="math inline">\(x_{min}\)</span> and alpha) and then “re-inferring” the model parameters. The original model parameter is then compared to the simulated set of parameters. If the p-value is greater than .05, we cannot reject the null hypothesis that the data could be generated from a power law distribution with similar parameters. If the p-value is less than .05, we reject the null hypothesis, and conclude that the data is not convincingly fit by a power law.</p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="ch16.html#cb430-1" tabindex="-1"></a><span class="co"># parameter uncertainty and statistical testing </span></span>
+<span id="cb430-2"><a href="ch16.html#cb430-2" tabindex="-1"></a></span>
+<span id="cb430-3"><a href="ch16.html#cb430-3" tabindex="-1"></a><span class="do">## 1000 bootstraps using four cores</span></span>
+<span id="cb430-4"><a href="ch16.html#cb430-4" tabindex="-1"></a>bs_p <span class="ot">=</span> <span class="fu">bootstrap_p</span>(m_pl, <span class="at">no_of_sims =</span> <span class="dv">1000</span>, <span class="at">threads =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>) <span class="co"># can be slow</span></span></code></pre></div>
+<pre><code>## Expected total run time for 1000 sims, using 4 threads is 171 seconds.</code></pre>
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="ch16.html#cb432-1" tabindex="-1"></a>bs_p<span class="sc">$</span>bootstraps <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##           gof xmin     pars ntail
+## 1 0.009839299    6 1.917765  3515
+## 2 0.007466091   10 1.969352  2095
+## 3 0.009205848    9 1.943017  2290
+## 4 0.013751881    7 1.942744  2989
+## 5 0.004895829    6 1.956929  3469
+## 6 0.008659503    7 1.952541  2943</code></pre>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="ch16.html#cb434-1" tabindex="-1"></a><span class="fu">mean</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>]) <span class="co"># M of xmin</span></span></code></pre></div>
+<pre><code>## [1] 7.668</code></pre>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="ch16.html#cb436-1" tabindex="-1"></a><span class="fu">mean</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>]) <span class="co"># M of pars (alpha)</span></span></code></pre></div>
+<pre><code>## [1] 1.950474</code></pre>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="ch16.html#cb438-1" tabindex="-1"></a><span class="fu">sd</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>]) <span class="co"># SD of xmin</span></span></code></pre></div>
+<pre><code>## [1] 3.341398</code></pre>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="ch16.html#cb440-1" tabindex="-1"></a><span class="fu">sd</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>]) <span class="co"># SD of pars (alpha)</span></span></code></pre></div>
+<pre><code>## [1] 0.02341784</code></pre>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="ch16.html#cb442-1" tabindex="-1"></a><span class="fu">hist</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="ch16.html#cb443-1" tabindex="-1"></a><span class="fu">hist</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-152-2.png" width="672" /></p>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="ch16.html#cb444-1" tabindex="-1"></a><span class="co"># p-value </span></span>
+<span id="cb444-2"><a href="ch16.html#cb444-2" tabindex="-1"></a>bs_p<span class="sc">$</span>p <span class="co"># null hypothesis: distribution came from a power law distribution, since p &gt; 0.05, cannot reject the null  </span></span></code></pre></div>
+<pre><code>## [1] 0.694</code></pre>
+</div>
+<div id="method-2-comparing-alternative-distributions" class="section level3 hasAnchor" number="16.4.2">
+<h3><span class="header-section-number">16.4.2</span> Method 2: Comparing alternative distributions<a href="ch16.html#method-2-comparing-alternative-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>An alternative method is to fit other long-tailed distributions to the data, and then compare these distributions directly using a likelihood ratio test. The code below shows you how to compare the power law distribution to the log-normal distribution (although other long-tailed distributions can also be tested). Basically, there is a similar process of fitting the data to the new distribution and updating the parameters. Then the <code>compare_distributions</code> function is used to provide a likelihood ratio test comparing the two distributions. Since the test was not statistically significant, both distributions are equally far from the true distribution and hence it is not possible to determine which is the best fitting model.</p>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="ch16.html#cb446-1" tabindex="-1"></a><span class="co"># make a log-normal object for moby </span></span>
+<span id="cb446-2"><a href="ch16.html#cb446-2" tabindex="-1"></a><span class="co"># fix the xmin parameter to be the same as m_pl </span></span>
+<span id="cb446-3"><a href="ch16.html#cb446-3" tabindex="-1"></a>m_ln <span class="ot">&lt;-</span> dislnorm<span class="sc">$</span><span class="fu">new</span>(moby)</span>
+<span id="cb446-4"><a href="ch16.html#cb446-4" tabindex="-1"></a>m_ln<span class="sc">$</span><span class="fu">setXmin</span>(<span class="dv">7</span>)</span>
+<span id="cb446-5"><a href="ch16.html#cb446-5" tabindex="-1"></a></span>
+<span id="cb446-6"><a href="ch16.html#cb446-6" tabindex="-1"></a><span class="co"># estimate the parameters for log normal distribution </span></span>
+<span id="cb446-7"><a href="ch16.html#cb446-7" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">estimate_pars</span>(m_ln)</span>
+<span id="cb446-8"><a href="ch16.html#cb446-8" tabindex="-1"></a></span>
+<span id="cb446-9"><a href="ch16.html#cb446-9" tabindex="-1"></a><span class="co"># update the parameters into the object </span></span>
+<span id="cb446-10"><a href="ch16.html#cb446-10" tabindex="-1"></a>m_ln<span class="sc">$</span><span class="fu">setPars</span>(est)</span>
+<span id="cb446-11"><a href="ch16.html#cb446-11" tabindex="-1"></a></span>
+<span id="cb446-12"><a href="ch16.html#cb446-12" tabindex="-1"></a><span class="co"># use Vuong&#39;s test to compare PL vs LN distributions </span></span>
+<span id="cb446-13"><a href="ch16.html#cb446-13" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">compare_distributions</span>(m_pl, m_ln)</span>
+<span id="cb446-14"><a href="ch16.html#cb446-14" tabindex="-1"></a></span>
+<span id="cb446-15"><a href="ch16.html#cb446-15" tabindex="-1"></a>comp<span class="sc">$</span>p_two_sided</span></code></pre></div>
+<pre><code>## [1] 0.6773366</code></pre>
+</div>
+</div>
+<div id="exercise-9" class="section level2 hasAnchor" number="16.5">
+<h2><span class="header-section-number">16.5</span> Exercise<a href="ch16.html#exercise-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Analyze the degree distribution of the following network:</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="ch16.html#cb448-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb448-2"><a href="ch16.html#cb448-2" tabindex="-1"></a></span>
+<span id="cb448-3"><a href="ch16.html#cb448-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;UKfaculty&#39;</span>)</span></code></pre></div>
+<p>To get a vector of “degree counts” (c.f., word frequencies in Moby Dick), use the following code and see if this degree distribution follows a power law distribution using the bootstrapping approach.</p>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="ch16.html#cb449-1" tabindex="-1"></a>degree_frequencies <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">degree</span>(UKfaculty, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>))</span></code></pre></div>
+</div>
+<div id="references-3" class="section level2 hasAnchor" number="16.6">
+<h2><span class="header-section-number">16.6</span> References<a href="ch16.html#references-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For an example of how this approach has been used to explore the degree distributions of networks, see:</p>
+<p>Siew, C. S. Q., &amp; Vitevitch, M. S. (2020). Investigating the Influence of Inverse Preferential Attachment on Network Development. <em>Entropy, 22</em>(9), Article 9. <a href="https://doi.org/10.3390/e22091029" class="uri">https://doi.org/10.3390/e22091029</a></p>
+<p>Clauset, A., Shalizi, C. R., &amp; Newman, M. E. (2009). Power-law distributions in empirical data. <em>SIAM Review, 51</em>(4), 661–703.</p>
+<p>Gillespie, C. S. (2015). PoweRlaw: Analysis of heavy tailed distributions. R Package Version 0.30. 0, URL <a href="Http://CRAN" class="uri">Http://CRAN</a>. R-Project. Org/Package= poweRlaw.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch15.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/csqsiew/intro-to-igraph16-degree-distributions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
