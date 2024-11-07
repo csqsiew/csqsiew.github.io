@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-18" />
+<meta name="date" content="2024-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -238,8 +238,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
 <li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
-<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
-<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-removing-a-group-of-nodes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by removing a group of nodes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.4</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.5" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.5</b> Subsetting by mutual edges</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
 </ul></li>
@@ -429,11 +430,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction-to-spreadr" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Introduction to <code>spreadr</code><a href="ch10.html#introduction-to-spreadr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First, let’s download and load the <code>spreadr</code> R package.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="ch10.html#cb313-1" tabindex="-1"></a><span class="co"># install.packages(&#39;spreadr&#39;)</span></span>
-<span id="cb313-2"><a href="ch10.html#cb313-2" tabindex="-1"></a><span class="co"># remotes::install_github(&#39;csqsiew/spreadr&#39;) # to get the most updated version from my github </span></span>
-<span id="cb313-3"><a href="ch10.html#cb313-3" tabindex="-1"></a></span>
-<span id="cb313-4"><a href="ch10.html#cb313-4" tabindex="-1"></a><span class="fu">library</span>(spreadr)</span>
-<span id="cb313-5"><a href="ch10.html#cb313-5" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="ch10.html#cb327-1" tabindex="-1"></a><span class="co"># install.packages(&#39;spreadr&#39;)</span></span>
+<span id="cb327-2"><a href="ch10.html#cb327-2" tabindex="-1"></a><span class="co"># remotes::install_github(&#39;csqsiew/spreadr&#39;) # to get the most updated version from my github </span></span>
+<span id="cb327-3"><a href="ch10.html#cb327-3" tabindex="-1"></a></span>
+<span id="cb327-4"><a href="ch10.html#cb327-4" tabindex="-1"></a><span class="fu">library</span>(spreadr)</span></code></pre></div>
+<pre><code>## Loading required package: Rcpp</code></pre>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="ch10.html#cb329-1" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div>
 <p><code>spreadr</code> is a R package that enables the user to implement the spreading activation mechanism in a network structure (Siew, 2019). Although the concept of spreading activation is very prominent in psychology research (Collins &amp; Loftus, 1975; Dell, 1986), there are not many accessible ways of formally implementing this idea on an explicit cognitive structure. <code>spreadr</code> assumes that activation is a limited cognitive resource that can be passed from one node to another node, as long as those two nodes are connected. This “passing” of activation to a neighboring node mimics the idea that an activated node can activate other related nodes. This process is assumed to proceed in a parallel fashion across all nodes in the network that have a non-zero activation value assigned to them, and are connected to other nodes that could receive activation from them. For details on the algorithm used, see Siew (2019).</p>
 <p>In order to implement the spreading activation mechanism, we need to specify a number of parameters:</p>
 <ol style="list-style-type: decimal">
@@ -444,30 +446,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>decay</code>: Number from 0 to 1 (inclusive) representing the proportion of activation that is lost at each time step.</li>
 <li><code>suppress</code>: Number representing the maximum amount of activation in a node for it to be set to 0, at each time step.</li>
 </ol>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="ch10.html#cb314-1" tabindex="-1"></a><span class="co"># use the pnet network that comes in the spreadr package</span></span>
-<span id="cb314-2"><a href="ch10.html#cb314-2" tabindex="-1"></a>pnet</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="ch10.html#cb330-1" tabindex="-1"></a><span class="co"># use the pnet network that comes in the spreadr package</span></span>
+<span id="cb330-2"><a href="ch10.html#cb330-2" tabindex="-1"></a>pnet</span></code></pre></div>
+<pre><code>## This graph was created by an old(er) igraph version.
+## ℹ Call `igraph::upgrade_graph()` on it to use with the current igraph version.
+## For now we convert it on the fly...</code></pre>
 <pre><code>## IGRAPH a7c0363 UN-- 34 96 -- 
 ## + attr: name (v/c)
 ## + edges from a7c0363 (vertex names):
-##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck  speck --sped   sped  --speed  sped  --spud   speed --spud  
-## [15] speed --stead  speed --seed   speed --speech speak --speed  stead --seed   seed  --seek   seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek  speak --sneak  speak --sleek  speak --peek  
-## [29] speak --speech speech--peach  peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach  peach --beach  peach --each   peach --pouch 
-## [43] peach --pitch  peach --patch  peach --pooch  peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel   peep  --pea    peek  --pea    peace --pea    pea   --peat   peep  --peel   peep  --peas  
-## [57] peep  --peat   peace --peep   peek  --peep   peel  --peas   peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas   peek  --peas   peek  --peat   peek  --peace  peace --peat   teach --leach 
-## [71] leach --reach  leach --each   leach --beach  teach --beach  teach --each   teach --reach  beach --each   beach --reach  each  --reach  preach--reach  peach --perch  pouch --perch  pitch --perch  pooch --perch 
-## [85] poach --perch  patch --perch  pouch --patch  pitch --patch  patch --pooch  patch --poach  pouch --poach  pitch --poach  pooch --poach  pitch --pooch  pouch --pooch  pouch --pitch</code></pre>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="ch10.html#cb316-1" tabindex="-1"></a><span class="co"># starting activation values (time = 0)</span></span>
-<span id="cb316-2"><a href="ch10.html#cb316-2" tabindex="-1"></a>start_run <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb316-3"><a href="ch10.html#cb316-3" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">c</span>(<span class="st">&quot;beach&quot;</span>),</span>
-<span id="cb316-4"><a href="ch10.html#cb316-4" tabindex="-1"></a>  <span class="at">activation =</span> <span class="fu">c</span>(<span class="dv">20</span>))</span>
-<span id="cb316-5"><a href="ch10.html#cb316-5" tabindex="-1"></a></span>
-<span id="cb316-6"><a href="ch10.html#cb316-6" tabindex="-1"></a><span class="co"># run the simulation</span></span>
-<span id="cb316-7"><a href="ch10.html#cb316-7" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">spreadr</span>(<span class="at">network =</span> pnet, <span class="at">start_run =</span> start_run, </span>
-<span id="cb316-8"><a href="ch10.html#cb316-8" tabindex="-1"></a>                  <span class="at">retention =</span> <span class="fl">0.5</span>, <span class="at">decay =</span> <span class="dv">0</span>, <span class="at">suppress =</span> <span class="dv">0</span>,</span>
-<span id="cb316-9"><a href="ch10.html#cb316-9" tabindex="-1"></a>                  <span class="at">time =</span> <span class="dv">2</span>, <span class="at">include_t0 =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb316-10"><a href="ch10.html#cb316-10" tabindex="-1"></a></span>
-<span id="cb316-11"><a href="ch10.html#cb316-11" tabindex="-1"></a><span class="co"># view the result </span></span>
-<span id="cb316-12"><a href="ch10.html#cb316-12" tabindex="-1"></a>result</span></code></pre></div>
+##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck  speck --sped   sped  --speed  sped  --spud  
+## [14] speed --spud   speed --stead  speed --seed   speed --speech speak --speed  stead --seed   seed  --seek   seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek  speak --sneak 
+## [27] speak --sleek  speak --peek   speak --speech speech--peach  peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach 
+## [40] peach --beach  peach --each   peach --pouch  peach --pitch  peach --patch  peach --pooch  peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel   peep  --pea    peek  --pea   
+## [53] peace --pea    pea   --peat   peep  --peel   peep  --peas   peep  --peat   peace --peep   peek  --peep   peel  --peas   peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas  
+## [66] peek  --peas   peek  --peat   peek  --peace  peace --peat   teach --leach  leach --reach  leach --each   leach --beach  teach --beach  teach --each   teach --reach  beach --each   beach --reach 
+## [79] each  --reach  preach--reach  peach --perch  pouch --perch  pitch --perch  pooch --perch  poach --perch  patch --perch  pouch --patch  pitch --patch  patch --pooch  patch --poach  pouch --poach 
+## [92] pitch --poach  pooch --poach  pitch --pooch  pouch --pooch  pouch --pitch</code></pre>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="ch10.html#cb333-1" tabindex="-1"></a><span class="co"># starting activation values (time = 0)</span></span>
+<span id="cb333-2"><a href="ch10.html#cb333-2" tabindex="-1"></a>start_run <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb333-3"><a href="ch10.html#cb333-3" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">c</span>(<span class="st">&quot;beach&quot;</span>),</span>
+<span id="cb333-4"><a href="ch10.html#cb333-4" tabindex="-1"></a>  <span class="at">activation =</span> <span class="fu">c</span>(<span class="dv">20</span>))</span>
+<span id="cb333-5"><a href="ch10.html#cb333-5" tabindex="-1"></a></span>
+<span id="cb333-6"><a href="ch10.html#cb333-6" tabindex="-1"></a><span class="co"># run the simulation</span></span>
+<span id="cb333-7"><a href="ch10.html#cb333-7" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">spreadr</span>(<span class="at">network =</span> pnet, <span class="at">start_run =</span> start_run, </span>
+<span id="cb333-8"><a href="ch10.html#cb333-8" tabindex="-1"></a>                  <span class="at">retention =</span> <span class="fl">0.5</span>, <span class="at">decay =</span> <span class="dv">0</span>, <span class="at">suppress =</span> <span class="dv">0</span>,</span>
+<span id="cb333-9"><a href="ch10.html#cb333-9" tabindex="-1"></a>                  <span class="at">time =</span> <span class="dv">2</span>, <span class="at">include_t0 =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb333-10"><a href="ch10.html#cb333-10" tabindex="-1"></a></span>
+<span id="cb333-11"><a href="ch10.html#cb333-11" tabindex="-1"></a><span class="co"># view the result </span></span>
+<span id="cb333-12"><a href="ch10.html#cb333-12" tabindex="-1"></a>result</span></code></pre></div>
 <pre><code>##       node activation time
 ## 1    spike  0.0000000    0
 ## 2    speak  0.0000000    0
@@ -579,32 +585,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this simulation, we explore if their empirical result could be replicated computationally using <code>spreadr</code>. The <code>chapter10-networks.RData</code> contains two phonological networks containing the two target words each, “seethe” and “wrist”. Although both words have the same degree of 16, “seethe” has a higher local C (0.49) than “wrist” (0.16).</p>
 <p>In the simulation below, equal levels of activation are assigned to all neighbors of the target, but never the target node itself. Activation is allowed to spread for a fixed number of time steps, and the final activation values of the target nodes are retrieved at the final time step. A higher final activation of target node is taken as an indicator of more false alarms in memory retrieval.</p>
 <p>Question: Based on the outputs of the simulation below, which word has the higher final activation value? Does this result align with the empirical result reported by Vitevitch et al. (2012)?</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="ch10.html#cb318-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;data/chapter10-networks.RData&#39;</span>)</span>
-<span id="cb318-2"><a href="ch10.html#cb318-2" tabindex="-1"></a></span>
-<span id="cb318-3"><a href="ch10.html#cb318-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb318-4"><a href="ch10.html#cb318-4" tabindex="-1"></a></span>
-<span id="cb318-5"><a href="ch10.html#cb318-5" tabindex="-1"></a><span class="co"># low C network </span></span>
-<span id="cb318-6"><a href="ch10.html#cb318-6" tabindex="-1"></a>start_run_low <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb318-7"><a href="ch10.html#cb318-7" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">neighbors</span>(lowC, <span class="at">v =</span> <span class="st">&#39;rIst;wrist&#39;</span>)<span class="sc">$</span>name,</span>
-<span id="cb318-8"><a href="ch10.html#cb318-8" tabindex="-1"></a>  <span class="at">activation =</span> <span class="fu">rep</span>(<span class="dv">10</span>, <span class="dv">16</span>))</span>
-<span id="cb318-9"><a href="ch10.html#cb318-9" tabindex="-1"></a></span>
-<span id="cb318-10"><a href="ch10.html#cb318-10" tabindex="-1"></a>result_low <span class="ot">&lt;-</span> <span class="fu">spreadr</span>(<span class="at">network =</span> lowC, <span class="at">start_run =</span> start_run_low, </span>
-<span id="cb318-11"><a href="ch10.html#cb318-11" tabindex="-1"></a>                  <span class="at">retention =</span> <span class="fl">0.5</span>, <span class="at">decay =</span> <span class="dv">0</span>, <span class="at">suppress =</span> <span class="dv">0</span>,</span>
-<span id="cb318-12"><a href="ch10.html#cb318-12" tabindex="-1"></a>                  <span class="at">time =</span> <span class="dv">5</span>, <span class="at">include_t0 =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb318-13"><a href="ch10.html#cb318-13" tabindex="-1"></a></span>
-<span id="cb318-14"><a href="ch10.html#cb318-14" tabindex="-1"></a>result_low <span class="sc">|&gt;</span> <span class="fu">filter</span>(node <span class="sc">==</span> <span class="st">&#39;rIst;wrist&#39;</span>, time <span class="sc">==</span> <span class="dv">5</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="ch10.html#cb335-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;data/chapter10-networks.RData&#39;</span>)</span>
+<span id="cb335-2"><a href="ch10.html#cb335-2" tabindex="-1"></a></span>
+<span id="cb335-3"><a href="ch10.html#cb335-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb335-4"><a href="ch10.html#cb335-4" tabindex="-1"></a></span>
+<span id="cb335-5"><a href="ch10.html#cb335-5" tabindex="-1"></a><span class="co"># low C network </span></span>
+<span id="cb335-6"><a href="ch10.html#cb335-6" tabindex="-1"></a>start_run_low <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb335-7"><a href="ch10.html#cb335-7" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">neighbors</span>(lowC, <span class="at">v =</span> <span class="st">&#39;rIst;wrist&#39;</span>)<span class="sc">$</span>name,</span>
+<span id="cb335-8"><a href="ch10.html#cb335-8" tabindex="-1"></a>  <span class="at">activation =</span> <span class="fu">rep</span>(<span class="dv">10</span>, <span class="dv">16</span>))</span>
+<span id="cb335-9"><a href="ch10.html#cb335-9" tabindex="-1"></a></span>
+<span id="cb335-10"><a href="ch10.html#cb335-10" tabindex="-1"></a>result_low <span class="ot">&lt;-</span> <span class="fu">spreadr</span>(<span class="at">network =</span> lowC, <span class="at">start_run =</span> start_run_low, </span>
+<span id="cb335-11"><a href="ch10.html#cb335-11" tabindex="-1"></a>                  <span class="at">retention =</span> <span class="fl">0.5</span>, <span class="at">decay =</span> <span class="dv">0</span>, <span class="at">suppress =</span> <span class="dv">0</span>,</span>
+<span id="cb335-12"><a href="ch10.html#cb335-12" tabindex="-1"></a>                  <span class="at">time =</span> <span class="dv">5</span>, <span class="at">include_t0 =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb335-13"><a href="ch10.html#cb335-13" tabindex="-1"></a></span>
+<span id="cb335-14"><a href="ch10.html#cb335-14" tabindex="-1"></a>result_low <span class="sc">|&gt;</span> <span class="fu">filter</span>(node <span class="sc">==</span> <span class="st">&#39;rIst;wrist&#39;</span>, time <span class="sc">==</span> <span class="dv">5</span>) </span></code></pre></div>
 <pre><code>##         node activation time
 ## 1 rIst;wrist   8.516831    5</code></pre>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="ch10.html#cb320-1" tabindex="-1"></a><span class="co"># high C network </span></span>
-<span id="cb320-2"><a href="ch10.html#cb320-2" tabindex="-1"></a>start_run_high <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb320-3"><a href="ch10.html#cb320-3" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">neighbors</span>(highC, <span class="at">v =</span> <span class="st">&#39;siD;seethe&#39;</span>)<span class="sc">$</span>name,</span>
-<span id="cb320-4"><a href="ch10.html#cb320-4" tabindex="-1"></a>  <span class="at">activation =</span> <span class="fu">rep</span>(<span class="dv">10</span>, <span class="dv">16</span>))</span>
-<span id="cb320-5"><a href="ch10.html#cb320-5" tabindex="-1"></a></span>
-<span id="cb320-6"><a href="ch10.html#cb320-6" tabindex="-1"></a>result_high <span class="ot">&lt;-</span> <span class="fu">spreadr</span>(<span class="at">network =</span> highC, <span class="at">start_run =</span> start_run_high, </span>
-<span id="cb320-7"><a href="ch10.html#cb320-7" tabindex="-1"></a>                  <span class="at">retention =</span> <span class="fl">0.5</span>, <span class="at">decay =</span> <span class="dv">0</span>, <span class="at">suppress =</span> <span class="dv">0</span>,</span>
-<span id="cb320-8"><a href="ch10.html#cb320-8" tabindex="-1"></a>                  <span class="at">time =</span> <span class="dv">5</span>, <span class="at">include_t0 =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb320-9"><a href="ch10.html#cb320-9" tabindex="-1"></a></span>
-<span id="cb320-10"><a href="ch10.html#cb320-10" tabindex="-1"></a>result_high <span class="sc">|&gt;</span> <span class="fu">filter</span>(node <span class="sc">==</span> <span class="st">&#39;siD;seethe&#39;</span>, time <span class="sc">==</span> <span class="dv">5</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="ch10.html#cb337-1" tabindex="-1"></a><span class="co"># high C network </span></span>
+<span id="cb337-2"><a href="ch10.html#cb337-2" tabindex="-1"></a>start_run_high <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb337-3"><a href="ch10.html#cb337-3" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">neighbors</span>(highC, <span class="at">v =</span> <span class="st">&#39;siD;seethe&#39;</span>)<span class="sc">$</span>name,</span>
+<span id="cb337-4"><a href="ch10.html#cb337-4" tabindex="-1"></a>  <span class="at">activation =</span> <span class="fu">rep</span>(<span class="dv">10</span>, <span class="dv">16</span>))</span>
+<span id="cb337-5"><a href="ch10.html#cb337-5" tabindex="-1"></a></span>
+<span id="cb337-6"><a href="ch10.html#cb337-6" tabindex="-1"></a>result_high <span class="ot">&lt;-</span> <span class="fu">spreadr</span>(<span class="at">network =</span> highC, <span class="at">start_run =</span> start_run_high, </span>
+<span id="cb337-7"><a href="ch10.html#cb337-7" tabindex="-1"></a>                  <span class="at">retention =</span> <span class="fl">0.5</span>, <span class="at">decay =</span> <span class="dv">0</span>, <span class="at">suppress =</span> <span class="dv">0</span>,</span>
+<span id="cb337-8"><a href="ch10.html#cb337-8" tabindex="-1"></a>                  <span class="at">time =</span> <span class="dv">5</span>, <span class="at">include_t0 =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb337-9"><a href="ch10.html#cb337-9" tabindex="-1"></a></span>
+<span id="cb337-10"><a href="ch10.html#cb337-10" tabindex="-1"></a>result_high <span class="sc">|&gt;</span> <span class="fu">filter</span>(node <span class="sc">==</span> <span class="st">&#39;siD;seethe&#39;</span>, time <span class="sc">==</span> <span class="dv">5</span>) </span></code></pre></div>
 <pre><code>##         node activation time
 ## 1 siD;seethe   3.149976    5</code></pre>
 </div>

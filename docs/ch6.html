@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-18" />
+<meta name="date" content="2024-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -238,8 +238,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
 <li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
-<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
-<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-removing-a-group-of-nodes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by removing a group of nodes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.4</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.5" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.5</b> Subsetting by mutual edges</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
 </ul></li>
@@ -425,30 +426,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 6</span> Chapter 6: Macro-level network measures<a href="ch6.html#ch6" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this section, we will review network science measures that describe the overall or global structure of the entire network. You can think of these measures as providing a “bird’s eye view” of your network, and they are useful for comparing different network representations.</p>
 <p>To facilitate the demonstrations below, we will use the undirected, unweighted karate network that we have previously seen in Chapter 4. In the rest of the chapter we will compute various macro-level network measures for this network.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="ch6.html#cb138-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb138-2"><a href="ch6.html#cb138-2" tabindex="-1"></a></span>
-<span id="cb138-3"><a href="ch6.html#cb138-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb138-4"><a href="ch6.html#cb138-4" tabindex="-1"></a></span>
-<span id="cb138-5"><a href="ch6.html#cb138-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 5011564 UN-- 34 78 -- 
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="ch6.html#cb150-1" tabindex="-1"></a>karate_el <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_el.csv&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb150-2"><a href="ch6.html#cb150-2" tabindex="-1"></a></span>
+<span id="cb150-3"><a href="ch6.html#cb150-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb150-4"><a href="ch6.html#cb150-4" tabindex="-1"></a></span>
+<span id="cb150-5"><a href="ch6.html#cb150-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
+<pre><code>## IGRAPH 942edc6 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Although it is possible to compute macro-level network measures for directed, weighted networks in certain instances (and this will be pointed out where appropriate), I choose to focus on the undirected, unweighted version for this chapter because macro-level measures are more complex to interpret and less intuitive when additional information like edge weights and direction are included. For instance, <em>network density</em> refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network–it is not clear how this measure be adapted if we wanted to use weighted edges instead.</p>
 <div id="average-degree" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Average Degree<a href="ch6.html#average-degree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A common method of characterizing the global structure of networks is to simply compute <strong>average degree</strong>, which is the mean of the degree of all nodes in the network. A node’s degree refers to the number of connections or edges that are incident to the node.</p>
 <p>We first use <code>degree</code> to compute degree for each node (see Chapter 7: Degree) and then pipe the output to get the mean degree for the entire network.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="ch6.html#cb140-1" tabindex="-1"></a><span class="fu">degree</span>(karate_uu) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="ch6.html#cb152-1" tabindex="-1"></a><span class="fu">degree</span>(karate_uu) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code></pre></div>
 <pre><code>## [1] 4.588235</code></pre>
 <p>On average, each node in the karate network has 4.5 connections.</p>
 <p>In Chapter 7 we will learn that it is possible to compute different variants of degree for directed graphs. In-degree refers to the number of edges incoming to the target node, out-degree refers to the number of edges outgoing from to the target node, and all-degree refers to all the edges (the sum of in- and out-degree). Try running the code below on a network with directed edges.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="ch6.html#cb142-1" tabindex="-1"></a><span class="co"># mean in-degree</span></span>
-<span id="cb142-2"><a href="ch6.html#cb142-2" tabindex="-1"></a><span class="fu">degree</span>(karate_uu, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span>
-<span id="cb142-3"><a href="ch6.html#cb142-3" tabindex="-1"></a></span>
-<span id="cb142-4"><a href="ch6.html#cb142-4" tabindex="-1"></a><span class="co"># mean out-degree</span></span>
-<span id="cb142-5"><a href="ch6.html#cb142-5" tabindex="-1"></a><span class="fu">degree</span>(karate_uu, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span>
-<span id="cb142-6"><a href="ch6.html#cb142-6" tabindex="-1"></a></span>
-<span id="cb142-7"><a href="ch6.html#cb142-7" tabindex="-1"></a><span class="co"># mean all-degree</span></span>
-<span id="cb142-8"><a href="ch6.html#cb142-8" tabindex="-1"></a><span class="fu">degree</span>(karate_uu, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="ch6.html#cb154-1" tabindex="-1"></a><span class="co"># mean in-degree</span></span>
+<span id="cb154-2"><a href="ch6.html#cb154-2" tabindex="-1"></a><span class="fu">degree</span>(karate_uu, <span class="at">mode =</span> <span class="st">&#39;in&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span>
+<span id="cb154-3"><a href="ch6.html#cb154-3" tabindex="-1"></a></span>
+<span id="cb154-4"><a href="ch6.html#cb154-4" tabindex="-1"></a><span class="co"># mean out-degree</span></span>
+<span id="cb154-5"><a href="ch6.html#cb154-5" tabindex="-1"></a><span class="fu">degree</span>(karate_uu, <span class="at">mode =</span> <span class="st">&#39;out&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span>
+<span id="cb154-6"><a href="ch6.html#cb154-6" tabindex="-1"></a></span>
+<span id="cb154-7"><a href="ch6.html#cb154-7" tabindex="-1"></a><span class="co"># mean all-degree</span></span>
+<span id="cb154-8"><a href="ch6.html#cb154-8" tabindex="-1"></a><span class="fu">degree</span>(karate_uu, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code></pre></div>
 </div>
 <div id="average-shortest-path-length" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Average Shortest Path Length<a href="ch6.html#average-shortest-path-length" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -456,17 +457,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The figure below depicts the shortest path between nodes 25 and 16 (path length = 4).</p>
 <p><img src="images/shortest-path.jpeg" /></p>
 <p>To compute the ASPL of the karate network:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="ch6.html#cb143-1" tabindex="-1"></a><span class="fu">mean_distance</span>(<span class="at">graph =</span> karate_uu)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="ch6.html#cb155-1" tabindex="-1"></a><span class="fu">mean_distance</span>(<span class="at">graph =</span> karate_uu)</span></code></pre></div>
 <pre><code>## [1] 2.4082</code></pre>
 <p>On average, it takes 2.4 steps to connect any two randomly selected nodes in the karate network.</p>
 <p>It is possible to compute ASPL based on shortest paths that consider the direction and weights of the edges.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="ch6.html#cb145-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> F) <span class="co"># unweighted, undirected</span></span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="ch6.html#cb157-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> F) <span class="co"># unweighted, undirected</span></span></code></pre></div>
 <pre><code>## [1] 2.4082</code></pre>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="ch6.html#cb147-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> T) <span class="co"># unweighted, directed </span></span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="ch6.html#cb159-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">weights =</span> <span class="cn">NA</span>, <span class="at">directed =</span> T) <span class="co"># unweighted, directed </span></span></code></pre></div>
 <pre><code>## [1] 2.4082</code></pre>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="ch6.html#cb149-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">directed =</span> F) <span class="co"># weighted, undirected</span></span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="ch6.html#cb161-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">directed =</span> F) <span class="co"># weighted, undirected</span></span></code></pre></div>
 <pre><code>## [1] 2.4082</code></pre>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="ch6.html#cb151-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">directed =</span> T) <span class="co"># weighted, directed </span></span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="ch6.html#cb163-1" tabindex="-1"></a><span class="fu">mean_distance</span>(karate_uu, <span class="at">directed =</span> T) <span class="co"># weighted, directed </span></span></code></pre></div>
 <pre><code>## [1] 2.4082</code></pre>
 <p>Because <code>karate_uu</code> is undirected and unweighted, the result is unsurprisingly identical across all 4 version (try this with a directed, weighted network!). When a graph contains edge weights, then they are automatically considered unless you instruct otherwise using <code>weights = NA</code>. Use the <code>directed</code> argument to specify if the direction of the edges should be considered in the computation of short paths.</p>
 <p>An important point to note is that edge weights are interpreted as <em>distances</em> rather than <em>strength of connection</em>: See Chapter 7 for more information about this.</p>
@@ -476,7 +477,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Global clustering coefficient</strong>, or global <em>C</em>, refers to the number of closed triangles in the network relative to the number of possible triangles. It is a measure of overall level of local connectivity among nodes in the network.</p>
 <p>A simple way of thinking about this concept is that it is measuring the probability that each pair of “friends” of a given node are also friends with each other.</p>
 <p>To computer global clustering coefficient, we use the <code>transitivity</code> function as follows:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="ch6.html#cb153-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_uu, <span class="at">type =</span> <span class="st">&#39;global&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="ch6.html#cb165-1" tabindex="-1"></a><span class="fu">transitivity</span>(karate_uu, <span class="at">type =</span> <span class="st">&#39;global&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.2556818</code></pre>
 <p>We can interpret this value to mean that for each pair of nodes that are directly connected to a target node, the probability that these two nodes are also connected to each other is 25.6% (i.e., the probability of a completed “triangle”, when it is possible, is 25.6%). This value is usually quite high in social networks, because people tend to introduce their friends to each other, resulting in <em>triadic closure</em>.</p>
 <p>Contrast this with Chapter 7: Local clustering coefficient–notice that although we use the same function, the <code>type</code> argument specifies if we want to obtain the global clustering coefficient for the whole network (overall local connectivity), or local clustering coefficient for individual nodes (local connectivity centered on a single node).</p>
@@ -489,23 +490,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="math display">\[SWI = \frac{C_i / \overline C_{rand}}{L_i / \overline L_{rand}}\]</span>
 where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest path length, <em>i</em> = network of interest, <em>rand</em> = random network, <span class="math inline">\(\overline x\)</span> denotes mean of the random networks’ measures.</p>
 <p>In order to compute the Small World Index we need to first generate networks that form a baseline for comparison to the target network (see also Chapter 9: Network Models). Here, we generate 5 size-matched Erdos-Renyi (ER) networks, which is a type of random network model where edges are distributed randomly across a set of nodes. We specify that the number of nodes and edges of the ER network to be identical to the target network (<code>karate_uu</code>). Then we take the mean ASPL and C of the ER networks, which becomes the <span class="math inline">\(\overline L_{rand}\)</span> and <span class="math inline">\(\overline C_{rand}\)</span> in the equation above respectively.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="ch6.html#cb155-1" tabindex="-1"></a><span class="do">## generate ER networks </span></span>
-<span id="cb155-2"><a href="ch6.html#cb155-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb155-3"><a href="ch6.html#cb155-3" tabindex="-1"></a></span>
-<span id="cb155-4"><a href="ch6.html#cb155-4" tabindex="-1"></a>er_graphs <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb155-5"><a href="ch6.html#cb155-5" tabindex="-1"></a></span>
-<span id="cb155-6"><a href="ch6.html#cb155-6" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) { <span class="co"># number of networks to generate</span></span>
-<span id="cb155-7"><a href="ch6.html#cb155-7" tabindex="-1"></a>  er_graphs[[i]] <span class="ot">&lt;-</span> <span class="fu">sample_gnm</span>(<span class="at">n =</span> <span class="fu">gorder</span>(karate_uu), <span class="at">m =</span> <span class="fu">gsize</span>(karate_uu), <span class="at">directed =</span> F, <span class="at">loops =</span> F)</span>
-<span id="cb155-8"><a href="ch6.html#cb155-8" tabindex="-1"></a>}</span>
-<span id="cb155-9"><a href="ch6.html#cb155-9" tabindex="-1"></a></span>
-<span id="cb155-10"><a href="ch6.html#cb155-10" tabindex="-1"></a><span class="co"># compute the L and C for each ER network, take the mean </span></span>
-<span id="cb155-11"><a href="ch6.html#cb155-11" tabindex="-1"></a><span class="fu">sapply</span>(er_graphs, mean_distance) <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="co"># L_rand</span></span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="ch6.html#cb167-1" tabindex="-1"></a><span class="do">## generate ER networks </span></span>
+<span id="cb167-2"><a href="ch6.html#cb167-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb167-3"><a href="ch6.html#cb167-3" tabindex="-1"></a></span>
+<span id="cb167-4"><a href="ch6.html#cb167-4" tabindex="-1"></a>er_graphs <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb167-5"><a href="ch6.html#cb167-5" tabindex="-1"></a></span>
+<span id="cb167-6"><a href="ch6.html#cb167-6" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) { <span class="co"># number of networks to generate</span></span>
+<span id="cb167-7"><a href="ch6.html#cb167-7" tabindex="-1"></a>  er_graphs[[i]] <span class="ot">&lt;-</span> <span class="fu">sample_gnm</span>(<span class="at">n =</span> <span class="fu">gorder</span>(karate_uu), <span class="at">m =</span> <span class="fu">gsize</span>(karate_uu), <span class="at">directed =</span> F, <span class="at">loops =</span> F)</span>
+<span id="cb167-8"><a href="ch6.html#cb167-8" tabindex="-1"></a>}</span>
+<span id="cb167-9"><a href="ch6.html#cb167-9" tabindex="-1"></a></span>
+<span id="cb167-10"><a href="ch6.html#cb167-10" tabindex="-1"></a><span class="co"># compute the L and C for each ER network, take the mean </span></span>
+<span id="cb167-11"><a href="ch6.html#cb167-11" tabindex="-1"></a><span class="fu">sapply</span>(er_graphs, mean_distance) <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="co"># L_rand</span></span></code></pre></div>
 <pre><code>## [1] 2.384314</code></pre>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="ch6.html#cb157-1" tabindex="-1"></a><span class="fu">sapply</span>(er_graphs, transitivity, <span class="at">type =</span> <span class="st">&#39;global&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="co"># C_rand</span></span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ch6.html#cb169-1" tabindex="-1"></a><span class="fu">sapply</span>(er_graphs, transitivity, <span class="at">type =</span> <span class="st">&#39;global&#39;</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="co"># C_rand</span></span></code></pre></div>
 <pre><code>## [1] 0.1188022</code></pre>
 <p>We can now plug in these values together with the actual C and L of the target network to compute SWI:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="ch6.html#cb159-1" tabindex="-1"></a><span class="co"># SWI for karate_uu </span></span>
-<span id="cb159-2"><a href="ch6.html#cb159-2" tabindex="-1"></a>(<span class="fl">0.2556818</span><span class="sc">/</span><span class="fl">0.1188022</span>)<span class="sc">/</span>(<span class="fl">2.4082</span><span class="sc">/</span><span class="fl">2.384314</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="ch6.html#cb171-1" tabindex="-1"></a><span class="co"># SWI for karate_uu </span></span>
+<span id="cb171-2"><a href="ch6.html#cb171-2" tabindex="-1"></a>(<span class="fl">0.2556818</span><span class="sc">/</span><span class="fl">0.1188022</span>)<span class="sc">/</span>(<span class="fl">2.4082</span><span class="sc">/</span><span class="fl">2.384314</span>)</span></code></pre></div>
 <pre><code>## [1] 2.130817</code></pre>
 <p>Humphries and Gurney (2008) write that SWI larger than 1 indicates presence of a small world structure, since this implies that the target network has more local clustering than random expectation, while having relatively similar ASPLs. SWIs less than 1 or close to 1 indicates that there is no evidence to support the claim that the target network is a small world. Here, we have some evidence supporting the claim that our karate network has a small world structure. In practice, up to 1,000 random ER networks are generated to compute <span class="math inline">\(\overline L_{rand}\)</span> and <span class="math inline">\(\overline C_{rand}\)</span>; although this can be a slow process depending on your network size. The number of random networks to generate can be adjusted in the for loop above.</p>
 <p>The main take home message is that a small world network has high levels of local clustering (nodes whose neighbors are also neighbors of each other), but also contains a number of shortcuts that drastically reduces the overall distances/path lengths between nodes. See below for an illustration of this idea.</p>
@@ -517,7 +518,7 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <p>Simple example of networks with lower and higher network densities.</p>
 <p><img src="images/density.png" /></p>
 <p>To obtain network density of a network:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="ch6.html#cb161-1" tabindex="-1"></a><span class="fu">edge_density</span>(karate_uu)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="ch6.html#cb173-1" tabindex="-1"></a><span class="fu">edge_density</span>(karate_uu)</span></code></pre></div>
 <pre><code>## [1] 0.1390374</code></pre>
 <p>This means that 13.9% of all possible edges in the network are actual edges.</p>
 </div>
@@ -527,9 +528,9 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <p>Simple example of networks with higher and lower network diameters</p>
 <p><img src="images/diameter.png" /></p>
 <p>To obtain network diameter of a network:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="ch6.html#cb163-1" tabindex="-1"></a><span class="fu">diameter</span>(karate_uu, <span class="at">directed =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="ch6.html#cb175-1" tabindex="-1"></a><span class="fu">diameter</span>(karate_uu, <span class="at">directed =</span> F)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="ch6.html#cb165-1" tabindex="-1"></a><span class="co"># diameter(karate_uu, directed = T) # directed edges </span></span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="ch6.html#cb177-1" tabindex="-1"></a><span class="co"># diameter(karate_uu, directed = T) # directed edges </span></span></code></pre></div>
 <p>This means that the length of the longest shortest path between two nodes in the network is 5.</p>
 </div>
 <div id="assortative-mixing" class="section level2 hasAnchor" number="6.7">
@@ -539,17 +540,17 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <h3><span class="header-section-number">6.7.1</span> Assortative Mixing by Degree (continuous attributes)<a href="ch6.html#assortative-mixing-by-degree-continuous-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A common extension of assortative mixing is <strong>assortative mixing by degree</strong>, which measures the correlation of degrees between neighboring nodes. Are nodes that are connected to each other tend to have similar degrees?</p>
 <p>A positive value indicates that nodes that are many (few) neighbors tend to be connected to nodes that also have many (few) neighbors. A negative value indicates that nodes that are many (few) neighbors tend to be connected to nodes that have few (many) neighbors. Values very close to zero indicates no correlation.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ch6.html#cb166-1" tabindex="-1"></a><span class="fu">assortativity_degree</span>(karate_uu, <span class="at">directed =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="ch6.html#cb178-1" tabindex="-1"></a><span class="fu">assortativity_degree</span>(karate_uu, <span class="at">directed =</span> F)</span></code></pre></div>
 <pre><code>## [1] -0.4756131</code></pre>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="ch6.html#cb168-1" tabindex="-1"></a><span class="co"># assortativity_degree(karate_uu, directed = T) # for directed edges </span></span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="ch6.html#cb180-1" tabindex="-1"></a><span class="co"># assortativity_degree(karate_uu, directed = T) # for directed edges </span></span></code></pre></div>
 <p>There is <em>dissortativity mixing by degree</em> in the karate network–nodes with higher degree have a higher tendency to be connected to nodes with lower degree.</p>
 <p>It is possible to add your own node attributes to the network (see Chapter 5) and compute its assortativity. The script below demonstrates this with a randomly created set of numbers for the nodes (i.e., a continuous variable ranging from 1 to 5, randomly selected with replacement for each of the 34 nodes in the network). Because these numbers are randomly generated, we expect assortativity to be close to 0 here.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ch6.html#cb169-1" tabindex="-1"></a><span class="co"># create a random vector of numbers for demonstration</span></span>
-<span id="cb169-2"><a href="ch6.html#cb169-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb169-3"><a href="ch6.html#cb169-3" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>random1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> T)</span>
-<span id="cb169-4"><a href="ch6.html#cb169-4" tabindex="-1"></a></span>
-<span id="cb169-5"><a href="ch6.html#cb169-5" tabindex="-1"></a><span class="co"># compute the assortativity of this node attribute </span></span>
-<span id="cb169-6"><a href="ch6.html#cb169-6" tabindex="-1"></a><span class="fu">assortativity</span>(karate_uu, <span class="at">values =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>random1, <span class="at">directed =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="ch6.html#cb181-1" tabindex="-1"></a><span class="co"># create a random vector of numbers for demonstration</span></span>
+<span id="cb181-2"><a href="ch6.html#cb181-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb181-3"><a href="ch6.html#cb181-3" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>random1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> T)</span>
+<span id="cb181-4"><a href="ch6.html#cb181-4" tabindex="-1"></a></span>
+<span id="cb181-5"><a href="ch6.html#cb181-5" tabindex="-1"></a><span class="co"># compute the assortativity of this node attribute </span></span>
+<span id="cb181-6"><a href="ch6.html#cb181-6" tabindex="-1"></a><span class="fu">assortativity</span>(karate_uu, <span class="at">values =</span> <span class="fu">V</span>(karate_uu)<span class="sc">$</span>random1, <span class="at">directed =</span> F)</span></code></pre></div>
 <pre><code>## [1] -0.06819853</code></pre>
 </div>
 <div id="assortative-mixing-by-node-attributes-categorical-attributes" class="section level3 hasAnchor" number="6.7.2">
@@ -557,58 +558,58 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <p>It is also possible to compute assortativity for categorical labels assigned to nodes. For instance, in a social network of male and female actors, is there gender homophily such that nodes tend to be connected to other nodes that share the same label?</p>
 <p>A positive value indicates that nodes with the same labels tend to be connected to each other. A negative value indicates that nodes tend to be connected to nodes with a different label from itself. Values very close to zero indicates no correlation.</p>
 <p>It is possible to add your own node attributes to the network (see Chapter 5) and compute its assortativity. The script below demonstrates this with a randomly created set of labels for the nodes (i.e., a categorical variable). Because these labels are randomly generated, we expect assortativity to be close to 0 here.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="ch6.html#cb171-1" tabindex="-1"></a><span class="co"># create a random vector of labels for demonstration</span></span>
-<span id="cb171-2"><a href="ch6.html#cb171-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb171-3"><a href="ch6.html#cb171-3" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>random2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>), <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> T)</span>
-<span id="cb171-4"><a href="ch6.html#cb171-4" tabindex="-1"></a></span>
-<span id="cb171-5"><a href="ch6.html#cb171-5" tabindex="-1"></a><span class="co"># compute the assortativity of this node attribute </span></span>
-<span id="cb171-6"><a href="ch6.html#cb171-6" tabindex="-1"></a><span class="fu">assortativity_nominal</span>(karate_uu, <span class="at">types =</span> <span class="fu">factor</span>(<span class="fu">V</span>(karate_uu)<span class="sc">$</span>random2), <span class="at">directed =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="ch6.html#cb183-1" tabindex="-1"></a><span class="co"># create a random vector of labels for demonstration</span></span>
+<span id="cb183-2"><a href="ch6.html#cb183-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb183-3"><a href="ch6.html#cb183-3" tabindex="-1"></a><span class="fu">V</span>(karate_uu)<span class="sc">$</span>random2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;B&#39;</span>, <span class="st">&#39;C&#39;</span>), <span class="fu">gorder</span>(karate_uu), <span class="at">replace =</span> T)</span>
+<span id="cb183-4"><a href="ch6.html#cb183-4" tabindex="-1"></a></span>
+<span id="cb183-5"><a href="ch6.html#cb183-5" tabindex="-1"></a><span class="co"># compute the assortativity of this node attribute </span></span>
+<span id="cb183-6"><a href="ch6.html#cb183-6" tabindex="-1"></a><span class="fu">assortativity_nominal</span>(karate_uu, <span class="at">types =</span> <span class="fu">factor</span>(<span class="fu">V</span>(karate_uu)<span class="sc">$</span>random2), <span class="at">directed =</span> F)</span></code></pre></div>
 <pre><code>## [1] -0.0850826</code></pre>
 </div>
 </div>
 <div id="network-components" class="section level2 hasAnchor" number="6.8">
 <h2><span class="header-section-number">6.8</span> Network Components<a href="ch6.html#network-components" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Thus far, we have been assuming that the networks that we have worked with form a single component. In other words, all nodes are part of the same component, and there are no separate components. But, as shown in the example network below, it is certainly possible for nodes in a network to fragment into distinct components.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="ch6.html#cb173-1" tabindex="-1"></a><span class="co"># create a sample network with two distinct components </span></span>
-<span id="cb173-2"><a href="ch6.html#cb173-2" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B, B<span class="sc">-</span>C, A<span class="sc">-</span>C, D<span class="sc">-</span>E)</span>
-<span id="cb173-3"><a href="ch6.html#cb173-3" tabindex="-1"></a><span class="fu">plot</span>(g)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="ch6.html#cb185-1" tabindex="-1"></a><span class="co"># create a sample network with two distinct components </span></span>
+<span id="cb185-2"><a href="ch6.html#cb185-2" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B, B<span class="sc">-</span>C, A<span class="sc">-</span>C, D<span class="sc">-</span>E)</span>
+<span id="cb185-3"><a href="ch6.html#cb185-3" tabindex="-1"></a><span class="fu">plot</span>(g)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
 <p>When working with networks derived from behavioral data, it can be common to observe that the network consists of distinct network components. This has implications for the computing and interpretation of the macro-level network measures, because several of them rely on the computation of shortest path between node pairs. For instance, ASPL computes the shortest paths for all possible node pairs and takes the mean–but what happens if there is no path between nodes A and D, for example?</p>
 <p>Node pairs that do not have a path are ignored in the computation. This is the default behavior in <code>igraph</code>. Hence, this value reflects the mean of all “computable” short paths (i.e., when node pairs are found in the same component) and this is computed across all network components in the network.</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="ch6.html#cb174-1" tabindex="-1"></a><span class="fu">mean_distance</span>(g, <span class="at">unconnected =</span> <span class="cn">TRUE</span>) <span class="co"># ignore infinite paths, default </span></span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ch6.html#cb186-1" tabindex="-1"></a><span class="fu">mean_distance</span>(g, <span class="at">unconnected =</span> <span class="cn">TRUE</span>) <span class="co"># ignore infinite paths, default </span></span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="ch6.html#cb176-1" tabindex="-1"></a><span class="fu">mean_distance</span>(g, <span class="at">unconnected =</span> <span class="cn">FALSE</span>) <span class="co"># consider infinite paths </span></span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ch6.html#cb188-1" tabindex="-1"></a><span class="fu">mean_distance</span>(g, <span class="at">unconnected =</span> <span class="cn">FALSE</span>) <span class="co"># consider infinite paths </span></span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
 <p>As you can see, the second output is <code>Inf</code>, reflecting the presence of infinite paths in the network. From the <code>igraph</code> documentation: “If TRUE, only the lengths of the existing paths are considered and averaged; if FALSE, the length of the missing paths are considered as having infinite length, making the mean distance infinite as well.”</p>
 <p>Hence, it is good practice to first check if your network consists of a single component, or multiple components. We can use the following script to find out: how many components, the size of each components (number of nodes), and obtain a list of nodes and their component membership. Basically, <code>components</code> is a special function that stores these pieces of information as its output, which you can then retrieve using the <code>$</code>: <code>csize</code> for size of component, <code>no</code> for number of components, <code>membership</code> for the component membership for each node.</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="ch6.html#cb178-1" tabindex="-1"></a>g_comp <span class="ot">&lt;-</span> <span class="fu">components</span>(g)</span>
-<span id="cb178-2"><a href="ch6.html#cb178-2" tabindex="-1"></a></span>
-<span id="cb178-3"><a href="ch6.html#cb178-3" tabindex="-1"></a>g_comp<span class="sc">$</span>csize <span class="co"># size of each component </span></span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ch6.html#cb190-1" tabindex="-1"></a>g_comp <span class="ot">&lt;-</span> <span class="fu">components</span>(g)</span>
+<span id="cb190-2"><a href="ch6.html#cb190-2" tabindex="-1"></a></span>
+<span id="cb190-3"><a href="ch6.html#cb190-3" tabindex="-1"></a>g_comp<span class="sc">$</span>csize <span class="co"># size of each component </span></span></code></pre></div>
 <pre><code>## [1] 3 2</code></pre>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="ch6.html#cb180-1" tabindex="-1"></a>g_comp<span class="sc">$</span>no <span class="co"># number of components </span></span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ch6.html#cb192-1" tabindex="-1"></a>g_comp<span class="sc">$</span>no <span class="co"># number of components </span></span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="ch6.html#cb182-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">membership =</span> g_comp<span class="sc">$</span>membership)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ch6.html#cb194-1" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">membership =</span> g_comp<span class="sc">$</span>membership)</span></code></pre></div>
 <pre><code>##   node membership
 ## A    A          1
 ## B    B          1
 ## C    C          1
 ## D    D          2
 ## E    E          2</code></pre>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="ch6.html#cb184-1" tabindex="-1"></a><span class="co"># you should know how to export the results into a .csv file! </span></span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ch6.html#cb196-1" tabindex="-1"></a><span class="co"># you should know how to export the results into a .csv file! </span></span></code></pre></div>
 <p>Typically, real-world networks have a giant or largest connected component (LCC) which contains the majority of nodes in the network, and researchers prefer to only compute network-level metrics on the LCC. This component is extracted for further analysis, removing the smaller connected components or hermits (isolates in the network where the node has no neighbors).</p>
 <p>The code below shows you how to extract the largest connected component of the sample network:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="ch6.html#cb185-1" tabindex="-1"></a>g_lcc <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
-<span id="cb185-2"><a href="ch6.html#cb185-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
-<span id="cb185-3"><a href="ch6.html#cb185-3" tabindex="-1"></a></span>
-<span id="cb185-4"><a href="ch6.html#cb185-4" tabindex="-1"></a><span class="fu">summary</span>(g_lcc)</span></code></pre></div>
-<pre><code>## IGRAPH 5925ed4 UN-- 3 3 -- 
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ch6.html#cb197-1" tabindex="-1"></a>g_lcc <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
+<span id="cb197-2"><a href="ch6.html#cb197-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
+<span id="cb197-3"><a href="ch6.html#cb197-3" tabindex="-1"></a></span>
+<span id="cb197-4"><a href="ch6.html#cb197-4" tabindex="-1"></a><span class="fu">summary</span>(g_lcc)</span></code></pre></div>
+<pre><code>## IGRAPH 06bc357 UN-- 3 3 -- 
 ## + attr: name (v/c)</code></pre>
 <p>It is also possible to extract other components of the network. The code below retains nodes that do not belong to the largest connected component of the network.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ch6.html#cb187-1" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
-<span id="cb187-2"><a href="ch6.html#cb187-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">!=</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
-<span id="cb187-3"><a href="ch6.html#cb187-3" tabindex="-1"></a></span>
-<span id="cb187-4"><a href="ch6.html#cb187-4" tabindex="-1"></a><span class="fu">summary</span>(g_2)</span></code></pre></div>
-<pre><code>## IGRAPH 0ae7b4f UN-- 2 1 -- 
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ch6.html#cb199-1" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
+<span id="cb199-2"><a href="ch6.html#cb199-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">!=</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
+<span id="cb199-3"><a href="ch6.html#cb199-3" tabindex="-1"></a></span>
+<span id="cb199-4"><a href="ch6.html#cb199-4" tabindex="-1"></a><span class="fu">summary</span>(g_2)</span></code></pre></div>
+<pre><code>## IGRAPH ec57f4e UN-- 2 1 -- 
 ## + attr: name (v/c)</code></pre>
 </div>
 <div id="exercise-4" class="section level2 hasAnchor" number="6.9">
@@ -617,13 +618,13 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <ol style="list-style-type: decimal">
 <li>Load the <code>UKfaculty</code> network from the <code>igraphdata</code> library using the following code:</li>
 </ol>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ch6.html#cb189-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># have you downloaded the package? </span></span>
-<span id="cb189-2"><a href="ch6.html#cb189-2" tabindex="-1"></a></span>
-<span id="cb189-3"><a href="ch6.html#cb189-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;UKfaculty&quot;</span>) <span class="co"># you should see a UKfaculty object appear in your Environment</span></span>
-<span id="cb189-4"><a href="ch6.html#cb189-4" tabindex="-1"></a></span>
-<span id="cb189-5"><a href="ch6.html#cb189-5" tabindex="-1"></a><span class="co"># I&#39;ve included this code to make it an undirected, unweighted network for this exercise</span></span>
-<span id="cb189-6"><a href="ch6.html#cb189-6" tabindex="-1"></a><span class="co"># for more information about network manipulation, see Chapter 5</span></span>
-<span id="cb189-7"><a href="ch6.html#cb189-7" tabindex="-1"></a>UKfaculty <span class="ot">&lt;-</span> UKfaculty <span class="sc">|&gt;</span> <span class="fu">delete_edge_attr</span>(<span class="st">&quot;weight&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">as.undirected</span>(<span class="at">mode =</span> <span class="st">&#39;mutual&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ch6.html#cb201-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># have you downloaded the package? </span></span>
+<span id="cb201-2"><a href="ch6.html#cb201-2" tabindex="-1"></a></span>
+<span id="cb201-3"><a href="ch6.html#cb201-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;UKfaculty&quot;</span>) <span class="co"># you should see a UKfaculty object appear in your Environment</span></span>
+<span id="cb201-4"><a href="ch6.html#cb201-4" tabindex="-1"></a></span>
+<span id="cb201-5"><a href="ch6.html#cb201-5" tabindex="-1"></a><span class="co"># I&#39;ve included this code to make it an undirected, unweighted network for this exercise</span></span>
+<span id="cb201-6"><a href="ch6.html#cb201-6" tabindex="-1"></a><span class="co"># for more information about network manipulation, see Chapter 5</span></span>
+<span id="cb201-7"><a href="ch6.html#cb201-7" tabindex="-1"></a>UKfaculty <span class="ot">&lt;-</span> UKfaculty <span class="sc">|&gt;</span> <span class="fu">delete_edge_attr</span>(<span class="st">&quot;weight&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">as.undirected</span>(<span class="at">mode =</span> <span class="st">&#39;mutual&#39;</span>)</span></code></pre></div>
 <p>{TODO: Briefly describe the network.}</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Answer the following questions:</li>

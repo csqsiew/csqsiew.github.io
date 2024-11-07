@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-10-18" />
+<meta name="date" content="2024-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -238,8 +238,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.4.1" data-path="ch5.html"><a href="ch5.html#subset-by-node-attributes"><i class="fa fa-check"></i><b>5.4.1</b> Subset by node attributes</a></li>
 <li class="chapter" data-level="5.4.2" data-path="ch5.html"><a href="ch5.html#subset-by-a-target-node"><i class="fa fa-check"></i><b>5.4.2</b> Subset by a target node</a></li>
-<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by edge attributes</a></li>
-<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.4</b> Subsetting by mutual edges</a></li>
+<li class="chapter" data-level="5.4.3" data-path="ch5.html"><a href="ch5.html#subset-by-removing-a-group-of-nodes"><i class="fa fa-check"></i><b>5.4.3</b> Subset by removing a group of nodes</a></li>
+<li class="chapter" data-level="5.4.4" data-path="ch5.html"><a href="ch5.html#subset-by-edge-attributes"><i class="fa fa-check"></i><b>5.4.4</b> Subset by edge attributes</a></li>
+<li class="chapter" data-level="5.4.5" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.5</b> Subsetting by mutual edges</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
 </ul></li>
@@ -445,8 +446,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ch1.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;igraph&quot;</span>)</span></code></pre></div>
 <p>Be patient and wait for the package to finish downloading. After it is downloaded, we can only start using the functions in <code>igraph</code> <em>after</em> we have loaded the library into our workspace. To do this, type the following into the Console:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="ch1.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
 <p>If everything is working fine, you should see a plot of two connected nodes when you run the following line of code in the Console:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="ch1.html#cb3-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="ch1.html#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">graph_from_literal</span>(A<span class="sc">-</span>B))</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p><strong>Important!</strong> You only need to install a package <strong>ONCE</strong> (unless you wish to update it). But you will always need to load the package at the start of the R session (i.e., run <code>library(igraph)</code> in the Console whenever you open RStudio) so that you can use these special network functions.</p>
 <div id="exercise" class="section level3 hasAnchor" number="1.3.1">

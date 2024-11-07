@@ -159,6 +159,21 @@ summary(mrhi2)
 plot(mrhi2, vertex.color = 'white')
 ```
 
+### Subset by removing a group of nodes 
+
+The example below shows you how you can remove a set of nodes and its incident edges (John A and Mr Hi) from the karate network and save the output as a new network object. Note that you need to specify the name of the nodes as a character vector. If the network does not have named nodes, then it takes a numeric vector of numbers as the nodes to remove (i.e., the number corresponds to the node order in the network object). 
+
+```{r}
+#| echo: true
+#| eval: true
+
+karate_new <- delete_vertices(karate, v = c('John A', 'Mr Hi'))
+
+plot(karate_new, vertex.color = 'white')
+```
+
+Notice how the network has fragmented into separate network components after the removal of these two nodes. 
+
 ### Subset by edge attributes 
 
 We can also subset a network by their edge attributes. Below shows an example where we only want to retain edges that between males and females (i.e., different genders). 

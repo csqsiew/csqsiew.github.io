@@ -59,6 +59,7 @@ adding-edge-attributes
 subsetting-the-network
 subset-by-node-attributes
 subset-by-a-target-node
+subset-by-removing-a-group-of-nodes
 subset-by-edge-attributes
 subsetting-by-mutual-edges
 useful-functions
