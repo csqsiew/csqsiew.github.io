@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Chapter 9: Network models | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Chapter 9: Network models | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2024-11-07" />
+<meta name="date" content="2026-01-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -70,7 +70,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -243,6 +243,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4.5" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.5</b> Subsetting by mutual edges</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
+<li class="chapter" data-level="5.6" data-path="ch5.html"><a href="ch5.html#exercise-4"><i class="fa fa-check"></i><b>5.6</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="ch6.html"><a href="ch6.html"><i class="fa fa-check"></i><b>6</b> Chapter 6: Macro-level network measures</a>
 <ul>
@@ -258,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.7.2" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-node-attributes-categorical-attributes"><i class="fa fa-check"></i><b>6.7.2</b> Assortative Mixing by Node Attributes (categorical attributes)</a></li>
 </ul></li>
 <li class="chapter" data-level="6.8" data-path="ch6.html"><a href="ch6.html#network-components"><i class="fa fa-check"></i><b>6.8</b> Network Components</a></li>
-<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-4"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
+<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-5"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="ch7.html"><a href="ch7.html"><i class="fa fa-check"></i><b>7</b> Chapter 7: Micro-level network measures</a>
 <ul>
@@ -288,7 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="ch7.html"><a href="ch7.html#page-rank-centrality"><i class="fa fa-check"></i><b>7.6</b> Page Rank centrality</a></li>
 <li class="chapter" data-level="7.7" data-path="ch7.html"><a href="ch7.html#other-forms-of-node-centrality"><i class="fa fa-check"></i><b>7.7</b> Other forms of node centrality</a></li>
 <li class="chapter" data-level="7.8" data-path="ch7.html"><a href="ch7.html#exporting-node-centrality-measures-for-data-analysis"><i class="fa fa-check"></i><b>7.8</b> Exporting node centrality measures for data analysis</a></li>
-<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-5"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
+<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-6"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="ch8.html"><a href="ch8.html"><i class="fa fa-check"></i><b>8</b> Chapter 8: Meso-level network measures</a>
 <ul>
@@ -310,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.7.4" data-path="ch8.html"><a href="ch8.html#comparing-different-runs"><i class="fa fa-check"></i><b>8.7.4</b> Comparing different runs</a></li>
 <li class="chapter" data-level="8.7.5" data-path="ch8.html"><a href="ch8.html#other-community-detection-methods"><i class="fa fa-check"></i><b>8.7.5</b> Other community detection methods</a></li>
 </ul></li>
-<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-6"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
+<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-7"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="ch9.html"><a href="ch9.html"><i class="fa fa-check"></i><b>9</b> Chapter 9: Network models</a></li>
 <li class="chapter" data-level="10" data-path="ch10.html"><a href="ch10.html"><i class="fa fa-check"></i><b>10</b> Chapter 10: Behaviors in the network</a>
@@ -327,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="ch11.html"><a href="ch11.html#key-player-problem-negative"><i class="fa fa-check"></i><b>11.2</b> Key Player Problem-Negative</a></li>
 <li class="chapter" data-level="11.3" data-path="ch11.html"><a href="ch11.html#key-player-problem-positive"><i class="fa fa-check"></i><b>11.3</b> Key Player Problem-Positive</a></li>
 <li class="chapter" data-level="11.4" data-path="ch11.html"><a href="ch11.html#references-1"><i class="fa fa-check"></i><b>11.4</b> References</a></li>
-<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-7"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
+<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-8"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
@@ -342,7 +343,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
 </ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-2"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
-<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-8"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-9"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="ch13.html"><a href="ch13.html"><i class="fa fa-check"></i><b>13</b> Chapter 13: <code>bootnet</code> package</a>
 <ul>
@@ -399,7 +400,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.4.1" data-path="ch16.html"><a href="ch16.html#method-1-bootstrapping-the-data"><i class="fa fa-check"></i><b>16.4.1</b> Method 1: Bootstrapping the data</a></li>
 <li class="chapter" data-level="16.4.2" data-path="ch16.html"><a href="ch16.html#method-2-comparing-alternative-distributions"><i class="fa fa-check"></i><b>16.4.2</b> Method 2: Comparing alternative distributions</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="ch16.html"><a href="ch16.html#exercise-9"><i class="fa fa-check"></i><b>16.5</b> Exercise</a></li>
+<li class="chapter" data-level="16.5" data-path="ch16.html"><a href="ch16.html#exercise-10"><i class="fa fa-check"></i><b>16.5</b> Exercise</a></li>
 <li class="chapter" data-level="16.6" data-path="ch16.html"><a href="ch16.html#references-3"><i class="fa fa-check"></i><b>16.6</b> References</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -452,42 +453,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/csqsiew/intro-to-igraph09-models.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/csqsiew/intro-to-igraph09-models.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

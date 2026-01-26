@@ -264,3 +264,22 @@ as.undirected() # convert your directed edges to undirected edges, see documenta
 new_network <- remove.edge.attribute(network, 'weight') # to convert weighted to unweighted graph 
 ```
 
+## Exercise
+
+Let's continue working on Janelle's cat interaction network you've created in Chapter 4. 
+
+Janelle continued observing her cats and noticed that some pairs of cats interacted more frequently with other than other pairs of cats.
+
+Your task is to: 
+
+1. How would you include this extra information about the frequency of interaction into the original raw data file? (Hint: The edge list approach is beter for this, and you can put in some made up numbers from 1 to 10 to depict frequency of interaction). 
+
+2. Create a network object that includes this new information. (Hint: Is interaction frequency a node or edge attribute?)
+
+3. Janelle has a .csv file containing the ages of the cats. How can you create a network object that includes this information? (Hint: Is cat age a node or edge attribute? Do you need to create a second file containing this information (feel free to make up some numeric data)?) 
+
+4. Subset the network to only show the 4 oldest cats. How many edges does this network have?
+
+5. Subset the network to only show cats that interacted frequently with each other. How many nodes and edges does this network have? 
+
+6. Create a network visualization of the entire cat network and make at least one modification to the default plot (see Chapter 14 for ideas). For instance, can you color the nodes based on the cat's ages? 
