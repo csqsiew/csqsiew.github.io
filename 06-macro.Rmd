@@ -249,6 +249,8 @@ V(karate_uu)$random2 <- sample(c('A', 'B', 'C'), gorder(karate_uu), replace = T)
 assortativity_nominal(karate_uu, types = factor(V(karate_uu)$random2), directed = F)
 ```
 
+Note that if your categorical labels are coded as integers (i.e., 1, 2, 3...) then you should not need the `factor()` function: `assortativity_nominal(karate_uu, types = V(karate_uu)$random2, directed = F)`.
+
 ## Network Components 
 
 Thus far, we have been assuming that the networks that we have worked with form a single component. In other words, all nodes are part of the same component, and there are no separate components. But, as shown in the example network below, it is certainly possible for nodes in a network to fragment into distinct components.
@@ -337,11 +339,11 @@ data("UKfaculty") # you should see a UKfaculty object appear in your Environment
 UKfaculty <- UKfaculty |> delete_edge_attr("weight") |> as.undirected(mode = 'mutual')
 ```
 
-{TODO: Briefly describe the network.}
+The network is the personal friendship network of a faculty of a UK university.
 
 2. Answer the following questions:
 
-- How many nodes and edges does the network have?
+- How many nodes and edges does the undirected and unweighted version of this network have?
 
 - How many network components does this network have? If it has more than one component, only retain the largest connected component before proceeding to the next part. 
 
@@ -352,6 +354,5 @@ UKfaculty <- UKfaculty |> delete_edge_attr("weight") |> as.undirected(mode = 'mu
     - network density
     - network diameter 
     - assortativity (by degree and by group) {footnote}
-    - small world index
 
 Footnote: `UKfaculty` contains a `Group` node attribute which denotes the department that each faculty member belonged to. 

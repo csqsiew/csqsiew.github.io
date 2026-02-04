@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-01-26" />
+<meta name="date" content="2026-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -460,12 +460,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Then, take the sum of the change in cohesiveness, divide by the number of edges (degree).</p>
 <p>Below, we can easily use the <code>bridging</code> function to compute this information for us.</p>
 <div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="ch12.html#cb342-1" tabindex="-1"></a><span class="fu">bridging</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
-<pre><code>##           V1           V2           V3          V3A           V4          V4t          VOT           VP           MT       MSTd/p         MSTl           PO          LIP          PIP          VIP 
-## 0.0003156566 0.0003310887 0.0002976190 0.0003108003 0.0005071549 0.0003282828 0.0002693603 0.0002976190 0.0002946128 0.0002921371 0.0003328742 0.0002861953 0.0003135522 0.0003507295 0.0005250922 
-##           DP           7a          FST         PITd         PITv         CITd         CITv         AITd         AITv         STPp         STPa           TF           TH          FEF           46 
-## 0.0003086420 0.0003900112 0.0002702463 0.0003367003 0.0002840909 0.0004349046 0.0003682660 0.0003198653 0.0003848004 0.0003661616 0.0004377104 0.0004307784 0.0003437149 0.0003979186 0.0004861111 
-##           3a           3b            1            2            5           Ri          SII           7b            4            6          SMA           Ig           Id           35           36 
-## 0.0004349046 0.0004629630 0.0003787879 0.0003749617 0.0003979186 0.0004103535 0.0005536131 0.0003561254 0.0003114478 0.0003137435 0.0003156566 0.0004278900 0.0004945286 0.0005471380 0.0005611672</code></pre>
+<pre><code>##           V1           V2           V3          V3A           V4          V4t          VOT           VP           MT       MSTd/p 
+## 0.0003156566 0.0003310887 0.0002976190 0.0003108003 0.0005071549 0.0003282828 0.0002693603 0.0002976190 0.0002946128 0.0002921371 
+##         MSTl           PO          LIP          PIP          VIP           DP           7a          FST         PITd         PITv 
+## 0.0003328742 0.0002861953 0.0003135522 0.0003507295 0.0005250922 0.0003086420 0.0003900112 0.0002702463 0.0003367003 0.0002840909 
+##         CITd         CITv         AITd         AITv         STPp         STPa           TF           TH          FEF           46 
+## 0.0004349046 0.0003682660 0.0003198653 0.0003848004 0.0003661616 0.0004377104 0.0004307784 0.0003437149 0.0003979186 0.0004861111 
+##           3a           3b            1            2            5           Ri          SII           7b            4            6 
+## 0.0004349046 0.0004629630 0.0003787879 0.0003749617 0.0003979186 0.0004103535 0.0005536131 0.0003561254 0.0003114478 0.0003137435 
+##          SMA           Ig           Id           35           36 
+## 0.0003156566 0.0004278900 0.0004945286 0.0005471380 0.0005611672</code></pre>
 <div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="ch12.html#cb344-1" tabindex="-1"></a>bridging_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
 <span id="cb344-2"><a href="ch12.html#cb344-2" tabindex="-1"></a>                            <span class="at">bridge_score =</span> <span class="fu">bridging</span>(macaque))</span>
 <span id="cb344-3"><a href="ch12.html#cb344-3" tabindex="-1"></a></span>
@@ -496,12 +500,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Below, we can easily use the <code>ens</code> function to compute this information for us.</p>
 <div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="ch12.html#cb346-1" tabindex="-1"></a><span class="fu">ens</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
-<pre><code>##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP        7a       FST      PITd      PITv 
-##  2.000000  6.200000  5.428571  4.076923 12.900000  3.200000  3.000000  6.000000  6.125000  7.941176  4.272727  5.933333 10.700000  3.888889 12.333333  4.833333  8.866667 10.157895  5.250000  6.666667 
-##      CITd      CITv      AITd      AITv      STPp      STPa        TF        TH       FEF        46        3a        3b         1         2         5        Ri       SII        7b         4         6 
-##  3.000000  3.750000  5.600000  3.000000  6.400000  1.800000 11.941176  7.333333 13.454545 13.900000  2.000000  1.000000  2.750000  4.636364  5.181818  1.500000  7.615385  6.538462  4.200000  4.272727 
-##       SMA        Ig        Id        35        36 
-##  2.750000  4.000000  2.500000  3.000000  4.666667</code></pre>
+<pre><code>##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP 
+##  2.000000  6.200000  5.428571  4.076923 12.900000  3.200000  3.000000  6.000000  6.125000  7.941176  4.272727  5.933333 10.700000  3.888889 
+##       VIP        DP        7a       FST      PITd      PITv      CITd      CITv      AITd      AITv      STPp      STPa        TF        TH 
+## 12.333333  4.833333  8.866667 10.157895  5.250000  6.666667  3.000000  3.750000  5.600000  3.000000  6.400000  1.800000 11.941176  7.333333 
+##       FEF        46        3a        3b         1         2         5        Ri       SII        7b         4         6       SMA        Ig 
+## 13.454545 13.900000  2.000000  1.000000  2.750000  4.636364  5.181818  1.500000  7.615385  6.538462  4.200000  4.272727  2.750000  4.000000 
+##        Id        35        36 
+##  2.500000  3.000000  4.666667</code></pre>
 <div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="ch12.html#cb348-1" tabindex="-1"></a>ens_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
 <span id="cb348-2"><a href="ch12.html#cb348-2" tabindex="-1"></a>                            <span class="at">ens_score =</span> <span class="fu">ens</span>(macaque))</span>
 <span id="cb348-3"><a href="ch12.html#cb348-3" tabindex="-1"></a></span>

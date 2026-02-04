@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-01-26" />
+<meta name="date" content="2026-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -432,7 +432,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb139-3"><a href="ch6.html#cb139-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb139-4"><a href="ch6.html#cb139-4" tabindex="-1"></a></span>
 <span id="cb139-5"><a href="ch6.html#cb139-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH a877437 UN-- 34 78 -- 
+<pre><code>## IGRAPH a5f48bc UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Although it is possible to compute macro-level network measures for directed, weighted networks in certain instances (and this will be pointed out where appropriate), I choose to focus on the undirected, unweighted version for this chapter because macro-level measures are more complex to interpret and less intuitive when additional information like edge weights and direction are included. For instance, <em>network density</em> refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network–it is not clear how this measure be adapted if we wanted to use weighted edges instead.</p>
 <div id="average-degree" class="section level2 hasAnchor" number="6.1">
@@ -566,6 +566,7 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <span id="cb172-5"><a href="ch6.html#cb172-5" tabindex="-1"></a><span class="co"># compute the assortativity of this node attribute </span></span>
 <span id="cb172-6"><a href="ch6.html#cb172-6" tabindex="-1"></a><span class="fu">assortativity_nominal</span>(karate_uu, <span class="at">types =</span> <span class="fu">factor</span>(<span class="fu">V</span>(karate_uu)<span class="sc">$</span>random2), <span class="at">directed =</span> F)</span></code></pre></div>
 <pre><code>## [1] -0.0850826</code></pre>
+<p>Note that if your categorical labels are coded as integers (i.e., 1, 2, 3…) then you should not need the <code>factor()</code> function: <code>assortativity_nominal(karate_uu, types = V(karate_uu)$random2, directed = F)</code>.</p>
 </div>
 </div>
 <div id="network-components" class="section level2 hasAnchor" number="6.8">
@@ -603,14 +604,14 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <span id="cb186-2"><a href="ch6.html#cb186-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
 <span id="cb186-3"><a href="ch6.html#cb186-3" tabindex="-1"></a></span>
 <span id="cb186-4"><a href="ch6.html#cb186-4" tabindex="-1"></a><span class="fu">summary</span>(g_lcc)</span></code></pre></div>
-<pre><code>## IGRAPH c15e67a UN-- 3 3 -- 
+<pre><code>## IGRAPH 93a3e8d UN-- 3 3 -- 
 ## + attr: name (v/c)</code></pre>
 <p>It is also possible to extract other components of the network. The code below retains nodes that do not belong to the largest connected component of the network.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ch6.html#cb188-1" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
 <span id="cb188-2"><a href="ch6.html#cb188-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">!=</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
 <span id="cb188-3"><a href="ch6.html#cb188-3" tabindex="-1"></a></span>
 <span id="cb188-4"><a href="ch6.html#cb188-4" tabindex="-1"></a><span class="fu">summary</span>(g_2)</span></code></pre></div>
-<pre><code>## IGRAPH 8533941 UN-- 2 1 -- 
+<pre><code>## IGRAPH e33e689 UN-- 2 1 -- 
 ## + attr: name (v/c)</code></pre>
 </div>
 <div id="exercise-5" class="section level2 hasAnchor" number="6.9">
@@ -626,12 +627,12 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <span id="cb190-5"><a href="ch6.html#cb190-5" tabindex="-1"></a><span class="co"># I&#39;ve included this code to make it an undirected, unweighted network for this exercise</span></span>
 <span id="cb190-6"><a href="ch6.html#cb190-6" tabindex="-1"></a><span class="co"># for more information about network manipulation, see Chapter 5</span></span>
 <span id="cb190-7"><a href="ch6.html#cb190-7" tabindex="-1"></a>UKfaculty <span class="ot">&lt;-</span> UKfaculty <span class="sc">|&gt;</span> <span class="fu">delete_edge_attr</span>(<span class="st">&quot;weight&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">as.undirected</span>(<span class="at">mode =</span> <span class="st">&#39;mutual&#39;</span>)</span></code></pre></div>
-<p>{TODO: Briefly describe the network.}</p>
+<p>The network is the personal friendship network of a faculty of a UK university.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Answer the following questions:</li>
 </ol>
 <ul>
-<li><p>How many nodes and edges does the network have?</p></li>
+<li><p>How many nodes and edges does the undirected and unweighted version of this network have?</p></li>
 <li><p>How many network components does this network have? If it has more than one component, only retain the largest connected component before proceeding to the next part.</p></li>
 <li><p>Compute the following macro-level network measures for this network:</p>
 <ul>
@@ -641,7 +642,6 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <li>network density</li>
 <li>network diameter</li>
 <li>assortativity (by degree and by group) {footnote}</li>
-<li>small world index</li>
 </ul></li>
 </ul>
 <p>Footnote: <code>UKfaculty</code> contains a <code>Group</code> node attribute which denotes the department that each faculty member belonged to.</p>
