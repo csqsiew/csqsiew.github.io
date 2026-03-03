@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-02-04" />
+<meta name="date" content="2026-03-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -649,7 +649,7 @@ Eliza
 <span id="cb75-3"><a href="ch4.html#cb75-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb75-4"><a href="ch4.html#cb75-4" tabindex="-1"></a></span>
 <span id="cb75-5"><a href="ch4.html#cb75-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH a633788 UN-- 34 78 -- 
+<pre><code>## IGRAPH 4b02e8f UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -663,7 +663,7 @@ Eliza
 <span id="cb77-3"><a href="ch4.html#cb77-3" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb77-4"><a href="ch4.html#cb77-4" tabindex="-1"></a></span>
 <span id="cb77-5"><a href="ch4.html#cb77-5" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
-<pre><code>## IGRAPH da4744a DN-- 34 78 -- 
+<pre><code>## IGRAPH f7922dd DN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -675,7 +675,7 @@ Eliza
 <span id="cb79-3"><a href="ch4.html#cb79-3" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb79-4"><a href="ch4.html#cb79-4" tabindex="-1"></a></span>
 <span id="cb79-5"><a href="ch4.html#cb79-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
-<pre><code>## IGRAPH d6d6970 UNW- 34 78 -- 
+<pre><code>## IGRAPH 75a8e24 UNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -688,7 +688,7 @@ Eliza
 <span id="cb81-3"><a href="ch4.html#cb81-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb81-4"><a href="ch4.html#cb81-4" tabindex="-1"></a></span>
 <span id="cb81-5"><a href="ch4.html#cb81-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH ee9ae53 DNW- 34 78 -- 
+<pre><code>## IGRAPH 4b4639a DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 </div>
 <div id="importing-adjacency-matrices" class="section level3 hasAnchor" number="4.4.2">
@@ -703,7 +703,7 @@ Eliza
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="ch4.html#cb85-1" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>)</span>
 <span id="cb85-2"><a href="ch4.html#cb85-2" tabindex="-1"></a></span>
 <span id="cb85-3"><a href="ch4.html#cb85-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 83097d6 UN-- 34 78 -- 
+<pre><code>## IGRAPH cdac3a7 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -722,7 +722,7 @@ Eliza
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="ch4.html#cb89-1" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>)</span>
 <span id="cb89-2"><a href="ch4.html#cb89-2" tabindex="-1"></a></span>
 <span id="cb89-3"><a href="ch4.html#cb89-3" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
-<pre><code>## IGRAPH 48b0d3e DN-- 34 156 -- 
+<pre><code>## IGRAPH 76c5e5c DN-- 34 156 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -739,7 +739,7 @@ Eliza
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="ch4.html#cb93-1" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
 <span id="cb93-2"><a href="ch4.html#cb93-2" tabindex="-1"></a></span>
 <span id="cb93-3"><a href="ch4.html#cb93-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
-<pre><code>## IGRAPH 6bc5bdc UNW- 34 100 -- 
+<pre><code>## IGRAPH b46fe06 UNW- 34 100 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -756,7 +756,7 @@ Eliza
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ch4.html#cb97-1" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
 <span id="cb97-2"><a href="ch4.html#cb97-2" tabindex="-1"></a></span>
 <span id="cb97-3"><a href="ch4.html#cb97-3" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH c312b6d DNW- 34 103 -- 
+<pre><code>## IGRAPH 4d0a1f7 DNW- 34 103 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 </div>
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-02-04" />
+<meta name="date" content="2026-03-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -437,7 +437,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb270-3"><a href="ch8.html#cb270-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb270-4"><a href="ch8.html#cb270-4" tabindex="-1"></a></span>
 <span id="cb270-5"><a href="ch8.html#cb270-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH a74f7a6 UN-- 34 78 -- 
+<pre><code>## IGRAPH cdb769e UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>As you will see in the rest of this chapter, the template for conducting a community detection analysis is identical across the four methods. <code>igraph</code> contains additional community detection algorithms not covered in this chapter, but you should be able to generalize the application of these algorithms based on the code provided below. Generally, community detection algorithms have in-built default parameters that are used to optimize performance. At the completion of the method, it returns the communities (i.e., how the individual nodes are grouped), and the modularity score based on this final grouping.</p>
 </div>
@@ -709,22 +709,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="exercise-7" class="section level2 hasAnchor" number="8.8">
 <h2><span class="header-section-number">8.8</span> Exercise<a href="ch8.html#exercise-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Your task is to:</p>
 <ol style="list-style-type: decimal">
-<li><p>Pick a network for your own choosing for this exercise.</p></li>
-<li><p>Pick one of the 4 community detection methods that you’ve learned about. Conduct a community detection analysis with that method.</p></li>
+<li>Load the macaque brain network from the <code>igraphdata</code> library using the following code:</li>
+</ol>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="ch8.html#cb314-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># have you downloaded the package? </span></span>
+<span id="cb314-2"><a href="ch8.html#cb314-2" tabindex="-1"></a></span>
+<span id="cb314-3"><a href="ch8.html#cb314-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>) <span class="co"># you should see a macaque object appear in your Environment</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Conduct a community detection analysis with the Infomap method and answer the following questions:</li>
 </ol>
 <ul>
 <li>What is the modularity, <em>Q</em>, of the network?</li>
 <li>How many communities were detected? What was the size of the largest one? What was the size of the smallest one?</li>
+<li>Can you save the output of the node community membership results as a <code>.csv</code> file?</li>
+<li>What do these communities represent? (You will need to learn more about the network first! Try <code>?macaque</code>)</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
-<li>Bonus questions:</li>
+<li><p>Repeat the above with a different community detection method. How were the results similar or different?</p></li>
+<li><p>Bonus question: What does the output of this code mean? <code>modularity(macaque, as.factor(V(macaque)$shape))</code></p></li>
 </ol>
-<ul>
-<li>Can you save the output of the node community membership results as a <code>.csv</code> file?</li>
-<li>Which community detection method produced the highest modularity value?</li>
-<li>What is the meaning of these communities specific to the network that you picked for this exercise?</li>
-</ul>
 
 </div>
 </div>

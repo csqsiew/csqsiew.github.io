@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-02-04" />
+<meta name="date" content="2026-03-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -432,7 +432,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb139-3"><a href="ch6.html#cb139-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb139-4"><a href="ch6.html#cb139-4" tabindex="-1"></a></span>
 <span id="cb139-5"><a href="ch6.html#cb139-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH a5f48bc UN-- 34 78 -- 
+<pre><code>## IGRAPH 2a15fc6 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Although it is possible to compute macro-level network measures for directed, weighted networks in certain instances (and this will be pointed out where appropriate), I choose to focus on the undirected, unweighted version for this chapter because macro-level measures are more complex to interpret and less intuitive when additional information like edge weights and direction are included. For instance, <em>network density</em> refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network–it is not clear how this measure be adapted if we wanted to use weighted edges instead.</p>
 <div id="average-degree" class="section level2 hasAnchor" number="6.1">
@@ -604,14 +604,14 @@ where <em>C</em> = global clustering coefficient, <em>L</em> = average shortest 
 <span id="cb186-2"><a href="ch6.html#cb186-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
 <span id="cb186-3"><a href="ch6.html#cb186-3" tabindex="-1"></a></span>
 <span id="cb186-4"><a href="ch6.html#cb186-4" tabindex="-1"></a><span class="fu">summary</span>(g_lcc)</span></code></pre></div>
-<pre><code>## IGRAPH 93a3e8d UN-- 3 3 -- 
+<pre><code>## IGRAPH ed01743 UN-- 3 3 -- 
 ## + attr: name (v/c)</code></pre>
 <p>It is also possible to extract other components of the network. The code below retains nodes that do not belong to the largest connected component of the network.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ch6.html#cb188-1" tabindex="-1"></a>g_2 <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> g, </span>
 <span id="cb188-2"><a href="ch6.html#cb188-2" tabindex="-1"></a>                          <span class="at">vids =</span> <span class="fu">components</span>(g)<span class="sc">$</span>membership <span class="sc">!=</span> <span class="fu">which.max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)) </span>
 <span id="cb188-3"><a href="ch6.html#cb188-3" tabindex="-1"></a></span>
 <span id="cb188-4"><a href="ch6.html#cb188-4" tabindex="-1"></a><span class="fu">summary</span>(g_2)</span></code></pre></div>
-<pre><code>## IGRAPH e33e689 UN-- 2 1 -- 
+<pre><code>## IGRAPH 20d5f91 UN-- 2 1 -- 
 ## + attr: name (v/c)</code></pre>
 </div>
 <div id="exercise-5" class="section level2 hasAnchor" number="6.9">

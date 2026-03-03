@@ -297,15 +297,26 @@ Several other community detection methods can be implemented in `igraph`:
 
 ## Exercise 
 
-1. Pick a network for your own choosing for this exercise. 
+Your task is to:
 
-2. Pick one of the 4 community detection methods that you've learned about. Conduct a community detection analysis with that method.
+1. Load the macaque brain network from the `igraphdata` library using the following code: 
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(igraphdata) # have you downloaded the package? 
+
+data("macaque") # you should see a macaque object appear in your Environment
+```
+
+2. Conduct a community detection analysis with the Infomap method and answer the following questions:
 
 - What is the modularity, *Q*, of the network?
 - How many communities were detected? What was the size of the largest one? What was the size of the smallest one?
-
-3. Bonus questions:
-
 - Can you save the output of the node community membership results as a `.csv` file? 
-- Which community detection method produced the highest modularity value?
-- What is the meaning of these communities specific to the network that you picked for this exercise? 
+- What do these communities represent? (You will need to learn more about the network first! Try `?macaque`)
+
+3. Repeat the above with a different community detection method. How were the results similar or different? 
+
+4. Bonus question: What does the output of this code mean? `modularity(macaque, as.factor(V(macaque)$shape))`
