@@ -54,7 +54,7 @@ Dr. Cynthia Siew is an Assistant Professor of Psychology at the National Univers
 
 **Section 3: Modeling Networks**
 
-- Chapter 9: Network models (under construction)
+- Chapter 9: Network models
 - Chapter 10: Behaviors in the network
 
 **Section 4: Beyond `igraph`**

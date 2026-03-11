@@ -111,6 +111,11 @@ comparing-different-runs
 other-community-detection-methods
 exercise-7
 ch9
+erdos-renyi-network-model
+watts-strogatz-network-model
+preferential-attachment-network-growth-model-barabasi-albert-network-model
+exercise-8
+placeholder
 ch10
 introduction-to-spreadr
 case-study-false-memories
@@ -122,7 +127,7 @@ set-up-1
 key-player-problem-negative
 key-player-problem-positive
 references-1
-exercise-8
+exercise-9
 ch12
 set-up-2
 bridging-score
@@ -131,7 +136,7 @@ effective-network-science
 how-is-effective-network-science-different-from-local-clustering-coefficient
 important-note-about-directed-graphs-1
 references-2
-exercise-9
+exercise-10
 ch13
 chapter-outline
 installation-of-bootnet
@@ -170,5 +175,5 @@ visualization
 statistical-testing-of-distribution-fit
 method-1-bootstrapping-the-data
 method-2-comparing-alternative-distributions
-exercise-10
+exercise-11
 references-3
