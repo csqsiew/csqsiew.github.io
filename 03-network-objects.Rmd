@@ -7,15 +7,15 @@ output:
 
 ## What is a network? 
 
-A network consists of two sets of entities: A list of *nodes* and a list of *edges*. Nodes correspond to the individual elements whose pairwise relational structure is specified by edges or links. So, if node A and node B are related to each other based on some criteria set by the modeler (you!) then you would specify an edge between nodes A and B. 
+A network consists of two sets of entities: A list of *nodes* and a list of *edges*. Nodes correspond to the individual elements whose pairwise relational structure is specified by edges or links. So, if node A and node B are related to each other based on some criteria set by the modeller (you!) then you would specify an edge between nodes A and B. 
 
-When networks are small (on the order of a handful of nodes), it would not too be difficult to manually specify the list of nodes and their connections. However, this quickly gets too onerous once the number of nodes increases because the number of possible edges increases exponentially. For instance, a network of 5 nodes could have a maximum of 10 edges, whereas a network of 50 nodes could have a maximum of 1,225 edges. 
+When networks are small (on the order of a handful of nodes), it would not be difficult to manually specify the list of nodes and their connections. However, this quickly gets onerous once the number of nodes increases because the number of possible edges increases exponentially. For instance, a network of 5 nodes could have a maximum of 10 edges, whereas a network of 50 nodes could have a maximum of 1,225 edges. 
 
-In practice, the networks that a social scientist are likely to be working with are going to be quite large, and the networks are derived from large datasets that are external to the R programming environment. In the next chapter we will explore how to get these datasets into RStudio and how to convert them into network. In this chapter, we focus on understanding the structure of the network object, a special datatype that `igraph` uses for network analysis. 
+In practice, the networks that a social scientist is likely to be working with are going to be quite large, and the networks are derived from large datasets that are external to the R programming environment. In the next chapter we will explore how to get these datasets into RStudio and how to convert them into network. In this chapter, we focus on understanding the structure of the network object, a special datatype that `igraph` uses for network analysis. 
 
 ## Your first network 
 
-Network objects are a special variable that can only be analyzed with functions from the `igraph` library (that you previously installed). 
+The network object is a special variable that can only be analyzed with functions from the `igraph` library (that you previously installed). 
 Let's check out a simple example.
 
 ```{r}
@@ -47,10 +47,10 @@ This first line already packs a ton of information:
 
 `IGRAPH f977daf UN-- 2 1 --`
 
-1. The IGRAPH label is a good sign, it means that this object is need a network object that `igraph` understands. This is followed by a UUID generated to uniquely identify the graph. 
-2. The first letter in caps can either be **D** or **U**, which corresponds to *Directed* or *Undirected* edges, respectively. In this example we have a **U**, which means that the edges in this network are undirected. 
+1. The IGRAPH label is a good sign, it means that this object is indeed a network object that `igraph` understands. This is followed by a UUID generated to uniquely identify the graph. 
+2. The first letter in caps can either be **D** or **U**, which corresponds to *Directed* or *Undirected* edges, respectively. In this example we have a **U**, which means that the edges in this network are undirected. We will discuss what these are more specifically later (although you can probably guess what directedness is referring to!)--just keep in mind that these are two different kinds of edges.  
 3. The second letter in caps can either be **N** or **-**, which corresponds to nodes either having *Names* or are left unlabeled, respectively. In this example we have a **N**, which means that the nodes are labeled. 
-4. The third letter in caps: **W** or **-**, which corresponds to edges either having *Weights* or are unweighted, respectively. In this example we have a **-**, which means that the nodes are unweighted.
+4. The third letter in caps: **W** or **-**, which corresponds to edges either having *Weights* or are unweighted, respectively. In this example we have a **-**, which means that the nodes are unweighted. Likewise, we will discuss weightedness as an edge attribute later--simply keep in mind that these are two different kinds of edges. 
 5. It is worth noting that it is possible to have a fourth letter, **B** or **-**, which corresponds to the network being a *Bipartite* graph or not, respectively. We do not cover bipartite networks in this book (for now), and so we should expect to see a **-**, as we do in this example. 
 6. The first number refers to the number of nodes.
 7. The second number refers to the number of edges.
@@ -92,7 +92,7 @@ g_directed
 
 First, are you able to tell what was different from the code used to create the second network? 
 
-It is a subtle change, but an additional **+** symbol is added to the dash. The function interprets **+** as the arrow head of the edge, and creates a *directed* edge pointing from 'cat' to 'bat'. 
+It is a subtle change, but an additional **+** symbol is added to the dash. The function interprets **+** as the arrow head of the edge, and creates a *directed* edge pointing from 'cat' to 'bat'. *What do you think will happen if you typed in "+-" instead?*
 
 Now's examine the summary of `g_directed`. 
 
@@ -141,7 +141,7 @@ V(g_exercise)
 E(g_exercise)
 ```
 
-As you can see, `V()` and `E()` are special functions in `igraph` which you can use to print a list of the nodes and edges associated with a particular network object. 
+As you can see, `V()` and `E()` are special functions in `igraph` which you can use to print a list of the nodes and edges associated with a particular network object. Take note that these are *capital* letters V and E, the code won't work if the letters are in lowercase. 
 
 Now let's see what we get with the following code: 
 

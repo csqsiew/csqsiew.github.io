@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Chapter 2: Programming and data science basics | Introduction to Network Analysis in igraph</title>
   <meta name="description" content="This is an instructional manual for PL4246 students. The output format is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Chapter 2: Programming and data science basics | Introduction to Network Analysis in igraph" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-03-11" />
+<meta name="date" content="2026-08-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -59,8 +59,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +71,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -156,10 +157,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="ch1.html"><a href="ch1.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
 <li class="chapter" data-level="1.2" data-path="ch1.html"><a href="ch1.html#rstudio-cloud"><i class="fa fa-check"></i><b>1.2</b> RStudio Cloud</a></li>
-<li class="chapter" data-level="1.3" data-path="ch1.html"><a href="ch1.html#installing-r-packages"><i class="fa fa-check"></i><b>1.3</b> Installing R packages</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="ch1.html"><a href="ch1.html#exercise"><i class="fa fa-check"></i><b>1.3.1</b> Exercise</a></li>
-</ul></li>
+<li class="chapter" data-level="1.3" data-path="ch1.html"><a href="ch1.html#installing-r-packages"><i class="fa fa-check"></i><b>1.3</b> Installing R packages</a></li>
+<li class="chapter" data-level="1.4" data-path="ch1.html"><a href="ch1.html#exercise"><i class="fa fa-check"></i><b>1.4</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="ch2.html"><a href="ch2.html"><i class="fa fa-check"></i><b>2</b> Chapter 2: Programming and data science basics</a>
 <ul>
@@ -200,7 +199,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="2.6.1" data-path="ch2.html"><a href="ch2.html#dataframes"><i class="fa fa-check"></i><b>2.6.1</b> Dataframes</a></li>
 <li class="chapter" data-level="2.6.2" data-path="ch2.html"><a href="ch2.html#loading-data-into-rstudio"><i class="fa fa-check"></i><b>2.6.2</b> Loading data into RStudio</a></li>
+<li class="chapter" data-level="2.6.3" data-path="ch2.html"><a href="ch2.html#basic-dataframe-manipulation"><i class="fa fa-check"></i><b>2.6.3</b> Basic dataframe manipulation</a></li>
 </ul></li>
+<li class="chapter" data-level="2.7" data-path="ch2.html"><a href="ch2.html#exercise-1"><i class="fa fa-check"></i><b>2.7</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="ch3.html"><a href="ch3.html"><i class="fa fa-check"></i><b>3</b> Chapter 3: Introduction to network objects</a>
 <ul>
@@ -208,11 +209,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="ch3.html"><a href="ch3.html#your-first-network"><i class="fa fa-check"></i><b>3.2</b> Your first network</a></li>
 <li class="chapter" data-level="3.3" data-path="ch3.html"><a href="ch3.html#your-second-network"><i class="fa fa-check"></i><b>3.3</b> Your second network</a>
 <ul>
-<li class="chapter" data-level="3.3.1" data-path="ch3.html"><a href="ch3.html#exercise-1"><i class="fa fa-check"></i><b>3.3.1</b> Exercise</a></li>
+<li class="chapter" data-level="3.3.1" data-path="ch3.html"><a href="ch3.html#exercise-2"><i class="fa fa-check"></i><b>3.3.1</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="ch3.html"><a href="ch3.html#node-and-edge-attributes"><i class="fa fa-check"></i><b>3.4</b> Node and edge attributes</a>
 <ul>
-<li class="chapter" data-level="3.4.1" data-path="ch3.html"><a href="ch3.html#exercise-2"><i class="fa fa-check"></i><b>3.4.1</b> Exercise</a></li>
+<li class="chapter" data-level="3.4.1" data-path="ch3.html"><a href="ch3.html#exercise-3"><i class="fa fa-check"></i><b>3.4.1</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="ch3.html"><a href="ch3.html#graph-attributes"><i class="fa fa-check"></i><b>3.5</b> Graph attributes</a></li>
 <li class="chapter" data-level="3.6" data-path="ch3.html"><a href="ch3.html#useful-functions-for-working-with-attributes"><i class="fa fa-check"></i><b>3.6</b> Useful functions for working with attributes</a></li>
@@ -227,7 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.1" data-path="ch4.html"><a href="ch4.html#importing-edge-lists"><i class="fa fa-check"></i><b>4.4.1</b> Importing edge lists</a></li>
 <li class="chapter" data-level="4.4.2" data-path="ch4.html"><a href="ch4.html#importing-adjacency-matrices"><i class="fa fa-check"></i><b>4.4.2</b> Importing adjacency matrices</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="ch4.html"><a href="ch4.html#exercise-3"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
+<li class="chapter" data-level="4.5" data-path="ch4.html"><a href="ch4.html#exercise-4"><i class="fa fa-check"></i><b>4.5</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="ch5.html"><a href="ch5.html"><i class="fa fa-check"></i><b>5</b> Chapter 5: Manipulating network objects</a>
 <ul>
@@ -243,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4.5" data-path="ch5.html"><a href="ch5.html#subsetting-by-mutual-edges"><i class="fa fa-check"></i><b>5.4.5</b> Subsetting by mutual edges</a></li>
 </ul></li>
 <li class="chapter" data-level="5.5" data-path="ch5.html"><a href="ch5.html#useful-functions"><i class="fa fa-check"></i><b>5.5</b> Useful functions</a></li>
-<li class="chapter" data-level="5.6" data-path="ch5.html"><a href="ch5.html#exercise-4"><i class="fa fa-check"></i><b>5.6</b> Exercise</a></li>
+<li class="chapter" data-level="5.6" data-path="ch5.html"><a href="ch5.html#exercise-5"><i class="fa fa-check"></i><b>5.6</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="ch6.html"><a href="ch6.html"><i class="fa fa-check"></i><b>6</b> Chapter 6: Macro-level network measures</a>
 <ul>
@@ -259,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.7.2" data-path="ch6.html"><a href="ch6.html#assortative-mixing-by-node-attributes-categorical-attributes"><i class="fa fa-check"></i><b>6.7.2</b> Assortative Mixing by Node Attributes (categorical attributes)</a></li>
 </ul></li>
 <li class="chapter" data-level="6.8" data-path="ch6.html"><a href="ch6.html#network-components"><i class="fa fa-check"></i><b>6.8</b> Network Components</a></li>
-<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-5"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
+<li class="chapter" data-level="6.9" data-path="ch6.html"><a href="ch6.html#exercise-6"><i class="fa fa-check"></i><b>6.9</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="ch7.html"><a href="ch7.html"><i class="fa fa-check"></i><b>7</b> Chapter 7: Micro-level network measures</a>
 <ul>
@@ -289,7 +290,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.6" data-path="ch7.html"><a href="ch7.html#page-rank-centrality"><i class="fa fa-check"></i><b>7.6</b> Page Rank centrality</a></li>
 <li class="chapter" data-level="7.7" data-path="ch7.html"><a href="ch7.html#other-forms-of-node-centrality"><i class="fa fa-check"></i><b>7.7</b> Other forms of node centrality</a></li>
 <li class="chapter" data-level="7.8" data-path="ch7.html"><a href="ch7.html#exporting-node-centrality-measures-for-data-analysis"><i class="fa fa-check"></i><b>7.8</b> Exporting node centrality measures for data analysis</a></li>
-<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-6"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
+<li class="chapter" data-level="7.9" data-path="ch7.html"><a href="ch7.html#exercise-7"><i class="fa fa-check"></i><b>7.9</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="ch8.html"><a href="ch8.html"><i class="fa fa-check"></i><b>8</b> Chapter 8: Meso-level network measures</a>
 <ul>
@@ -311,14 +312,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.7.4" data-path="ch8.html"><a href="ch8.html#comparing-different-runs"><i class="fa fa-check"></i><b>8.7.4</b> Comparing different runs</a></li>
 <li class="chapter" data-level="8.7.5" data-path="ch8.html"><a href="ch8.html#other-community-detection-methods"><i class="fa fa-check"></i><b>8.7.5</b> Other community detection methods</a></li>
 </ul></li>
-<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-7"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
+<li class="chapter" data-level="8.8" data-path="ch8.html"><a href="ch8.html#exercise-8"><i class="fa fa-check"></i><b>8.8</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="ch9.html"><a href="ch9.html"><i class="fa fa-check"></i><b>9</b> Chapter 9: Network models</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="ch9.html"><a href="ch9.html#erdos-renyi-network-model"><i class="fa fa-check"></i><b>9.1</b> Erdos-Renyi Network Model</a></li>
 <li class="chapter" data-level="9.2" data-path="ch9.html"><a href="ch9.html#watts-strogatz-network-model"><i class="fa fa-check"></i><b>9.2</b> Watts-Strogatz Network Model</a></li>
 <li class="chapter" data-level="9.3" data-path="ch9.html"><a href="ch9.html#preferential-attachment-network-growth-model-barabasi-albert-network-model"><i class="fa fa-check"></i><b>9.3</b> Preferential Attachment Network Growth Model (Barabasi-Albert Network Model)</a></li>
-<li class="chapter" data-level="9.4" data-path="ch9.html"><a href="ch9.html#exercise-8"><i class="fa fa-check"></i><b>9.4</b> Exercise</a></li>
+<li class="chapter" data-level="9.4" data-path="ch9.html"><a href="ch9.html#exercise-9"><i class="fa fa-check"></i><b>9.4</b> Exercise</a></li>
 <li class="chapter" data-level="9.5" data-path="ch9.html"><a href="ch9.html#placeholder"><i class="fa fa-check"></i><b>9.5</b> Placeholder</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="ch10.html"><a href="ch10.html"><i class="fa fa-check"></i><b>10</b> Chapter 10: Behaviors in the network</a>
@@ -335,7 +336,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="ch11.html"><a href="ch11.html#key-player-problem-negative"><i class="fa fa-check"></i><b>11.2</b> Key Player Problem-Negative</a></li>
 <li class="chapter" data-level="11.3" data-path="ch11.html"><a href="ch11.html#key-player-problem-positive"><i class="fa fa-check"></i><b>11.3</b> Key Player Problem-Positive</a></li>
 <li class="chapter" data-level="11.4" data-path="ch11.html"><a href="ch11.html#references-1"><i class="fa fa-check"></i><b>11.4</b> References</a></li>
-<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-9"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
+<li class="chapter" data-level="11.5" data-path="ch11.html"><a href="ch11.html#exercise-10"><i class="fa fa-check"></i><b>11.5</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="ch12.html"><a href="ch12.html"><i class="fa fa-check"></i><b>12</b> Chapter 12: <code>influenceR</code> package</a>
 <ul>
@@ -350,7 +351,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.3.2" data-path="ch12.html"><a href="ch12.html#important-note-about-directed-graphs-1"><i class="fa fa-check"></i><b>12.3.2</b> Important note about directed graphs</a></li>
 </ul></li>
 <li class="chapter" data-level="12.4" data-path="ch12.html"><a href="ch12.html#references-2"><i class="fa fa-check"></i><b>12.4</b> References</a></li>
-<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-10"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
+<li class="chapter" data-level="12.5" data-path="ch12.html"><a href="ch12.html#exercise-11"><i class="fa fa-check"></i><b>12.5</b> Exercise</a></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="ch13.html"><a href="ch13.html"><i class="fa fa-check"></i><b>13</b> Chapter 13: <code>bootnet</code> package</a>
 <ul>
@@ -407,7 +408,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.4.1" data-path="ch16.html"><a href="ch16.html#method-1-bootstrapping-the-data"><i class="fa fa-check"></i><b>16.4.1</b> Method 1: Bootstrapping the data</a></li>
 <li class="chapter" data-level="16.4.2" data-path="ch16.html"><a href="ch16.html#method-2-comparing-alternative-distributions"><i class="fa fa-check"></i><b>16.4.2</b> Method 2: Comparing alternative distributions</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="ch16.html"><a href="ch16.html#exercise-11"><i class="fa fa-check"></i><b>16.5</b> Exercise</a></li>
+<li class="chapter" data-level="16.5" data-path="ch16.html"><a href="ch16.html#exercise-12"><i class="fa fa-check"></i><b>16.5</b> Exercise</a></li>
 <li class="chapter" data-level="16.6" data-path="ch16.html"><a href="ch16.html#references-3"><i class="fa fa-check"></i><b>16.6</b> References</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -438,11 +439,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Once you have installed R and RStudio into your computer, you only need to open RStudio (not R) to get started.</p>
 <div id="setting-up-a-project" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Setting up a Project<a href="ch2.html#setting-up-a-project" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>A good practice before starting any kind of programming foray is to create a dedicated folder on your computer for that project, and then create a new R project that is associated with that folder. You can think of a R project as a dedicated workspace for everything that you will do in that context, which makes it easy to save your progress and return to the same state on a different day.</p>
+<p>A good practice before starting any kind of programming foray is to create a dedicated folder on your computer for that project, and then create a new RStudio project that is associated with that folder. You can think of a “project” as a dedicated workspace for everything that you will do in that context, which makes it easy to save your progress and return to the same state on a different day.</p>
 <p>To create a new Project, simply go to <em>File -&gt; New Project</em>. Depending on whether you already have a project folder set up in your computer, you would choose either “New Directory” (so you create both a new folder and project file) or “Existing Directory” (so you navigate to the folder and create a project file for it).</p>
 <p>You should notice in your folder a new file called <code>your-folder-name.Rproj</code>. Whenever you are done with your R session, you can choose to save all the objects in your environment (we will discuss the concepts of ‘objects’ and ‘environment’ in a bit) by agreeing to ‘Save’ the prompt window. Then, when you wish to return to the project, all you have to do is to open the <code>your-folder-name.Rproj</code> and viola! All of your data objects, scripts should be right where you left it.</p>
 <blockquote>
-<p><em>Try this for yourself!</em> Set up a new R project for a folder dedicated to this chapter and work through the contents, creating R scripts and data objects. Then, exit RStudio (remember to save the workspace image). Click on the .Rproj file to see if you are able to return to your previous workspace state.</p>
+<p><em>Try this for yourself!</em> Set up a new RStudio project for a folder (e.g., make a sub-folder called ‘chapter01/’ in the folder you have for this course) dedicated to this chapter and work through the contents, creating R scripts and data objects. Then, exit RStudio (remember to save the workspace image). Double-click on the .Rproj file to see if you are able to return to your previous workspace state.</p>
 </blockquote>
 </div>
 <div id="layout-of-rstudio" class="section level3 hasAnchor" number="2.1.2">
@@ -489,9 +490,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Other than numeric data, you can also store text (character) and logical data too.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="ch2.html#cb10-1" tabindex="-1"></a>my_name <span class="ot">&lt;-</span> <span class="st">&quot;Cynthia&quot;</span></span>
 <span id="cb10-2"><a href="ch2.html#cb10-2" tabindex="-1"></a>SundayToday <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span></code></pre></div>
-<p>Notice the use of <code>&lt;-</code> above: this is an <em>assignment operator</em> to “assign” values to a name/label that you provide.</p>
+<p>Notice the use of <code>&lt;-</code> above: this is an <em>assignment operator</em> to “assign” values to a name/label that you provide. (Note that you <em>could</em> use <code>=</code> instead of <code>&lt;-</code>, but the convention among R users is to use the arrow–I actually like that the arrow makes its more explicit that you are <em>assigning</em> a value to a name/label.)</p>
 <p>In addition, variable names should not contain any weird characters and should not begin with a number. I recommend using letters and underscores.</p>
-<p>You should notice that while no output is printed to the console, there are new lines in the Environment tab of RStudio. Have a look and see if the items make sense to you. Basically, by running the above code, the value of <code>x</code> and <code>my_height</code> (as well as <code>my_name</code> and <code>SundayToday</code>) has been stored in the “memory” of RStudio.</p>
+<p>You should notice that while no output is printed to the console, there are new lines in the Environment tab of RStudio. Have a look and see if the items make sense to you. Basically, by running the above code, the value of <code>x</code> and <code>my_height</code> (as well as <code>my_name</code> and <code>SundayToday</code>) has been stored in the “working memory” of RStudio.</p>
 <p>Then you can begin to do interesting things with the variables:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="ch2.html#cb11-1" tabindex="-1"></a><span class="co"># what is Cynthia&#39;s height in metres?</span></span>
 <span id="cb11-2"><a href="ch2.html#cb11-2" tabindex="-1"></a>my_height<span class="sc">/</span><span class="dv">100</span></span></code></pre></div>
@@ -505,7 +506,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.2.2</span> Removing objects<a href="ch2.html#removing-objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If your workspace/environment gets too messy, you can remove variables by using the <code>rm()</code> function:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ch2.html#cb17-1" tabindex="-1"></a><span class="fu">rm</span>(x)</span></code></pre></div>
-<p>Notice that <code>x</code> is missing from the Environment tab.</p>
+<p>Notice that <code>x</code> is no longer found in the Environment tab.</p>
 <p>To remove everything in the Environment, click on the Broom icon in the Environment tab or use the following command <code>rm(list=ls())</code>.</p>
 </div>
 <div id="saving-objects" class="section level3 hasAnchor" number="2.2.3">
@@ -517,7 +518,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-3"><a href="ch2.html#cb18-3" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="ch2.html#cb18-4" tabindex="-1"></a><span class="co"># entire workspace</span></span>
 <span id="cb18-5"><a href="ch2.html#cb18-5" tabindex="-1"></a><span class="fu">save.image</span>(<span class="at">file =</span> <span class="st">&#39;everything.RData&#39;</span>)</span></code></pre></div>
-<p>Notice that you need to specify a <code>file</code> argument which is the name of the file that you want to save the information to, and that the file extension is <code>.RData</code>.</p>
+<p>Notice that you need to specify a <code>file</code> argument which is the name of the file that you want to save the information to, and that the file extension is <code>.RData</code>. This file is then saved to the same folder as your RStudio project.</p>
 <p>You can also save all of the objects in the workspace by clicking on the Floppy Disk icon in the Environment tab (NOT the Scripts tab).</p>
 <p>Recall from ‘Setting up a Project’ that you are automatically prompted to save all of the objects in the workspace before exiting the R session - this creates a hidden file called <code>.RData</code> where the information is saved to and is automatically loaded when you start a new session for the same project.</p>
 </div>
@@ -534,7 +535,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb20-2"><a href="ch2.html#cb20-2" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="ch2.html#cb20-3" tabindex="-1"></a>a_vector</span></code></pre></div>
 <pre><code>## [1] 1 9 6 8</code></pre>
-<p>Notice the use of a special function <code>c()</code> to combine single values into the vector.</p>
+<p>Notice the use of a special function <code>c()</code> to combine single values into the vector. ‘c’ for concatenate.</p>
 </div>
 <div id="cool-things-you-can-do-with-vectors" class="section level3 hasAnchor" number="2.2.6">
 <h3><span class="header-section-number">2.2.6</span> Cool things you can do with vectors<a href="ch2.html#cool-things-you-can-do-with-vectors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -547,7 +548,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 1 6 8</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ch2.html#cb26-1" tabindex="-1"></a>a_vector[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)] <span class="co"># this removes the first 3 elements</span></span></code></pre></div>
 <pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ch2.html#cb28-1" tabindex="-1"></a><span class="co"># editing</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ch2.html#cb28-1" tabindex="-1"></a><span class="co"># editing / replacement</span></span>
 <span id="cb28-2"><a href="ch2.html#cb28-2" tabindex="-1"></a>a_vector[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb28-3"><a href="ch2.html#cb28-3" tabindex="-1"></a></span>
 <span id="cb28-4"><a href="ch2.html#cb28-4" tabindex="-1"></a>a_vector</span></code></pre></div>
@@ -596,8 +597,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">2.4</span> File Paths and Working Directory<a href="ch2.html#file-paths-and-working-directory" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="navigation-in-computers" class="section level3 hasAnchor" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> Navigation in computers<a href="ch2.html#navigation-in-computers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>All of your digital data in computers are stored in folders and sub-folders. When you want open a file in a program, you need to navigate to the location where that specific file is stored.</p>
-<p>Similarly, when programming in R, if you want to load datasets and/or previously saved workspaces into your workspace you need to first “point” RStudio to the correct location where these files are stored.</p>
+<p>All of your digital data in computers are stored in folders and sub-folders. When you want to open a file in a program like Microsoft Word, you need to navigate to the location where that specific file is stored.</p>
+<p>Similarly, when programming in R, if you want to load datasets and/or previously saved workspaces into your current workspace you need to first “point” RStudio to the correct location where these files are stored.</p>
 </div>
 <div id="helping-rstudio-find-your-stuff" class="section level3 hasAnchor" number="2.4.2">
 <h3><span class="header-section-number">2.4.2</span> Helping RStudio find your stuff<a href="ch2.html#helping-rstudio-find-your-stuff" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -616,7 +617,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb44-9"><a href="ch2.html#cb44-9" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;everything.RData&#39;</span>) <span class="co"># does it work now? </span></span></code></pre></div>
 <p>Now when you place a <code>.RData</code> file in <code>test_folder</code> you should be able to load it into your workspace.</p>
 <p>An alternate (and possibly more intuitive) solution via the GUI is to do the either of the following: (1) <em>Session -&gt; Set Working Directory -&gt; Choose Working Directory</em> or (2) Files tab: navigate to desired location and click on the Gear icon. Then choose “Set Working Directory”.</p>
-<p>Note that when you are working in a dedicated R project workspace, the default working directory is basically the project folder where the .Rproj file lives in. If you have set up the workspace as recommended in “Setting up a Project”, then the easier approach is to simply move any data files that you need for your project into that folder, rather than to keep changing the working directory to “find” your files. This is good practice in any case; better to consolidate all the files associated with a given project rather than have them scattered across multiple folders.</p>
+<p>Note that when you are working in a dedicated RStudio project workspace, the default working directory is basically the project folder where the .Rproj file lives in. If you have set up the workspace as recommended in “Setting up a Project”, then the easier approach is to simply move any data files that you need for your project into that folder, rather than to keep changing the working directory to “find” your files. This is good practice in any case; better to consolidate all the files associated with a given project rather than have them scattered across multiple folders in your computer.</p>
 </div>
 </div>
 <div id="packages" class="section level2 hasAnchor" number="2.5">
@@ -651,13 +652,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="loading-data-into-rstudio" class="section level3 hasAnchor" number="2.6.2">
 <h3><span class="header-section-number">2.6.2</span> Loading data into RStudio<a href="ch2.html#loading-data-into-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>First, the data should be saved as a <code>.csv</code> file. This is basically a “text” version of the Excel format (look at Save As… in your Excel program). I recommend this because special packages and functions are needed to load data from proprietary file formats. The csv format is much more flexible (it would also work with SPSS/JASP).</p>
-<p>To see this in action, first create a .csv file called <code>numbers.csv</code> using your preferred spreadsheet program. Make two columns of random numbers and provide column headers. An example is shown below:</p>
+<p>First, the data should be saved as a <code>.csv</code> file. This is basically a “text” version of the Excel format (look at Save As… in your Excel program). I recommend this because special packages and functions are needed to load data from proprietary file formats such as .xlsx. The csv format is much more flexible (it would still work with SPSS/JASP).</p>
+<p>To see this in action, first create a .csv file called <code>numbers.csv</code> using your preferred spreadsheet program. Make two columns of random numbers and provide column headers. For column names, it is recommended to not leave any spaces and not to begin with a number. An example is shown below:</p>
 <table>
 <thead>
 <tr class="header">
-<th>Column A</th>
-<th>Column B</th>
+<th>ColumnA</th>
+<th>ColumnB</th>
 </tr>
 </thead>
 <tbody>
@@ -683,8 +684,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote>
 <p>Common mistake: Selecting “View File” opens the data as a window in RStudio, but does NOT actually load the information into the workspace, which means that you are unable to manipulate the data in any way.</p>
 </blockquote>
-
 </div>
+<div id="basic-dataframe-manipulation" class="section level3 hasAnchor" number="2.6.3">
+<h3><span class="header-section-number">2.6.3</span> Basic dataframe manipulation<a href="ch2.html#basic-dataframe-manipulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now that you have a dataframe in your RStudio workspace, we can do things with it. Once you have <code>my_data</code> in your workspace, try running the following code and see what you get.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch2.html#cb48-1" tabindex="-1"></a><span class="co"># print the entire dataframe</span></span>
+<span id="cb48-2"><a href="ch2.html#cb48-2" tabindex="-1"></a>my_data </span>
+<span id="cb48-3"><a href="ch2.html#cb48-3" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="ch2.html#cb48-4" tabindex="-1"></a><span class="co"># to view a specific column</span></span>
+<span id="cb48-5"><a href="ch2.html#cb48-5" tabindex="-1"></a>my_data<span class="sc">$</span>ColumnA</span>
+<span id="cb48-6"><a href="ch2.html#cb48-6" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="ch2.html#cb48-7" tabindex="-1"></a><span class="co"># to get a useful summary </span></span>
+<span id="cb48-8"><a href="ch2.html#cb48-8" tabindex="-1"></a><span class="fu">summary</span>(my_data)</span>
+<span id="cb48-9"><a href="ch2.html#cb48-9" tabindex="-1"></a></span>
+<span id="cb48-10"><a href="ch2.html#cb48-10" tabindex="-1"></a><span class="co"># to view the first and third rows </span></span>
+<span id="cb48-11"><a href="ch2.html#cb48-11" tabindex="-1"></a>my_data[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), ]</span>
+<span id="cb48-12"><a href="ch2.html#cb48-12" tabindex="-1"></a></span>
+<span id="cb48-13"><a href="ch2.html#cb48-13" tabindex="-1"></a><span class="co"># to view the first column</span></span>
+<span id="cb48-14"><a href="ch2.html#cb48-14" tabindex="-1"></a>my_data[ , <span class="dv">1</span>]</span>
+<span id="cb48-15"><a href="ch2.html#cb48-15" tabindex="-1"></a></span>
+<span id="cb48-16"><a href="ch2.html#cb48-16" tabindex="-1"></a><span class="co"># rename the first column name </span></span>
+<span id="cb48-17"><a href="ch2.html#cb48-17" tabindex="-1"></a><span class="fu">colnames</span>(my_data)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&#39;NetSciRocks&#39;</span></span>
+<span id="cb48-18"><a href="ch2.html#cb48-18" tabindex="-1"></a></span>
+<span id="cb48-19"><a href="ch2.html#cb48-19" tabindex="-1"></a><span class="co"># get the mean of the second column</span></span>
+<span id="cb48-20"><a href="ch2.html#cb48-20" tabindex="-1"></a><span class="fu">mean</span>(my_data<span class="sc">$</span>ColumnB)</span></code></pre></div>
+<p>Usually, you’ll upload larger datasets and these manipulations may not be feasible (you won’t want to print all 1,000 rows of your data!). But these give you a flavor of core programming concepts (e.g., <code>$</code> for selection of some aspect of a more complex object, square brackets for subsetting, how basic functions like <code>summary()</code> work…).</p>
+</div>
+</div>
+<div id="exercise-1" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Exercise<a href="ch2.html#exercise-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Find an old dataset of one of your introductory statistics courses. Convert it to a .csv file (if it is not in this format already), and try loading it into RStudio. A great way to learn is to take some of the code from this chapter and adapt it to explore your data frame.</p>
+
 </div>
 </div>
             </section>

@@ -35,13 +35,15 @@ detaching-packages
 special-datatypes
 dataframes
 loading-data-into-rstudio
+basic-dataframe-manipulation
+exercise-1
 ch3
 what-is-a-network
 your-first-network
 your-second-network
-exercise-1
-node-and-edge-attributes
 exercise-2
+node-and-edge-attributes
+exercise-3
 graph-attributes
 useful-functions-for-working-with-attributes
 ch4
@@ -51,7 +53,7 @@ adjacency-matrix
 importing-your-data-and-converting-into-a-network
 importing-edge-lists
 importing-adjacency-matrices
-exercise-3
+exercise-4
 ch5
 set-up
 adding-node-attributes
@@ -63,7 +65,7 @@ subset-by-removing-a-group-of-nodes
 subset-by-edge-attributes
 subsetting-by-mutual-edges
 useful-functions
-exercise-4
+exercise-5
 ch6
 average-degree
 average-shortest-path-length
@@ -75,7 +77,7 @@ assortative-mixing
 assortative-mixing-by-degree-continuous-attributes
 assortative-mixing-by-node-attributes-categorical-attributes
 network-components
-exercise-5
+exercise-6
 ch7
 degree
 in--out--all-degree
@@ -93,7 +95,7 @@ directed-betweenness-centrality
 page-rank-centrality
 other-forms-of-node-centrality
 exporting-node-centrality-measures-for-data-analysis
-exercise-6
+exercise-7
 ch8
 how-do-network-scientists-find-communities-in-networks
 edge-betweenness-divisive-method
@@ -109,12 +111,12 @@ networks-with-multiple-components
 calculating-modularity-for-self-defined-communities
 comparing-different-runs
 other-community-detection-methods
-exercise-7
+exercise-8
 ch9
 erdos-renyi-network-model
 watts-strogatz-network-model
 preferential-attachment-network-growth-model-barabasi-albert-network-model
-exercise-8
+exercise-9
 placeholder
 ch10
 introduction-to-spreadr
@@ -127,7 +129,7 @@ set-up-1
 key-player-problem-negative
 key-player-problem-positive
 references-1
-exercise-9
+exercise-10
 ch12
 set-up-2
 bridging-score
@@ -136,7 +138,7 @@ effective-network-science
 how-is-effective-network-science-different-from-local-clustering-coefficient
 important-note-about-directed-graphs-1
 references-2
-exercise-10
+exercise-11
 ch13
 chapter-outline
 installation-of-bootnet
@@ -175,5 +177,5 @@ visualization
 statistical-testing-of-distribution-fit
 method-1-bootstrapping-the-data
 method-2-comparing-alternative-distributions
-exercise-11
+exercise-12
 references-3

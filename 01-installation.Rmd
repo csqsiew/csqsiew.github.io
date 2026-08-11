@@ -27,7 +27,7 @@ The main consideration is that the free version has a cap on usage. Below is rep
 
 Now that you have R and RStudio set up, let's try to install the R packages that we will use in this book. First, what is a "R package"? Sometimes they are known as libraries, but you can think of packages/libraries as a collection of R functions that do specialized things. Because we make use of several functions from the `igraph` package to do network analysis, we need to first download `igraph`. 
 
-To download `igraph`, open RStudio and type the following into your Console (the panel with the ">" symbol - this is where you type in instructions for R to execute). 
+To download `igraph`, open RStudio and type the following into your Console (the panel with the ">" symbol - this is where you type in instructions for R to execute). By the way, if you hover your mouse over the code there will be a 'copy' symbol for you to quickly copy and paste the code into RStudio.
 
 ```{r eval=FALSE}
 install.packages("igraph")
@@ -47,8 +47,8 @@ plot(graph_from_literal(A-B))
 
 **Important!** You only need to install a package **ONCE** (unless you wish to update it). But you will always need to load the package at the start of the R session (i.e., run `library(igraph)` in the Console whenever you open RStudio) so that you can use these special network functions. 
 
-### Exercise
+## Exercise
 
-1. Try installing the package called `tidyverse`. `tidyverse` is a powerful set of packages that enable people to do cool data science things in R. It is highly recommended to learn it if you are interested in becoming a proficient user of R. See [https://www.tidyverse.org/](https://www.tidyverse.org/) for more information.
+1. Try installing the R package called `tidyverse`. `tidyverse` is a powerful set of packages that enable people to do cool and efficient data science things in R. It is highly recommended to learn it if you are interested in becoming a proficient user of R. See [https://www.tidyverse.org/](https://www.tidyverse.org/) for more information.
 
 2. You know if you have succeeded if you are able to load `tidyverse` into your workspace. What is the code needed to do this? 
