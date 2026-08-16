@@ -132,7 +132,7 @@
 
 \title{Introduction to Network Analysis in \texttt{igraph}}
 \author{Cynthia S. Q. Siew}
-\date{2026-08-06}
+\date{2026-08-16}
 
 \begin{document}
 \maketitle
@@ -271,6 +271,23 @@ Be patient and wait for the package to finish downloading. After it is downloade
 \FunctionTok{library}\NormalTok{(igraph)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'igraph'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     decompose, spectrum
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:base':
+## 
+##     union
+\end{verbatim}
 
 If everything is working fine, you should see a plot of two connected nodes when you run the following line of code in the Console:
 
@@ -815,15 +832,15 @@ Find an old dataset of one of your introductory statistics courses. Convert it t
 
 \section{What is a network?}\label{what-is-a-network}
 
-A network consists of two sets of entities: A list of \emph{nodes} and a list of \emph{edges}. Nodes correspond to the individual elements whose pairwise relational structure is specified by edges or links. So, if node A and node B are related to each other based on some criteria set by the modeler (you!) then you would specify an edge between nodes A and B.
+A network consists of two sets of entities: A list of \emph{nodes} and a list of \emph{edges}. Nodes correspond to the individual elements whose pairwise relational structure is specified by edges or links. So, if node A and node B are related to each other based on some criteria set by the modeller (you!) then you would specify an edge between nodes A and B.
 
-When networks are small (on the order of a handful of nodes), it would not too be difficult to manually specify the list of nodes and their connections. However, this quickly gets too onerous once the number of nodes increases because the number of possible edges increases exponentially. For instance, a network of 5 nodes could have a maximum of 10 edges, whereas a network of 50 nodes could have a maximum of 1,225 edges.
+When networks are small (on the order of a handful of nodes), it would not be difficult to manually specify the list of nodes and their connections. However, this quickly gets onerous once the number of nodes increases because the number of possible edges increases exponentially. For instance, a network of 5 nodes could have a maximum of 10 edges, whereas a network of 50 nodes could have a maximum of 1,225 edges.
 
-In practice, the networks that a social scientist are likely to be working with are going to be quite large, and the networks are derived from large datasets that are external to the R programming environment. In the next chapter we will explore how to get these datasets into RStudio and how to convert them into network. In this chapter, we focus on understanding the structure of the network object, a special datatype that \texttt{igraph} uses for network analysis.
+In practice, the networks that a social scientist is likely to be working with are going to be quite large, and the networks are derived from large datasets that are external to the R programming environment. In the next chapter we will explore how to get these datasets into RStudio and how to convert them into network. In this chapter, we focus on understanding the structure of the network object, a special datatype that \texttt{igraph} uses for network analysis.
 
 \section{Your first network}\label{your-first-network}
 
-Network objects are a special variable that can only be analyzed with functions from the \texttt{igraph} library (that you previously installed).
+The network object is a special variable that can only be analyzed with functions from the \texttt{igraph} library (that you previously installed).
 Let's check out a simple example.
 
 \begin{Shaded}
@@ -848,9 +865,9 @@ When we print \texttt{g} in the Console, we find that it has a number of special
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e4b7992 UN-- 2 1 -- 
+## IGRAPH 2e79930 UN-- 2 1 -- 
 ## + attr: name (v/c)
-## + edge from e4b7992 (vertex names):
+## + edge from 2e79930 (vertex names):
 ## [1] cat--bat
 \end{verbatim}
 
@@ -861,7 +878,7 @@ When we print \texttt{g} in the Console, we find that it has a number of special
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e4b7992 UN-- 2 1 -- 
+## IGRAPH 2e79930 UN-- 2 1 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -875,13 +892,13 @@ This first line already packs a ton of information:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  The IGRAPH label is a good sign, it means that this object is need a network object that \texttt{igraph} understands. This is followed by a UUID generated to uniquely identify the graph.
+  The IGRAPH label is a good sign, it means that this object is indeed a network object that \texttt{igraph} understands. This is followed by a UUID generated to uniquely identify the graph.
 \item
-  The first letter in caps can either be \textbf{D} or \textbf{U}, which corresponds to \emph{Directed} or \emph{Undirected} edges, respectively. In this example we have a \textbf{U}, which means that the edges in this network are undirected.
+  The first letter in caps can either be \textbf{D} or \textbf{U}, which corresponds to \emph{Directed} or \emph{Undirected} edges, respectively. In this example we have a \textbf{U}, which means that the edges in this network are undirected. We will discuss what these are more specifically later (although you can probably guess what directedness is referring to!)--just keep in mind that these are two different kinds of edges.\\
 \item
   The second letter in caps can either be \textbf{N} or \textbf{-}, which corresponds to nodes either having \emph{Names} or are left unlabeled, respectively. In this example we have a \textbf{N}, which means that the nodes are labeled.
 \item
-  The third letter in caps: \textbf{W} or \textbf{-}, which corresponds to edges either having \emph{Weights} or are unweighted, respectively. In this example we have a \textbf{-}, which means that the nodes are unweighted.
+  The third letter in caps: \textbf{W} or \textbf{-}, which corresponds to edges either having \emph{Weights} or are unweighted, respectively. In this example we have a \textbf{-}, which means that the nodes are unweighted. Likewise, we will discuss weightedness as an edge attribute later--simply keep in mind that these are two different kinds of edges.
 \item
   It is worth noting that it is possible to have a fourth letter, \textbf{B} or \textbf{-}, which corresponds to the network being a \emph{Bipartite} graph or not, respectively. We do not cover bipartite networks in this book (for now), and so we should expect to see a \textbf{-}, as we do in this example.
 \item
@@ -927,15 +944,15 @@ To broaden our understanding, let's create a slightly different network and expl
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 6c40a9f DN-- 2 1 -- 
+## IGRAPH 27d8979 DN-- 2 1 -- 
 ## + attr: name (v/c)
-## + edge from 6c40a9f (vertex names):
+## + edge from 27d8979 (vertex names):
 ## [1] cat->bat
 \end{verbatim}
 
 First, are you able to tell what was different from the code used to create the second network?
 
-It is a subtle change, but an additional \textbf{+} symbol is added to the dash. The function interprets \textbf{+} as the arrow head of the edge, and creates a \emph{directed} edge pointing from `cat' to `bat'.
+It is a subtle change, but an additional \textbf{+} symbol is added to the dash. The function interprets \textbf{+} as the arrow head of the edge, and creates a \emph{directed} edge pointing from `cat' to `bat'. \emph{What do you think will happen if you typed in ``+-'' instead?}
 
 Now's examine the summary of \texttt{g\_directed}.
 
@@ -971,7 +988,7 @@ Run the following code, and answer the questions below:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 8d974e0 DNW- 3 3 -- 
+## IGRAPH 3b606b9 DNW- 3 3 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -999,7 +1016,7 @@ Try running the following and see what gets printed in the Console:
 \end{Shaded}
 
 \begin{verbatim}
-## + 3/3 vertices, named, from 8d974e0:
+## + 3/3 vertices, named, from 3b606b9:
 ## [1] A B C
 \end{verbatim}
 
@@ -1010,11 +1027,11 @@ Try running the following and see what gets printed in the Console:
 \end{Shaded}
 
 \begin{verbatim}
-## + 3/3 edges from 8d974e0 (vertex names):
+## + 3/3 edges from 3b606b9 (vertex names):
 ## [1] A->B B->C C->A
 \end{verbatim}
 
-As you can see, \texttt{V()} and \texttt{E()} are special functions in \texttt{igraph} which you can use to print a list of the nodes and edges associated with a particular network object.
+As you can see, \texttt{V()} and \texttt{E()} are special functions in \texttt{igraph} which you can use to print a list of the nodes and edges associated with a particular network object. Take note that these are \emph{capital} letters V and E, the code won't work if the letters are in lowercase.
 
 Now let's see what we get with the following code:
 
@@ -1085,7 +1102,7 @@ Earlier in this chapter I mentioned that it is possible for the network itself t
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 8d974e0 DNW- 3 3 -- 
+## IGRAPH 3b606b9 DNW- 3 3 -- 
 ## + attr: citation (g/c), name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -1165,11 +1182,11 @@ It helps to have a very concrete idea of how your network is depicted in this pr
 
 \pandocbounded{\includegraphics[keepaspectratio]{bookdown-demo_files/bookdown-demo_files/figure-latex/unnamed-chunk-31-1.pdf}}
 
-All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an \emph{edge list} or an \emph{adjacency matrix}. The following sections will demonstrate what data in an edge list and adjacency matrix looks like, and how to import the data into RStudio so that it corresponds to the network representation that you want.
+All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an \emph{edge list} or an \emph{adjacency matrix}. The following sections will demonstrate what data in an edge list and data in an adjacency matrix look like, and how to import the data into RStudio so that it corresponds to the network representation that you want.
 
 \section{Edge List}\label{edge-list}
 
-An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the relationship is listed in separate columns.
+An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the pairwise relationship is listed in two separate columns.
 
 \begin{table}
 \centering
@@ -1194,7 +1211,7 @@ Specifically, an edge list refers to a type of network data representation where
 
 \section{Adjacency Matrix}\label{adjacency-matrix}
 
-An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented in the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the {[}i,j{]} element of the adjacency matrix indicates the presence of a link between node i and node j.
+An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented inside the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the {[}i,j{]} element of the adjacency matrix indicates the presence of a link between node i and node j.
 
 So in this case, the matrix has 5 rows and 5 columns (a square 5 x 5 matrix). The rows and columns are labelled with the node names. The cell carries a value of 1 if two people are connected, 0 if not connected. In this example, if we look at the first row, we can easily tell that Alex is the social butterfly of the group; he's friends with everyone in the network!
 
@@ -1227,7 +1244,7 @@ After reading the previous section, you should be able to identify whether your 
 
 Another point to note is that you as the modeler will have to make decisions about the type of edges your network will have. Should the edges be undirected or directed, and/or unweighted or weighted? While there are no objectively right or wrong decisions, there are probably better or worse decisions that would depend mostly on your own research questions, interpretation of the data set, and the extant network science literature on similar topics.
 
-A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github (\url{https://github.com/csqsiew/csqsiew.github.io/tree/main/data}), and are stored in a subdirectory called \texttt{/data} from which I am reading from. Based on chapter 2 (finding files) you should be able to make the corresponding modifications to the \texttt{read.csv()} parts of the code.
+A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github (\url{https://github.com/csqsiew/csqsiew.github.io/tree/main/data}), and are stored in a subdirectory called \texttt{/data} from which I am reading from. Based on Chapter 2.4 \ref{file-paths-and-working-directory} you should be able to make the corresponding modifications to the \texttt{read.csv()} parts of the code.
 
 \subsection{Importing edge lists}\label{importing-edge-lists}
 
@@ -1244,7 +1261,7 @@ A. You want a network with \emph{undirected, unweighted} edges.
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 1c244f8 UN-- 34 78 -- 
+## IGRAPH f5be357 UN-- 34 78 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -1274,7 +1291,7 @@ B. You want a network with \emph{directed, unweighted} edges.
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 8071fa1 DN-- 34 78 -- 
+## IGRAPH 31b17a6 DN-- 34 78 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -1300,7 +1317,7 @@ C. You want a network with \emph{undirected, weighted} edges.
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 26b8fe0 UNW- 34 78 -- 
+## IGRAPH e7fd069 UNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -1328,7 +1345,7 @@ D. You want a network with \emph{directed, weighted} edges.
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 68952ae DNW- 34 78 -- 
+## IGRAPH 09a99a4 DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -1359,7 +1376,7 @@ A. You want a network with \emph{undirected, unweighted} edges.
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 27891fd UN-- 34 78 -- 
+## IGRAPH 6c064f7 UN-- 34 78 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -1403,7 +1420,7 @@ B. You want a network with \emph{directed, unweighted} edges.
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 1db47b0 DN-- 34 156 -- 
+## IGRAPH 99b6861 DN-- 34 156 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -1437,13 +1454,26 @@ C. You want a network with \emph{undirected, weighted} edges.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{karate\_uw }\OtherTok{\textless{}{-}} \FunctionTok{graph\_from\_adjacency\_matrix}\NormalTok{(karate\_am, }\AttributeTok{mode =} \StringTok{\textquotesingle{}undirected\textquotesingle{}}\NormalTok{, }\AttributeTok{weighted =} \StringTok{\textquotesingle{}weight\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Warning: The `adjmatrix` argument of `graph_from_adjacency_matrix()` must be symmetric
+## with mode = "undirected" as of igraph 1.6.0.
+## i Use mode = "max" to achieve the original behavior.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{summary}\NormalTok{(karate\_uw)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH cfae4d0 UNW- 34 100 -- 
+## IGRAPH 9303277 UNW- 34 100 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -1483,7 +1513,7 @@ D. You want a network with \emph{directed, weighted} edges
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 4eda48c DNW- 34 103 -- 
+## IGRAPH 942d12b DNW- 34 103 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -1538,7 +1568,29 @@ We will use the \texttt{karate} network as our example in this chapter.
 \FunctionTok{library}\NormalTok{(igraph)}
 \FunctionTok{library}\NormalTok{(igraphdata)}
 \FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.2.1     v readr     2.2.0
+## v forcats   1.0.1     v stringr   1.6.0
+## v ggplot2   4.0.3     v tibble    3.3.1
+## v lubridate 1.9.5     v tidyr     1.3.2
+## v purrr     1.2.2     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x lubridate::%--%()      masks igraph::%--%()
+## x dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
+## x purrr::compose()       masks igraph::compose()
+## x tidyr::crossing()      masks igraph::crossing()
+## x dplyr::filter()        masks stats::filter()
+## x dplyr::lag()           masks stats::lag()
+## x purrr::simplify()      masks igraph::simplify()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}karate\textquotesingle{}}\NormalTok{)}
 
 \FunctionTok{summary}\NormalTok{(karate)}
@@ -1553,7 +1605,8 @@ We will use the \texttt{karate} network as our example in this chapter.
 
 \begin{verbatim}
 ## IGRAPH 4b458a1 UNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), weight (e/n)
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), weight (e/n)
 \end{verbatim}
 
 \section{Adding node attributes}\label{adding-node-attributes}
@@ -1612,8 +1665,9 @@ In the \texttt{karate\_node\_added.csv} file, sample node attributes for the \te
 
 \begin{verbatim}
 ## IGRAPH 4b458a1 UNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n)
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n)
 \end{verbatim}
 
 A key point is to ensure that the node ordering in your .csv file is identical to that of the network - this can be assured using the \texttt{arrange} function from \texttt{tidyverse}. This is to ensure accurate mapping from your data frame to the network.
@@ -1640,8 +1694,9 @@ Here we explore a simple case where you want to ``tag'' and color edges differen
 
 \begin{verbatim}
 ## IGRAPH 4b458a1 UNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1651,12 +1706,19 @@ Here we explore a simple case where you want to ``tag'' and color edges differen
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] "same"      "same"      "same"      "same"      "different" "same"      "same"      "same"      "same"      "different" "different" "same"      "different"
-## [14] "same"      "same"      "different" "same"      "same"      "same"      "same"      "different" "same"      "same"      "same"      "same"      "same"     
-## [27] "same"      "same"      "same"      "different" "same"      "different" "same"      "different" "same"      "same"      "same"      "different" "different"
-## [40] "same"      "different" "same"      "different" "same"      "same"      "same"      "same"      "different" "same"      "different" "different" "same"     
-## [53] "same"      "different" "same"      "different" "same"      "same"      "different" "different" "different" "same"      "same"      "different" "different"
-## [66] "different" "same"      "different" "different" "different" "same"      "same"      "different" "different" "same"      "same"      "different" "different"
+##  [1] "same"      "same"      "same"      "same"      "different" "same"     
+##  [7] "same"      "same"      "same"      "different" "different" "same"     
+## [13] "different" "same"      "same"      "different" "same"      "same"     
+## [19] "same"      "same"      "different" "same"      "same"      "same"     
+## [25] "same"      "same"      "same"      "same"      "same"      "different"
+## [31] "same"      "different" "same"      "different" "same"      "same"     
+## [37] "same"      "different" "different" "same"      "different" "same"     
+## [43] "different" "same"      "same"      "same"      "same"      "different"
+## [49] "same"      "different" "different" "same"      "same"      "different"
+## [55] "same"      "different" "same"      "same"      "different" "different"
+## [61] "different" "same"      "same"      "different" "different" "different"
+## [67] "same"      "different" "different" "different" "same"      "same"     
+## [73] "different" "different" "same"      "same"      "different" "different"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1706,9 +1768,10 @@ The example below subsets the \texttt{karate} networks to only retain male indiv
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ba30ec7 UNW- 12 6 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH 8e90a63 UNW- 12 6 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 How would you change the code to retain female individuals?
@@ -1726,9 +1789,10 @@ The example below shows you how to extract the immediate neighborhood structure 
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH d118f3a UNW- 10 21 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH 45692c1 UNW- 10 21 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1750,9 +1814,10 @@ We can also extract the ego's 2-hop neighborhood - this includes their immediate
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 552d6ff UNW- 26 59 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH dfeb60d UNW- 26 59 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1791,7 +1856,19 @@ The \texttt{eids} argument looks a bit crazy, but what it is doing to subset fro
 \NormalTok{mixed\_network }\OtherTok{\textless{}{-}} \FunctionTok{subgraph.edges}\NormalTok{(}\AttributeTok{graph =}\NormalTok{ karate, }
                                 \AttributeTok{eids =} \FunctionTok{E}\NormalTok{(karate)[}\FunctionTok{V}\NormalTok{(karate)[}\FunctionTok{V}\NormalTok{(karate)}\SpecialCharTok{$}\NormalTok{gender }\SpecialCharTok{==} \StringTok{\textquotesingle{}female\textquotesingle{}}\NormalTok{] }\SpecialCharTok{\%{-}{-}\%} \FunctionTok{V}\NormalTok{(karate)[}\FunctionTok{V}\NormalTok{(karate)}\SpecialCharTok{$}\NormalTok{gender }\SpecialCharTok{==} \StringTok{\textquotesingle{}male\textquotesingle{}}\NormalTok{]]}
 \NormalTok{                                ) }
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Warning: `subgraph.edges()` was deprecated in igraph 2.1.0.
+## i Please use `subgraph_from_edges()` instead.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# eids = E(network)$weight \textgreater{} 4}
 
 \FunctionTok{plot}\NormalTok{(mixed\_network, }\AttributeTok{vertex.color =} \FunctionTok{factor}\NormalTok{(}\FunctionTok{V}\NormalTok{(mixed\_network)}\SpecialCharTok{$}\NormalTok{gender)) }
@@ -1823,6 +1900,19 @@ To illustrate this, we first have to convert our \texttt{karate} network into a 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{karate\_d1 }\OtherTok{\textless{}{-}} \FunctionTok{as.directed}\NormalTok{(karate, }\AttributeTok{mode =} \StringTok{\textquotesingle{}random\textquotesingle{}}\NormalTok{) }\CommentTok{\# convert undirected edges into directed edges }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `as.directed()` was deprecated in igraph 2.1.0.
+## i Please use `as_directed()` instead.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{karate\_d2 }\OtherTok{\textless{}{-}} \FunctionTok{as.directed}\NormalTok{(karate, }\AttributeTok{mode =} \StringTok{\textquotesingle{}mutual\textquotesingle{}}\NormalTok{) }\CommentTok{\# convert undirected edges into mutual, directed edges}
 
 \FunctionTok{summary}\NormalTok{(karate\_d1)}
@@ -1830,9 +1920,10 @@ To illustrate this, we first have to convert our \texttt{karate} network into a 
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 8d3c933 DNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH 90ae143 DNW- 34 78 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1842,9 +1933,10 @@ To illustrate this, we first have to convert our \texttt{karate} network into a 
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ab520e8 DNW- 34 156 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH 87863d8 DNW- 34 156 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 Notice from the summary output that \texttt{karate\_d2} has twice the number of edges than \texttt{karate\_d1}. This is because each undirected edge has been converted into two directed edges (mutual) connecting the node pair in both directions.
@@ -1860,9 +1952,10 @@ We can use the function \texttt{which\_mutual} to detect mutual directed edges i
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 11e2f74 DNW- 0 0 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH cde38ea DNW- 0 0 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1873,9 +1966,10 @@ We can use the function \texttt{which\_mutual} to detect mutual directed edges i
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH c5c8233 DNW- 34 156 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH c18d7bc DNW- 34 156 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1887,9 +1981,10 @@ We can use the function \texttt{which\_mutual} to detect mutual directed edges i
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 8de7dc3 DNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH 1f220cf DNW- 34 78 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \begin{Shaded}
@@ -1900,9 +1995,10 @@ We can use the function \texttt{which\_mutual} to detect mutual directed edges i
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 7b54542 DNW- 0 0 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## IGRAPH b4489eb DNW- 0 0 -- Zachary's karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 Notice from the summary output that you get different results depending on the way that the directed graph is constructed. In these toy examples, the directed edges in the network were either ALL mutual edges or ALL non-mutual edges. If you have a network with varying proportions of mutual and non-mutual edges these functions can be useful for assessing the overall mutuality of the directed graph.
@@ -1962,7 +2058,7 @@ To facilitate the demonstrations below, we will use the undirected, unweighted k
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ad51411 UN-- 34 78 -- 
+## IGRAPH b428c33 UN-- 34 78 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -2371,7 +2467,7 @@ The code below shows you how to extract the largest connected component of the s
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH b79044e UN-- 3 3 -- 
+## IGRAPH f304375 UN-- 3 3 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -2387,7 +2483,7 @@ It is also possible to extract other components of the network. The code below r
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 3c69759 UN-- 2 1 -- 
+## IGRAPH 03827d6 UN-- 2 1 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -2468,7 +2564,7 @@ To facilitate the demonstrations below, we will use the directed, weighted karat
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 59b40ce DNW- 34 78 -- 
+## IGRAPH 5821f0c DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -2485,10 +2581,16 @@ To get the degree of all nodes in the network, try running the following code:
 \end{Shaded}
 
 \begin{verbatim}
-##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 
-##       16        9       10        6        3        4        4        5        2        5        2        2        2        3        2        2        5        3 
-## Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
-##        3        2        4        3        4        4        6       12        4        3        1        2        2        2        2       17
+##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 
+##       16        9       10        6        3        4        4        5 
+## Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 
+##        2        5        2        2        2        3        2        2 
+## Actor 24 Actor 25 Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 
+##        5        3        3        2        4        3        4        4 
+## Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 
+##        6       12        4        3        1        2        2        2 
+## Actor 17   John A 
+##        2       17
 \end{verbatim}
 
 If you only want the degree for a specific node:
@@ -2603,10 +2705,16 @@ To get the strength of all nodes in the network, try running the following code:
 \end{Shaded}
 
 \begin{verbatim}
-##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 Actor 24 Actor 25 
-##       45       23       33       16        4       12       11       16        5       17        6        7        5        9        2        9       22       11 
-## Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 Actor 17   John A 
-##        7        4       13        9       12       11       17       31        8        5        1        7        7        3        5       53
+##    Mr Hi  Actor 2  Actor 3  Actor 4  Actor 5  Actor 6  Actor 7  Actor 9 
+##       45       23       33       16        4       12       11       16 
+## Actor 10 Actor 14 Actor 15 Actor 16 Actor 19 Actor 20 Actor 21 Actor 23 
+##        5       17        6        7        5        9        2        9 
+## Actor 24 Actor 25 Actor 26 Actor 27 Actor 28 Actor 29 Actor 30 Actor 31 
+##       22       11        7        4       13        9       12       11 
+## Actor 32 Actor 33  Actor 8 Actor 11 Actor 12 Actor 13 Actor 18 Actor 22 
+##       17       31        8        5        1        7        7        3 
+## Actor 17   John A 
+##        5       53
 \end{verbatim}
 
 If you only want the strength for a specific node(s):
@@ -2716,10 +2824,14 @@ To get the local clustering coefficient of all nodes in the network, try running
 \end{Shaded}
 
 \begin{verbatim}
-##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667 0.0000000 1.0000000 1.0000000 1.0000000 
+##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9 
+## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 
+##  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31 
+## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 
+##  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.2000000 0.1969697 1.0000000 0.6666667 0.0000000 1.0000000 1.0000000 1.0000000 
 ##  Actor 17    John A 
 ## 1.0000000 0.1102941
 \end{verbatim}
@@ -2741,10 +2853,14 @@ A couple of things to note:
 \end{Shaded}
 
 \begin{verbatim}
-##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 0.2000000 0.1969697 1.0000000 0.6666667       NaN 1.0000000 1.0000000 1.0000000 
+##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9 
+## 0.1500000 0.3333333 0.2444444 0.6666667 0.6666667 0.5000000 0.5000000 0.5000000 
+##  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.0000000 0.6000000 1.0000000 1.0000000 1.0000000 0.3333333 1.0000000 1.0000000 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31 
+## 0.4000000 0.3333333 0.3333333 1.0000000 0.1666667 0.3333333 0.6666667 0.5000000 
+##  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.2000000 0.1969697 1.0000000 0.6666667       NaN 1.0000000 1.0000000 1.0000000 
 ##  Actor 17    John A 
 ## 1.0000000 0.1102941
 \end{verbatim}
@@ -2760,12 +2876,16 @@ If you have a weighted network, you can compute \emph{weighted} local clustering
 \end{Shaded}
 
 \begin{verbatim}
-##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20   Actor 21 
-## 0.13629630 0.31521739 0.25925926 0.63750000 0.75000000 0.58333333 0.54545455 0.48437500 0.00000000 0.70588235 1.00000000 1.00000000 1.00000000 0.22222222 1.00000000 
-##   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11   Actor 12   Actor 13 
-## 1.00000000 0.38636364 0.27272727 0.14285714 1.00000000 0.15384615 0.27777778 0.75000000 0.60606061 0.16470588 0.15542522 1.00000000 0.80000000        NaN 1.00000000 
-##   Actor 18   Actor 22   Actor 17     John A 
-## 1.00000000 1.00000000 1.00000000 0.09669811
+##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7 
+## 0.13629630 0.31521739 0.25925926 0.63750000 0.75000000 0.58333333 0.54545455 
+##    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20 
+## 0.48437500 0.00000000 0.70588235 1.00000000 1.00000000 1.00000000 0.22222222 
+##   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28 
+## 1.00000000 1.00000000 0.38636364 0.27272727 0.14285714 1.00000000 0.15384615 
+##   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11 
+## 0.27777778 0.75000000 0.60606061 0.16470588 0.15542522 1.00000000 0.80000000 
+##   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
+##        NaN 1.00000000 1.00000000 1.00000000 1.00000000 0.09669811
 \end{verbatim}
 
 \section{Closeness centrality}\label{closeness-centrality}
@@ -2783,10 +2903,14 @@ To get the closeness centrality of all nodes in the network, try running the fol
 \end{Shaded}
 
 \begin{verbatim}
-##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
+##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9 
+## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 
+##  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31 
+## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 
+##  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
 ##  Actor 17    John A 
 ##       NaN       NaN
 \end{verbatim}
@@ -2810,10 +2934,14 @@ If your network is unweighted, then weights are not considered by default.
 \end{Shaded}
 
 \begin{verbatim}
-##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
+##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9 
+## 0.2771084 0.2051282 0.2666667 0.2666667 0.5000000 0.4285714 0.3333333 0.4285714 
+##  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 0.5000000 1.0000000 0.3333333 0.2857143 0.6666667 0.2000000 1.0000000 0.2222222 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31 
+## 0.2142857 0.3125000 0.4285714 0.4285714 0.5000000 0.3333333 0.4000000 0.2857143 
+##  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 0.5000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
 ##  Actor 17    John A 
 ##       NaN       NaN
 \end{verbatim}
@@ -2825,10 +2953,14 @@ If your network is unweighted, then weights are not considered by default.
 \end{Shaded}
 
 \begin{verbatim}
-##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
-## 0.7666667 0.6400000 0.7500000 0.8000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 
-##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
-## 0.8571429 0.7142857 0.6000000 0.7500000 1.0000000 0.7500000 1.0000000 1.0000000 1.0000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
+##     Mr Hi   Actor 2   Actor 3   Actor 4   Actor 5   Actor 6   Actor 7   Actor 9 
+## 0.7666667 0.6400000 0.7500000 0.8000000 0.7500000 1.0000000 1.0000000 1.0000000 
+##  Actor 10  Actor 14  Actor 15  Actor 16  Actor 19  Actor 20  Actor 21  Actor 23 
+## 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 
+##  Actor 24  Actor 25  Actor 26  Actor 27  Actor 28  Actor 29  Actor 30  Actor 31 
+## 0.8571429 0.7142857 0.6000000 0.7500000 1.0000000 0.7500000 1.0000000 1.0000000 
+##  Actor 32  Actor 33   Actor 8  Actor 11  Actor 12  Actor 13  Actor 18  Actor 22 
+## 1.0000000 1.0000000       NaN       NaN       NaN       NaN       NaN       NaN 
 ##  Actor 17    John A 
 ##       NaN       NaN
 \end{verbatim}
@@ -2865,7 +2997,7 @@ To demonstrate this point consider the simple example below where we wish to com
 
 \begin{verbatim}
 ## [[1]]
-## + 4/5 vertices, named, from b2b6ef8:
+## + 4/5 vertices, named, from adf9393:
 ## [1] A D E C
 \end{verbatim}
 
@@ -2877,7 +3009,7 @@ To demonstrate this point consider the simple example below where we wish to com
 
 \begin{verbatim}
 ## [[1]]
-## + 3/5 vertices, named, from b2b6ef8:
+## + 3/5 vertices, named, from adf9393:
 ## [1] A B C
 \end{verbatim}
 
@@ -2894,7 +3026,7 @@ To demonstrate this point consider the simple example below where we wish to com
 
 \begin{verbatim}
 ## [[1]]
-## + 3/5 vertices, named, from b2b6ef8:
+## + 3/5 vertices, named, from adf9393:
 ## [1] A B C
 \end{verbatim}
 
@@ -2971,12 +3103,18 @@ To get the betweenness centrality of all nodes in the network, try running the f
 \end{Shaded}
 
 \begin{verbatim}
-##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
-## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
-##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
-## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
-##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
-## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6 
+## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 
+##      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
+## 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
+##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
+## 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
+##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13 
+## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 18     Actor 22     Actor 17       John A 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000
 \end{verbatim}
 
 \subsection{Weighted betweenness centrality}\label{weighted-betweenness-centrality}
@@ -2992,12 +3130,18 @@ If your network is unweighted, then weights are not considered by default.
 \end{Shaded}
 
 \begin{verbatim}
-##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
-## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
-##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
-## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
-##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
-## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6 
+## 0.0000000000 0.0021306818 0.0075757576 0.0040246212 0.0014204545 0.0000000000 
+##      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
+## 0.0018939394 0.0016571970 0.0000000000 0.0023674242 0.0000000000 0.0000000000 
+##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
+## 0.0037878788 0.0000000000 0.0000000000 0.0018939394 0.0009469697 0.0026041667 
+##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13 
+## 0.0047348485 0.0056818182 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 18     Actor 22     Actor 17       John A 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000
 \end{verbatim}
 
 \begin{Shaded}
@@ -3007,12 +3151,18 @@ If your network is unweighted, then weights are not considered by default.
 \end{Shaded}
 
 \begin{verbatim}
-##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
-## 0.0000000000 0.0004734848 0.0083648990 0.0018939394 0.0000000000 0.0004734848 0.0014204545 0.0021306818 0.0001578283 0.0016571970 0.0000000000 0.0000000000 
-##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
-## 0.0000000000 0.0005523990 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0009469697 0.0000000000 0.0006313131 0.0020517677 0.0009469697 0.0007891414 
-##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13     Actor 18     Actor 22     Actor 17       John A 
-## 0.0048137626 0.0001578283 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+##        Mr Hi      Actor 2      Actor 3      Actor 4      Actor 5      Actor 6 
+## 0.0000000000 0.0004734848 0.0083648990 0.0018939394 0.0000000000 0.0004734848 
+##      Actor 7      Actor 9     Actor 10     Actor 14     Actor 15     Actor 16 
+## 0.0014204545 0.0021306818 0.0001578283 0.0016571970 0.0000000000 0.0000000000 
+##     Actor 19     Actor 20     Actor 21     Actor 23     Actor 24     Actor 25 
+## 0.0000000000 0.0005523990 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 26     Actor 27     Actor 28     Actor 29     Actor 30     Actor 31 
+## 0.0009469697 0.0000000000 0.0006313131 0.0020517677 0.0009469697 0.0007891414 
+##     Actor 32     Actor 33      Actor 8     Actor 11     Actor 12     Actor 13 
+## 0.0048137626 0.0001578283 0.0000000000 0.0000000000 0.0000000000 0.0000000000 
+##     Actor 18     Actor 22     Actor 17       John A 
+## 0.0000000000 0.0000000000 0.0000000000 0.0000000000
 \end{verbatim}
 
 \subsection{Directed betweenness centrality}\label{directed-betweenness-centrality}
@@ -3059,12 +3209,18 @@ To get the Page Rank centrality of all nodes in the network, try running the fol
 \end{Shaded}
 
 \begin{verbatim}
-##       Mr Hi     Actor 2     Actor 3     Actor 4     Actor 5     Actor 6     Actor 7     Actor 9    Actor 10    Actor 14    Actor 15    Actor 16    Actor 19 
-## 0.096997285 0.052876924 0.057078509 0.035859858 0.021977952 0.029111155 0.029111155 0.029766056 0.014309397 0.029536456 0.014535994 0.014535994 0.014535994 
-##    Actor 20    Actor 21    Actor 23    Actor 24    Actor 25    Actor 26    Actor 27    Actor 28    Actor 29    Actor 30    Actor 31    Actor 32    Actor 33 
-## 0.019604636 0.014535994 0.014535994 0.031522515 0.021076034 0.021006197 0.015044038 0.025639767 0.019573459 0.026288538 0.024590155 0.037158087 0.071693226 
-##     Actor 8    Actor 11    Actor 12    Actor 13    Actor 18    Actor 22    Actor 17      John A 
-## 0.024490497 0.021977952 0.009564745 0.014644892 0.014558677 0.014558677 0.016784005 0.100919182
+##       Mr Hi     Actor 2     Actor 3     Actor 4     Actor 5     Actor 6 
+## 0.096997285 0.052876924 0.057078509 0.035859858 0.021977952 0.029111155 
+##     Actor 7     Actor 9    Actor 10    Actor 14    Actor 15    Actor 16 
+## 0.029111155 0.029766056 0.014309397 0.029536456 0.014535994 0.014535994 
+##    Actor 19    Actor 20    Actor 21    Actor 23    Actor 24    Actor 25 
+## 0.014535994 0.019604636 0.014535994 0.014535994 0.031522515 0.021076034 
+##    Actor 26    Actor 27    Actor 28    Actor 29    Actor 30    Actor 31 
+## 0.021006197 0.015044038 0.025639767 0.019573459 0.026288538 0.024590155 
+##    Actor 32    Actor 33     Actor 8    Actor 11    Actor 12    Actor 13 
+## 0.037158087 0.071693226 0.024490497 0.021977952 0.009564745 0.014644892 
+##    Actor 18    Actor 22    Actor 17      John A 
+## 0.014558677 0.014558677 0.016784005 0.100919182
 \end{verbatim}
 
 \begin{Shaded}
@@ -3075,12 +3231,16 @@ To get the Page Rank centrality of all nodes in the network, try running the fol
 \end{Shaded}
 
 \begin{verbatim}
-##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20   Actor 21 
-## 0.01523537 0.01552315 0.01938528 0.01886916 0.01581093 0.01667427 0.03091729 0.01884496 0.01729506 0.02746170 0.01523537 0.01523537 0.01523537 0.01701045 0.01523537 
-##   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11   Actor 12   Actor 13 
-## 0.01523537 0.01523537 0.01523537 0.01935585 0.01523537 0.02484945 0.01798162 0.02141609 0.01939474 0.04512689 0.08402038 0.02351277 0.02484309 0.01552315 0.01988203 
-##   Actor 18   Actor 22   Actor 17     John A 
-## 0.01880972 0.01672267 0.04556454 0.26808640
+##      Mr Hi    Actor 2    Actor 3    Actor 4    Actor 5    Actor 6    Actor 7 
+## 0.01523537 0.01552315 0.01938528 0.01886916 0.01581093 0.01667427 0.03091729 
+##    Actor 9   Actor 10   Actor 14   Actor 15   Actor 16   Actor 19   Actor 20 
+## 0.01884496 0.01729506 0.02746170 0.01523537 0.01523537 0.01523537 0.01701045 
+##   Actor 21   Actor 23   Actor 24   Actor 25   Actor 26   Actor 27   Actor 28 
+## 0.01523537 0.01523537 0.01523537 0.01523537 0.01935585 0.01523537 0.02484945 
+##   Actor 29   Actor 30   Actor 31   Actor 32   Actor 33    Actor 8   Actor 11 
+## 0.01798162 0.02141609 0.01939474 0.04512689 0.08402038 0.02351277 0.02484309 
+##   Actor 12   Actor 13   Actor 18   Actor 22   Actor 17     John A 
+## 0.01552315 0.01988203 0.01880972 0.01672267 0.04556454 0.26808640
 \end{verbatim}
 
 \begin{Shaded}
@@ -3213,7 +3373,7 @@ In this section we will use the undirected, unweighted version of the karate net
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 73508cb UN-- 34 78 -- 
+## IGRAPH 0c7e8ac UN-- 34 78 -- 
 ## + attr: name (v/c)
 \end{verbatim}
 
@@ -3574,7 +3734,15 @@ More formally, we can make use of statistical methods such as the Fleiss' Kappa 
 
 \CommentTok{\# compute consistency that two nodes tend to be found in the same cluster }
 \FunctionTok{library}\NormalTok{(irr) }\CommentTok{\# we need this library for the kappa test of interrater agreement }
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## Loading required package: lpSolve
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{kappam.fleiss}\NormalTok{(compare\_membership)}
 \end{Highlighting}
 \end{Shaded}
@@ -3771,7 +3939,8 @@ In this chapter, let's use the familiar \texttt{karate} network as our target ne
 
 \begin{verbatim}
 ## IGRAPH 4b458a1 UNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), weight (e/n)
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), weight (e/n)
 \end{verbatim}
 
 \section{Erdos-Renyi Network Model}\label{erdos-renyi-network-model}
@@ -3896,8 +4065,9 @@ The model is initialized by a regular lattice network, where all nodes have the 
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 9a134d2 U--- 10 20 -- Watts-Strogatz random graph
-## + attr: name (g/c), dim (g/n), size (g/n), nei (g/n), p (g/n), loops (g/l), multiple (g/l)
+## IGRAPH 743da23 U--- 10 20 -- Watts-Strogatz random graph
+## + attr: name (g/c), dim (g/n), size (g/n), nei (g/n), p (g/n), loops
+## | (g/l), multiple (g/l)
 \end{verbatim}
 
 \begin{Shaded}
@@ -3951,8 +4121,9 @@ Let's increase the rewiring probability and see how it changes the WS network:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH b9cac70 U--- 10 20 -- Watts-Strogatz random graph
-## + attr: name (g/c), dim (g/n), size (g/n), nei (g/n), p (g/n), loops (g/l), multiple (g/l)
+## IGRAPH bca3c80 U--- 10 20 -- Watts-Strogatz random graph
+## + attr: name (g/c), dim (g/n), size (g/n), nei (g/n), p (g/n), loops
+## | (g/l), multiple (g/l)
 \end{verbatim}
 
 \begin{Shaded}
@@ -4198,6 +4369,15 @@ First, let's download and load the \texttt{spreadr} R package.
 \CommentTok{\# remotes::install\_github(\textquotesingle{}csqsiew/spreadr\textquotesingle{}) \# to get the most updated version from my github }
 
 \FunctionTok{library}\NormalTok{(spreadr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Rcpp
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(igraph)}
 \end{Highlighting}
 \end{Shaded}
@@ -4231,17 +4411,23 @@ In order to implement the spreading activation mechanism, we need to specify a n
 \end{Shaded}
 
 \begin{verbatim}
+## This graph was created by an old(er) igraph version.
+## i Call `igraph::upgrade_graph()` on it to use with the current igraph version.
+## For now we convert it on the fly...
+\end{verbatim}
+
+\begin{verbatim}
 ## IGRAPH a7c0363 UN-- 34 96 -- 
 ## + attr: name (v/c)
 ## + edges from a7c0363 (vertex names):
-##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck 
-## [11] speck --sped   sped  --speed  sped  --spud   speed --spud   speed --stead  speed --seed   speed --speech speak --speed  stead --seed   seed  --seek  
-## [21] seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek  speak --sneak  speak --sleek  speak --peek   speak --speech speech--peach 
-## [31] peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach  peach --beach 
-## [41] peach --each   peach --pouch  peach --pitch  peach --patch  peach --pooch  peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel  
-## [51] peep  --pea    peek  --pea    peace --pea    pea   --peat   peep  --peel   peep  --peas   peep  --peat   peace --peep   peek  --peep   peel  --peas  
-## [61] peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas   peek  --peas   peek  --peat   peek  --peace  peace --peat   teach --leach 
-## [71] leach --reach  leach --each   leach --beach  teach --beach  teach --each   teach --reach  beach --each   beach --reach  each  --reach  preach--reach 
+##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook 
+##  [6] spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck 
+## [11] speck --sped   sped  --speed  sped  --spud   speed --spud   speed --stead 
+## [16] speed --seed   speed --speech speak --speed  stead --seed   seed  --seek  
+## [21] seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek 
+## [26] speak --sneak  speak --sleek  speak --peek   speak --speech speech--peach 
+## [31] peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat  
+## [36] peach --peel   peach --peas   peach --teach  peach --leach  peach --beach 
 ## + ... omitted several edges
 \end{verbatim}
 
@@ -4526,6 +4712,17 @@ We will use the \texttt{macaque} network from the \texttt{igraphdata} R package 
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## 
+## Attaching package: 'keyplayer'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:igraph':
+## 
+##     contract
+\end{verbatim}
+
 \section{Key Player Problem-Negative}\label{key-player-problem-negative}
 
 The goal of the KPP-Neg is to maximize Fragmentation.
@@ -4737,11 +4934,34 @@ We will continue to use the \texttt{macaque} network from Chapter 11 for demonst
 \CommentTok{\# load the other packages that we need }
 \FunctionTok{library}\NormalTok{(igraph)}
 \FunctionTok{library}\NormalTok{(influenceR)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## 
+## Attaching package: 'influenceR'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:igraph':
+## 
+##     betweenness, constraint
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# to make edges undirected by collapsing directed edges }
 \NormalTok{macaque }\OtherTok{\textless{}{-}} \FunctionTok{as.undirected}\NormalTok{(macaque, }\AttributeTok{mode =} \StringTok{\textquotesingle{}collapse\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning: `as.undirected()` was deprecated in igraph 2.1.0.
+## i Please use `as_undirected()` instead.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
 
 \begin{verbatim}
 ## This graph was created by an old(er) igraph version.
@@ -4783,14 +5003,22 @@ Below, we can easily use the \texttt{bridging} function to compute this informat
 \end{Shaded}
 
 \begin{verbatim}
-##           V1           V2           V3          V3A           V4          V4t          VOT           VP           MT       MSTd/p         MSTl           PO 
-## 0.0003156566 0.0003310887 0.0002976190 0.0003108003 0.0005071549 0.0003282828 0.0002693603 0.0002976190 0.0002946128 0.0002921371 0.0003328742 0.0002861953 
-##          LIP          PIP          VIP           DP           7a          FST         PITd         PITv         CITd         CITv         AITd         AITv 
-## 0.0003135522 0.0003507295 0.0005250922 0.0003086420 0.0003900112 0.0002702463 0.0003367003 0.0002840909 0.0004349046 0.0003682660 0.0003198653 0.0003848004 
-##         STPp         STPa           TF           TH          FEF           46           3a           3b            1            2            5           Ri 
-## 0.0003661616 0.0004377104 0.0004307784 0.0003437149 0.0003979186 0.0004861111 0.0004349046 0.0004629630 0.0003787879 0.0003749617 0.0003979186 0.0004103535 
-##          SII           7b            4            6          SMA           Ig           Id           35           36 
-## 0.0005536131 0.0003561254 0.0003114478 0.0003137435 0.0003156566 0.0004278900 0.0004945286 0.0005471380 0.0005611672
+##           V1           V2           V3          V3A           V4          V4t 
+## 0.0003156566 0.0003310887 0.0002976190 0.0003108003 0.0005071549 0.0003282828 
+##          VOT           VP           MT       MSTd/p         MSTl           PO 
+## 0.0002693603 0.0002976190 0.0002946128 0.0002921371 0.0003328742 0.0002861953 
+##          LIP          PIP          VIP           DP           7a          FST 
+## 0.0003135522 0.0003507295 0.0005250922 0.0003086420 0.0003900112 0.0002702463 
+##         PITd         PITv         CITd         CITv         AITd         AITv 
+## 0.0003367003 0.0002840909 0.0004349046 0.0003682660 0.0003198653 0.0003848004 
+##         STPp         STPa           TF           TH          FEF           46 
+## 0.0003661616 0.0004377104 0.0004307784 0.0003437149 0.0003979186 0.0004861111 
+##           3a           3b            1            2            5           Ri 
+## 0.0004349046 0.0004629630 0.0003787879 0.0003749617 0.0003979186 0.0004103535 
+##          SII           7b            4            6          SMA           Ig 
+## 0.0005536131 0.0003561254 0.0003114478 0.0003137435 0.0003156566 0.0004278900 
+##           Id           35           36 
+## 0.0004945286 0.0005471380 0.0005611672
 \end{verbatim}
 
 \begin{Shaded}
@@ -4848,12 +5076,18 @@ Below, we can easily use the \texttt{ens} function to compute this information f
 \end{Shaded}
 
 \begin{verbatim}
-##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP 
-##  2.000000  6.200000  5.428571  4.076923 12.900000  3.200000  3.000000  6.000000  6.125000  7.941176  4.272727  5.933333 10.700000  3.888889 12.333333  4.833333 
-##        7a       FST      PITd      PITv      CITd      CITv      AITd      AITv      STPp      STPa        TF        TH       FEF        46        3a        3b 
-##  8.866667 10.157895  5.250000  6.666667  3.000000  3.750000  5.600000  3.000000  6.400000  1.800000 11.941176  7.333333 13.454545 13.900000  2.000000  1.000000 
-##         1         2         5        Ri       SII        7b         4         6       SMA        Ig        Id        35        36 
-##  2.750000  4.636364  5.181818  1.500000  7.615385  6.538462  4.200000  4.272727  2.750000  4.000000  2.500000  3.000000  4.666667
+##        V1        V2        V3       V3A        V4       V4t       VOT        VP 
+##  2.000000  6.200000  5.428571  4.076923 12.900000  3.200000  3.000000  6.000000 
+##        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP 
+##  6.125000  7.941176  4.272727  5.933333 10.700000  3.888889 12.333333  4.833333 
+##        7a       FST      PITd      PITv      CITd      CITv      AITd      AITv 
+##  8.866667 10.157895  5.250000  6.666667  3.000000  3.750000  5.600000  3.000000 
+##      STPp      STPa        TF        TH       FEF        46        3a        3b 
+##  6.400000  1.800000 11.941176  7.333333 13.454545 13.900000  2.000000  1.000000 
+##         1         2         5        Ri       SII        7b         4         6 
+##  2.750000  4.636364  5.181818  1.500000  7.615385  6.538462  4.200000  4.272727 
+##       SMA        Ig        Id        35        36 
+##  2.750000  4.000000  2.500000  3.000000  4.666667
 \end{verbatim}
 
 \begin{Shaded}
@@ -5088,11 +5322,15 @@ As we can see below, there are 17 items in the PSS-SR, corresponding to the colu
 
 \begin{verbatim}
 ## # A tibble: 3 x 5
-##   `AVOID REMINDERS OF THE TRAUMA` `BAD DREAMS ABOUT THE TRAUMA` `BEING JUMPY OR EASILY STARTLED` `BEING OVER ALERT` `DISTANT OR CUT OFF FROM PEOPLE`
-##                             <dbl>                         <dbl>                            <dbl>              <dbl>                            <dbl>
-## 1                               4                             1                                4                  4                                1
-## 2                               1                             3                                2                  3                                1
-## 3                               4                             2                                1                  2                                2
+##   `AVOID REMINDERS OF THE TRAUMA` BAD DREAMS ABOUT THE ~1 BEING JUMPY OR EASIL~2
+##                             <dbl>                   <dbl>                  <dbl>
+## 1                               4                       1                      4
+## 2                               1                       3                      2
+## 3                               4                       2                      1
+## # i abbreviated names: 1: `BAD DREAMS ABOUT THE TRAUMA`,
+## #   2: `BEING JUMPY OR EASILY STARTLED`
+## # i 2 more variables: `BEING OVER ALERT` <dbl>,
+## #   `DISTANT OR CUT OFF FROM PEOPLE` <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -5102,10 +5340,14 @@ As we can see below, there are 17 items in the PSS-SR, corresponding to the colu
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] "AVOID REMINDERS OF THE TRAUMA"  "BAD DREAMS ABOUT THE TRAUMA"    "BEING JUMPY OR EASILY STARTLED" "BEING OVER ALERT"              
-##  [5] "DISTANT OR CUT OFF FROM PEOPLE" "FEELING EMOTIONALLY NUMB"       "FEELING IRRITABLE"              "FEELING PLANS WONT COME TRUE"  
-##  [9] "HAVING TROUBLE CONCENTRATING"   "HAVING TROUBLE SLEEPING"        "LESS INTEREST IN ACTIVITIES"    "NOT ABLE TO REMEMBER"          
-## [13] "NOT THINKING ABOUT TRAUMA"      "PHYSICAL REACTIONS"             "RELIVING THE TRAUMA"            "UPSET WHEN REMINDED OF TRAUMA" 
+##  [1] "AVOID REMINDERS OF THE TRAUMA"  "BAD DREAMS ABOUT THE TRAUMA"   
+##  [3] "BEING JUMPY OR EASILY STARTLED" "BEING OVER ALERT"              
+##  [5] "DISTANT OR CUT OFF FROM PEOPLE" "FEELING EMOTIONALLY NUMB"      
+##  [7] "FEELING IRRITABLE"              "FEELING PLANS WONT COME TRUE"  
+##  [9] "HAVING TROUBLE CONCENTRATING"   "HAVING TROUBLE SLEEPING"       
+## [11] "LESS INTEREST IN ACTIVITIES"    "NOT ABLE TO REMEMBER"          
+## [13] "NOT THINKING ABOUT TRAUMA"      "PHYSICAL REACTIONS"            
+## [15] "RELIVING THE TRAUMA"            "UPSET WHEN REMINDED OF TRAUMA" 
 ## [17] "UPSETTING THOUGHTS OR IMAGES"
 \end{verbatim}
 
@@ -5118,7 +5360,19 @@ We make use of the \texttt{estimateNetwork} function from bootnet to help us do 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(bootnet)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## This is bootnet 1.9.1
+\end{verbatim}
+
+\begin{verbatim}
+## For questions and issues, please see github.com/SachaEpskamp/bootnet.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{ptsd\_network }\OtherTok{\textless{}{-}} \FunctionTok{estimateNetwork}\NormalTok{(qs\_freq\_wide, }\AttributeTok{default =} \StringTok{"pcor"}\NormalTok{) }
 \end{Highlighting}
 \end{Shaded}
@@ -5216,42 +5470,60 @@ We can view the adjacency matrix of the network from running the following:
 \end{Shaded}
 
 \begin{verbatim}
-##            AROTT      BDATT      BJOES       BOA    DOCOFP       FEN       FEI     FPWCT        HTC       HTS      LIIA      NATR      NTAT       PHR       RTT
-## AROTT  0.0000000  0.0000000  0.0000000 0.1555554 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.1515577 0.1746399 0.0000000
-## BDATT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 -0.1221041 0.0000000 0.0000000 0.0000000 0.0000000 0.1089284 0.0000000
-## BJOES  0.0000000  0.0000000  0.0000000 0.4075190 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.1129132 0.0000000 0.1204094 0.1692879 0.0000000
-## BOA    0.1555554  0.0000000  0.4075190 0.0000000 0.0000000 0.1423142 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-## DOCOFP 0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.2357181 0.1334469 0.0000000  0.0000000 0.0000000 0.3509726 0.0000000 0.0000000 0.0000000 0.0000000
-## FEN    0.0000000  0.0000000  0.0000000 0.1423142 0.2357181 0.0000000 0.1410481 0.1474119  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-## FEI    0.0000000  0.0000000  0.0000000 0.0000000 0.1334469 0.1410481 0.0000000 0.1214582  0.1793871 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-## FPWCT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.1474119 0.1214582 0.0000000  0.0000000 0.0000000 0.2044012 0.0000000 0.0000000 0.0000000 0.0000000
-## HTC    0.0000000 -0.1221041  0.0000000 0.0000000 0.0000000 0.0000000 0.1793871 0.0000000  0.0000000 0.1332300 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-## HTS    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.1332300 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
-## LIIA   0.0000000  0.0000000  0.1129132 0.0000000 0.3509726 0.0000000 0.0000000 0.2044012  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.1093724
-## NATR   0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.1711055 0.0000000 0.1487162
-## NTAT   0.1515577  0.0000000  0.1204094 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.1711055 0.0000000 0.0000000 0.0000000
-## PHR    0.1746399  0.1089284  0.1692879 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.1811024
-## RTT    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.1093724 0.1487162 0.0000000 0.1811024 0.0000000
-## UWROT  0.0000000  0.1461690 -0.1109757 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.1546641 0.1169038 0.0000000 0.0000000
-## UTOI   0.0000000  0.1710409  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000  0.0000000 0.1351728 0.0000000 0.0000000 0.0000000 0.0000000 0.1970405
-##             UWROT      UTOI
-## AROTT   0.0000000 0.0000000
-## BDATT   0.1461690 0.1710409
-## BJOES  -0.1109757 0.0000000
-## BOA     0.0000000 0.0000000
-## DOCOFP  0.0000000 0.0000000
-## FEN     0.0000000 0.0000000
-## FEI     0.0000000 0.0000000
-## FPWCT   0.0000000 0.0000000
-## HTC     0.0000000 0.0000000
-## HTS     0.0000000 0.1351728
-## LIIA    0.0000000 0.0000000
-## NATR    0.1546641 0.0000000
-## NTAT    0.1169038 0.0000000
-## PHR     0.0000000 0.0000000
-## RTT     0.0000000 0.1970405
-## UWROT   0.0000000 0.4497070
-## UTOI    0.4497070 0.0000000
+##            AROTT      BDATT      BJOES       BOA    DOCOFP       FEN       FEI
+## AROTT  0.0000000  0.0000000  0.0000000 0.1555554 0.0000000 0.0000000 0.0000000
+## BDATT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## BJOES  0.0000000  0.0000000  0.0000000 0.4075190 0.0000000 0.0000000 0.0000000
+## BOA    0.1555554  0.0000000  0.4075190 0.0000000 0.0000000 0.1423142 0.0000000
+## DOCOFP 0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.2357181 0.1334469
+## FEN    0.0000000  0.0000000  0.0000000 0.1423142 0.2357181 0.0000000 0.1410481
+## FEI    0.0000000  0.0000000  0.0000000 0.0000000 0.1334469 0.1410481 0.0000000
+## FPWCT  0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.1474119 0.1214582
+## HTC    0.0000000 -0.1221041  0.0000000 0.0000000 0.0000000 0.0000000 0.1793871
+## HTS    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## LIIA   0.0000000  0.0000000  0.1129132 0.0000000 0.3509726 0.0000000 0.0000000
+## NATR   0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## NTAT   0.1515577  0.0000000  0.1204094 0.0000000 0.0000000 0.0000000 0.0000000
+## PHR    0.1746399  0.1089284  0.1692879 0.0000000 0.0000000 0.0000000 0.0000000
+## RTT    0.0000000  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## UWROT  0.0000000  0.1461690 -0.1109757 0.0000000 0.0000000 0.0000000 0.0000000
+## UTOI   0.0000000  0.1710409  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+##            FPWCT        HTC       HTS      LIIA      NATR      NTAT       PHR
+## AROTT  0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.1515577 0.1746399
+## BDATT  0.0000000 -0.1221041 0.0000000 0.0000000 0.0000000 0.0000000 0.1089284
+## BJOES  0.0000000  0.0000000 0.0000000 0.1129132 0.0000000 0.1204094 0.1692879
+## BOA    0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## DOCOFP 0.0000000  0.0000000 0.0000000 0.3509726 0.0000000 0.0000000 0.0000000
+## FEN    0.1474119  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## FEI    0.1214582  0.1793871 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## FPWCT  0.0000000  0.0000000 0.0000000 0.2044012 0.0000000 0.0000000 0.0000000
+## HTC    0.0000000  0.0000000 0.1332300 0.0000000 0.0000000 0.0000000 0.0000000
+## HTS    0.0000000  0.1332300 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## LIIA   0.2044012  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## NATR   0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.1711055 0.0000000
+## NTAT   0.0000000  0.0000000 0.0000000 0.0000000 0.1711055 0.0000000 0.0000000
+## PHR    0.0000000  0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000
+## RTT    0.0000000  0.0000000 0.0000000 0.1093724 0.1487162 0.0000000 0.1811024
+## UWROT  0.0000000  0.0000000 0.0000000 0.0000000 0.1546641 0.1169038 0.0000000
+## UTOI   0.0000000  0.0000000 0.1351728 0.0000000 0.0000000 0.0000000 0.0000000
+##              RTT      UWROT      UTOI
+## AROTT  0.0000000  0.0000000 0.0000000
+## BDATT  0.0000000  0.1461690 0.1710409
+## BJOES  0.0000000 -0.1109757 0.0000000
+## BOA    0.0000000  0.0000000 0.0000000
+## DOCOFP 0.0000000  0.0000000 0.0000000
+## FEN    0.0000000  0.0000000 0.0000000
+## FEI    0.0000000  0.0000000 0.0000000
+## FPWCT  0.0000000  0.0000000 0.0000000
+## HTC    0.0000000  0.0000000 0.0000000
+## HTS    0.0000000  0.0000000 0.1351728
+## LIIA   0.1093724  0.0000000 0.0000000
+## NATR   0.1487162  0.1546641 0.0000000
+## NTAT   0.0000000  0.1169038 0.0000000
+## PHR    0.1811024  0.0000000 0.0000000
+## RTT    0.0000000  0.0000000 0.1970405
+## UWROT  0.0000000  0.0000000 0.4497070
+## UTOI   0.1970405  0.4497070 0.0000000
 \end{verbatim}
 
 You may notice from the adjacency matrix that some partial correlations are negative. For instance, the correlation between HTC and BDATT is -0.1221041. However, when edge weights are negative, certain network measures cannot be computed and so we need to convert them to a positive value (but maintain the magnitude of the effect). Edges that depict a ``positive'' or ``negative'' meaning are associated with the theory of \href{https://en.wikipedia.org/wiki/Signed_network}{signed networks}, which are beyond the scope of this book. Interested readers can refer to the \href{https://www.r-bloggers.com/2020/01/a-package-for-analysing-signed-networks/}{\texttt{signnet} R package} for further information about how to analyze signed networks.
@@ -5299,7 +5571,7 @@ In the final step, we need to convert the matrix object into an \texttt{igraph} 
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 6f9413d UNW- 17 31 -- 
+## IGRAPH a79a5b8 UNW- 17 31 -- 
 ## + attr: name (v/c), weight (e/n)
 \end{verbatim}
 
@@ -5315,8 +5587,10 @@ Thereafter, we can easily compute various network measures for the network.
 \end{Shaded}
 
 \begin{verbatim}
-##  AROTT  BDATT  BJOES    BOA DOCOFP    FEN    FEI  FPWCT    HTC    HTS   LIIA   NATR   NTAT    PHR    RTT  UWROT   UTOI 
-##      3      4      5      3      3      4      4      3      3      2      4      3      4      4      4      5      4
+##  AROTT  BDATT  BJOES    BOA DOCOFP    FEN    FEI  FPWCT    HTC    HTS   LIIA 
+##      3      4      5      3      3      4      4      3      3      2      4 
+##   NATR   NTAT    PHR    RTT  UWROT   UTOI 
+##      3      4      4      4      5      4
 \end{verbatim}
 
 \begin{Shaded}
@@ -5413,8 +5687,9 @@ We will use the \texttt{karate} network from Chapter 5, which contains various n
 
 \begin{verbatim}
 ## IGRAPH 4b458a1 UNW- 34 78 -- Zachary's karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name
+## | (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n),
+## | weight (e/n), edge_type (e/c)
 \end{verbatim}
 
 \section{Visualizing node attributes}\label{visualizing-node-attributes}

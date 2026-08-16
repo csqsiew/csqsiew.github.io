@@ -21,19 +21,21 @@ plot(g, vertex.color = 'blue', vertex.frame.color = 'white', vertex.size = 10,
      vertex.label.dist = 1.5)
 ```
 
-All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an *edge list* or an *adjacency matrix*. The following sections will demonstrate what data in an edge list and adjacency matrix looks like, and how to import the data into RStudio so that it corresponds to the network representation that you want. 
+All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an *edge list* or an *adjacency matrix*. The following sections will demonstrate what data in an edge list and data in an adjacency matrix look like, and how to import the data into RStudio so that it corresponds to the network representation that you want. 
 
 ## Edge List
 
-An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the relationship is listed in separate columns.
+An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the pairwise relationship is listed in two separate columns.
 
 ```{r}
 #| echo: false
 #| eval: true
 #| output: true
+# this function converts the network into an edge list 
 el <- as_edgelist(g)
 
-el %>% as.matrix() %>% knitr::kable() %>% 
+# printing out the edge list
+el |> as.matrix() |> knitr::kable() |>  
     kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = F)
 ```
 
@@ -41,7 +43,7 @@ Specifically, an edge list refers to a type of network data representation where
 
 ## Adjacency Matrix
 
-An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented in the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the [i,j] element of the adjacency matrix indicates the presence of a link between node i and node j.
+An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented inside the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the [i,j] element of the adjacency matrix indicates the presence of a link between node i and node j.
 
 So in this case, the matrix has 5 rows and 5 columns (a square 5 x 5 matrix). The rows and columns are labelled with the node names. The cell carries a value of 1 if two people are connected, 0 if not connected. In this example, if we look at the first row, we can easily tell that Alex is the social butterfly of the group; he’s friends with everyone in the network!
 
@@ -49,9 +51,11 @@ So in this case, the matrix has 5 rows and 5 columns (a square 5 x 5 matrix). Th
 #| echo: false
 #| eval: true
 #| output: true
-adj_mat <- as_adjacency_matrix(g) # use kable to make nice 
+# this function converts the network into an edge list 
+adj_mat <- as_adjacency_matrix(g)  
 
-adj_mat %>% as.matrix() %>% knitr::kable() %>% 
+# printing out the adjacency matrix
+adj_mat |> as.matrix() |> knitr::kable() |>  
     kableExtra::kable_styling(bootstrap_options = c("striped", "condensed"), full_width = F)
 ```
 
@@ -63,7 +67,7 @@ After reading the previous section, you should be able to identify whether your 
 
 Another point to note is that you as the modeler will have to make decisions about the type of edges your network will have. Should the edges be undirected or directed, and/or unweighted or weighted? While there are no objectively right or wrong decisions, there are probably better or worse decisions that would depend mostly on your own research questions, interpretation of the data set, and the extant network science literature on similar topics. 
 
-A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github ([https://github.com/csqsiew/csqsiew.github.io/tree/main/data](https://github.com/csqsiew/csqsiew.github.io/tree/main/data)), and are stored in a subdirectory called `/data` from which I am reading from. Based on chapter 2 (finding files) you should be able to make the corresponding modifications to the `read.csv()` parts of the code. 
+A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github ([https://github.com/csqsiew/csqsiew.github.io/tree/main/data](https://github.com/csqsiew/csqsiew.github.io/tree/main/data)), and are stored in a subdirectory called `/data` from which I am reading from. Based on Chapter 2.4 \@ref(file-paths-and-working-directory) you should be able to make the corresponding modifications to the `read.csv()` parts of the code. 
 
 ### Importing edge lists 
 

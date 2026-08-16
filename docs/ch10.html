@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-06" />
+<meta name="date" content="2026-08-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,8 +54,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -459,15 +457,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## IGRAPH a7c0363 UN-- 34 96 -- 
 ## + attr: name (v/c)
 ## + edges from a7c0363 (vertex names):
-##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck 
-## [11] speck --sped   sped  --speed  sped  --spud   speed --spud   speed --stead  speed --seed   speed --speech speak --speed  stead --seed   seed  --seek  
-## [21] seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek  speak --sneak  speak --sleek  speak --peek   speak --speech speech--peach 
-## [31] peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach  peach --beach 
-## [41] peach --each   peach --pouch  peach --pitch  peach --patch  peach --pooch  peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel  
-## [51] peep  --pea    peek  --pea    peace --pea    pea   --peat   peep  --peel   peep  --peas   peep  --peat   peace --peep   peek  --peep   peel  --peas  
-## [61] peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas   peek  --peas   peek  --peat   peek  --peace  peace --peat   teach --leach 
-## [71] leach --reach  leach --each   leach --beach  teach --beach  teach --each   teach --reach  beach --each   beach --reach  each  --reach  preach--reach 
-## + ... omitted several edges</code></pre>
+##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck  speck --sped   sped  --speed  sped  --spud   speed --spud  
+## [15] speed --stead  speed --seed   speed --speech speak --speed  stead --seed   seed  --seek   seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek  speak --sneak  speak --sleek  speak --peek  
+## [29] speak --speech speech--peach  peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach  peach --beach  peach --each   peach --pouch 
+## [43] peach --pitch  peach --patch  peach --pooch  peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel   peep  --pea    peek  --pea    peace --pea    pea   --peat   peep  --peel   peep  --peas  
+## [57] peep  --peat   peace --peep   peek  --peep   peel  --peas   peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas   peek  --peas   peek  --peat   peek  --peace  peace --peat   teach --leach 
+## [71] leach --reach  leach --each   leach --beach  teach --beach  teach --each   teach --reach  beach --each   beach --reach  each  --reach  preach--reach  peach --perch  pouch --perch  pitch --perch  pooch --perch 
+## [85] poach --perch  patch --perch  pouch --patch  pitch --patch  patch --pooch  patch --poach  pouch --poach  pitch --poach  pooch --poach  pitch --pooch  pouch --pooch  pouch --pitch</code></pre>
 <div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="ch10.html#cb354-1" tabindex="-1"></a><span class="co"># starting activation values (time = 0)</span></span>
 <span id="cb354-2"><a href="ch10.html#cb354-2" tabindex="-1"></a>start_run <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb354-3"><a href="ch10.html#cb354-3" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">c</span>(<span class="st">&quot;beach&quot;</span>),</span>

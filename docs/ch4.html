@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-06" />
+<meta name="date" content="2026-08-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,8 +54,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -444,11 +442,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb75-6"><a href="ch4.html#cb75-6" tabindex="-1"></a><span class="fu">plot</span>(g, <span class="at">vertex.color =</span> <span class="st">&#39;blue&#39;</span>, <span class="at">vertex.frame.color =</span> <span class="st">&#39;white&#39;</span>, <span class="at">vertex.size =</span> <span class="dv">10</span>, </span>
 <span id="cb75-7"><a href="ch4.html#cb75-7" tabindex="-1"></a>     <span class="at">vertex.label.dist =</span> <span class="fl">1.5</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-31-1.png" alt="" width="672" /></p>
-<p>All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an <em>edge list</em> or an <em>adjacency matrix</em>. The following sections will demonstrate what data in an edge list and adjacency matrix looks like, and how to import the data into RStudio so that it corresponds to the network representation that you want.</p>
+<p>All of the information associated with the connectivity structure of these 5 people can be represented in two ways: in an <em>edge list</em> or an <em>adjacency matrix</em>. The following sections will demonstrate what data in an edge list and data in an adjacency matrix look like, and how to import the data into RStudio so that it corresponds to the network representation that you want.</p>
 </div>
 <div id="edge-list" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Edge List<a href="ch4.html#edge-list" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the relationship is listed in separate columns.</p>
+<p>An edge list is exactly what it says it is. A list of edges (connections) in the network. Below you can see that each edge is represented on a separate row and the name of each node in the pairwise relationship is listed in two separate columns.</p>
 <table class="table table-striped table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -513,7 +511,7 @@ Doug
 </div>
 <div id="adjacency-matrix" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Adjacency Matrix<a href="ch4.html#adjacency-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented in the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the [i,j] element of the adjacency matrix indicates the presence of a link between node i and node j.</p>
+<p>An adjacency matrix refers to a type of network data representation known as an adjacency matrix where the edge connectivity is represented inside the matrix. The number of rows and columns correspond to the number of nodes in the network. A non-zero value in the [i,j] element of the adjacency matrix indicates the presence of a link between node i and node j.</p>
 <p>So in this case, the matrix has 5 rows and 5 columns (a square 5 x 5 matrix). The rows and columns are labelled with the node names. The cell carries a value of 1 if two people are connected, 0 if not connected. In this example, if we look at the first row, we can easily tell that Alex is the social butterfly of the group; he’s friends with everyone in the network!</p>
 <table class="table table-striped table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -648,7 +646,7 @@ Eliza
 <h2><span class="header-section-number">4.4</span> Importing your data and converting into a network<a href="ch4.html#importing-your-data-and-converting-into-a-network" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>After reading the previous section, you should be able to identify whether your data set takes the form of an edge list or adjacency matrix, and if not, take the necessary steps to convert the data into one of these two formats. Depending whether it is an edge list or adjacency matrix, we will make use of different functions to convert the connectivity information into an <code>igraph</code> network object so that we can start to analyze it further.</p>
 <p>Another point to note is that you as the modeler will have to make decisions about the type of edges your network will have. Should the edges be undirected or directed, and/or unweighted or weighted? While there are no objectively right or wrong decisions, there are probably better or worse decisions that would depend mostly on your own research questions, interpretation of the data set, and the extant network science literature on similar topics.</p>
-<p>A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github (<a href="https://github.com/csqsiew/csqsiew.github.io/tree/main/data">https://github.com/csqsiew/csqsiew.github.io/tree/main/data</a>), and are stored in a subdirectory called <code>/data</code> from which I am reading from. Based on chapter 2 (finding files) you should be able to make the corresponding modifications to the <code>read.csv()</code> parts of the code.</p>
+<p>A final point to note is that I have created sample .csv files based on the famous Zachary Karate Club network for demonstrating the code below. All supplementary data can be obtained from Github (<a href="https://github.com/csqsiew/csqsiew.github.io/tree/main/data">https://github.com/csqsiew/csqsiew.github.io/tree/main/data</a>), and are stored in a subdirectory called <code>/data</code> from which I am reading from. Based on Chapter 2.4 <a href="ch2.html#file-paths-and-working-directory">2.4</a> you should be able to make the corresponding modifications to the <code>read.csv()</code> parts of the code.</p>
 <div id="importing-edge-lists" class="section level3 hasAnchor" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> Importing edge lists<a href="ch4.html#importing-edge-lists" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A. You want a network with <em>undirected, unweighted</em> edges.</p>
@@ -657,7 +655,7 @@ Eliza
 <span id="cb76-3"><a href="ch4.html#cb76-3" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb76-4"><a href="ch4.html#cb76-4" tabindex="-1"></a></span>
 <span id="cb76-5"><a href="ch4.html#cb76-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH e2cd254 UN-- 34 78 -- 
+<pre><code>## IGRAPH 03ec447 UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -671,7 +669,7 @@ Eliza
 <span id="cb78-3"><a href="ch4.html#cb78-3" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb78-4"><a href="ch4.html#cb78-4" tabindex="-1"></a></span>
 <span id="cb78-5"><a href="ch4.html#cb78-5" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
-<pre><code>## IGRAPH e1aa6a0 DN-- 34 78 -- 
+<pre><code>## IGRAPH 80005cf DN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -683,7 +681,7 @@ Eliza
 <span id="cb80-3"><a href="ch4.html#cb80-3" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb80-4"><a href="ch4.html#cb80-4" tabindex="-1"></a></span>
 <span id="cb80-5"><a href="ch4.html#cb80-5" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
-<pre><code>## IGRAPH 4274233 UNW- 34 78 -- 
+<pre><code>## IGRAPH a5bffe4 UNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -696,7 +694,7 @@ Eliza
 <span id="cb82-3"><a href="ch4.html#cb82-3" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(karate_el, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb82-4"><a href="ch4.html#cb82-4" tabindex="-1"></a></span>
 <span id="cb82-5"><a href="ch4.html#cb82-5" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH 18b502e DNW- 34 78 -- 
+<pre><code>## IGRAPH b9eda1d DNW- 34 78 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 </div>
 <div id="importing-adjacency-matrices" class="section level3 hasAnchor" number="4.4.2">
@@ -711,7 +709,7 @@ Eliza
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="ch4.html#cb86-1" tabindex="-1"></a>karate_uu <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>)</span>
 <span id="cb86-2"><a href="ch4.html#cb86-2" tabindex="-1"></a></span>
 <span id="cb86-3"><a href="ch4.html#cb86-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uu)</span></code></pre></div>
-<pre><code>## IGRAPH 9fcbbd4 UN-- 34 78 -- 
+<pre><code>## IGRAPH c0940fc UN-- 34 78 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -730,7 +728,7 @@ Eliza
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="ch4.html#cb90-1" tabindex="-1"></a>karate_du <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>)</span>
 <span id="cb90-2"><a href="ch4.html#cb90-2" tabindex="-1"></a></span>
 <span id="cb90-3"><a href="ch4.html#cb90-3" tabindex="-1"></a><span class="fu">summary</span>(karate_du)</span></code></pre></div>
-<pre><code>## IGRAPH 9b3c684 DN-- 34 156 -- 
+<pre><code>## IGRAPH 18b2836 DN-- 34 156 -- 
 ## + attr: name (v/c)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -747,7 +745,7 @@ Eliza
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="ch4.html#cb94-1" tabindex="-1"></a>karate_uw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;undirected&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
 <span id="cb94-2"><a href="ch4.html#cb94-2" tabindex="-1"></a></span>
 <span id="cb94-3"><a href="ch4.html#cb94-3" tabindex="-1"></a><span class="fu">summary</span>(karate_uw)</span></code></pre></div>
-<pre><code>## IGRAPH 5ff38ad UNW- 34 100 -- 
+<pre><code>## IGRAPH 9075fe4 UNW- 34 100 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 <p>Things to note:</p>
 <ol style="list-style-type: decimal">
@@ -764,7 +762,7 @@ Eliza
 <div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="ch4.html#cb98-1" tabindex="-1"></a>karate_dw <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(karate_am, <span class="at">mode =</span> <span class="st">&#39;directed&#39;</span>, <span class="at">weighted =</span> <span class="st">&#39;weight&#39;</span>)</span>
 <span id="cb98-2"><a href="ch4.html#cb98-2" tabindex="-1"></a></span>
 <span id="cb98-3"><a href="ch4.html#cb98-3" tabindex="-1"></a><span class="fu">summary</span>(karate_dw)</span></code></pre></div>
-<pre><code>## IGRAPH ca12b05 DNW- 34 103 -- 
+<pre><code>## IGRAPH de3cf08 DNW- 34 103 -- 
 ## + attr: name (v/c), weight (e/n)</code></pre>
 </div>
 </div>
