@@ -19,7 +19,7 @@ karate_uu <- graph_from_data_frame(karate_el, directed = FALSE)
 summary(karate_uu)
 ```
 
-Although it is possible to compute macro-level network measures for directed, weighted networks in certain instances (and this will be pointed out where appropriate), I choose to focus on the undirected, unweighted version for this chapter because macro-level measures are more complex to interpret and less intuitive when additional information like edge weights and direction are included. For instance, *network density* refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network--it is not clear how this measure be adapted if we wanted to use weighted edges instead. 
+Although it is possible to compute macro-level network measures for directed, weighted networks in certain instances (and this will be pointed out where appropriate), I choose to focus on the undirected, unweighted version for this chapter because macro-level measures are more complex to interpret and less intuitive when additional information such as edge weights and direction are included. For instance, *network density* refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network--it is not clear how this measure be adapted or interpreted if we wanted to use weighted edges instead. 
 
 ## Average Degree 
 
@@ -85,9 +85,9 @@ mean_distance(karate_uu, directed = F) # weighted, undirected
 mean_distance(karate_uu, directed = T) # weighted, directed 
 ```
 
-Because `karate_uu` is undirected and unweighted, the result is unsurprisingly identical across all 4 version (try this with a directed, weighted network!). When a graph contains edge weights, then they are automatically considered unless you instruct otherwise using `weights = NA`. Use the `directed` argument to specify if the direction of the edges should be considered in the computation of short paths. 
+Because `karate_uu` is undirected and unweighted, the result is unsurprisingly identical across all 4 versions (try this with a directed, weighted network!). When a graph contains edge weights, then they are automatically considered unless you indicate otherwise using `weights = NA`. Use the `directed` argument to specify if the direction of the edges should be considered in the computation of short paths. If this is selected, then only short paths whose directions are aligned are considered in the computation (A->B->C is a valid path connecting nodes A and C but not A->B<-C). 
 
-An important point to note is that edge weights are interpreted as *distances* rather than *strength of connection*: See Chapter 7 for more information about this. 
+An important point to note is that edge weights are interpreted as *distances* rather than *strength of connection*, as weighted short paths are computed by summing of the edge weights. Hence, a longer path is interpreted as being more distant, or further apart. See Chapter 7 for more information about this. 
 
 ## Global Clustering Coefficient
 
@@ -107,6 +107,15 @@ transitivity(karate_uu, type = 'global')
 We can interpret this value to mean that for each pair of nodes that are directly connected to a target node, the probability that these two nodes are also connected to each other is 25.6% (i.e., the probability of a completed "triangle", when it is possible, is 25.6%). This value is usually quite high in social networks, because people tend to introduce their friends to each other, resulting in *triadic closure*.
 
 Contrast this with Chapter 7: Local clustering coefficient--notice that although we use the same function, the `type` argument specifies if we want to obtain the global clustering coefficient for the whole network (overall local connectivity), or local clustering coefficient for individual nodes (local connectivity centered on a single node).
+
+Another variant is to compute the *average local clustering coefficient*, analogous to how mean degree is computed above. Below, we compute the local C (which is a measure of the level of interconnectedness among a target node's neighbors) for each node, then take the mean. 
+
+```{r}
+#| echo: true
+#| eval: true
+
+transitivity(karate_uu, type = 'local') |> mean()
+```
 
 ## Small World Index
 
@@ -148,7 +157,7 @@ We can now plug in these values together with the actual C and L of the target n
 (0.2556818/0.1188022)/(2.4082/2.384314)
 ```
 
-Humphries and Gurney (2008) write that SWI larger than 1 indicates presence of a small world structure, since this implies that the target network has more local clustering than random expectation, while having relatively similar ASPLs. SWIs less than 1 or close to 1 indicates that there is no evidence to support the claim that the target network is a small world. Here, we have some evidence supporting the claim that our karate network has a small world structure. In practice, up to 1,000 random ER networks are generated to compute $\overline L_{rand}$ and $\overline C_{rand}$; although this can be a slow process depending on your network size. The number of random networks to generate can be adjusted in the for loop above. 
+Humphries and Gurney (2008) considered a SWI larger than 1 as indicating the presence of a small world structure, since this implies that the target network has more local clustering than random expectation, while having relatively similar ASPL to the random graph. SWIs less than 1 or close to 1 indicates that there is little evidence to support the claim that the target network is a small world. Here, we have some evidence supporting the claim that our karate network has a small world structure. In practice, up to 1,000 random ER networks are generated to compute $\overline L_{rand}$ and $\overline C_{rand}$; although this can be a slow process depending on your network size. The number of random networks to generate can be adjusted in the for loop above. 
 
 The main take home message is that a small world network has high levels of local clustering (nodes whose neighbors are also neighbors of each other), but also contains a number of shortcuts that drastically reduces the overall distances/path lengths between nodes. See below for an illustration of this idea.
 
@@ -156,7 +165,7 @@ The main take home message is that a small world network has high levels of loca
 
 ## Network Density
 
-**Network density** refers to the ratio of the number of (existing) edges and the number of possible edges among nodes in the network.
+**Network density** refers to the ratio of the number of existing edges and the number of possible edges among nodes in the network.
 
 Simple example of networks with lower and higher network densities.
 
@@ -196,13 +205,13 @@ This means that the length of the longest shortest path between two nodes in the
 
 ## Assortative Mixing 
 
-**Assortative mixing** is a measure of *homophily* in the network, based on some internal/external property of the nodes. Are nodes that are connected to each other tend to have similar properties?
+**Assortative mixing** is a measure of *homophily* in the network, based on some internal/external property of the nodes. Do nodes that are connected to each other tend to have similar properties?
 
 ### Assortative Mixing by Degree (continuous attributes)
 
-A common extension of assortative mixing is **assortative mixing by degree**, which measures the correlation of degrees between neighboring nodes. Are nodes that are connected to each other tend to have similar degrees?
+A common extension of assortative mixing is **assortative mixing by degree**, which measures the correlation of degrees between neighboring nodes. Do nodes that are connected to each other tend to have similar degrees?
 
-A positive value indicates that nodes that are many (few) neighbors tend to be connected to nodes that also have many (few) neighbors. A negative value indicates that nodes that are many (few) neighbors tend to be connected to nodes that have few (many) neighbors. Values very close to zero indicates no correlation.
+A positive value indicates that nodes that have many (few) neighbors tend to be connected to nodes that also have many (few) neighbors. A negative value indicates that nodes that are many (few) neighbors tend to be connected to nodes that have few (many) neighbors. Values very close to zero indicates no correlation.
 
 ```{r}
 #| echo: true
@@ -213,7 +222,7 @@ assortativity_degree(karate_uu, directed = F)
 # assortativity_degree(karate_uu, directed = T) # for directed edges 
 ```
 
-There is *dissortativity mixing by degree* in the karate network--nodes with higher degree have a higher tendency to be connected to nodes with lower degree. 
+There is *dissortative mixing by degree* in the karate network--nodes with higher degree have a higher tendency to be connected to nodes with lower degree. 
 
 It is possible to add your own node attributes to the network (see Chapter 5) and compute its assortativity. The script below demonstrates this with a randomly created set of numbers for the nodes (i.e., a continuous variable ranging from 1 to 5, randomly selected with replacement for each of the 34 nodes in the network). Because these numbers are randomly generated, we expect assortativity to be close to 0 here.
 
@@ -225,7 +234,7 @@ It is possible to add your own node attributes to the network (see Chapter 5) an
 set.seed(3)
 V(karate_uu)$random1 <- sample(1:5, gorder(karate_uu), replace = T)
 
-# compute the assortativity of this node attribute 
+# compute the assortativity of this node attribute (random1)
 assortativity(karate_uu, values = V(karate_uu)$random1, directed = F)
 ```
 
@@ -266,7 +275,7 @@ plot(g)
 
 When working with networks derived from behavioral data, it can be common to observe that the network consists of distinct network components. This has implications for the computing and interpretation of the macro-level network measures, because several of them rely on the computation of shortest path between node pairs. For instance, ASPL computes the shortest paths for all possible node pairs and takes the mean--but what happens if there is no path between nodes A and D, for example? 
 
-Node pairs that do not have a path are ignored in the computation. This is the default behavior in `igraph`. Hence, this value reflects the mean of all "computable" short paths (i.e., when node pairs are found in the same component) and this is computed across all network components in the network.
+Node pairs that do not have a path are simply ignored in the computation. This is the default behavior in `igraph`. Hence, this value reflects the mean of all "computable" short paths (i.e., when node pairs are found in the same component) and this is computed across all network components in the network.
 
 ```{r}
 #| echo: true
@@ -279,7 +288,7 @@ mean_distance(g, unconnected = FALSE) # consider infinite paths
 
 As you can see, the second output is `Inf`, reflecting the presence of infinite paths in the network. From the `igraph` documentation: "If TRUE, only the lengths of the existing paths are considered and averaged; if FALSE, the length of the missing paths are considered as having infinite length, making the mean distance infinite as well."
 
-Hence, it is good practice to first check if your network consists of a single component, or multiple components. We can use the following script to find out: how many components, the size of each components (number of nodes), and obtain a list of nodes and their component membership. Basically, `components` is a special function that stores these pieces of information as its output, which you can then retrieve using the `$`: `csize` for size of component, `no` for number of components, `membership` for the component membership for each node.
+Hence, it is good practice to first check if your network consists of a single component or of multiple components. We can use the following script to find out various bits of information: how many components, the size of each components (number of nodes), and obtain a list of nodes and their component membership. Basically, `components` is a special function that stores these pieces of information as its output, which you can then retrieve using the `$`: `csize` for size of component, `no` for number of components, `membership` for the component membership for each node.
 
 ```{r}
 #| echo: true
@@ -296,7 +305,7 @@ data.frame(node = V(g)$name, membership = g_comp$membership)
 
 Typically, real-world networks have a giant or largest connected component (LCC) which contains the majority of nodes in the network, and researchers prefer to only compute network-level metrics on the LCC. This component is extracted for further analysis, removing the smaller connected components or hermits (isolates in the network where the node has no neighbors). 
 
-The code below shows you how to extract the largest connected component of the sample network: 
+The code below shows you how to extract the largest connected component of the sample network (basically a network subset based on component membership): 
 
 ```{r}
 #| echo: true

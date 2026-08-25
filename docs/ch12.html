@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-16" />
+<meta name="date" content="2026-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -435,18 +435,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="set-up-2" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Set up<a href="ch12.html#set-up-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First, let’s install the <code>influenceR</code> R package:</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="ch12.html#cb376-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;influenceR&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="ch12.html#cb378-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;influenceR&#39;</span>)</span></code></pre></div>
 <p>We will continue to use the <code>macaque</code> network from Chapter 11 for demonstration.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="ch12.html#cb377-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
-<span id="cb377-2"><a href="ch12.html#cb377-2" tabindex="-1"></a></span>
-<span id="cb377-3"><a href="ch12.html#cb377-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>)</span>
-<span id="cb377-4"><a href="ch12.html#cb377-4" tabindex="-1"></a></span>
-<span id="cb377-5"><a href="ch12.html#cb377-5" tabindex="-1"></a><span class="co"># load the other packages that we need </span></span>
-<span id="cb377-6"><a href="ch12.html#cb377-6" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb377-7"><a href="ch12.html#cb377-7" tabindex="-1"></a><span class="fu">library</span>(influenceR)</span>
-<span id="cb377-8"><a href="ch12.html#cb377-8" tabindex="-1"></a></span>
-<span id="cb377-9"><a href="ch12.html#cb377-9" tabindex="-1"></a><span class="co"># to make edges undirected by collapsing directed edges </span></span>
-<span id="cb377-10"><a href="ch12.html#cb377-10" tabindex="-1"></a>macaque <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(macaque, <span class="at">mode =</span> <span class="st">&#39;collapse&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="ch12.html#cb379-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb379-2"><a href="ch12.html#cb379-2" tabindex="-1"></a></span>
+<span id="cb379-3"><a href="ch12.html#cb379-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;macaque&quot;</span>)</span>
+<span id="cb379-4"><a href="ch12.html#cb379-4" tabindex="-1"></a></span>
+<span id="cb379-5"><a href="ch12.html#cb379-5" tabindex="-1"></a><span class="co"># load the other packages that we need </span></span>
+<span id="cb379-6"><a href="ch12.html#cb379-6" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb379-7"><a href="ch12.html#cb379-7" tabindex="-1"></a><span class="fu">library</span>(influenceR)</span>
+<span id="cb379-8"><a href="ch12.html#cb379-8" tabindex="-1"></a></span>
+<span id="cb379-9"><a href="ch12.html#cb379-9" tabindex="-1"></a><span class="co"># to make edges undirected by collapsing directed edges </span></span>
+<span id="cb379-10"><a href="ch12.html#cb379-10" tabindex="-1"></a>macaque <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(macaque, <span class="at">mode =</span> <span class="st">&#39;collapse&#39;</span>)</span></code></pre></div>
 <pre><code>## This graph was created by an old(er) igraph version.
 ## ℹ Call `igraph::upgrade_graph()` on it to use with the current igraph version.
 ## For now we convert it on the fly...</code></pre>
@@ -465,17 +465,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Then, take the sum of the change in cohesiveness, divide by the number of edges (degree).</p>
 <p>Below, we can easily use the <code>bridging</code> function to compute this information for us.</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="ch12.html#cb379-1" tabindex="-1"></a><span class="fu">bridging</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
-<pre><code>##           V1           V2           V3          V3A           V4          V4t          VOT           VP           MT       MSTd/p         MSTl           PO          LIP          PIP          VIP           DP           7a 
-## 0.0003156566 0.0003310887 0.0002976190 0.0003108003 0.0005071549 0.0003282828 0.0002693603 0.0002976190 0.0002946128 0.0002921371 0.0003328742 0.0002861953 0.0003135522 0.0003507295 0.0005250922 0.0003086420 0.0003900112 
-##          FST         PITd         PITv         CITd         CITv         AITd         AITv         STPp         STPa           TF           TH          FEF           46           3a           3b            1            2 
-## 0.0002702463 0.0003367003 0.0002840909 0.0004349046 0.0003682660 0.0003198653 0.0003848004 0.0003661616 0.0004377104 0.0004307784 0.0003437149 0.0003979186 0.0004861111 0.0004349046 0.0004629630 0.0003787879 0.0003749617 
-##            5           Ri          SII           7b            4            6          SMA           Ig           Id           35           36 
-## 0.0003979186 0.0004103535 0.0005536131 0.0003561254 0.0003114478 0.0003137435 0.0003156566 0.0004278900 0.0004945286 0.0005471380 0.0005611672</code></pre>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="ch12.html#cb381-1" tabindex="-1"></a>bridging_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
-<span id="cb381-2"><a href="ch12.html#cb381-2" tabindex="-1"></a>                            <span class="at">bridge_score =</span> <span class="fu">bridging</span>(macaque))</span>
-<span id="cb381-3"><a href="ch12.html#cb381-3" tabindex="-1"></a></span>
-<span id="cb381-4"><a href="ch12.html#cb381-4" tabindex="-1"></a><span class="fu">head</span>(bridging_data)</span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="ch12.html#cb381-1" tabindex="-1"></a><span class="fu">bridging</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
+<pre><code>##           V1           V2           V3          V3A           V4          V4t          VOT           VP           MT       MSTd/p         MSTl           PO          LIP 
+## 0.0003156566 0.0003310887 0.0002976190 0.0003108003 0.0005071549 0.0003282828 0.0002693603 0.0002976190 0.0002946128 0.0002921371 0.0003328742 0.0002861953 0.0003135522 
+##          PIP          VIP           DP           7a          FST         PITd         PITv         CITd         CITv         AITd         AITv         STPp         STPa 
+## 0.0003507295 0.0005250922 0.0003086420 0.0003900112 0.0002702463 0.0003367003 0.0002840909 0.0004349046 0.0003682660 0.0003198653 0.0003848004 0.0003661616 0.0004377104 
+##           TF           TH          FEF           46           3a           3b            1            2            5           Ri          SII           7b            4 
+## 0.0004307784 0.0003437149 0.0003979186 0.0004861111 0.0004349046 0.0004629630 0.0003787879 0.0003749617 0.0003979186 0.0004103535 0.0005536131 0.0003561254 0.0003114478 
+##            6          SMA           Ig           Id           35           36 
+## 0.0003137435 0.0003156566 0.0004278900 0.0004945286 0.0005471380 0.0005611672</code></pre>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="ch12.html#cb383-1" tabindex="-1"></a>bridging_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
+<span id="cb383-2"><a href="ch12.html#cb383-2" tabindex="-1"></a>                            <span class="at">bridge_score =</span> <span class="fu">bridging</span>(macaque))</span>
+<span id="cb383-3"><a href="ch12.html#cb383-3" tabindex="-1"></a></span>
+<span id="cb383-4"><a href="ch12.html#cb383-4" tabindex="-1"></a><span class="fu">head</span>(bridging_data)</span></code></pre></div>
 <pre><code>##     node bridge_score
 ## V1    V1 0.0003156566
 ## V2    V2 0.0003310887
@@ -501,17 +503,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Check the extent to which its neighbors are connected by counting number of ties, <em>t</em>.</li>
 </ol>
 <p>Below, we can easily use the <code>ens</code> function to compute this information for us.</p>
-<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="ch12.html#cb383-1" tabindex="-1"></a><span class="fu">ens</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
-<pre><code>##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP        7a       FST      PITd      PITv      CITd      CITv 
-##  2.000000  6.200000  5.428571  4.076923 12.900000  3.200000  3.000000  6.000000  6.125000  7.941176  4.272727  5.933333 10.700000  3.888889 12.333333  4.833333  8.866667 10.157895  5.250000  6.666667  3.000000  3.750000 
-##      AITd      AITv      STPp      STPa        TF        TH       FEF        46        3a        3b         1         2         5        Ri       SII        7b         4         6       SMA        Ig        Id        35 
-##  5.600000  3.000000  6.400000  1.800000 11.941176  7.333333 13.454545 13.900000  2.000000  1.000000  2.750000  4.636364  5.181818  1.500000  7.615385  6.538462  4.200000  4.272727  2.750000  4.000000  2.500000  3.000000 
-##        36 
-##  4.666667</code></pre>
-<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="ch12.html#cb385-1" tabindex="-1"></a>ens_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
-<span id="cb385-2"><a href="ch12.html#cb385-2" tabindex="-1"></a>                            <span class="at">ens_score =</span> <span class="fu">ens</span>(macaque))</span>
-<span id="cb385-3"><a href="ch12.html#cb385-3" tabindex="-1"></a></span>
-<span id="cb385-4"><a href="ch12.html#cb385-4" tabindex="-1"></a><span class="fu">head</span>(ens_data)</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="ch12.html#cb385-1" tabindex="-1"></a><span class="fu">ens</span>(macaque) <span class="co"># from influenceR</span></span></code></pre></div>
+<pre><code>##        V1        V2        V3       V3A        V4       V4t       VOT        VP        MT    MSTd/p      MSTl        PO       LIP       PIP       VIP        DP 
+##  2.000000  6.200000  5.428571  4.076923 12.900000  3.200000  3.000000  6.000000  6.125000  7.941176  4.272727  5.933333 10.700000  3.888889 12.333333  4.833333 
+##        7a       FST      PITd      PITv      CITd      CITv      AITd      AITv      STPp      STPa        TF        TH       FEF        46        3a        3b 
+##  8.866667 10.157895  5.250000  6.666667  3.000000  3.750000  5.600000  3.000000  6.400000  1.800000 11.941176  7.333333 13.454545 13.900000  2.000000  1.000000 
+##         1         2         5        Ri       SII        7b         4         6       SMA        Ig        Id        35        36 
+##  2.750000  4.636364  5.181818  1.500000  7.615385  6.538462  4.200000  4.272727  2.750000  4.000000  2.500000  3.000000  4.666667</code></pre>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="ch12.html#cb387-1" tabindex="-1"></a>ens_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(macaque)<span class="sc">$</span>name,</span>
+<span id="cb387-2"><a href="ch12.html#cb387-2" tabindex="-1"></a>                            <span class="at">ens_score =</span> <span class="fu">ens</span>(macaque))</span>
+<span id="cb387-3"><a href="ch12.html#cb387-3" tabindex="-1"></a></span>
+<span id="cb387-4"><a href="ch12.html#cb387-4" tabindex="-1"></a><span class="fu">head</span>(ens_data)</span></code></pre></div>
 <pre><code>##     node ens_score
 ## V1    V1  2.000000
 ## V2    V2  6.200000
@@ -523,36 +525,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="how-is-effective-network-science-different-from-local-clustering-coefficient" class="section level3 hasAnchor" number="12.3.1">
 <h3><span class="header-section-number">12.3.1</span> How is effective network science different from local clustering coefficient?<a href="ch12.html#how-is-effective-network-science-different-from-local-clustering-coefficient" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A common question that arises is whether ENS is really capturing information that is different from that of local clustering coefficient (Chapter 7.3), since both measures are micro-level network measures that quantify the density of the internal connectivity structure of a node’s immediate neighbors. To illustrate how they are different we consider two toy networks (visualized below). For the first network we are interested in ego node 1, which has a degree of 5, and for the second network we are interested in ego node 21, which has a degree of 20.</p>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-138-1.png" alt="" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-138-2.png" alt="" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-139-1.png" alt="" width="672" /><img src="bookdown-demo_files/figure-html/unnamed-chunk-139-2.png" alt="" width="672" /></p>
 <p>Let’s compute the ENS and local C for the ego node in the smaller neighborhood (using both the corresponding functions and the mathematical equations):</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="ch12.html#cb387-1" tabindex="-1"></a><span class="co"># the ego node is node 1 in the g_small network </span></span>
-<span id="cb387-2"><a href="ch12.html#cb387-2" tabindex="-1"></a></span>
-<span id="cb387-3"><a href="ch12.html#cb387-3" tabindex="-1"></a><span class="fu">transitivity</span>(g_small, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">vids =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="ch12.html#cb389-1" tabindex="-1"></a><span class="co"># the ego node is node 1 in the g_small network </span></span>
+<span id="cb389-2"><a href="ch12.html#cb389-2" tabindex="-1"></a></span>
+<span id="cb389-3"><a href="ch12.html#cb389-3" tabindex="-1"></a><span class="fu">transitivity</span>(g_small, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">vids =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## [1] 0.7</code></pre>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="ch12.html#cb389-1" tabindex="-1"></a><span class="co"># number of ties / number of possible ties among neighbors </span></span>
-<span id="cb389-2"><a href="ch12.html#cb389-2" tabindex="-1"></a><span class="co"># t / (k(k-1)/2)</span></span>
-<span id="cb389-3"><a href="ch12.html#cb389-3" tabindex="-1"></a><span class="dv">7</span><span class="sc">/</span>(<span class="dv">5</span><span class="sc">*</span>(<span class="dv">5-1</span>)<span class="sc">/</span><span class="dv">2</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="ch12.html#cb391-1" tabindex="-1"></a><span class="co"># number of ties / number of possible ties among neighbors </span></span>
+<span id="cb391-2"><a href="ch12.html#cb391-2" tabindex="-1"></a><span class="co"># t / (k(k-1)/2)</span></span>
+<span id="cb391-3"><a href="ch12.html#cb391-3" tabindex="-1"></a><span class="dv">7</span><span class="sc">/</span>(<span class="dv">5</span><span class="sc">*</span>(<span class="dv">5-1</span>)<span class="sc">/</span><span class="dv">2</span>) </span></code></pre></div>
 <pre><code>## [1] 0.7</code></pre>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="ch12.html#cb391-1" tabindex="-1"></a><span class="fu">ens</span>(g_small)[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ch12.html#cb393-1" tabindex="-1"></a><span class="fu">ens</span>(g_small)[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 2.2</code></pre>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ch12.html#cb393-1" tabindex="-1"></a><span class="co"># k - (2t/k)</span></span>
-<span id="cb393-2"><a href="ch12.html#cb393-2" tabindex="-1"></a><span class="dv">5</span> <span class="sc">-</span> (<span class="dv">2</span><span class="sc">*</span><span class="dv">7</span><span class="sc">/</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ch12.html#cb395-1" tabindex="-1"></a><span class="co"># k - (2t/k)</span></span>
+<span id="cb395-2"><a href="ch12.html#cb395-2" tabindex="-1"></a><span class="dv">5</span> <span class="sc">-</span> (<span class="dv">2</span><span class="sc">*</span><span class="dv">7</span><span class="sc">/</span><span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] 2.2</code></pre>
 <p>Let’s also compute the ENS and local C for the ego node in the larger neighborhood (using both the corresponding functions and the mathematical equations):</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ch12.html#cb395-1" tabindex="-1"></a><span class="co"># the ego node is node 21 in the g_large network </span></span>
-<span id="cb395-2"><a href="ch12.html#cb395-2" tabindex="-1"></a></span>
-<span id="cb395-3"><a href="ch12.html#cb395-3" tabindex="-1"></a><span class="fu">transitivity</span>(g_large, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">vids =</span> <span class="dv">21</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ch12.html#cb397-1" tabindex="-1"></a><span class="co"># the ego node is node 21 in the g_large network </span></span>
+<span id="cb397-2"><a href="ch12.html#cb397-2" tabindex="-1"></a></span>
+<span id="cb397-3"><a href="ch12.html#cb397-3" tabindex="-1"></a><span class="fu">transitivity</span>(g_large, <span class="at">type =</span> <span class="st">&#39;local&#39;</span>, <span class="at">vids =</span> <span class="dv">21</span>)</span></code></pre></div>
 <pre><code>##  21 
 ## 0.7</code></pre>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ch12.html#cb397-1" tabindex="-1"></a><span class="co"># number of ties / number of possible ties among neighbors </span></span>
-<span id="cb397-2"><a href="ch12.html#cb397-2" tabindex="-1"></a><span class="co"># t / (k(k-1)/2)</span></span>
-<span id="cb397-3"><a href="ch12.html#cb397-3" tabindex="-1"></a><span class="dv">133</span><span class="sc">/</span>(<span class="dv">20</span><span class="sc">*</span>(<span class="dv">20-1</span>)<span class="sc">/</span><span class="dv">2</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="ch12.html#cb399-1" tabindex="-1"></a><span class="co"># number of ties / number of possible ties among neighbors </span></span>
+<span id="cb399-2"><a href="ch12.html#cb399-2" tabindex="-1"></a><span class="co"># t / (k(k-1)/2)</span></span>
+<span id="cb399-3"><a href="ch12.html#cb399-3" tabindex="-1"></a><span class="dv">133</span><span class="sc">/</span>(<span class="dv">20</span><span class="sc">*</span>(<span class="dv">20-1</span>)<span class="sc">/</span><span class="dv">2</span>) </span></code></pre></div>
 <pre><code>## [1] 0.7</code></pre>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="ch12.html#cb399-1" tabindex="-1"></a><span class="fu">ens</span>(g_large)[<span class="dv">21</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="ch12.html#cb401-1" tabindex="-1"></a><span class="fu">ens</span>(g_large)[<span class="dv">21</span>]</span></code></pre></div>
 <pre><code>##  21 
 ## 6.7</code></pre>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="ch12.html#cb401-1" tabindex="-1"></a><span class="co"># k - (2t/k)</span></span>
-<span id="cb401-2"><a href="ch12.html#cb401-2" tabindex="-1"></a><span class="dv">20</span> <span class="sc">-</span> (<span class="dv">2</span><span class="sc">*</span><span class="dv">133</span><span class="sc">/</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="ch12.html#cb403-1" tabindex="-1"></a><span class="co"># k - (2t/k)</span></span>
+<span id="cb403-2"><a href="ch12.html#cb403-2" tabindex="-1"></a><span class="dv">20</span> <span class="sc">-</span> (<span class="dv">2</span><span class="sc">*</span><span class="dv">133</span><span class="sc">/</span><span class="dv">20</span>)</span></code></pre></div>
 <pre><code>## [1] 6.7</code></pre>
 <p>What you will notice is that although both nodes have a local <em>C</em> of 0.7, indicating that 70% of all possible connections in their immediate neighborhoods are fulfilled, the two nodes have different effective network sizes. The node from the larger neighborhood has a ENS of 6.7 whereas the node from the smaller neighborhood has a ENS of 2.2. The difference in ENS reflects the fact that the node from the larger neighborhood has more potential in its ability to fill/exploit structural holes in their network than the node from the smaller neighborhood, due to the former having a larger neighborhood to begin with. This is despite both nodes having the same level of interconnectivity within their neighborhoods.</p>
 </div>

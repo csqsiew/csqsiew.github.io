@@ -5,7 +5,7 @@ output:
 ---
 # Chapter 14: Network visualization in `igraph` {#ch14}
 
-This chapter aims to introduce you the basics of network visualization. Note that for a very large network (> 100 nodes) it becomes very difficult to create good visualizations using basic `igraph` plotting functions. You may need to venture to other R packages (see Chapter 15 - under development). A nice open-source software for creating great network visualizations is [Gephi](https://gephi.org/).
+This chapter aims to introduce you the basics of network visualization. Note that for a very large network (> 100 nodes) it becomes very difficult to create good visualizations using basic `igraph` plotting functions. You may need to venture to other R packages (see Chapter 15 - under development). A nice open-source and user-friendly (no coding needed!) software for creating great network visualizations is [Gephi](https://gephi.org/).
 
 ## Set up
 
@@ -25,7 +25,7 @@ data('karate')
 node_info <- read.csv('data/karate_nodes_added.csv', header = T)
 
 # very important to ensure that node order is identical 
-node_info <- node_info %>% arrange(factor(node, levels = V(karate)$name))
+node_info <- node_info |> arrange(factor(node, levels = V(karate)$name))
 
 identical(V(karate)$name, node_info$node) # sanity check that the node name order is identical
 
@@ -126,7 +126,7 @@ factor(V(karate)$gender) |> levels() # female/circle, male/square
 # give continuous attributes different sizes 
 
 plot(karate, vertex.size = V(karate)$age) # notice that the sizes are not very well scaled 
-plot(karate, vertex.size = 0.5*V(karate)$age) # you will have to play around to find a suitable scale 
+plot(karate, vertex.size = 0.5*V(karate)$age) # you will have to play around to find a suitable scale, e.g. normalize the continuous variable 
 ```
 
 ### Example 1: Color nodes by their community membership 
@@ -181,7 +181,7 @@ plot(karate, vertex.color = 'white', edge.width = E(karate)$weight)
 #| echo: true
 #| eval: true
 
-plot(as.directed(karate, mode = 'random'), vertex.color = 'white', edge.arrow.width = 0.5, edge.arrow.size = 0.5)
+plot(as.directed(karate, mode = 'random'), vertex.color = 'white', edge.arrow.width = 0.8, edge.arrow.size = 0.8)
 ```
 
 ## Other

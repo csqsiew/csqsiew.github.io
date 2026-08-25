@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-16" />
+<meta name="date" content="2026-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -443,26 +443,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="set-up-4" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> Set up<a href="ch16.html#set-up-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First, let’s make sure to download and then load the <code>poweRLaw</code> R package into our workspace.</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="ch16.html#cb458-1" tabindex="-1"></a><span class="co"># install.packages(&#39;poweRlaw&#39;)</span></span>
-<span id="cb458-2"><a href="ch16.html#cb458-2" tabindex="-1"></a></span>
-<span id="cb458-3"><a href="ch16.html#cb458-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&#39;poweRlaw&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="ch16.html#cb460-1" tabindex="-1"></a><span class="co"># install.packages(&#39;poweRlaw&#39;)</span></span>
+<span id="cb460-2"><a href="ch16.html#cb460-2" tabindex="-1"></a></span>
+<span id="cb460-3"><a href="ch16.html#cb460-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&#39;poweRlaw&#39;</span>)</span></code></pre></div>
 <p>For this example, we will use the Moby Dick data set provided in the <code>poweRlaw</code> package. The <code>moby</code> R object is a vector of numbers, which each number corresponds to the raw frequency count of words found in the novel Moby Dick. The vector is also organized from the most frequently occurring word, to the least frequently occurring word. Notice that the identity of the words was not provided in the vector, but usually function words are the most frequently words in language corpora (e.g., the, of, to, etc.). Finally, although the example is on word frequencies, the same procedure can be applied to any quantity, e.g. node degrees in the network.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="ch16.html#cb459-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;moby&quot;</span>, <span class="at">package =</span> <span class="st">&quot;poweRlaw&quot;</span>)</span>
-<span id="cb459-2"><a href="ch16.html#cb459-2" tabindex="-1"></a></span>
-<span id="cb459-3"><a href="ch16.html#cb459-3" tabindex="-1"></a><span class="fu">head</span>(moby)</span></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="ch16.html#cb461-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;moby&quot;</span>, <span class="at">package =</span> <span class="st">&quot;poweRlaw&quot;</span>)</span>
+<span id="cb461-2"><a href="ch16.html#cb461-2" tabindex="-1"></a></span>
+<span id="cb461-3"><a href="ch16.html#cb461-3" tabindex="-1"></a><span class="fu">head</span>(moby)</span></code></pre></div>
 <pre><code>## [1] 14086  6414  6260  4573  4484  4040</code></pre>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="ch16.html#cb461-1" tabindex="-1"></a><span class="fu">tail</span>(moby)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="ch16.html#cb463-1" tabindex="-1"></a><span class="fu">tail</span>(moby)</span></code></pre></div>
 <pre><code>## [1] 1 1 1 1 1 1</code></pre>
 </div>
 <div id="fitting-the-power-law-distribution" class="section level2 hasAnchor" number="16.2">
 <h2><span class="header-section-number">16.2</span> Fitting the power law distribution<a href="ch16.html#fitting-the-power-law-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Then, we run the following code to fit the data to a power law distribution and infer two key parameters, alpha and <span class="math inline">\(x_{min}\)</span>.</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="ch16.html#cb463-1" tabindex="-1"></a><span class="co"># assign a power law distribution &quot;object&quot; to the data </span></span>
-<span id="cb463-2"><a href="ch16.html#cb463-2" tabindex="-1"></a>m_pl <span class="ot">=</span> displ<span class="sc">$</span><span class="fu">new</span>(moby) </span>
-<span id="cb463-3"><a href="ch16.html#cb463-3" tabindex="-1"></a></span>
-<span id="cb463-4"><a href="ch16.html#cb463-4" tabindex="-1"></a><span class="co"># infer parameters (alpha, minimum cut off)</span></span>
-<span id="cb463-5"><a href="ch16.html#cb463-5" tabindex="-1"></a>est <span class="ot">=</span> <span class="fu">estimate_xmin</span>(m_pl) </span>
-<span id="cb463-6"><a href="ch16.html#cb463-6" tabindex="-1"></a>est</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="ch16.html#cb465-1" tabindex="-1"></a><span class="co"># assign a power law distribution &quot;object&quot; to the data </span></span>
+<span id="cb465-2"><a href="ch16.html#cb465-2" tabindex="-1"></a>m_pl <span class="ot">=</span> displ<span class="sc">$</span><span class="fu">new</span>(moby) </span>
+<span id="cb465-3"><a href="ch16.html#cb465-3" tabindex="-1"></a></span>
+<span id="cb465-4"><a href="ch16.html#cb465-4" tabindex="-1"></a><span class="co"># infer parameters (alpha, minimum cut off)</span></span>
+<span id="cb465-5"><a href="ch16.html#cb465-5" tabindex="-1"></a>est <span class="ot">=</span> <span class="fu">estimate_xmin</span>(m_pl) </span>
+<span id="cb465-6"><a href="ch16.html#cb465-6" tabindex="-1"></a>est</span></code></pre></div>
 <pre><code>## $gof
 ## [1] 0.008252634
 ## 
@@ -480,9 +480,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;estimate_xmin&quot;</code></pre>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="ch16.html#cb465-1" tabindex="-1"></a><span class="co"># update the power law object with parameters </span></span>
-<span id="cb465-2"><a href="ch16.html#cb465-2" tabindex="-1"></a>m_pl<span class="sc">$</span><span class="fu">setXmin</span>(est) </span>
-<span id="cb465-3"><a href="ch16.html#cb465-3" tabindex="-1"></a>m_pl</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="ch16.html#cb467-1" tabindex="-1"></a><span class="co"># update the power law object with parameters </span></span>
+<span id="cb467-2"><a href="ch16.html#cb467-2" tabindex="-1"></a>m_pl<span class="sc">$</span><span class="fu">setXmin</span>(est) </span>
+<span id="cb467-3"><a href="ch16.html#cb467-3" tabindex="-1"></a>m_pl</span></code></pre></div>
 <pre><code>## Reference class object of class &quot;displ&quot; 
 ## Field &quot;xmin&quot;: 
 ## [1] 7
@@ -495,22 +495,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="visualization" class="section level2 hasAnchor" number="16.3">
 <h2><span class="header-section-number">16.3</span> Visualization<a href="ch16.html#visualization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can also visualize the fitted power law distribution (in red; notice how the line does not continue beyond <span class="math inline">\(x_{min}\)</span> &lt; 7), plotted on log-log scale. The (negative) slope of the best-fit line corresponds to the alpha (exponent) parameter.</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="ch16.html#cb467-1" tabindex="-1"></a><span class="co"># visualization </span></span>
-<span id="cb467-2"><a href="ch16.html#cb467-2" tabindex="-1"></a><span class="fu">plot</span>(m_pl)</span>
-<span id="cb467-3"><a href="ch16.html#cb467-3" tabindex="-1"></a><span class="fu">lines</span>(m_pl, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-167-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="ch16.html#cb469-1" tabindex="-1"></a><span class="co"># visualization </span></span>
+<span id="cb469-2"><a href="ch16.html#cb469-2" tabindex="-1"></a><span class="fu">plot</span>(m_pl)</span>
+<span id="cb469-3"><a href="ch16.html#cb469-3" tabindex="-1"></a><span class="fu">lines</span>(m_pl, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-168-1.png" alt="" width="672" /></p>
 </div>
 <div id="statistical-testing-of-distribution-fit" class="section level2 hasAnchor" number="16.4">
 <h2><span class="header-section-number">16.4</span> Statistical testing of distribution fit<a href="ch16.html#statistical-testing-of-distribution-fit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="method-1-bootstrapping-the-data" class="section level3 hasAnchor" number="16.4.1">
 <h3><span class="header-section-number">16.4.1</span> Method 1: Bootstrapping the data<a href="ch16.html#method-1-bootstrapping-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Because it is possible to fit a power-law distribution to any data set, Clauset et al. strongly recommend that we test whether the observed data set actually follows a power-law. The method used below follows Clauset et al.’s suggestion to test the null hypothesis (that the data came from a power law distribution) using a goodness-of-fit test with a bootstrapping procedure. The basic concept is to perform a hypothesis test by generating multiple data sets (with the previously estimated parameters <span class="math inline">\(x_{min}\)</span> and alpha) and then “re-inferring” the model parameters. The original model parameter is then compared to the simulated set of parameters. If the p-value is greater than .05, we cannot reject the null hypothesis that the data could be generated from a power law distribution with similar parameters. If the p-value is less than .05, we reject the null hypothesis, and conclude that the data is not convincingly fit by a power law.</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="ch16.html#cb468-1" tabindex="-1"></a><span class="co"># parameter uncertainty and statistical testing </span></span>
-<span id="cb468-2"><a href="ch16.html#cb468-2" tabindex="-1"></a></span>
-<span id="cb468-3"><a href="ch16.html#cb468-3" tabindex="-1"></a><span class="do">## 1000 bootstraps using four cores</span></span>
-<span id="cb468-4"><a href="ch16.html#cb468-4" tabindex="-1"></a>bs_p <span class="ot">=</span> <span class="fu">bootstrap_p</span>(m_pl, <span class="at">no_of_sims =</span> <span class="dv">1000</span>, <span class="at">threads =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>) <span class="co"># can be slow</span></span></code></pre></div>
-<pre><code>## Expected total run time for 1000 sims, using 4 threads is 418 seconds.</code></pre>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch16.html#cb470-1" tabindex="-1"></a>bs_p<span class="sc">$</span>bootstraps <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch16.html#cb470-1" tabindex="-1"></a><span class="co"># parameter uncertainty and statistical testing </span></span>
+<span id="cb470-2"><a href="ch16.html#cb470-2" tabindex="-1"></a></span>
+<span id="cb470-3"><a href="ch16.html#cb470-3" tabindex="-1"></a><span class="do">## 1000 bootstraps using four cores</span></span>
+<span id="cb470-4"><a href="ch16.html#cb470-4" tabindex="-1"></a>bs_p <span class="ot">=</span> <span class="fu">bootstrap_p</span>(m_pl, <span class="at">no_of_sims =</span> <span class="dv">1000</span>, <span class="at">threads =</span> <span class="dv">4</span>, <span class="at">seed =</span> <span class="dv">1</span>) <span class="co"># can be slow</span></span></code></pre></div>
+<pre><code>## Expected total run time for 1000 sims, using 4 threads is 414 seconds.</code></pre>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="ch16.html#cb472-1" tabindex="-1"></a>bs_p<span class="sc">$</span>bootstraps <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>##           gof xmin     pars ntail
 ## 1 0.009839299    6 1.917765  3515
 ## 2 0.007466091   10 1.969352  2095
@@ -518,51 +518,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4 0.013751881    7 1.942744  2989
 ## 5 0.004895829    6 1.956929  3469
 ## 6 0.008659503    7 1.952541  2943</code></pre>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="ch16.html#cb472-1" tabindex="-1"></a><span class="fu">mean</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>]) <span class="co"># M of xmin</span></span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="ch16.html#cb474-1" tabindex="-1"></a><span class="fu">mean</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>]) <span class="co"># M of xmin</span></span></code></pre></div>
 <pre><code>## [1] 7.668</code></pre>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="ch16.html#cb474-1" tabindex="-1"></a><span class="fu">mean</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>]) <span class="co"># M of pars (alpha)</span></span></code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="ch16.html#cb476-1" tabindex="-1"></a><span class="fu">mean</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>]) <span class="co"># M of pars (alpha)</span></span></code></pre></div>
 <pre><code>## [1] 1.950474</code></pre>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="ch16.html#cb476-1" tabindex="-1"></a><span class="fu">sd</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>]) <span class="co"># SD of xmin</span></span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="ch16.html#cb478-1" tabindex="-1"></a><span class="fu">sd</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>]) <span class="co"># SD of xmin</span></span></code></pre></div>
 <pre><code>## [1] 3.341398</code></pre>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="ch16.html#cb478-1" tabindex="-1"></a><span class="fu">sd</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>]) <span class="co"># SD of pars (alpha)</span></span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="ch16.html#cb480-1" tabindex="-1"></a><span class="fu">sd</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>]) <span class="co"># SD of pars (alpha)</span></span></code></pre></div>
 <pre><code>## [1] 0.02341784</code></pre>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="ch16.html#cb480-1" tabindex="-1"></a><span class="fu">hist</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>])</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-168-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="ch16.html#cb481-1" tabindex="-1"></a><span class="fu">hist</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>])</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-168-2.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="ch16.html#cb482-1" tabindex="-1"></a><span class="co"># p-value </span></span>
-<span id="cb482-2"><a href="ch16.html#cb482-2" tabindex="-1"></a>bs_p<span class="sc">$</span>p <span class="co"># null hypothesis: distribution came from a power law distribution, since p &gt; 0.05, cannot reject the null  </span></span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="ch16.html#cb482-1" tabindex="-1"></a><span class="fu">hist</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">2</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-169-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="ch16.html#cb483-1" tabindex="-1"></a><span class="fu">hist</span>(bs_p<span class="sc">$</span>bootstraps[, <span class="dv">3</span>])</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-169-2.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="ch16.html#cb484-1" tabindex="-1"></a><span class="co"># p-value </span></span>
+<span id="cb484-2"><a href="ch16.html#cb484-2" tabindex="-1"></a>bs_p<span class="sc">$</span>p <span class="co"># null hypothesis: distribution came from a power law distribution, since p &gt; 0.05, cannot reject the null  </span></span></code></pre></div>
 <pre><code>## [1] 0.694</code></pre>
 </div>
 <div id="method-2-comparing-alternative-distributions" class="section level3 hasAnchor" number="16.4.2">
 <h3><span class="header-section-number">16.4.2</span> Method 2: Comparing alternative distributions<a href="ch16.html#method-2-comparing-alternative-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>An alternative method is to fit other long-tailed distributions to the data, and then compare these distributions directly using a likelihood ratio test. The code below shows you how to compare the power law distribution to the log-normal distribution (although other long-tailed distributions can also be tested). Basically, there is a similar process of fitting the data to the new distribution and updating the parameters. Then the <code>compare_distributions</code> function is used to provide a likelihood ratio test comparing the two distributions. Since the test was not statistically significant, both distributions are equally far from the true distribution and hence it is not possible to determine which is the best fitting model.</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="ch16.html#cb484-1" tabindex="-1"></a><span class="co"># make a log-normal object for moby </span></span>
-<span id="cb484-2"><a href="ch16.html#cb484-2" tabindex="-1"></a><span class="co"># fix the xmin parameter to be the same as m_pl </span></span>
-<span id="cb484-3"><a href="ch16.html#cb484-3" tabindex="-1"></a>m_ln <span class="ot">&lt;-</span> dislnorm<span class="sc">$</span><span class="fu">new</span>(moby)</span>
-<span id="cb484-4"><a href="ch16.html#cb484-4" tabindex="-1"></a>m_ln<span class="sc">$</span><span class="fu">setXmin</span>(<span class="dv">7</span>)</span>
-<span id="cb484-5"><a href="ch16.html#cb484-5" tabindex="-1"></a></span>
-<span id="cb484-6"><a href="ch16.html#cb484-6" tabindex="-1"></a><span class="co"># estimate the parameters for log normal distribution </span></span>
-<span id="cb484-7"><a href="ch16.html#cb484-7" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">estimate_pars</span>(m_ln)</span>
-<span id="cb484-8"><a href="ch16.html#cb484-8" tabindex="-1"></a></span>
-<span id="cb484-9"><a href="ch16.html#cb484-9" tabindex="-1"></a><span class="co"># update the parameters into the object </span></span>
-<span id="cb484-10"><a href="ch16.html#cb484-10" tabindex="-1"></a>m_ln<span class="sc">$</span><span class="fu">setPars</span>(est)</span>
-<span id="cb484-11"><a href="ch16.html#cb484-11" tabindex="-1"></a></span>
-<span id="cb484-12"><a href="ch16.html#cb484-12" tabindex="-1"></a><span class="co"># use Vuong&#39;s test to compare PL vs LN distributions </span></span>
-<span id="cb484-13"><a href="ch16.html#cb484-13" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">compare_distributions</span>(m_pl, m_ln)</span>
-<span id="cb484-14"><a href="ch16.html#cb484-14" tabindex="-1"></a></span>
-<span id="cb484-15"><a href="ch16.html#cb484-15" tabindex="-1"></a>comp<span class="sc">$</span>p_two_sided</span></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="ch16.html#cb486-1" tabindex="-1"></a><span class="co"># make a log-normal object for moby </span></span>
+<span id="cb486-2"><a href="ch16.html#cb486-2" tabindex="-1"></a><span class="co"># fix the xmin parameter to be the same as m_pl </span></span>
+<span id="cb486-3"><a href="ch16.html#cb486-3" tabindex="-1"></a>m_ln <span class="ot">&lt;-</span> dislnorm<span class="sc">$</span><span class="fu">new</span>(moby)</span>
+<span id="cb486-4"><a href="ch16.html#cb486-4" tabindex="-1"></a>m_ln<span class="sc">$</span><span class="fu">setXmin</span>(<span class="dv">7</span>)</span>
+<span id="cb486-5"><a href="ch16.html#cb486-5" tabindex="-1"></a></span>
+<span id="cb486-6"><a href="ch16.html#cb486-6" tabindex="-1"></a><span class="co"># estimate the parameters for log normal distribution </span></span>
+<span id="cb486-7"><a href="ch16.html#cb486-7" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">estimate_pars</span>(m_ln)</span>
+<span id="cb486-8"><a href="ch16.html#cb486-8" tabindex="-1"></a></span>
+<span id="cb486-9"><a href="ch16.html#cb486-9" tabindex="-1"></a><span class="co"># update the parameters into the object </span></span>
+<span id="cb486-10"><a href="ch16.html#cb486-10" tabindex="-1"></a>m_ln<span class="sc">$</span><span class="fu">setPars</span>(est)</span>
+<span id="cb486-11"><a href="ch16.html#cb486-11" tabindex="-1"></a></span>
+<span id="cb486-12"><a href="ch16.html#cb486-12" tabindex="-1"></a><span class="co"># use Vuong&#39;s test to compare PL vs LN distributions </span></span>
+<span id="cb486-13"><a href="ch16.html#cb486-13" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">compare_distributions</span>(m_pl, m_ln)</span>
+<span id="cb486-14"><a href="ch16.html#cb486-14" tabindex="-1"></a></span>
+<span id="cb486-15"><a href="ch16.html#cb486-15" tabindex="-1"></a>comp<span class="sc">$</span>p_two_sided</span></code></pre></div>
 <pre><code>## [1] 0.6773366</code></pre>
 </div>
 </div>
 <div id="exercise-12" class="section level2 hasAnchor" number="16.5">
 <h2><span class="header-section-number">16.5</span> Exercise<a href="ch16.html#exercise-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Analyze the degree distribution of the following network:</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="ch16.html#cb486-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
-<span id="cb486-2"><a href="ch16.html#cb486-2" tabindex="-1"></a></span>
-<span id="cb486-3"><a href="ch16.html#cb486-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;UKfaculty&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="ch16.html#cb488-1" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb488-2"><a href="ch16.html#cb488-2" tabindex="-1"></a></span>
+<span id="cb488-3"><a href="ch16.html#cb488-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;UKfaculty&#39;</span>)</span></code></pre></div>
 <p>To get a vector of “degree counts” (c.f., word frequencies in Moby Dick), use the following code and see if this degree distribution follows a power law distribution using the bootstrapping approach.</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="ch16.html#cb487-1" tabindex="-1"></a>degree_frequencies <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">degree</span>(UKfaculty, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch16.html#cb489-1" tabindex="-1"></a>degree_frequencies <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">degree</span>(UKfaculty, <span class="at">mode =</span> <span class="st">&#39;all&#39;</span>))</span></code></pre></div>
 </div>
 <div id="references-3" class="section level2 hasAnchor" number="16.6">
 <h2><span class="header-section-number">16.6</span> References<a href="ch16.html#references-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>

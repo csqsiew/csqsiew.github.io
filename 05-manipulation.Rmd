@@ -16,17 +16,17 @@ We will use the `karate` network as our example in this chapter.
 #| eval: true
 
 library(igraph)
-library(igraphdata)
+library(igraphdata) # karate is a network object available from this package
 library(tidyverse)
 
-data('karate')
+data('karate') # notice that a karate object is in your environment 
 
 summary(karate)
 ```
 
 ## Adding node attributes 
 
-An important feature of psychological networks is that we are usually interested in more than just the underlying mathematics of the network, but rather we want to know how these network measures relate to behavior. This implies that the nodes in psychological networks are typically associated with rich psychological variables. For instance, nodes depicting individuals of different ages and genders, or nodes depicting words with different values on lexical-semantic variables like valence and arousal. 
+An important feature of psychological networks is that we are usually interested in more than just the underlying mathematics of the network, but rather we want to know how these network measures relate to behavior. This implies that the nodes in psychological networks are typically associated with rich psychological variables. For instance, nodes depicting individuals of different ages and genders, or nodes depicting words with different values on lexical-semantic variables such as valence and arousal. 
 
 We need to add this node information as node attributes to the network representation.
 
@@ -40,7 +40,7 @@ In the code below, we output the list of nodes so that we can merge this data fr
 write.csv(data.frame(node = V(karate)$name), file = 'karate_nodes.csv', row.names = F)
 ```
 
-In the `karate_node_added.csv` file, sample node attributes for the `karate` network have been added. The code below shows you how to read in this data and add this information as node attributes to the network using the `set_vertex_attribute` function. 
+In the `karate_node_added.csv` file, sample node attributes for the `karate` network have been added (it is as if I conducted a demographic survey with these individuals). The code below shows you how to read in this data and add this information as node attributes to the network using the `set_vertex_attribute` function. 
 
 ```{r}
 #| echo: true
@@ -50,7 +50,8 @@ In the `karate_node_added.csv` file, sample node attributes for the `karate` net
 node_info <- read.csv('data/karate_nodes_added.csv', header = T)
 
 # very important to ensure that node order is identical 
-node_info <- node_info %>% arrange(factor(node, levels = V(karate)$name))
+# this code "arranges" the dataframe so that the information is ordered based on the node order in the network
+node_info <- node_info |> arrange(factor(node, levels = V(karate)$name))
 
 identical(V(karate)$name, node_info$node) # sanity check that the node name order is identical
 
@@ -74,11 +75,11 @@ summary(karate) # these vertex attributes should show up in the summary
 
 A key point is to ensure that the node ordering in your .csv file is identical to that of the network - this can be assured using the `arrange` function from `tidyverse`. This is to ensure accurate mapping from your data frame to the network. 
 
-When you run `summary(karate)` hopefully you will see that there are additional labels (gender, belt, age) included in the attributes section. 
+When you run `summary(karate)` you should see that there are additional labels (gender, belt, age) included in the attributes section. 
 
 ## Adding edge attributes 
 
-Because there are usually more edges than nodes in the network, we usually do not manually insert edge attributes by hand (although it is possible!). In Chapter 4 recall that edge weights are usually included in the network at the point of network construction, as edge weights are in an additional column in the edge list that you are importing into RStudio. 
+Because there are usually more edges than nodes in the network, we usually do not manually insert edge attributes by hand (although it is possible!). In Chapter 4 recall that edge weights are usually included in the network at the point of network construction, as edge weights are simply in an additional column in the edge list that you are importing into RStudio. 
 
 Here we explore a simple case where you want to "tag" and color edges differently depending on whether the tie is between *same* or *different* genders. 
 
@@ -129,7 +130,7 @@ karate_male <- induced_subgraph(graph = karate,
 summary(karate_male)
 ```
 
-How would you change the code to retain female individuals? 
+How would you change the code to retain female individuals instead? 
 
 ### Subset by a target node
 
@@ -159,6 +160,8 @@ summary(mrhi2)
 plot(mrhi2, vertex.color = 'white')
 ```
 
+Note that `make_ego_graph` returns a special "list" object. The `[[1]]` appended to it simply means that we want to extract the first element of the list, which is a network object. In the examples above, the list only contains a single network object. However, it is possible to extract the ego graphs of multiple individuals (e.g., `make_ego_graph(karate, order = 1, nodes = c('Actor 3', 'Actor 2'))`) which will give you a list of two network objects, the ego graph of Actor 3 and Actor 2. Then you can use [[1]] and [[2]] to extract the networks specifically. 
+
 ### Subset by removing a group of nodes 
 
 The example below shows you how you can remove a set of nodes and its incident edges (John A and Mr Hi) from the karate network and save the output as a new network object. Note that you need to specify the name of the nodes as a character vector. If the network does not have named nodes, then it takes a numeric vector of numbers as the nodes to remove (i.e., the number corresponds to the node order in the network object). 
@@ -172,13 +175,13 @@ karate_new <- delete_vertices(karate, v = c('John A', 'Mr Hi'))
 plot(karate_new, vertex.color = 'white')
 ```
 
-Notice how the network has fragmented into separate network components after the removal of these two nodes. 
+Notice how the network has fragmented into separate network components after the removal of these two nodes (and their edges). 
 
 ### Subset by edge attributes 
 
 We can also subset a network by their edge attributes. Below shows an example where we only want to retain edges that between males and females (i.e., different genders). 
 
-The `eids` argument looks a bit crazy, but what it is doing to subset from all of the edges in the original network, the set of edges that connect nodes that are female and male. `%--%` is a special `igraph` operator that looks for the edges that join two sets of specified vertices (here we are using the square operator to select nodes of various attributes). *Think about what aspect of this argument you would be modify in order to retain the edges between females only.* 
+The `eids` argument looks a bit crazy, but what it is doing to subset from all of the edges in the original network, the set of edges that connect nodes that are female and male. `%--%` is a special `igraph` operator that looks for the edges that join two sets of specified vertices (here we are using the square operator to select nodes of various attributes). *Think about what aspects of this argument you would need to modify in order to retain the edges between females only.* 
 
 ```{r}
 #| echo: true
@@ -188,8 +191,6 @@ The `eids` argument looks a bit crazy, but what it is doing to subset from all o
 mixed_network <- subgraph.edges(graph = karate, 
                                 eids = E(karate)[V(karate)[V(karate)$gender == 'female'] %--% V(karate)[V(karate)$gender == 'male']]
                                 ) 
-
-# eids = E(network)$weight > 4
 
 plot(mixed_network, vertex.color = factor(V(mixed_network)$gender)) 
 ```
@@ -251,7 +252,7 @@ Notice from the summary output that you get different results depending on the w
 
 ## Useful functions 
 
-Finally, below are some useful functions for network manipulations that you can learn more about by reading the documentatoin. 
+Finally, below are some useful functions for network manipulations that you can learn more about by reading the documentation. 
 
 ```{r}
 #| echo: true
@@ -272,11 +273,11 @@ Janelle continued observing her cats and noticed that some pairs of cats interac
 
 Your task is to: 
 
-1. How would you include this extra information about the frequency of interaction into the original raw data file? (Hint: The edge list approach is beter for this, and you can put in some made up numbers from 1 to 10 to depict frequency of interaction). 
+1. How would you include this extra information about the frequency of interaction directly into the original raw data file? (Hint: The edge list approach is better for this, and you can put in some made up numbers from 1 to 10 to depict frequency of interaction). 
 
 2. Create a network object that includes this new information. (Hint: Is interaction frequency a node or edge attribute?)
 
-3. Janelle has a .csv file containing the ages of the cats. How can you create a network object that includes this information? (Hint: Is cat age a node or edge attribute? Do you need to create a second file containing this information (feel free to make up some numeric data)?) 
+3. Janelle has a .csv file containing the ages of the cats. How can you create a network object that includes this information? (Hint: Is cat age a node or edge attribute? Do you need to create a second file containing this information (feel free to make up some numeric data!)?) 
 
 4. Subset the network to only show the 4 oldest cats. How many edges does this network have?
 

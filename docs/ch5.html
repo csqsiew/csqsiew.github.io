@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-16" />
+<meta name="date" content="2026-08-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -436,10 +436,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.1</span> Set up<a href="ch5.html#set-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will use the <code>karate</code> network as our example in this chapter.</p>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="ch5.html#cb100-1" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb100-2"><a href="ch5.html#cb100-2" tabindex="-1"></a><span class="fu">library</span>(igraphdata)</span>
+<span id="cb100-2"><a href="ch5.html#cb100-2" tabindex="-1"></a><span class="fu">library</span>(igraphdata) <span class="co"># karate is a network object available from this package</span></span>
 <span id="cb100-3"><a href="ch5.html#cb100-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb100-4"><a href="ch5.html#cb100-4" tabindex="-1"></a></span>
-<span id="cb100-5"><a href="ch5.html#cb100-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;karate&#39;</span>)</span>
+<span id="cb100-5"><a href="ch5.html#cb100-5" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;karate&#39;</span>) <span class="co"># notice that a karate object is in your environment </span></span>
 <span id="cb100-6"><a href="ch5.html#cb100-6" tabindex="-1"></a></span>
 <span id="cb100-7"><a href="ch5.html#cb100-7" tabindex="-1"></a><span class="fu">summary</span>(karate)</span></code></pre></div>
 <pre><code>## This graph was created by an old(er) igraph version.
@@ -450,19 +450,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="adding-node-attributes" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Adding node attributes<a href="ch5.html#adding-node-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>An important feature of psychological networks is that we are usually interested in more than just the underlying mathematics of the network, but rather we want to know how these network measures relate to behavior. This implies that the nodes in psychological networks are typically associated with rich psychological variables. For instance, nodes depicting individuals of different ages and genders, or nodes depicting words with different values on lexical-semantic variables like valence and arousal.</p>
+<p>An important feature of psychological networks is that we are usually interested in more than just the underlying mathematics of the network, but rather we want to know how these network measures relate to behavior. This implies that the nodes in psychological networks are typically associated with rich psychological variables. For instance, nodes depicting individuals of different ages and genders, or nodes depicting words with different values on lexical-semantic variables such as valence and arousal.</p>
 <p>We need to add this node information as node attributes to the network representation.</p>
 <p>In the code below, we output the list of nodes so that we can merge this data frame to the node attributes (can be done external to RStudio or internally within RStudio using data wrangling methods). This is because node attributes are additional variables that you have knowledge of or have collected in your study.</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="ch5.html#cb103-1" tabindex="-1"></a><span class="co"># export your node names, enter attributes manually outside of R </span></span>
 <span id="cb103-2"><a href="ch5.html#cb103-2" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">data.frame</span>(<span class="at">node =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>name), <span class="at">file =</span> <span class="st">&#39;karate_nodes.csv&#39;</span>, <span class="at">row.names =</span> F)</span></code></pre></div>
-<p>In the <code>karate_node_added.csv</code> file, sample node attributes for the <code>karate</code> network have been added. The code below shows you how to read in this data and add this information as node attributes to the network using the <code>set_vertex_attribute</code> function.</p>
+<p>In the <code>karate_node_added.csv</code> file, sample node attributes for the <code>karate</code> network have been added (it is as if I conducted a demographic survey with these individuals). The code below shows you how to read in this data and add this information as node attributes to the network using the <code>set_vertex_attribute</code> function.</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="ch5.html#cb104-1" tabindex="-1"></a><span class="co"># import your node attributes </span></span>
 <span id="cb104-2"><a href="ch5.html#cb104-2" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/karate_nodes_added.csv&#39;</span>, <span class="at">header =</span> T)</span>
 <span id="cb104-3"><a href="ch5.html#cb104-3" tabindex="-1"></a></span>
 <span id="cb104-4"><a href="ch5.html#cb104-4" tabindex="-1"></a><span class="co"># very important to ensure that node order is identical </span></span>
-<span id="cb104-5"><a href="ch5.html#cb104-5" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> node_info <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">factor</span>(node, <span class="at">levels =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>name))</span>
-<span id="cb104-6"><a href="ch5.html#cb104-6" tabindex="-1"></a></span>
-<span id="cb104-7"><a href="ch5.html#cb104-7" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>name, node_info<span class="sc">$</span>node) <span class="co"># sanity check that the node name order is identical</span></span></code></pre></div>
+<span id="cb104-5"><a href="ch5.html#cb104-5" tabindex="-1"></a><span class="co"># this code &quot;arranges&quot; the dataframe so that the information is ordered based on the node order in the network</span></span>
+<span id="cb104-6"><a href="ch5.html#cb104-6" tabindex="-1"></a>node_info <span class="ot">&lt;-</span> node_info <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">factor</span>(node, <span class="at">levels =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>name))</span>
+<span id="cb104-7"><a href="ch5.html#cb104-7" tabindex="-1"></a></span>
+<span id="cb104-8"><a href="ch5.html#cb104-8" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">V</span>(karate)<span class="sc">$</span>name, node_info<span class="sc">$</span>node) <span class="co"># sanity check that the node name order is identical</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ch5.html#cb106-1" tabindex="-1"></a><span class="co"># add the &#39;gender&#39; attribute</span></span>
 <span id="cb106-2"><a href="ch5.html#cb106-2" tabindex="-1"></a>karate <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(karate, </span>
@@ -481,13 +482,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb106-15"><a href="ch5.html#cb106-15" tabindex="-1"></a></span>
 <span id="cb106-16"><a href="ch5.html#cb106-16" tabindex="-1"></a><span class="fu">summary</span>(karate) <span class="co"># these vertex attributes should show up in the summary</span></span></code></pre></div>
 <pre><code>## IGRAPH 4b458a1 UNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n)</code></pre>
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n)</code></pre>
 <p>A key point is to ensure that the node ordering in your .csv file is identical to that of the network - this can be assured using the <code>arrange</code> function from <code>tidyverse</code>. This is to ensure accurate mapping from your data frame to the network.</p>
-<p>When you run <code>summary(karate)</code> hopefully you will see that there are additional labels (gender, belt, age) included in the attributes section.</p>
+<p>When you run <code>summary(karate)</code> you should see that there are additional labels (gender, belt, age) included in the attributes section.</p>
 </div>
 <div id="adding-edge-attributes" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Adding edge attributes<a href="ch5.html#adding-edge-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Because there are usually more edges than nodes in the network, we usually do not manually insert edge attributes by hand (although it is possible!). In Chapter 4 recall that edge weights are usually included in the network at the point of network construction, as edge weights are in an additional column in the edge list that you are importing into RStudio.</p>
+<p>Because there are usually more edges than nodes in the network, we usually do not manually insert edge attributes by hand (although it is possible!). In Chapter 4 recall that edge weights are usually included in the network at the point of network construction, as edge weights are simply in an additional column in the edge list that you are importing into RStudio.</p>
 <p>Here we explore a simple case where you want to “tag” and color edges differently depending on whether the tie is between <em>same</em> or <em>different</em> genders.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="ch5.html#cb108-1" tabindex="-1"></a><span class="co"># initialize all edges with the same label </span></span>
 <span id="cb108-2"><a href="ch5.html#cb108-2" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type <span class="ot">&lt;-</span> <span class="st">&#39;same&#39;</span> </span>
@@ -497,13 +499,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb108-6"><a href="ch5.html#cb108-6" tabindex="-1"></a></span>
 <span id="cb108-7"><a href="ch5.html#cb108-7" tabindex="-1"></a><span class="fu">summary</span>(karate) <span class="co"># there should be a new edge type </span></span></code></pre></div>
 <pre><code>## IGRAPH 4b458a1 UNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ch5.html#cb110-1" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type</span></code></pre></div>
-<pre><code>##  [1] &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;     
-## [19] &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;     
-## [37] &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot;
-## [55] &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;     
-## [73] &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;</code></pre>
+<pre><code>##  [1] &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot;
+## [14] &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;     
+## [27] &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;
+## [40] &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;     
+## [53] &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;
+## [66] &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;</code></pre>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="ch5.html#cb112-1" tabindex="-1"></a><span class="co"># this tells you the ordering of the levels so you can tell that red = different and blue = same </span></span>
 <span id="cb112-2"><a href="ch5.html#cb112-2" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type) <span class="sc">|&gt;</span> <span class="fu">levels</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;different&quot; &quot;same&quot;</code></pre>
@@ -524,9 +528,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb116-2"><a href="ch5.html#cb116-2" tabindex="-1"></a>                                <span class="at">vids =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;female&#39;</span>)</span>
 <span id="cb116-3"><a href="ch5.html#cb116-3" tabindex="-1"></a></span>
 <span id="cb116-4"><a href="ch5.html#cb116-4" tabindex="-1"></a><span class="fu">summary</span>(karate_male)</span></code></pre></div>
-<pre><code>## IGRAPH e2ada66 UNW- 12 6 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
-<p>How would you change the code to retain female individuals?</p>
+<pre><code>## IGRAPH 59f3318 UNW- 12 6 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
+<p>How would you change the code to retain female individuals instead?</p>
 </div>
 <div id="subset-by-a-target-node" class="section level3 hasAnchor" number="5.4.2">
 <h3><span class="header-section-number">5.4.2</span> Subset by a target node<a href="ch5.html#subset-by-a-target-node" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -534,18 +539,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="ch5.html#cb118-1" tabindex="-1"></a>mrhi <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(karate, <span class="at">order =</span> <span class="dv">1</span>, <span class="at">nodes =</span> <span class="st">&#39;Actor 2&#39;</span>)[[<span class="dv">1</span>]] <span class="co"># order = 1 (immediate neighbors)</span></span>
 <span id="cb118-2"><a href="ch5.html#cb118-2" tabindex="-1"></a></span>
 <span id="cb118-3"><a href="ch5.html#cb118-3" tabindex="-1"></a><span class="fu">summary</span>(mrhi)</span></code></pre></div>
-<pre><code>## IGRAPH c4982ce UNW- 10 21 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 952ae20 UNW- 10 21 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="ch5.html#cb120-1" tabindex="-1"></a><span class="fu">plot</span>(mrhi, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" alt="" width="672" /></p>
 <p>We can also extract the ego’s 2-hop neighborhood - this includes their immediate connections, and the connections of the connections. This can be easily done by changing the <code>order</code> argument.</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="ch5.html#cb121-1" tabindex="-1"></a>mrhi2 <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(karate, <span class="at">order =</span> <span class="dv">2</span>, <span class="at">nodes =</span> <span class="st">&#39;Mr Hi&#39;</span>)[[<span class="dv">1</span>]] <span class="co"># order = 2 (immediate + neighbors of neighbors)</span></span>
 <span id="cb121-2"><a href="ch5.html#cb121-2" tabindex="-1"></a></span>
 <span id="cb121-3"><a href="ch5.html#cb121-3" tabindex="-1"></a><span class="fu">summary</span>(mrhi2)</span></code></pre></div>
-<pre><code>## IGRAPH e829894 UNW- 26 59 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 4ca63e8 UNW- 26 59 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="ch5.html#cb123-1" tabindex="-1"></a><span class="fu">plot</span>(mrhi2, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" alt="" width="672" /></p>
+<p>Note that <code>make_ego_graph</code> returns a special “list” object. The <code>[[1]]</code> appended to it simply means that we want to extract the first element of the list, which is a network object. In the examples above, the list only contains a single network object. However, it is possible to extract the ego graphs of multiple individuals (e.g., <code>make_ego_graph(karate, order = 1, nodes = c('Actor 3', 'Actor 2'))</code>) which will give you a list of two network objects, the ego graph of Actor 3 and Actor 2. Then you can use [[1]] and [[2]] to extract the networks specifically.</p>
 </div>
 <div id="subset-by-removing-a-group-of-nodes" class="section level3 hasAnchor" number="5.4.3">
 <h3><span class="header-section-number">5.4.3</span> Subset by removing a group of nodes<a href="ch5.html#subset-by-removing-a-group-of-nodes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -554,20 +562,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb124-2"><a href="ch5.html#cb124-2" tabindex="-1"></a></span>
 <span id="cb124-3"><a href="ch5.html#cb124-3" tabindex="-1"></a><span class="fu">plot</span>(karate_new, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-50-1.png" alt="" width="672" /></p>
-<p>Notice how the network has fragmented into separate network components after the removal of these two nodes.</p>
+<p>Notice how the network has fragmented into separate network components after the removal of these two nodes (and their edges).</p>
 </div>
 <div id="subset-by-edge-attributes" class="section level3 hasAnchor" number="5.4.4">
 <h3><span class="header-section-number">5.4.4</span> Subset by edge attributes<a href="ch5.html#subset-by-edge-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can also subset a network by their edge attributes. Below shows an example where we only want to retain edges that between males and females (i.e., different genders).</p>
-<p>The <code>eids</code> argument looks a bit crazy, but what it is doing to subset from all of the edges in the original network, the set of edges that connect nodes that are female and male. <code>%--%</code> is a special <code>igraph</code> operator that looks for the edges that join two sets of specified vertices (here we are using the square operator to select nodes of various attributes). <em>Think about what aspect of this argument you would be modify in order to retain the edges between females only.</em></p>
+<p>The <code>eids</code> argument looks a bit crazy, but what it is doing to subset from all of the edges in the original network, the set of edges that connect nodes that are female and male. <code>%--%</code> is a special <code>igraph</code> operator that looks for the edges that join two sets of specified vertices (here we are using the square operator to select nodes of various attributes). <em>Think about what aspects of this argument you would need to modify in order to retain the edges between females only.</em></p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="ch5.html#cb125-1" tabindex="-1"></a><span class="co"># retain edges of the network where the connection is between a male and a female (i.e., mixed edges)</span></span>
 <span id="cb125-2"><a href="ch5.html#cb125-2" tabindex="-1"></a>mixed_network <span class="ot">&lt;-</span> <span class="fu">subgraph.edges</span>(<span class="at">graph =</span> karate, </span>
 <span id="cb125-3"><a href="ch5.html#cb125-3" tabindex="-1"></a>                                <span class="at">eids =</span> <span class="fu">E</span>(karate)[<span class="fu">V</span>(karate)[<span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;female&#39;</span>] <span class="sc">%--%</span> <span class="fu">V</span>(karate)[<span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;male&#39;</span>]]</span>
 <span id="cb125-4"><a href="ch5.html#cb125-4" tabindex="-1"></a>                                ) </span>
 <span id="cb125-5"><a href="ch5.html#cb125-5" tabindex="-1"></a></span>
-<span id="cb125-6"><a href="ch5.html#cb125-6" tabindex="-1"></a><span class="co"># eids = E(network)$weight &gt; 4</span></span>
-<span id="cb125-7"><a href="ch5.html#cb125-7" tabindex="-1"></a></span>
-<span id="cb125-8"><a href="ch5.html#cb125-8" tabindex="-1"></a><span class="fu">plot</span>(mixed_network, <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(mixed_network)<span class="sc">$</span>gender)) </span></code></pre></div>
+<span id="cb125-6"><a href="ch5.html#cb125-6" tabindex="-1"></a><span class="fu">plot</span>(mixed_network, <span class="at">vertex.color =</span> <span class="fu">factor</span>(<span class="fu">V</span>(mixed_network)<span class="sc">$</span>gender)) </span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-51-1.png" alt="" width="672" /></p>
 <p>If you have a weighted graph, it is also possible to subset the network based on edge weights. The code below retains edges that have a weight greater than 4. Play around with this argument and see if you can subset the network based on different weight thresholds. For instance, if you are interested in studying acquaintance relations, then you may decide to retain weak edges, but if you are interested in studying close relations, then you may decide to retain the strongest edges.</p>
 <div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="ch5.html#cb126-1" tabindex="-1"></a>example_network <span class="ot">&lt;-</span> <span class="fu">subgraph.edges</span>(<span class="at">graph =</span> karate, </span>
@@ -585,37 +591,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb127-2"><a href="ch5.html#cb127-2" tabindex="-1"></a>karate_d2 <span class="ot">&lt;-</span> <span class="fu">as.directed</span>(karate, <span class="at">mode =</span> <span class="st">&#39;mutual&#39;</span>) <span class="co"># convert undirected edges into mutual, directed edges</span></span>
 <span id="cb127-3"><a href="ch5.html#cb127-3" tabindex="-1"></a></span>
 <span id="cb127-4"><a href="ch5.html#cb127-4" tabindex="-1"></a><span class="fu">summary</span>(karate_d1)</span></code></pre></div>
-<pre><code>## IGRAPH 50c0f64 DNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH b7a990c DNW- 34 78 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="ch5.html#cb129-1" tabindex="-1"></a><span class="fu">summary</span>(karate_d2)</span></code></pre></div>
-<pre><code>## IGRAPH c85a18f DNW- 34 156 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 67c9ff5 DNW- 34 156 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <p>Notice from the summary output that <code>karate_d2</code> has twice the number of edges than <code>karate_d1</code>. This is because each undirected edge has been converted into two directed edges (mutual) connecting the node pair in both directions.</p>
 <p>We can use the function <code>which_mutual</code> to detect mutual directed edges in the network and use this to subset the network accordingly. Notice that to select for the non-mutual edges, we can use the <code>!</code> or NOT operator.</p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="ch5.html#cb131-1" tabindex="-1"></a><span class="co"># retain mutual edges </span></span>
 <span id="cb131-2"><a href="ch5.html#cb131-2" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d1, <span class="at">eids =</span> <span class="fu">E</span>(karate_d1)[<span class="fu">which_mutual</span>(karate_d1)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb131-3"><a href="ch5.html#cb131-3" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># empty graph</span></span></code></pre></div>
-<pre><code>## IGRAPH 33c5e76 DNW- 0 0 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 6fe4047 DNW- 0 0 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="ch5.html#cb133-1" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d2, <span class="at">eids =</span> <span class="fu">E</span>(karate_d2)[<span class="fu">which_mutual</span>(karate_d2)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb133-2"><a href="ch5.html#cb133-2" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
-<pre><code>## IGRAPH 074a65e DNW- 34 156 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH b19448c DNW- 34 156 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="ch5.html#cb135-1" tabindex="-1"></a><span class="co"># retain non-mutual edges </span></span>
 <span id="cb135-2"><a href="ch5.html#cb135-2" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d1, <span class="at">eids =</span> <span class="fu">E</span>(karate_d1)[<span class="sc">!</span><span class="fu">which_mutual</span>(karate_d1)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb135-3"><a href="ch5.html#cb135-3" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
-<pre><code>## IGRAPH 85bf0ad DNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 23d9ec5 DNW- 34 78 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="ch5.html#cb137-1" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d2, <span class="at">eids =</span> <span class="fu">E</span>(karate_d2)[<span class="sc">!</span><span class="fu">which_mutual</span>(karate_d2)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb137-2"><a href="ch5.html#cb137-2" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># empty graph</span></span></code></pre></div>
-<pre><code>## IGRAPH ee7e3aa DNW- 0 0 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH fd976d6 DNW- 0 0 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
+## | (e/n), edge_type (e/c)</code></pre>
 <p>Notice from the summary output that you get different results depending on the way that the directed graph is constructed. In these toy examples, the directed edges in the network were either ALL mutual edges or ALL non-mutual edges. If you have a network with varying proportions of mutual and non-mutual edges these functions can be useful for assessing the overall mutuality of the directed graph.</p>
 </div>
 </div>
 <div id="useful-functions" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">5.5</span> Useful functions<a href="ch5.html#useful-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Finally, below are some useful functions for network manipulations that you can learn more about by reading the documentatoin.</p>
+<p>Finally, below are some useful functions for network manipulations that you can learn more about by reading the documentation.</p>
 <div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="ch5.html#cb139-1" tabindex="-1"></a><span class="fu">as.directed</span>() <span class="co"># convert your undirected edges to directed edges, see documentation </span></span>
 <span id="cb139-2"><a href="ch5.html#cb139-2" tabindex="-1"></a></span>
 <span id="cb139-3"><a href="ch5.html#cb139-3" tabindex="-1"></a><span class="fu">as.undirected</span>() <span class="co"># convert your directed edges to undirected edges, see documentation </span></span>
@@ -628,9 +640,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Janelle continued observing her cats and noticed that some pairs of cats interacted more frequently with other than other pairs of cats.</p>
 <p>Your task is to:</p>
 <ol style="list-style-type: decimal">
-<li><p>How would you include this extra information about the frequency of interaction into the original raw data file? (Hint: The edge list approach is beter for this, and you can put in some made up numbers from 1 to 10 to depict frequency of interaction).</p></li>
+<li><p>How would you include this extra information about the frequency of interaction directly into the original raw data file? (Hint: The edge list approach is better for this, and you can put in some made up numbers from 1 to 10 to depict frequency of interaction).</p></li>
 <li><p>Create a network object that includes this new information. (Hint: Is interaction frequency a node or edge attribute?)</p></li>
-<li><p>Janelle has a .csv file containing the ages of the cats. How can you create a network object that includes this information? (Hint: Is cat age a node or edge attribute? Do you need to create a second file containing this information (feel free to make up some numeric data)?)</p></li>
+<li><p>Janelle has a .csv file containing the ages of the cats. How can you create a network object that includes this information? (Hint: Is cat age a node or edge attribute? Do you need to create a second file containing this information (feel free to make up some numeric data!)?)</p></li>
 <li><p>Subset the network to only show the 4 oldest cats. How many edges does this network have?</p></li>
 <li><p>Subset the network to only show cats that interacted frequently with each other. How many nodes and edges does this network have?</p></li>
 <li><p>Create a network visualization of the entire cat network and make at least one modification to the default plot (see Chapter 14 for ideas). For instance, can you color the nodes based on the cat’s ages?</p></li>
