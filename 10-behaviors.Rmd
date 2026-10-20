@@ -103,14 +103,18 @@ result_high |> filter(node == 'siD;seethe', time == 5)
 
 ## Exercise: Design your experiment! 
 
-For this exercise, try to design a simulation study using spreading activation, on any network of your choosing. Some questions to help you with this: 
+For this exercise, we will design a simulation study using spreading activation using the `karate` network from the `igraphdata` package. 
+
+Problem statement: The karate network fractured into two factions (see `V(karate)$Faction`) after an argument between Mr Hi and John A, with one faction supporting Mr Hi and the other faction supporting John A. You speculate that the fight was caused by one of the members who spread misinformation to the rest of the karate club. How can you investigate the extent to which misinformation played a role in determining faction membership (i.e., deciding whether a member chose Mr Hi or John A)? 
+
+Some questions to help you with this: 
 
 - What would I learn from doing this simulation? 
 - What does the notion of "spreading activation" mean for the specific network that I've chosen?
 - How should the simulation be set up? What are the starting values and parameters? And why were these specific values chosen? 
 - How should the outputs be analyzed? Why? 
 - What are your expected results? Did the actual results align with your initial expectations?
-- What did I learn from doing this simulation? 
+- What did I learn from doing this simulation? What are the limitations of this simulation? 
 
 ## References 
 

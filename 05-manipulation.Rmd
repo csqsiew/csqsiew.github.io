@@ -125,7 +125,7 @@ The example below subsets the `karate` networks to only retain male individuals.
 #| eval: true
 
 karate_male <- induced_subgraph(graph = karate,
-                                vids = V(karate)$gender == 'female')
+                                vids = V(karate)$gender == 'male')
 
 summary(karate_male)
 ```

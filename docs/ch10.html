@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-25" />
+<meta name="date" content="2026-10-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -457,15 +459,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## IGRAPH a7c0363 UN-- 34 96 -- 
 ## + attr: name (v/c)
 ## + edges from a7c0363 (vertex names):
-##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck  speck --sped  
-## [12] sped  --speed  sped  --spud   speed --spud   speed --stead  speed --seed   speed --speech speak --speed  stead --seed   seed  --seek   seek  --sneak  seek  --sleek 
-## [23] speak --seek   seek  --peek   sneak --sleek  speak --sneak  speak --sleek  speak --peek   speak --speech speech--peach  peach --peace  peek  --peach  peach --peep  
-## [34] peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach  peach --beach  peach --each   peach --pouch  peach --pitch  peach --patch 
-## [45] peach --pooch  peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel   peep  --pea    peek  --pea    peace --pea    pea   --peat   peep  --peel  
-## [56] peep  --peas   peep  --peat   peace --peep   peek  --peep   peel  --peas   peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas   peek  --peas  
-## [67] peek  --peat   peek  --peace  peace --peat   teach --leach  leach --reach  leach --each   leach --beach  teach --beach  teach --each   teach --reach  beach --each  
-## [78] beach --reach  each  --reach  preach--reach  peach --perch  pouch --perch  pitch --perch  pooch --perch  poach --perch  patch --perch  pouch --patch  pitch --patch 
-## + ... omitted several edges</code></pre>
+##  [1] spike --speak  spike --spoke  spike --speck  spike --spook  spoke --spook  spoke --speck  speak --spoke  speck --spook  speak --spook  speak --speck  speck --sped   sped  --speed  sped  --spud   speed --spud   speed --stead 
+## [16] speed --seed   speed --speech speak --speed  stead --seed   seed  --seek   seek  --sneak  seek  --sleek  speak --seek   seek  --peek   sneak --sleek  speak --sneak  speak --sleek  speak --peek   speak --speech speech--peach 
+## [31] peach --peace  peek  --peach  peach --peep   peach --pea    peach --peat   peach --peel   peach --peas   peach --teach  peach --leach  peach --beach  peach --each   peach --pouch  peach --pitch  peach --patch  peach --pooch 
+## [46] peach --poach  peach --preach peach --reach  pea   --peas   pea   --peel   peep  --pea    peek  --pea    peace --pea    pea   --peat   peep  --peel   peep  --peas   peep  --peat   peace --peep   peek  --peep   peel  --peas  
+## [61] peat  --peel   peace --peel   peek  --peel   peat  --peas   peace --peas   peek  --peas   peek  --peat   peek  --peace  peace --peat   teach --leach  leach --reach  leach --each   leach --beach  teach --beach  teach --each  
+## [76] teach --reach  beach --each   beach --reach  each  --reach  preach--reach  peach --perch  pouch --perch  pitch --perch  pooch --perch  poach --perch  patch --perch  pouch --patch  pitch --patch  patch --pooch  patch --poach 
+## [91] pouch --poach  pitch --poach  pooch --poach  pitch --pooch  pouch --pooch  pouch --pitch</code></pre>
 <div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="ch10.html#cb356-1" tabindex="-1"></a><span class="co"># starting activation values (time = 0)</span></span>
 <span id="cb356-2"><a href="ch10.html#cb356-2" tabindex="-1"></a>start_run <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb356-3"><a href="ch10.html#cb356-3" tabindex="-1"></a>  <span class="at">node =</span> <span class="fu">c</span>(<span class="st">&quot;beach&quot;</span>),</span>
@@ -620,14 +620,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="exercise-design-your-experiment" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Exercise: Design your experiment!<a href="ch10.html#exercise-design-your-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>For this exercise, try to design a simulation study using spreading activation, on any network of your choosing. Some questions to help you with this:</p>
+<p>For this exercise, we will design a simulation study using spreading activation using the <code>karate</code> network from the <code>igraphdata</code> package.</p>
+<p>Problem statement: The karate network fractured into two factions (see <code>V(karate)$Faction</code>) after an argument between Mr Hi and John A, with one faction supporting Mr Hi and the other faction supporting John A. You speculate that the fight was caused by one of the members who spread misinformation to the rest of the karate club. How can you investigate the extent to which misinformation played a role in determining faction membership (i.e., deciding whether a member chose Mr Hi or John A)?</p>
+<p>Some questions to help you with this:</p>
 <ul>
 <li>What would I learn from doing this simulation?</li>
 <li>What does the notion of “spreading activation” mean for the specific network that I’ve chosen?</li>
 <li>How should the simulation be set up? What are the starting values and parameters? And why were these specific values chosen?</li>
 <li>How should the outputs be analyzed? Why?</li>
 <li>What are your expected results? Did the actual results align with your initial expectations?</li>
-<li>What did I learn from doing this simulation?</li>
+<li>What did I learn from doing this simulation? What are the limitations of this simulation?</li>
 </ul>
 </div>
 <div id="references" class="section level2 hasAnchor" number="10.4">

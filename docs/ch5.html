@@ -23,7 +23,7 @@
 <meta name="author" content="Cynthia S. Q. Siew" />
 
 
-<meta name="date" content="2026-08-25" />
+<meta name="date" content="2026-10-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,6 +54,8 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -482,8 +484,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb106-15"><a href="ch5.html#cb106-15" tabindex="-1"></a></span>
 <span id="cb106-16"><a href="ch5.html#cb106-16" tabindex="-1"></a><span class="fu">summary</span>(karate) <span class="co"># these vertex attributes should show up in the summary</span></span></code></pre></div>
 <pre><code>## IGRAPH 4b458a1 UNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n)</code></pre>
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n)</code></pre>
 <p>A key point is to ensure that the node ordering in your .csv file is identical to that of the network - this can be assured using the <code>arrange</code> function from <code>tidyverse</code>. This is to ensure accurate mapping from your data frame to the network.</p>
 <p>When you run <code>summary(karate)</code> you should see that there are additional labels (gender, belt, age) included in the attributes section.</p>
 </div>
@@ -499,15 +500,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb108-6"><a href="ch5.html#cb108-6" tabindex="-1"></a></span>
 <span id="cb108-7"><a href="ch5.html#cb108-7" tabindex="-1"></a><span class="fu">summary</span>(karate) <span class="co"># there should be a new edge type </span></span></code></pre></div>
 <pre><code>## IGRAPH 4b458a1 UNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ch5.html#cb110-1" tabindex="-1"></a><span class="fu">E</span>(karate)<span class="sc">$</span>edge_type</span></code></pre></div>
-<pre><code>##  [1] &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot;
-## [14] &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;     
-## [27] &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;
-## [40] &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;     
-## [53] &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;
-## [66] &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot;</code></pre>
+<pre><code>##  [1] &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;     
+## [20] &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot;
+## [39] &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;same&quot;     
+## [58] &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;      &quot;different&quot; &quot;different&quot; &quot;same&quot;      &quot;same&quot;     
+## [77] &quot;different&quot; &quot;different&quot;</code></pre>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="ch5.html#cb112-1" tabindex="-1"></a><span class="co"># this tells you the ordering of the levels so you can tell that red = different and blue = same </span></span>
 <span id="cb112-2"><a href="ch5.html#cb112-2" tabindex="-1"></a><span class="fu">factor</span>(<span class="fu">E</span>(karate)<span class="sc">$</span>edge_type) <span class="sc">|&gt;</span> <span class="fu">levels</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;different&quot; &quot;same&quot;</code></pre>
@@ -525,12 +524,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.4.1</span> Subset by node attributes<a href="ch5.html#subset-by-node-attributes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The example below subsets the <code>karate</code> networks to only retain male individuals.</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="ch5.html#cb116-1" tabindex="-1"></a>karate_male <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(<span class="at">graph =</span> karate,</span>
-<span id="cb116-2"><a href="ch5.html#cb116-2" tabindex="-1"></a>                                <span class="at">vids =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;female&#39;</span>)</span>
+<span id="cb116-2"><a href="ch5.html#cb116-2" tabindex="-1"></a>                                <span class="at">vids =</span> <span class="fu">V</span>(karate)<span class="sc">$</span>gender <span class="sc">==</span> <span class="st">&#39;male&#39;</span>)</span>
 <span id="cb116-3"><a href="ch5.html#cb116-3" tabindex="-1"></a></span>
 <span id="cb116-4"><a href="ch5.html#cb116-4" tabindex="-1"></a><span class="fu">summary</span>(karate_male)</span></code></pre></div>
-<pre><code>## IGRAPH 59f3318 UNW- 12 6 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH b87d2d3 UNW- 22 41 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <p>How would you change the code to retain female individuals instead?</p>
 </div>
 <div id="subset-by-a-target-node" class="section level3 hasAnchor" number="5.4.2">
@@ -539,18 +537,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="ch5.html#cb118-1" tabindex="-1"></a>mrhi <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(karate, <span class="at">order =</span> <span class="dv">1</span>, <span class="at">nodes =</span> <span class="st">&#39;Actor 2&#39;</span>)[[<span class="dv">1</span>]] <span class="co"># order = 1 (immediate neighbors)</span></span>
 <span id="cb118-2"><a href="ch5.html#cb118-2" tabindex="-1"></a></span>
 <span id="cb118-3"><a href="ch5.html#cb118-3" tabindex="-1"></a><span class="fu">summary</span>(mrhi)</span></code></pre></div>
-<pre><code>## IGRAPH 952ae20 UNW- 10 21 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH ebce5da UNW- 10 21 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="ch5.html#cb120-1" tabindex="-1"></a><span class="fu">plot</span>(mrhi, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" alt="" width="672" /></p>
 <p>We can also extract the ego’s 2-hop neighborhood - this includes their immediate connections, and the connections of the connections. This can be easily done by changing the <code>order</code> argument.</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="ch5.html#cb121-1" tabindex="-1"></a>mrhi2 <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(karate, <span class="at">order =</span> <span class="dv">2</span>, <span class="at">nodes =</span> <span class="st">&#39;Mr Hi&#39;</span>)[[<span class="dv">1</span>]] <span class="co"># order = 2 (immediate + neighbors of neighbors)</span></span>
 <span id="cb121-2"><a href="ch5.html#cb121-2" tabindex="-1"></a></span>
 <span id="cb121-3"><a href="ch5.html#cb121-3" tabindex="-1"></a><span class="fu">summary</span>(mrhi2)</span></code></pre></div>
-<pre><code>## IGRAPH 4ca63e8 UNW- 26 59 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 1397ef7 UNW- 26 59 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="ch5.html#cb123-1" tabindex="-1"></a><span class="fu">plot</span>(mrhi2, <span class="at">vertex.color =</span> <span class="st">&#39;white&#39;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-49-1.png" alt="" width="672" /></p>
 <p>Note that <code>make_ego_graph</code> returns a special “list” object. The <code>[[1]]</code> appended to it simply means that we want to extract the first element of the list, which is a network object. In the examples above, the list only contains a single network object. However, it is possible to extract the ego graphs of multiple individuals (e.g., <code>make_ego_graph(karate, order = 1, nodes = c('Actor 3', 'Actor 2'))</code>) which will give you a list of two network objects, the ego graph of Actor 3 and Actor 2. Then you can use [[1]] and [[2]] to extract the networks specifically.</p>
@@ -591,37 +587,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb127-2"><a href="ch5.html#cb127-2" tabindex="-1"></a>karate_d2 <span class="ot">&lt;-</span> <span class="fu">as.directed</span>(karate, <span class="at">mode =</span> <span class="st">&#39;mutual&#39;</span>) <span class="co"># convert undirected edges into mutual, directed edges</span></span>
 <span id="cb127-3"><a href="ch5.html#cb127-3" tabindex="-1"></a></span>
 <span id="cb127-4"><a href="ch5.html#cb127-4" tabindex="-1"></a><span class="fu">summary</span>(karate_d1)</span></code></pre></div>
-<pre><code>## IGRAPH b7a990c DNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 5755da6 DNW- 34 78 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="ch5.html#cb129-1" tabindex="-1"></a><span class="fu">summary</span>(karate_d2)</span></code></pre></div>
-<pre><code>## IGRAPH 67c9ff5 DNW- 34 156 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 185af1f DNW- 34 156 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <p>Notice from the summary output that <code>karate_d2</code> has twice the number of edges than <code>karate_d1</code>. This is because each undirected edge has been converted into two directed edges (mutual) connecting the node pair in both directions.</p>
 <p>We can use the function <code>which_mutual</code> to detect mutual directed edges in the network and use this to subset the network accordingly. Notice that to select for the non-mutual edges, we can use the <code>!</code> or NOT operator.</p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="ch5.html#cb131-1" tabindex="-1"></a><span class="co"># retain mutual edges </span></span>
 <span id="cb131-2"><a href="ch5.html#cb131-2" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d1, <span class="at">eids =</span> <span class="fu">E</span>(karate_d1)[<span class="fu">which_mutual</span>(karate_d1)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb131-3"><a href="ch5.html#cb131-3" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># empty graph</span></span></code></pre></div>
-<pre><code>## IGRAPH 6fe4047 DNW- 0 0 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH b0a603c DNW- 0 0 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="ch5.html#cb133-1" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d2, <span class="at">eids =</span> <span class="fu">E</span>(karate_d2)[<span class="fu">which_mutual</span>(karate_d2)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb133-2"><a href="ch5.html#cb133-2" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
-<pre><code>## IGRAPH b19448c DNW- 34 156 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 0873642 DNW- 34 156 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="ch5.html#cb135-1" tabindex="-1"></a><span class="co"># retain non-mutual edges </span></span>
 <span id="cb135-2"><a href="ch5.html#cb135-2" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d1, <span class="at">eids =</span> <span class="fu">E</span>(karate_d1)[<span class="sc">!</span><span class="fu">which_mutual</span>(karate_d1)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb135-3"><a href="ch5.html#cb135-3" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div>
-<pre><code>## IGRAPH 23d9ec5 DNW- 34 78 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 93d1eca DNW- 34 78 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="ch5.html#cb137-1" tabindex="-1"></a><span class="fu">subgraph.edges</span>(karate_d2, <span class="at">eids =</span> <span class="fu">E</span>(karate_d2)[<span class="sc">!</span><span class="fu">which_mutual</span>(karate_d2)], <span class="at">delete.vertices =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb137-2"><a href="ch5.html#cb137-2" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># empty graph</span></span></code></pre></div>
-<pre><code>## IGRAPH fd976d6 DNW- 0 0 -- Zachary&#39;s karate club network
-## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight
-## | (e/n), edge_type (e/c)</code></pre>
+<pre><code>## IGRAPH 789a91a DNW- 0 0 -- Zachary&#39;s karate club network
+## + attr: name (g/c), Citation (g/c), Author (g/c), Faction (v/n), name (v/c), label (v/c), color (v/n), gender (v/c), belt (v/c), age (v/n), weight (e/n), edge_type (e/c)</code></pre>
 <p>Notice from the summary output that you get different results depending on the way that the directed graph is constructed. In these toy examples, the directed edges in the network were either ALL mutual edges or ALL non-mutual edges. If you have a network with varying proportions of mutual and non-mutual edges these functions can be useful for assessing the overall mutuality of the directed graph.</p>
 </div>
 </div>
